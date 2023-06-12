@@ -1,4 +1,4 @@
-package Array;
+package Java.Array;
 
 public class Array01 {
     public static void main(String[] args) {
@@ -22,6 +22,18 @@ public class Array01 {
         arrayName4[4] = 5;
         for (int i: arrayName4) {
             System.out.println(i);
+        }
+
+        System.out.println(arrayName4[0]);
+        System.out.println(arrayName4[1]);
+        System.out.println(arrayName4[2]);
+        System.out.println(arrayName4[3]);
+        System.out.println(arrayName4[4]);
+        for (int i = 0; i < arrayName4.length; i++) {
+            System.out.println(arrayName4[i]);
+        }
+        for (int j: arrayName4) {
+            System.out.println(j);
         }
     }
 }

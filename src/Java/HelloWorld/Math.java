@@ -2,6 +2,8 @@ package Java.HelloWorld;
 
 public class Math {
     public static void main(String[] args) {
+        /*
+
         int a = 10;
         int b = 20;
         System.out.println(++a); // 11
@@ -14,5 +16,19 @@ public class Math {
         System.out.println(a * b);
         System.out.println(a * 1.0 / b);
         System.out.println(b % c);
+
+         */
+
+        int a = 1, b = 2;
+        a += b; // a = a + b
+        System.out.println(a);
+        a -= b; // a = a - b
+        System.out.println(a);
+        a *= b; // a = a * b
+        System.out.println(a);
+        a /= b; // a = a / b
+        System.out.println(a);
+        a %= b; // a = a % b
+        System.out.println(a);
     }
 }

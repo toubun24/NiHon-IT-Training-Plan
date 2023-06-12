@@ -14,6 +14,8 @@ public class Compare {
         */
 
         int a = 10, b = 20;
+
+        /*
         System.out.println(Integer.toBinaryString(a));
         System.out.println(Integer.toBinaryString(b));
         System.out.println(Integer.toBinaryString(a&b));
@@ -23,5 +25,11 @@ public class Compare {
         System.out.println(Integer.toBinaryString(a<<2));
         System.out.println(Integer.toBinaryString(a>>2));
         System.out.println(Integer.toBinaryString(a>>>2));
+        */
+
+        String c = a == 20 ? "Ok" : "False";
+        System.out.println(c);
+        boolean b1 = c instanceof String;
+        System.out.println(b1);
     }
 }

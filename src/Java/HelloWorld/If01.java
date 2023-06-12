@@ -1,6 +1,6 @@
 package Java.HelloWorld;
 
-public class IF01 {
+public class If01 {
     public static void main(String[] args) {
         int age = 19;
         String sex = "Male";

@@ -15,5 +15,21 @@ public class Array02 {
         arrayName2[1][1] = 4;
         arrayName2[2][0] = 5;
         System.out.println(Arrays.deepToString(arrayName2));
+
+        for (int i = 0; i < arrayName2.length; i++) {
+            System.out.println(Arrays.toString(arrayName2[i]));
+        }
+
+        for (int i = 0; i < arrayName2.length; i++) {
+            for (int j = 0; j < arrayName2[i].length; j++) {
+                System.out.println(arrayName2[i][j]);
+            }
+        }
+
+        for (int[] ints : arrayName2) {
+            for (int anInt : ints) {
+                System.out.println(anInt);
+            }
+        }
     }
 }

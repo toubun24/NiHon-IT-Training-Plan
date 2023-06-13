@@ -13,6 +13,12 @@ public class Object01 {
         Object01 object01 = new Object01();
         object01.name = "zhangsan";
         object01.age = 111;
+        object01.aaa = "sss";
+        object01.bbb = "ddd";
+    }
+
+    void print(){
+        System.out.println("new object01");
     }
 }
 

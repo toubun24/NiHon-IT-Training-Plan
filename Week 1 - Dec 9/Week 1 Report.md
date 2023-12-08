@@ -25,24 +25,24 @@
 * TCP/IP 4层划分：网络接口层，网络层，传输层，应用层
 
 7. **Linux ls:**
-    > bin: 二进制可执行文件 \
-	dev: 设备文件 \
-	home: 用户文件 \
-	root: 超级用户目录 \
-	usr: 共享系统资源 \
-	boot: 系统引导时所使用的文件 \
-	etc: 系统配置 \
-	mnt: 系统管理员安装临时文件 \
-	tmp: 临时文件 \
-	var: 运行时需要改变数据的文件
+	  > bin: 二进制可执行文件 \
+	  > dev: 设备文件 \
+	  > home: 用户文件 \
+	  > root: 超级用户目录 \
+	  > usr: 共享系统资源 \
+	  > boot: 系统引导时所使用的文件 \
+	  > etc: 系统配置 \
+	  > mnt: 系统管理员安装临时文件 \
+	  > tmp: 临时文件 \
+	  > var: 运行时需要改变数据的文件
 
 8. **Linux drw:**
-	> d: 目录 \
-	r: 读权限 \
-	w: 写权限 \
-	x: 可执行 \
-	r-x: 可读可执行不可写 \
-	(文件所有者权限，文件所属组权限，其他用户权限)
+	  > d: 目录 \
+	  > r: 读权限 \
+	  > w: 写权限 \
+	  > x: 可执行 \
+	  > r-x: 可读可执行不可写 \
+	  (文件所有者权限，文件所属组权限，其他用户权限)
 
 9. **Git:**
 * HEAD: 指向当前分支当前版本的游标
@@ -61,11 +61,11 @@
   * JavaScript: 控制页面的元素，有动态的效果
 
 12. **HTML(Hyper Text Markup Language 超文本标记语言)文件标签:**
-  > html: html文档的根标签 \
-	head: 头标签，用于指定html文档的一些属性，引入外部的资源 \
-	title: 标题标签 \
-	body: 体标签 \
-	`<!DOCTYPE html>`: html5中定义该文档是html文档
+	> html: html文档的根标签 \
+	> head: 头标签，用于指定html文档的一些属性，引入外部的资源 \
+	> title: 标题标签 \
+	> body: 体标签 \
+	> `<!DOCTYPE html>`: html5中定义该文档是html文档
 
 13. **HTML文本标签:**
 	> 注释：`<!-- 注释内容 -->` \
@@ -97,15 +97,17 @@
 * `&&`: 与前false则不会再计算与后的部分
 	
 * 其他类型转boolean:
-  	> number: 0 \
-		string: 除了空字符串("")，其他都是true \
-		null&undefined: false \
-		对象：所有对象都会true
+  > number: 0 \
+  > string: 除了空字符串("")，其他都是true \
+  > null&undefined: false \
+  > 对象：所有对象都会true
 	
 * 防止空指针异常：`if(obj != null && obj.length>0)`或直接`if(obj)`
 
 15. **JavaScript函数:**
-* arguments: 内置对象，会把传递到函数中的实参封装成数组，可利用如`arguments.length`来判断输出实参数量
+	> `arguments`: 内置对象，会把传递到函数中的实参封装成数组，可利用如`arguments.length`来判断输出实参数量 \
+	> `join`: 数组方法，将数组转化为字符串并用输入的参数作为连接，如`arr.join("-")`
+  
 
 ## 感想：
 

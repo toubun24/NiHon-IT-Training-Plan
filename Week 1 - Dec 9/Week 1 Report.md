@@ -76,19 +76,19 @@
 
 	属性：
 	> color: 颜色 \
-	width: 宽度 \
-	size: 高度 \
-	align: 对齐方式 (center, left, right)
+	> width: 宽度 \
+	> size: 高度 \
+	> align: 对齐方式 (center, left, right)
 	
 	> `<b>`: 字体加粗 \
-	`<i>`: 字体斜体 \
-	`<font>`: 字体标签 \
-	`<center>`: 文本居中
+	> `<i>`: 字体斜体 \
+	> `<font>`: 字体标签 \
+	> `<center>`: 文本居中
 
 	属性：
 	> color: 颜色 \
-	size: 大小 \
-	face: 字体
+	> size: 大小 \
+	> face: 字体
  
 14. **JavaScript数据类型:** number, string, boolean, null, undefined
 * string转number：按照字面值转换，如果字面值不是数字，则转为NaN
@@ -148,6 +148,18 @@
 	> `(a|b)`: a或b \
 	> `[a-z]`: a到z \
 	> `[^abc]`: 不是abc
+
+17. **JavaScript三部分:**
+* ECMAScript: JS的核心语法(ES规范/ECMA-262标准)
+* DOM: Document Object Model(文档对象模型：对网页当中的节点进行增删改的过程)HTML文档被当做一棵DOM树来看待，如`var domObj = document.getElementById("id")`
+* BOM: Browser Object Model(浏览器对象模型)。关闭浏览器窗口、打开一个新的浏览器窗口、后退、前进、浏览器地址栏上的地址等，都是BOM编程
+  (BOM的顶级对象是：window，DOM的顶级对象是：document，实际上BOM是包括DOM的)
+
+18. **JavaScript DOM函数:**
+	> `onclick`: 点击
+  	> `getElementById(...)`, `getElementByName(...)`, `getElementByTagName(...)`: 获取文本框内容 \
+	> `innerHTML`, `innerTEXT`: 对div标签内容赋值，其中前者被视为HTML语句而后者仅为纯文本 \
+	> `check`: 如`check.onclick = () => {if(check.checked){...} else{...}}`
 
 
 

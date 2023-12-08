@@ -147,7 +147,9 @@
 	> `{3,5}`: 3\~5次 \
 	> `(a|b)`: a或b \
 	> `[a-z]`: a到z \
-	> `[^abc]`: 不是abc
+	> `[^abc]`: 不是abc \
+	> 用户名正则表达式示例: `var regExp = new RegExp("^[a-zA-Z0-9]{6,14}$")` \
+	> 邮箱示例: `var regExpEmail = new RegExp("^[a-z0-9A-Z]+[-|a-z0-9A-Z._]+@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-z]{2,}$")`
 
 17. **JavaScript三部分:**
 * ECMAScript: JS的核心语法(ES规范/ECMA-262标准)
@@ -158,6 +160,8 @@
 18. **JavaScript DOM函数:**
 	
  	> `onclick`: 点击 \
+	> `onblur`: 失去焦点 \
+	> `onfocus`: 获取焦点 \
   	> `getElementById(...)`, `getElementByName(...)`, `getElementByTagName(...)`: 获取文本框内容 \
 	> `innerHTML`, `innerTEXT`: 对div标签内容赋值，其中前者被视为HTML语句而后者仅为纯文本 \
 	> `check`: 如`check.onclick = () => {if(check.checked){...} else{...}}`

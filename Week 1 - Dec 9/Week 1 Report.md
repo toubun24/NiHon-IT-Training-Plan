@@ -158,7 +158,6 @@
   (BOM的顶级对象是：window，DOM的顶级对象是：document，实际上BOM是包括DOM的)
 
 18. **JavaScript DOM函数:**
-	
  	> `onclick`: 点击 \
 	> `onblur`: 失去焦点 \
 	> `onfocus`: 获取焦点 \
@@ -166,7 +165,26 @@
 	> `innerHTML`, `innerTEXT`: 对div标签内容赋值，其中前者被视为HTML语句而后者仅为纯文本 \
 	> `check`: 如`check.onclick = () => {if(check.checked){...} else{...}}`
 
+19. **JavaScript 子节点及属性:**
+ 	> `removeAttribute(string)`: 去除样式 \
+	> `setAttribute(string)`: 改变元素的属性 \
+	> `createElement(string)`: 创建子节点 \
+	> `createTextNode(string)`: 创建文本节点 \
+	> `appendChild(textNode)`: 添加新节点 \
+	> `insertBefore(...)`: 插入新节点 \
+	> `removeChild(...)`: 移除 \
+	> `replaceChild(...)`: 替换 \
 
+20. **JavaScript BOM函数:**
+
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
 
 
 ## 感想：
@@ -188,4 +206,4 @@
  	> 对两个密码进行判定的部分，相同代码重复了，因为`getElementById`每次似乎只能取一次标签，这里暂时没想到如何优化 \
  	> 对全局的选项合法性进行判断时引入了`XXXcheck`判断非空与`XXXok`判断合法性，浅搜了一下暂时没搜到专门判断所有选项非空且合法的函数
    	
-	补充：学到下一课时发现可以通过`getElementByTagName`同时绑定多个对象来实现上述的代码简化，就不回去改了orz
+	补充：学到下一课时发现可以通过`getElementByTagName`同时绑定多个对象来实现上述的代码简化，就不回去改了orz关于另一点，由于考虑的是这只是个本地作业，因而删除了提交至网址的表单格式，也就顺便去掉了`required`参数和`submit`类型相关语句，实际应用时保留这些即可

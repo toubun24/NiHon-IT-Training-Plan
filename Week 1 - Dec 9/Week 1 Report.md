@@ -65,14 +65,14 @@
 	head: 头标签，用于指定html文档的一些属性，引入外部的资源 \
 	title: 标题标签 \
 	body: 体标签 \
-	\<!DOCTYPE html\>: html5中定义该文档是html文档
+	`<!DOCTYPE html>`: html5中定义该文档是html文档
 
 13. **HTML文本标签:**
-	> 注释：\<!-- 注释内容 --\> \
-	\<h1\> to \<h6\>: 标题标签，h1~h6字体大小逐渐递减 \
-	\<p\>: 段落标签 \
-	\<br\>: 换行标签 \
-	\<hr\>: 展示一条水平线
+	> 注释：`<!-- 注释内容 -->` \
+	`<h1>` to `<h6>`: 标题标签，h1~h6字体大小逐渐递减 \
+	`<p>`: 段落标签 \
+	`<br>`: 换行标签 \
+	`<hr>`: 展示一条水平线
 
 	属性：
 	> color: 颜色 \
@@ -80,10 +80,10 @@
 	size: 高度 \
 	align: 对齐方式 (center, left, right)
 	
-	> \<b\>: 字体加粗 \
-	\<i\>: 字体斜体 \
-	\<font\>: 字体标签 \
-	\<center\>: 文本居中
+	> `<b>`: 字体加粗 \
+	`<i>`: 字体斜体 \
+	`<font>`: 字体标签 \
+	`<center>`: 文本居中
 
 	属性：
 	> color: 颜色 \
@@ -91,10 +91,10 @@
 	face: 字体
  
 14. **JavaScript数据类型:** number, string, boolean, null, undefined
-  * string转number：按照字面值转换，如果字面值不是数字，则转为NaN
+* string转number：按照字面值转换，如果字面值不是数字，则转为NaN
 * 字符串比较：按位按照字典顺序比较，越靠后越大，直到得出大小为止
-* ===: 全等于，在比较之前，先判断类型，如果类型不一样则直接返回false
-* &&: 与前false则不会再计算与后的部分
+* `===`: 全等于，在比较之前，先判断类型，如果类型不一样则直接返回false
+* `&&`: 与前false则不会再计算与后的部分
 	
 * 其他类型转boolean:
   	> number: 0 \
@@ -102,7 +102,10 @@
 		null&undefined: false \
 		对象：所有对象都会true
 	
-* 防止空指针异常：if(obj != null && obj.length>0)或直接if(obj)
+* 防止空指针异常：`if(obj != null && obj.length>0)`或直接`if(obj)`
+
+15. **JavaScript函数:**
+* arguments: 内置对象，会把传递到函数中的实参封装成数组，可利用如`arguments.length`来判断输出实参数量
 
 ## 感想：
 

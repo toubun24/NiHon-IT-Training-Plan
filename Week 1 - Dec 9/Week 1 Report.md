@@ -69,10 +69,10 @@
 
 13. **HTML文本标签:**
 	> 注释：`<!-- 注释内容 -->` \
-	`<h1>` to `<h6>`: 标题标签，h1~h6字体大小逐渐递减 \
-	`<p>`: 段落标签 \
-	`<br>`: 换行标签 \
-	`<hr>`: 展示一条水平线
+	> `<h1>` to `<h6>`: 标题标签，h1~h6字体大小逐渐递减 \
+	> `<p>`: 段落标签 \
+	> `<br>`: 换行标签 \
+	> `<hr>`: 展示一条水平线
 
 	属性：
 	> color: 颜色 \
@@ -156,7 +156,8 @@
   (BOM的顶级对象是：window，DOM的顶级对象是：document，实际上BOM是包括DOM的)
 
 18. **JavaScript DOM函数:**
-	> `onclick`: 点击
+	
+ 	> `onclick`: 点击 \
   	> `getElementById(...)`, `getElementByName(...)`, `getElementByTagName(...)`: 获取文本框内容 \
 	> `innerHTML`, `innerTEXT`: 对div标签内容赋值，其中前者被视为HTML语句而后者仅为纯文本 \
 	> `check`: 如`check.onclick = () => {if(check.checked){...} else{...}}`

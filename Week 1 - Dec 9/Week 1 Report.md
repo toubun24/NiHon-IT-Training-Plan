@@ -105,9 +105,31 @@
 * 防止空指针异常：`if(obj != null && obj.length>0)`或直接`if(obj)`
 
 15. **JavaScript函数:**
-	> `arguments`: 内置对象，会把传递到函数中的实参封装成数组，可利用如`arguments.length`来判断输出实参数量 \
-	> `join`: 数组方法，将数组转化为字符串并用输入的参数作为连接，如`arr.join("-")`
-  
+* 函数对象：
+ 	> `arguments`: 会把传递到函数中的实参封装成数组，可利用如`arguments.length`来判断输出实参数量
+* 数组对象：
+	> `join(...)`: 将数组转化为字符串并用输入的参数作为连接，如`arr.join("-")` \
+  	> `filter(...)`: 遍历后返回符合条件的值，如`arr.filter((num)=>{return num>0})` \
+ 	> `map(...)`: 进行遍历计算，如`arr.map((num)=>{return ++num})`
+* 日期对象：
+	> 创建: `var date = new Date()` \
+ 	> `toLocaleString()`: 返回当前date对象对应的时间本地字符串格式，如`date.toLocaleString()` \
+ 	> `getTime()`: 获取毫秒值，返回当前如期对象描述的时间到1970年1月1日零点的毫秒值差，如`date.getTime()`
+* 数学对象：
+	> `random()`: 返回 0 ~ 1 之间的随机数，含0不含1 \
+	> `ceil(x)`: 对数进行上舍入 \
+	> `floor(x)`: 对数进行下舍入 \
+ 	> `round(x)`: 把数四舍五入为最接近的整数。
+* 全局对象：
+	> `parseInt(string)`:将字符串转为数字，逐一判断每一个字符是否是数字，直到不是数字为止，将前边数字部分转为number \
+	> `isNaN(...)`:判断一个值是否是NaN，NaN六亲不认，连自己都不认，NaN参与的==比较全部问false \
+	> `eval(string)`:将字符串转化为JavaScript语句，并把它作为脚本代码来执行。
+
+16. **JavaScript正则表达式:**
+
+
+
+
 
 ## 感想：
 

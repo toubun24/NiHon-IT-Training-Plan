@@ -181,7 +181,28 @@
 	> `removeChild(...)`: 移除 \
 	> `replaceChild(...)`: 替换 \
 
-20. **JavaScript BOM函数:**
+20. **JavaScript BOM组成:**
+
+	> Window: 窗口对象 \
+	> Navigator：浏览器对象 \
+	> Screen：显示器屏幕对象 \
+	> History：历史记录对象 \
+	> Location：地址栏对象
+
+21. **JavaScript BOM函数:**
+
+	> `window.open(pageURL, name, parameters)`: 打开新窗口 \
+	> `window.close()`: 关闭当前窗口 \
+	> `prompt(msg, defaultText)`: 弹出输入提示框 \
+	> `confirm(msg)`: 弹出确认删除提示框 \
+	> `setTimeout(code)`: 设置定时器 \
+	> `clearTimeout(setTimeout)`: 取消定时器 \
+	> `setInterval(code)`: 设置周期定时器 \
+	> `clearInterval(setInterval)`: 取消周期定时器 \
+	> `window.location(...)`: 对浏览器地址进行操作 \
+	> `window.history(...)`: 历史记录的前进或后退 \
+
+22. **CSS 基础知识:**
 
 	> ``:  \
 	> ``:  \
@@ -191,6 +212,9 @@
 	> ``:  \
 	> ``:  \
 	> ``:  \
+
+
+
 
 
 ## 感想：

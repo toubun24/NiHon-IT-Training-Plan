@@ -112,6 +112,6 @@ P1 - P4
 
 ## 遇见问题
 
-* .jsp文件运行：似乎需要配置服务器环境，比如Tomcat；先暂放看后续课件有无用到
+* .jsp文件运行：想测试[GitHub/zerostart/.../EL&JSTL](https://github.com/warrenlucky/zerostart/tree/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/code/EL%26JSTL)里存放的示例文件，但似乎需要配置服务器环境才能运行，比如Tomcat；先暂放一下，看后续课件有无用到
 
 ## 下周计划

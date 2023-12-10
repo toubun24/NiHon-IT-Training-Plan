@@ -5,7 +5,7 @@
 ### LalaPodo
 
 * JSTL
-  * EL&JSTL: 12.10 23:25-
+  * EL&JSTL: 12.10 23:25-12.11 00:50
 * AJAX
   * AJAX: 
 * Axios和Promise
@@ -99,10 +99,19 @@ P1 - P4
 
 ## 内容拓展
 
+1. JSP文件运行原理
+* 客户端→(请求页面)→JSP文件→(转换)→Servlet文件→(编译)→class文件→(执行)→Servlet实例→(返回响应)→客户端
+2. web资源分类
+* 静态web技术：HTML+CSS+JavaScript
+* 动态web技术：servlet, jsp, php, .net, ruby, python等
+
+
+
+
 
 
 ## 遇见问题
 
-
+* .jsp文件运行：似乎需要配置服务器环境，比如Tomcat；先暂放看后续课件有无用到
 
 ## 下周计划

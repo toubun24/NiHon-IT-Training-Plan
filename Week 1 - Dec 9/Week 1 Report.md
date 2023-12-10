@@ -203,6 +203,29 @@
 	> `window.history(...)`: 历史记录的前进或后退 \
 
 22. **CSS 基础知识:**
+* Cascading Style Sheets: 层叠样式表
+* 层叠：多个样式可以作用在同一个html的元素上，同时生效
+* 好处：功能强大，将内容展示和样式控制分离
+* CSS与html结合方式:
+	> 内联样式: 在标签内使用style属性指定css代码，如`<div style="property: value;">...</div>` \
+	> 内部样式: 在head标签内，定义style标签，style标签的标签体内容就是css代码，如`<style>div{property: value;}</style><div>...</div>` \
+	> 外部样式: 定义css资源文件，在head标签内，定义link标签，引入外部的资源文件，如`<link rel="stylesheet" href="XXX.css">`
+* 选择器分类：
+	> `#id{property: value;}`: id选择器 \
+	> `.class{property: value;}`: 类选择器 \
+	> `div{property: value;}`: 元素选择器 \
+	> `*{property: value;}`: 扩展选择器 \
+	> `XXX, XXX{property: value;}`: 并集选择器 \
+	> `XXX1 XXX2{property: value;}`: 后代选择器：筛选选择器1元素下的选择器2元素 \
+	> `XXX1>XXX2{property: value;}`: 子选择器：筛选选择所有父类是选择器1的选择器2 \
+	> `XXX[attr=value]{property: value;}`: 属性选择器：选择元素名称，属性名=属性值的元素 \
+	> `selector:pseudo-class{property: value;}`: 伪类选择器：选择一些元素具有的状态
+* 属性：
+
+
+
+
+
 
 	> ``:  \
 	> ``:  \
@@ -212,6 +235,14 @@
 	> ``:  \
 	> ``:  \
 	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+	> ``:  \
+
+
+
+
 
 
 

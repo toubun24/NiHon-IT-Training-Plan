@@ -272,12 +272,45 @@
 	> `prepend()`: 父元素将子元素追加到开头，如`对象1.prepend(对象2)`将对象2添加到对象1元素内部，并且在开头 \
 	> `appendTo()`: `对象1.appendTo(对象2)`将对象1添加到对象2内部，并且在末尾 \
 	> `prependTo()`: 如`对象1.prependTo(对象2)`将对象1添加到对象2内部，并且在开头 \
+	> \
 	> `after()`: 添加元素到元素后边，如`对象1.after(对象2)`将对象2添加到对象1后边。对象1和对象2是兄弟关系 \
 	> `before()`: 添加元素到元素前边，如`对象1.before(对象2)`将对象2添加到对象1前边。对象1和对象2是兄弟关系 \
 	> `insertAfter()`: 如`对象1.insertAfter(对象2)`将对象1添加到对象2后边。对象1和对象2是兄弟关系 \
 	> `insertBefore()`: 如`对象1.insertBefore(对象2)`将对象1添加到对象2前边。对象1和对象2是兄弟关系 \
+	>  \
 	> `remove()`: 移除元素，如`对象.remove()`将对象删除掉 \
 	> `empty()`: 清空元素的所有后代元素，如`对象.empty()`将对象的后代元素全部清空，但是保留当前对象以及其属性节点
+* 动画：
+  * 三种方式显示和隐藏元素：
+	> `show([speed,[easing],[fn]])` \
+	>> speed：动画的速度。三个预定义的值("slow","normal", "fast")或表示动画时长的毫秒数值(如：1000) \
+	>> easing：用来指定切换效果，默认是"swing"，动画执行时效果是 先慢，中间快，最后又慢；可用参数"linear"，动画执行时速度是匀速的 \
+	> `hide([speed,[easing],[fn]])` \
+	> `toggle([speed],[easing],[fn])`
+  * 滑动显示和隐藏方式：
+	> `slideDown([speed],[easing],[fn])` \
+	> `slideUp([speed,[easing],[fn]])` \
+	> `slideToggle([speed],[easing],[fn])`
+  * 淡入淡出显示和隐藏方式：
+	> `fadeIn([speed],[easing],[fn])` \
+	> `fadeOut([speed],[easing],[fn])` \
+	> `fadeToggle([speed,[easing],[fn]])`
+* 遍历：
+	> `jquery对象.each(function(index,element){})` \
+	> `$.each(object, [callback])` \
+	> `for(元素对象 of 容器对象)`
+* 事件绑定：
+	> `jq对象.事件方法(回调函数)`: jquery标准的绑定方式 \
+	> `jq对象.on("事件名称",回调函数)`, `jq对象.off("事件名称")`: on绑定事件/off解除绑定 \
+	> `jq对象.toggle(fn1,fn2...)`: 事件切换
+* 插件：增强JQuery的功能
+	> `$.fn.extend(object)`: 增强通过JQuery获取的对象的功能 `$("#id")` \
+	> `$.extend(object)`: 增强JQuery对象自身的功能 `$/jQuery`
+
+
+
+
+
 
 	> ``:  \
 	> ``:  \

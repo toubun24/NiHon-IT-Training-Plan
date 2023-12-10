@@ -266,7 +266,7 @@
   * (class)属性操作：
 	> `addClass()`: 添加class属性值 \
 	> `removeClass()`: 删除class属性值 \
-	> `toggleClass()`: 切换class属性，如`toggleClass("one")`判断如果元素对象上存在`class="one"`，则将属性值one删除掉；反之则添加
+	> `toggleClass()`: 切换class属性，如`toggleClass("one")`判断如果元素对象上存在`class="one"`，则将属性值one删除；反之则添加
   * CRUD操作：
 	> `append()`: 父元素将子元素追加到末尾，如`对象1.append(对象2)`将对象2添加到对象1元素内部，并且在末尾 \
 	> `prepend()`: 父元素将子元素追加到开头，如`对象1.prepend(对象2)`将对象2添加到对象1元素内部，并且在开头 \

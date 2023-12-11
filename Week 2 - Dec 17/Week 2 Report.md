@@ -4,13 +4,12 @@
 
 ### LalaPodo
 
-* JSTL
-  * EL&JSTL: 12.10 23:25-12.11 00:50
-* AJAX
-  * AJAX: 
-* Axios和Promise
+* 2023.12.10 月曜日
+  * EL&JSTL: 23:25-00:50
+  * AJAX: 21:00-21:40
   * Axios: 
   * Promise: 
+
 * React详解
   * React搭建与代码使用: 
   * React介绍: 
@@ -94,6 +93,14 @@ P1 - P4
 * 业务逻辑层：处理业务逻辑的
 * 数据访问层：操作数据存储文件
 
+6. AJAX
+* ASynchronous JavaScript And XML: 异步的JavaScript和XML
+https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
+
+7. JSON
+* JavaScript Object Notation: JavaScript对象表示法
+https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
+
 
 
 
@@ -101,10 +108,13 @@ P1 - P4
 
 1. JSP文件运行原理
 * 客户端→(请求页面)→JSP文件→(转换)→Servlet文件→(编译)→class文件→(执行)→Servlet实例→(返回响应)→客户端
+
 2. web资源分类
 * 静态web技术：HTML+CSS+JavaScript
 * 动态web技术：servlet, jsp, php, .net, ruby, python等
 
+3. XML: Extensible Markup Language，可扩展标记语言
+* 声明：如`<?xml version="1.0" encoding="utf-8"?>`
 
 
 
@@ -113,5 +123,7 @@ P1 - P4
 ## 遇见问题
 
 * .jsp文件运行：想测试[GitHub/zerostart/.../EL&JSTL](https://github.com/warrenlucky/zerostart/tree/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/code/EL%26JSTL)里存放的示例文件，但似乎需要配置服务器环境才能运行，比如Tomcat；先暂放一下，看后续课件有无用到
+
+* 从JSTL开始到AJAX，都有点晕，具体某条代码什么的跟着视频走好像也就那回事，但不知道这些代码是在什么情况下使用、整体的框架是什么样子的，后面好像还有Axios和Promise作为React的前置知识，按我个人的学习习惯，打算先把这一系列前置内容快速过一遍，不去追求完全搞懂先，然后到了正式的React如果发现有需要弥补的，或者后续哪项内容又开始用到前面这一系列知识时，首先框架和用法就能清晰许多，其次再去回看具体的知识点应该就行
 
 ## 下周计划

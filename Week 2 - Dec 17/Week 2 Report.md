@@ -2,7 +2,7 @@
 
 ## 学习内容及时长
 
-* 2023.12.11 月曜日 4h15min (白天拍照去噜orz)
+* **2023.12.11 月曜日:** 4h15min (白天拍照去噜orz)
   * EL&JSTL 23:25-00:50
   * AJAX 21:00-21:40
   * Axios 21:50-22:05
@@ -10,7 +10,7 @@
   * React搭建与代码使用 22:40-24:00
   * *软件工程师常用日本语 P1-P4*
 
-* 2023.12.12 火曜日
+* **2023.12.12 火曜日:** 
   * React介绍 
   * React组件 
   * React组件生命周期A 
@@ -26,7 +26,7 @@
 
 ### LalaPodo
 
-1. JSP
+**1. JSP**
   * 格式: `<%@ 指令名称 属性名1=属性值1 属性名2=属性值2 …​ %>`
   * 分类
     * page：配置JSP页面
@@ -51,12 +51,12 @@
     > config | ServletConfig | Servlet的配置对象 \
     > exception | Throwable | 异常对象
 
-2. MVC开发模式
+**2. MVC开发模式**
   * **M(Model):** 模型，JavaBean，完成具体的业务操作，如：查询数据库，封装对象
   * **V(View):** 视图，JSP，展示数据
   * **C(Controller):** 控制器，Servlet，获取用户的输入，调用模型，将数据交给视图进行展示
 
-3. EL表达式(Expression Language)
+**3. EL表达式(Expression Language)**
 * 语法：`${表达式}`
 * jsp默认支持el表达式的，如果要忽略el表达式
   * 设置jsp中page指令中：`isELIgnored="true"`忽略当前jsp页面中所有的el表达式
@@ -71,7 +71,7 @@
 * 隐式对象
   > `${pageContext.request.contextPath}`：动态获取虚拟目录
 
-4. JSTL(Java Server Pages Standarded Tag Library, JSP标准标签库)
+**4. JSTL(Java Server Pages Standarded Tag Library, JSP标准标签库)**
 * 使用步骤
   > 导入jstl相关jar包
   > 引入标签库：taglib指令 `<%@ taglib %>`
@@ -83,26 +83,26 @@
   > `otherwise`: `default` \
   > `foreach`: `for`
 
-5. 三层架构：软件设计架构
+**5. 三层软件设计架构**
 * 界面层(表示层)：用户看的得界面，用户可以通过界面上的组件和服务器进行交互
 * 业务逻辑层：处理业务逻辑的
 * 数据访问层：操作数据存储文件
 
-6. AJAX
+**6. AJAX**
 * ASynchronous JavaScript And XML: 异步的JavaScript和XML
 https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/AJAX%E5%AE%8C%E6%95%B4.adoc
 
-7. JSON
+**7. JSON**
 * JavaScript Object Notation: JavaScript对象表示法
 https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/AJAX%E5%AE%8C%E6%95%B4.adoc
 
-8. Axios
+**8. Axios**
 
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/axios.adoc
 
-9. Promise
+**9. Promise**
 * 状态
   * pending: 未决定的
   * resolved/fullfilled: 成功，结果为value
@@ -110,7 +110,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/Promise.adoc
 
-10. React搭建与代码使用
+**10. React搭建与代码使用**
 > `yarn install`: 创建node_modules \
 > `yarn start`或`npm start`: 运行src案例 \
 > `Ctrl+C`: 退出脚手架或服务器，刷新后无法再次进入原网页(无需看到`^C`显示，只要`path>`弹出即可) \

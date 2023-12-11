@@ -2,25 +2,25 @@
 
 ## 学习内容及时长
 
-* 2023.12.11 月曜日 4h15min
-  * EL&JSTL: 23:25-00:50
-  * AJAX: 21:00-21:40
-  * Axios: 21:50-22:05
-  * Promise: 22:05-22:40
-  * React搭建与代码使用: 22:40-24:00
+* 2023.12.11 月曜日 4h15min (白天拍照去噜orz)
+  * EL&JSTL 23:25-00:50
+  * AJAX 21:00-21:40
+  * Axios 21:50-22:05
+  * Promise 22:05-22:40
+  * React搭建与代码使用 22:40-24:00
   * *软件工程师常用日本语 P1-P4*
 
 * 2023.12.12 火曜日
-  * React介绍: 
-  * React组件: 
-  * React组件生命周期A: 
-  * React组件生命周期B: 
-  * React-diffing算法: 
-  * React脚手架介绍: 
-  * React脚手架ToDoList案例A: 
-  * React脚手架ToDoList案例B: 
-  * React脚手架配置代理: 
-  * React_Github案例: 
+  * React介绍 
+  * React组件 
+  * React组件生命周期A 
+  * React组件生命周期B 
+  * React-diffing算法 
+  * React脚手架介绍 
+  * React脚手架ToDoList案例A 
+  * React脚手架ToDoList案例B 
+  * React脚手架配置代理 
+  * React_Github案例 
 
 ## 学习笔记
 

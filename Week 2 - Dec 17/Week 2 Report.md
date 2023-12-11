@@ -7,8 +7,8 @@
 * 2023.12.10 月曜日
   * EL&JSTL: 23:25-00:50
   * AJAX: 21:00-21:40
-  * Axios: 
-  * Promise: 
+  * Axios: 21:50-22:05
+  * Promise: 22:05-22:40
 
 * React详解
   * React搭建与代码使用: 
@@ -96,10 +96,37 @@ P1 - P4
 6. AJAX
 * ASynchronous JavaScript And XML: 异步的JavaScript和XML
 https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
+https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/AJAX%E5%AE%8C%E6%95%B4.adoc
 
 7. JSON
 * JavaScript Object Notation: JavaScript对象表示法
 https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
+https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/AJAX%E5%AE%8C%E6%95%B4.adoc
+
+8. Axios
+
+https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/axios.adoc
+
+9. Promise
+* 状态
+  * pending: 未决定的
+  * resolved/fullfilled: 成功，结果为value
+  * rejected: 失败，结果为reason
+
+
+
+
+https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/Promise.adoc
+
+
+
+
+
+
+
+
+
+
 
 
 

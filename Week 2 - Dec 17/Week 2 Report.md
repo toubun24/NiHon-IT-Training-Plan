@@ -11,7 +11,7 @@
   * *软件工程师常用日本语 P1-P4*
 
 * **2023.12.12 火曜日:** 
-  * React介绍 
+  * React介绍 13:55-15:00
   * React组件 
   * React组件生命周期A 
   * React组件生命周期B 
@@ -116,9 +116,27 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 > `Ctrl+C`: 退出脚手架或服务器，刷新后无法再次进入原网页(无需看到`^C`显示，只要`path>`弹出即可) \
 > `node server.js`: 开启服务器(可通过创建多个终端来运行多个服务器)
 
-
-
-
+**11. React介绍**
+* 用于构建用户界面的JavaScript库
+* 使用：引入几个react包
+  > `<script src="../js/react.development.js"></script>`: React核心库 \
+  > `<script src="../js/react-dom.development.js"></script>`: 操作DOM的React扩展库 \
+  > `<script src="../js/babel.min.js"></script>`: 将JSX转为JS的babel库
+* JS创建虚拟DOM
+  > `const VDOM=React.createElement('h1', {id:'title'}, React.createElement('span', {}, 'hello,React'))`: 创建虚拟DOM，创建嵌套格式的DOM \
+  > `ReactDOM.render(VDOM, document.getElementById('test'))`: 渲染虚拟DOM到页面
+* JSX创建虚拟DOM
+  > `const VDOM = (<h1><span>Hello, React</span></h1>)`: 创建虚拟DOM \
+  > `ReactDOM.render(VDOM, document.getElementById('test'))`: 渲染虚拟DOM到页面
+* JSX语法
+  * 标签中混入JS表达式的时候使用`{}`
+  * 样式的类名指定不能使用class，使用className
+  * 内联样式要使用`{{}}`包裹
+  * 不能有多个根标签，只能有一个根标签
+  * 标签必须闭合(`<></>`)，自闭合(`</>`)也行
+  * 如果小写字母开头，就将标签转化为html同名元素，如果html中无该标签对应的元素，就报错；如果是大写字母开头，React就去渲染对应的组件，如果没有定义就报错
+  * 注释必须写在花括号里，如`{/*注释...*/}`
+  * JSX 允许在模板中插入数组，数组自动展开全部成员
 
 
 
@@ -142,6 +160,34 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 声明：如`<?xml version="1.0" encoding="utf-8"?>`
 
 4. 顺便一提，在课件里测试03_react配置代理-src的例子中，只需先开启服务器后打开或刷新网页即可，不需要在终端中获取root权限
+
+5. JSX: 基于JavaScript+XML的扩展语法
+
+6. JSX语法补充
+* 内联样式要使用`{{}}`包裹；注释必须写在花括号里：外面的大括号是用来告诉JSX解析器，括号中的内容是JavaScript，而不是一个字符串；而里面的大括号用来初始化一个对象
+* 不能有多个根标签，只能有一个根标签：可使用`<></>`或`<div></div>`标签将所有的内容包裹
+
+8. [React中的样式策略](https://zhuanlan.zhihu.com/p/445762944?utm_id=0&wd=&eqid=a4fa8e4500075e1f000000046466fcc4)
+* **内联样式:** 在JSX元素中，直接定义行内的样式
+* **CSS样式表:** 这也是我们最常用的样式策略，使用单独的样式表，使用CSS或者SCSS等来为元素设置样式
+* **CSS模块:** 一个文件，默认情况下所有类名和动画名都在本地范围
+* **styled-components:** 用于React和React Native的样式组件库，它允许我们早应用中使用组件级样式，这些样式就是使用CSS-in-JS的技术来编写的
+* **JSS:** CSS创作工具，它允许我们使用JavaScript以声明式、无冲突和可重复的方式来描述样式
+
+9. key
+* key帮助React识别哪些元素改变了，因此应当给数组中的每一个元素赋予一个确定的标识，使得之前的低效转换变得高效
+* 设置key
+  > `<li key = {xxx.id}>`: 通常使用数据中的id作为元素的key \
+  > `<li key = {index}>`: 当元素没有确定id时，可以使用元素索引index作为key
+* key不是全局唯一的，但兄弟节点不能用相同的key
+* key会传递信息给React，但不会传递给组件；如果组件中需要使用key属性的值，则必须用其他属性名显式传递这个值，例如id
+* 在`map()`方法中的元素需要设置key属性，如`data.map((item, index) => {return <li key = {index}>{item}</li>})`
+
+
+
+
+
+
 
 
 

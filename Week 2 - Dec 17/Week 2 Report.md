@@ -15,7 +15,7 @@
   * React组件 15:55-18:15
   * React组件生命周期A 20:35-21:50
   * React组件生命周期B 21:50-22:25
-  * React-diffing算法 
+  * React-diffing算法 23:00-
   * React脚手架介绍 
   * React脚手架ToDoList案例A 
   * React脚手架ToDoList案例B 
@@ -257,7 +257,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * **卸载组件:** 由`ReactDOM.unmountComponentAtNode()`触发
   1. **componentWillUnmount执行:** 在组件即将被卸载或销毁时进行调用
 
-**16. 新生命周期**
+**16. React组件新生命周期**
 * 在旧生命周期的基础上，废弃三个生命周期，新增两个生命周期
 * **初始化阶段:** 由ReactDOM.render()触发---初次渲染
   1. **constructor执行:** 在组件初始化的时候只会执行一次
@@ -272,6 +272,43 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   5. **componentDidUpdate执行:** 组件在更新完毕后会立即被调用，首次渲染不会调用
 * **卸载组件:** 由`ReactDOM.unmountComponentAtNode()`触发
   1. **componentWillUnmount执行:** 在组件即将被卸载或销毁时进行调用
+
+**17. React diffing算法**
+* 概念和作用：React提升渲染性能的一种优化算法，计算出Virtual DOM中真正变化的部分，并只针对该部分进行原生DOM操作，而非重新渲染整个页面
+* Virtual DOM(虚拟 DOM): 在React中，render执行的结果得到的并不是真正的DOM节点，而是JavaScript对象。虚拟DOM只保留了真实DOM节点的一些基本属性，和节点之间的层次关系，它相当于建立在JavaScript和DOM之间的一层“缓存”
+* 对于一个节点必备的三个属性
+  * tag: 指定元素的标签类型，如li, div
+  * props: 指定元素身上的属性，如class, style, 自定义属性
+  * children: 指定元素是否有子节点，参数以数组形式传入 \
+    而我们在 render 中编写的 JSX 代码就是一种虚拟 DOM 结构
+* 传统diff算法：通过循环递归对节点进行依次对比，算法复杂度达到O(n^3)，其中n是树的节点数
+* React的diff算法：O(n)复杂度
+  * tree diff策略：Web UI中DOM节点跨层级的移动操作特别少，可以忽略不计
+    * React通过updateDepth对Virtual DOM树进行层级控制
+    * 对树分层比较(分层求异)，两棵树只对同一层次节点进行比较。如果该节点不存在时，则该节点及其子节点会被完全删除，不会再进一步比较
+    * 只需遍历一次，就能完成整棵DOM树的比较
+  * component diff策略：拥有相同类的两个组件 生成相似的树形结构；拥有不同类的两个组件 生成不同的树形结构
+  * element diff策略：对于同一层级的一组子节点，通过唯一id区分
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

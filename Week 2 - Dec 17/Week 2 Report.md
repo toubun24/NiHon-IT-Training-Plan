@@ -12,7 +12,7 @@
 
 * **2023.12.12 火曜日:** 
   * React介绍 13:55-15:00
-  * React组件 
+  * React组件 15:55-
   * React组件生命周期A 
   * React组件生命周期B 
   * React-diffing算法 
@@ -133,14 +133,72 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * 样式的类名指定不能使用class，使用className
   * 内联样式要使用`{{}}`包裹
   * 不能有多个根标签，只能有一个根标签
-  * 标签必须闭合(`<></>`)，自闭合(`</>`)也行
+  * 标签必须闭合(`< >< />`)，自闭合(`< />`)也行
   * 如果小写字母开头，就将标签转化为html同名元素，如果html中无该标签对应的元素，就报错；如果是大写字母开头，React就去渲染对应的组件，如果没有定义就报错
   * 注释必须写在花括号里，如`{/*注释...*/}`
   * JSX 允许在模板中插入数组，数组自动展开全部成员
 
-
-
-
+**12. React组件**
+* 注意
+  * 组件名必须是首字母大写
+  * 虚拟DOM元素只能有一个根元素
+  * 虚拟DOM元素必须有结束标签`< />`
+* 渲染类组件标签的基本流程
+  1. React内部会创建组件实例对象
+  2. 调用render()得到虚拟DOM ,并解析为真实DOM
+  3. 插入到指定的页面元素内部
+* 函数式组件(只有props)
+  1. `function Demo(){return <h2>用函数定义的组件</h2>}`: 先创建函数，函数可以有参数，也可以没有，但是必须要有返回值，返回一个虚拟DOM
+  2. `ReactDOM.render(<Demo/>, document.getElementById('test'))`: 进行渲染
+* 类式组件
+  1. `class Demo2 extends React.Component {render(){console.log(this)return <h2>用类定义的组件</h2>}`
+  2. `ReactDOM.render(<Demo2/>, document.getElementById('test'))`
+* 组件实例三大属性
+  * **state**
+    * 使用的时候通过this.state调用state里的值
+    * 在类式组件中定义state
+    * 在构造器中初始化state
+    * 在类中添加属性state来初始化
+    > `this.setState(partialState, [callback])`: partialState是需要更新的状态的部分对象，callback是更新完状态后的回调函数；状态必须通过setState进行更新,且更新是一种合并，不是替换
+    * 在执行 setState操作后，React 会自动调用一次`render()`
+    * `render()`的执行次数是1+n(1为初始化时的自动调用，n为状态更新的次数)
+  * **props**
+    * 外部传入的数据在类式组件中使用
+    * 通过在组件标签上传递值，在组件中就可以获取到所传递的值
+    * 在构造器里的props参数里可以获取到props
+    * 可以分别设置propTypes和defaultProps两个属性来分别操作props的规范和默认值，两者都是直接添加在类式组件的原型对象上的(所以需要添加static)
+    * 同时可以通过`...`​运算符来简化
+    > `<script src="../js/prop-types.js"></script>`: 引入库 \
+    > `static propTypes`: 属性限制 \
+    > `static defaultProps`: 属性默认值
+    * 函数组件的props定义:
+      * 在组件标签中传递props的值
+      * 组件函数的参数为props
+      * 对props的限制和默认值同样设置在原型对象上
+  * **refs**
+    * 允许我们访问DOM节点或在render方法中创建的React元素，而不需要采用DOM API来查找元素
+    * 字符串形式：
+    ```JavaScript
+    myFunc = () => {
+      const {myInput} = this
+      ...}
+    render(){return(<input onBlur={this.myFunc} ref="myInput" type="text"/>)}
+    ```
+    * 回调形式：
+    ```JavaScript
+    myFunc = () => {
+      const {myInput} = this
+      ...}
+    render(){return(<input onBlur={this.myFunc} ref={c=>this.myInput=...} type="text"/>)}
+    ```
+    * createRef形式：
+    ```JavaScript
+    myRef = React.createRef() //创建ref容器
+    myFunc = () => {
+      ...}
+    render(){return(<input onBlur={this.myFunc} ref={this.myRef} type="text"/>)}
+    ```
+    * 事件对象：建议不要过度的使用ref，如果发生事件的元素刚好是需要操作的元素，就可以使用事件对象(event)去替代
 
 
 
@@ -183,13 +241,28 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * key会传递信息给React，但不会传递给组件；如果组件中需要使用key属性的值，则必须用其他属性名显式传递这个值，例如id
 * 在`map()`方法中的元素需要设置key属性，如`data.map((item, index) => {return <li key = {index}>{item}</li>})`
 
+10. 组件实例三大属性
+* `this.props`表示那些一旦定义，就不再改变的特性，而`this.state`是会随着用户互动而产生变化的特性
+* 用React开发class组件时，constructor中一定要调用`super(props)`：在JavaScript子类的构造函数中super指的是父类(即超类)的构造函数。子类中显式定义了constructor的方法中必须在其最顶层调用super，否则新建实例时会报错。这是因为子类自己的this对象，必须先通过父类的构造函数完成塑造，得到与父类同样的实例属性和方法，然后再对其进行加工，加上子类自己的实例属性和方法。如果不调用super方法，子类就得不到this对象。所以必须先调用super才可以使用this。如果子类没有定义constructor方法，这个方法会被默认添加
 
+11. ES6: ECMAScript 6，于2015年6月正式发布的JavaScript语言的标准
 
+12. Extends
+* Class之间可以通过extends关键字实现继承
+* super关键字表示父类的构造函数，用来新建父类的this对象。子类必须在constructor方法中调用super方法，否则新建实例时会报错。这是因为子类没有自己的this对象，而是继承父类的this对象，然后对其进行加工。如果不调用super方法，子类就得不到this对象
 
+13. `bind()`
+* 在JSX中传递的事件不是一个字符串，而是一个函数(如：`onClick = {this.handleClick}`)，此时onClick即是中间变量，所以处理函数中的this指向会丢失
+* 解决这个问题就是给调用函数时`bind(this)`，从而使得无论事件处理函数如何传递，this指向都是当前实例化对象。或者使用箭头函数声明一个函数，这样函数内的this也是指向当前实例
 
+14. `=>`
+* 语法：`(param1, param2, …, paramN) => {statements}`
+* 箭头函数是匿名函数，无法使用函数名进行递归调用
+* 箭头函数没有自己的this和arguments，它们继承自父作用域
+* 箭头函数不能使用new关键字调用，因为它没有自己的this对象
+* 箭头函数不能使用yield关键字，因为它不是生成器函数
 
-
-
+15: `...`: ES6的扩展运算符，用于取出参数对象的所有可遍历属性，然后拷贝到当前对象之中。
 
 ## 遇见问题
 

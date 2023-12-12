@@ -15,7 +15,7 @@
   * React组件 15:55-18:15
   * React组件生命周期A 20:35-21:50
   * React组件生命周期B 21:50-22:25
-  * React-diffing算法 23:00-
+  * React-diffing算法 23:00-23:40
   * React脚手架介绍 
   * React脚手架ToDoList案例A 
   * React脚手架ToDoList案例B 
@@ -133,7 +133,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * 样式的类名指定不能使用class，使用className
   * 内联样式要使用`{{}}`包裹
   * 不能有多个根标签，只能有一个根标签
-  * 标签必须闭合(`< >< />`)，自闭合(`< />`)也行
+  * 标签必须闭合(`< ></ >`)，自闭合(`< />`)也行
   * 如果小写字母开头，就将标签转化为html同名元素，如果html中无该标签对应的元素，就报错；如果是大写字母开头，React就去渲染对应的组件，如果没有定义就报错
   * 注释必须写在花括号里，如`{/*注释...*/}`
   * JSX 允许在模板中插入数组，数组自动展开全部成员
@@ -142,7 +142,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 注意
   * 组件名必须是首字母大写
   * 虚拟DOM元素只能有一个根元素
-  * 虚拟DOM元素必须有结束标签`< />`
+  * 虚拟DOM元素必须有结束标签`</>`
 * 渲染类组件标签的基本流程
   1. React内部会创建组件实例对象
   2. 调用render()得到虚拟DOM ,并解析为真实DOM
@@ -287,9 +287,19 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     * React通过updateDepth对Virtual DOM树进行层级控制
     * 对树分层比较(分层求异)，两棵树只对同一层次节点进行比较。如果该节点不存在时，则该节点及其子节点会被完全删除，不会再进一步比较
     * 只需遍历一次，就能完成整棵DOM树的比较
-  * component diff策略：拥有相同类的两个组件 生成相似的树形结构；拥有不同类的两个组件 生成不同的树形结构
+    * 由于React只会简单的进行同层级节点位置变化，对于不同层级的节点，只有创建和删除操作
+  * component diff策略：拥有相同类的两个组件生成相似的树形结构；拥有不同类的两个组件生成不同的树形结构。
+    * 如果是同一类型的组件，则按照原策略（层级比较)继续比较虚拟DOM tree
+    * 如果不是，则将这个组件记为dirty component(脏组件)，从而替换整个组件下的所有子节点
+    * 同时对于同一类型的组件，有可能其Virtual DOM没有任何变化，如果能够确切的知道这点就可以节省大量的diff运算的时间，因此React允许用户通过shouldComponentUpdate()判断该组件是否需要进行diff算法分
+    * 总的来说，如果两个组件结构相似，但被认定为了不同类型的组件，则不会比较二者的结构，而是直接删除
   * element diff策略：对于同一层级的一组子节点，通过唯一id区分
-
+    * 是专门针对同一层级的所有节点的策略。当节点在同一层级时，diff提供了3个节点操作方法：插入，移动，删除
+    * 允许添加唯一值key来区分节点，且不能用index作为key值
+    * 在 React 中只允许节点右移，则只需要对移动的节点进行更新渲染，不移动的则不需要更新渲染
+      ```JavaScript
+      render(){return(<ul>{this.state.XXX.map((XXX) => {return <li key={XXX.xxx}>{XXX.xxx}<input type="text"/></li>})}</ul>)}
+      ```
 
 
 

@@ -13,8 +13,8 @@
 * **2023.12.12 火曜日:** 
   * React介绍 13:55-15:00
   * React组件 15:55-18:15
-  * React组件生命周期A 20:35-
-  * React组件生命周期B 
+  * React组件生命周期A 20:35-21:50
+  * React组件生命周期B 21:50-22:25
   * React-diffing算法 
   * React脚手架介绍 
   * React脚手架ToDoList案例A 
@@ -241,9 +241,37 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   render(){return(<input onChange={event => this.myContent} type="text"/>)}
   ```
 
+**15. React组件旧生命周期**
+* 三个阶段：初始化阶段，更新阶段，卸载组件
+* **初始化阶段:** 由ReactDOM.render()触发---初次渲染
+  1. **constructor执行:** 在组件初始化的时候只会执行一次。通常它用于做这两件事：1.初始化函数内部state；2.绑定函数；现在通常不会使用constructor，而是改用类加箭头函数的方法来替代，如`state = {count: 0}`
+  2. **componentWillMount执行:** 该方法只在挂载的时候调用一次，表示组件将要被挂载，并且在render方法之前调用(将要被废弃)
+  3. **render执行:** 组件中必须实现的方法，用于渲染DOM，但是它不会真正的操作DOM，它的作用是把需要的东西返回出去。实现渲染DOM操作的是`ReactDOM.render()`(注意：避免在 render 中使用 setState ，否则会死循环)
+  4. **componentDidMount执行:** 意味着初始化挂载操作已经基本完成，它主要用于组件挂载完成后做某些操作。这个挂载完成指的是：组件插入DOM tree
+* **更新阶段:** 由组件内部`this.setSate()`或父组件render触发
+  1. **shouldComponentUpdate执行:** 在组件更新之前调用，可以通过返回值来控制组件是否更新，允许更新返回true，反之不更新
+  2. **componentWillUpdate执行:** 在render之前执行，表示组件将要更新
+  3. **render执行:** 在控制是否更新的函数中，如果返回true才会执行render,得到最新的 React element
+  4. **componentDidUpdate执行:** 组件在更新完毕后会立即被调用，首次渲染不会调用
+  5. **(特殊)componentWillReceiveProps:** 表示组件将要接收新的props的钩子
+* **卸载组件:** 由`ReactDOM.unmountComponentAtNode()`触发
+  1. **componentWillUnmount执行:** 在组件即将被卸载或销毁时进行调用
 
-
-
+**16. 新生命周期**
+* 在旧生命周期的基础上，废弃三个生命周期，新增两个生命周期
+* **初始化阶段:** 由ReactDOM.render()触发---初次渲染
+  1. **constructor执行:** 在组件初始化的时候只会执行一次
+  2. **(新)static getDerivedStateFromProps执行:** 在初始化和更新中都会被调用，并且在render方法之前调用，它返回一个对象用来更新state；是类上直接绑定的静态（static）方法，它接收两个参数props和state；props是即将要替代state的值，而state是当前未替代前的值(注意：`return props`而非'return null`时，state的值在任何时候都取决于传入的props，不会再改变)
+  3. **render执行:** 组件中必须实现的方法，用于渲染DOM，但是它不会真正的操作DOM，它的作用是把需要的东西返回出去。
+  4. **componentDidMount执行:** 意味着初始化挂载操作已经基本完成，它主要用于组件挂载完成后做某些操作
+* **更新阶段:** 由组件内部`this.setSate()`或父组件render触发
+  1. **(新)getDerivedStateFromProps执行:** 执行生命周期，返回的值用于合并state，生成新的state
+  2. **shouldComponentUpdate执行:** 在组件更新之前调用，可以通过返回值来控制组件是否更新，允许更新返回 true ，反之不更新
+  3. **render执行:** 在控制是否更新的函数中，如果返回true才会执行render ,得到最新的React element
+  4. **(新)getSnapshotBeforeUpdate执行:** 在最近一次的渲染输出之前被提交之前调用，也就是即将挂载时调用。相当于淘宝购物的快照，会保留下单前的商品内容，在React中就相当于是即将更新前的状态。它可以使组件在DOM真正更新之前捕获一些信息(例如滚动位置)，此生命周期返回的任何值都会作为参数传递给`componentDidUpdate()` 。如不需要传递任何值，那么请返回null
+  5. **componentDidUpdate执行:** 组件在更新完毕后会立即被调用，首次渲染不会调用
+* **卸载组件:** 由`ReactDOM.unmountComponentAtNode()`触发
+  1. **componentWillUnmount执行:** 在组件即将被卸载或销毁时进行调用
 
 
 
@@ -304,14 +332,44 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 箭头函数不能使用new关键字调用，因为它没有自己的this对象
 * 箭头函数不能使用yield关键字，因为它不是生成器函数
 
-15: `...`: ES6的扩展运算符，用于取出参数对象的所有可遍历属性，然后拷贝到当前对象之中。
+15. `...`: ES6的扩展运算符，用于取出参数对象的所有可遍历属性，然后拷贝到当前对象之中。
 
-16: `event.preventDefault()`: 取消事件的默认动作；如果event对象的cancelable属性是false，那么就没有默认动作或不能阻止默认动作，无论哪种情况，调用该方法都没有作用
+16. `event.preventDefault()`: 取消事件的默认动作；如果event对象的cancelable属性是false，那么就没有默认动作或不能阻止默认动作，无论哪种情况，调用该方法都没有作用
 
 17. onchange事件
 * 只在表单元素的焦点离开时触发
 * 对于单选框和复选框来说，只有当用户点击了一个不同的选项时，才会触发onchange事件
 * 对于select元素，只有当用户点击下拉列表并选择一个选项时，才会触发onchange事件。如果用户点击下拉列表但并没有选择任何选项，onchange事件不会触发
+
+18. `event.target.value`
+* 是事件监听器调用时的事件对象中的属性之一，该属性保存用户输入表单时的实际值，也可以作为选择框中用户选择的值。当表单元素产生值改变事件时，该值将会被更新。在某些情况下，比如文本框里的文本被改变或下拉列表选择的选项被更改时，都会触发这个事件
+* input元素是最常见的表单元素，根据不同的type属性可以显示文本框、单选框、多选框等等。在文本框中，`event.target.value`属性保存的是输入的实际值。
+
+19. input标签的type属性
+    > text: 输入文本 \
+    > password: 输入密码，输入的内容会被隐藏 \
+    > checkbox: 创建复选框 \
+    > radio: 创建单选按钮 \
+    > submit: 提交表单 \
+    > reset: 重置表单 \
+    > button: 创建普通按钮 \
+    > file: 选择上传文件 \
+    > date: 选择日期 \
+    > time: 选择时间 \
+    > range: 选择范围内的数值 \
+    > color: 选择颜色 \
+    > 此外，还有一些较少使用的类型，如email、tel、url等，用于限制用户输入的内容格式。
+
+20. hooks
+* hooks不能使用在if语句和for语句中，来保持hooks按顺序执行
+* [未读](https://www.jianshu.com/p/76901410645a/)
+* [未读](https://zhuanlan.zhihu.com/p/597987053)
+
+
+
+
+
+
 
 
 

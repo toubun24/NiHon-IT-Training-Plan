@@ -13,7 +13,7 @@
 * **2023.12.12 火曜日:** 
   * React介绍 13:55-15:00
   * React组件 15:55-18:15
-  * React组件生命周期A 
+  * React组件生命周期A 20:35-
   * React组件生命周期B 
   * React-diffing算法 
   * React脚手架介绍 
@@ -195,24 +195,51 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ```JavaScript
     myRef = React.createRef() //创建ref容器
     myFunc = () => {
-      alert(this.myRef.current.value);}
+      alert(this.myRef.current.value)}
     render(){return(<input onBlur={this.myFunc} ref={this.myRef} type="text"/>)}
     ```
     * 事件处理：建议不要过度的使用ref，如果发生事件的元素刚好是需要操作的元素，就可以使用事件对象(event)去替代
     ```JavaScript
     myRef = React.createRef() //创建ref容器
     myFunc = (event) => {
-      alert(event.target.value);}
+      alert(event.target.value)}
     render(){return(<input onBlur={this.myFunc} ref={this.myRef} type="text"/>)}
     ```
 
-**12. React组件生命周期A**
+**13. React受控组件与非受控组件**
+* 受控组件：React中，可变状态通常保存在组件的状态属性中，并且只能使用`setState()`更新，而呈现表单的React组件也控制着在后续用户输入时该表单中发生的情况，以这种由React控制的输入表单元素而改变其值的方式
+  ```JavaScript
+  state = {myContent:''}
+  saveMyContent = (event) => {
+    this.setState({MyContent:event.target.value})}
+  render(){return(<input onChange={this.myContent} type="text"/>)}
+  ```
+* 非受控组件：表单数据由DOM本身处理。即不受`setState()`的控制，与传统的HTML表单输入相似，input输入值即显示最新值(使用 ref从DOM获取表单值)
+  ```JavaScript
+  render(){return(<input ref={c => this.myContent = c} type="text"/>)}
+  ```
 
-
-
-
-
-
+**14. 高阶函数**
+* 如果一个函数符合下面2个规范中的任何一个，那该函数就是高阶函数
+  * 若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数
+  * 若A函数，调用的返回值依然是一个函数，那么A就可以称之为高阶函数
+  * 常见的高阶函数有：Promise、setTimeout、arr.map()等等
+* 函数的柯里化：通过函数调用继续返回函数的方式，实现多次接收参数最后统一处理的函数编码形式
+* 使用函数柯里化实现
+  ```JavaScript
+  state = {myContent:''}
+  saveMyContent = (dataType) => {
+    return (event)=>{
+      this.setState({[dataType]:event.target.value})}}
+  render(){return(<input onChange={this.myContent} type="text"/>)}
+  ```
+* 不使用函数柯里化实现
+  ```JavaScript
+  state = {myContent:''}
+  saveMyContent = (dataType, event) => {
+      this.setState({[dataType]:event.target.value})}
+  render(){return(<input onChange={event => this.myContent} type="text"/>)}
+  ```
 
 
 
@@ -278,6 +305,20 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 箭头函数不能使用yield关键字，因为它不是生成器函数
 
 15: `...`: ES6的扩展运算符，用于取出参数对象的所有可遍历属性，然后拷贝到当前对象之中。
+
+16: `event.preventDefault()`: 取消事件的默认动作；如果event对象的cancelable属性是false，那么就没有默认动作或不能阻止默认动作，无论哪种情况，调用该方法都没有作用
+
+17. onchange事件
+* 只在表单元素的焦点离开时触发
+* 对于单选框和复选框来说，只有当用户点击了一个不同的选项时，才会触发onchange事件
+* 对于select元素，只有当用户点击下拉列表并选择一个选项时，才会触发onchange事件。如果用户点击下拉列表但并没有选择任何选项，onchange事件不会触发
+
+
+
+
+
+
+
 
 ## 遇见问题
 

@@ -12,7 +12,7 @@
 
 * **2023.12.12 火曜日:** 
   * React介绍 13:55-15:00
-  * React组件 15:55-
+  * React组件 15:55-18:15
   * React组件生命周期A 
   * React组件生命周期B 
   * React-diffing算法 
@@ -181,24 +181,39 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ```JavaScript
     myFunc = () => {
       const {myInput} = this
-      ...}
+      alert(myInput.value)}
     render(){return(<input onBlur={this.myFunc} ref="myInput" type="text"/>)}
     ```
     * 回调形式：
     ```JavaScript
     myFunc = () => {
       const {myInput} = this
-      ...}
+      alert(myInput.value)}
     render(){return(<input onBlur={this.myFunc} ref={c=>this.myInput=...} type="text"/>)}
     ```
     * createRef形式：
     ```JavaScript
     myRef = React.createRef() //创建ref容器
     myFunc = () => {
-      ...}
+      alert(this.myRef.current.value);}
     render(){return(<input onBlur={this.myFunc} ref={this.myRef} type="text"/>)}
     ```
-    * 事件对象：建议不要过度的使用ref，如果发生事件的元素刚好是需要操作的元素，就可以使用事件对象(event)去替代
+    * 事件处理：建议不要过度的使用ref，如果发生事件的元素刚好是需要操作的元素，就可以使用事件对象(event)去替代
+    ```JavaScript
+    myRef = React.createRef() //创建ref容器
+    myFunc = (event) => {
+      alert(event.target.value);}
+    render(){return(<input onBlur={this.myFunc} ref={this.myRef} type="text"/>)}
+    ```
+
+**12. React组件生命周期A**
+
+
+
+
+
+
+
 
 
 

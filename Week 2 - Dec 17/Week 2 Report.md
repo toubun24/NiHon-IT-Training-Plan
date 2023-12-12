@@ -10,13 +10,15 @@
   * React搭建与代码使用 22:40-24:00
   * *软件工程师常用日本语 P1-P4*
 
-* **2023.12.12 火曜日:** 
+* **2023.12.12 火曜日:** 7h50min
   * React介绍 13:55-15:00
   * React组件 15:55-18:15
   * React组件生命周期A 20:35-21:50
   * React组件生命周期B 21:50-22:25
   * React-diffing算法 23:00-23:40
-  * React脚手架介绍 
+  * React脚手架介绍 23:45-00:40
+
+* **2023.12.13 水曜日:** 
   * React脚手架ToDoList案例A 
   * React脚手架ToDoList案例B 
   * React脚手架配置代理 
@@ -301,13 +303,34 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
       render(){return(<ul>{this.state.XXX.map((XXX) => {return <li key={XXX.xxx}>{XXX.xxx}<input type="text"/></li>})}</ul>)}
       ```
 
-
-
-
-
-
-
-
+**18. React 脚手架**
+* __, 启动!
+  * 安装：`npm i create-react-app -g`
+  * 快速搭建项目：`create-react-app hello-react`
+  * 启动项目：`npm start`
+* 脚手架项目结构
+  ```
+  hello-react
+  ├─ .gitignore               // 自动创建本地仓库
+  ├─ package.json             // 相关配置文件
+  ├─ public                   // 公共资源
+  │  ├─ favicon.ico           // 浏览器顶部的icon图标
+  │  ├─ index.html            // 应用的 index.html入口
+  │  ├─ logo192.png           // 在 manifest 中使用的logo图
+  │  ├─ logo512.png           // 同上
+  │  ├─ manifest.json         // 应用加壳的配置文件
+  │  └─ robots.txt            // 爬虫协议文件
+  ├─ src                      // 源码目录
+  │  ├─ App.css               // App组件的样式
+  │  ├─ App.js                // App组件
+  │  ├─ App.test.js           // 用于给APP做测试
+  │  ├─ index.css             // 样式
+  │  ├─ index.js              // 入口文件
+  │  ├─ logo.svg              // logo图
+  │  ├─ reportWebVitals.js    // 页面性能分析文件(需要web-vitals库的支持)
+  │  └─ setupTests.js         // 组件单元测试文件(需要jest-dom库的支持)
+  └─ yarn.lock                // 包管理工具
+  ```
 
 
 
@@ -411,6 +434,44 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * hooks不能使用在if语句和for语句中，来保持hooks按顺序执行
 * [未读](https://www.jianshu.com/p/76901410645a/)
 * [未读](https://zhuanlan.zhihu.com/p/597987053)
+
+21. SPA: single page web application, 单页Web应用
+* 是一种网页应用或网站的设计模式，它在浏览器中仅加载一个HTML页面，并动态地更新该页面，而不是为每个新页面加载新的HTML。这使得应用能够与用户交互，无需重新加载整个页面
+* 主要特点
+  * 动态重写：SPA 在用户与应用交互时动态地重写当前页面，而不是加载新页面
+  * 速度：由于大部分资源（如 HTML、CSS、JavaScript）只加载一次，因此 SPA 通常比传统的多页应用有更快的响应
+  * 浏览器历史记录：虽然 SPA 只有一个页面，但它们可以使用浏览器的历史API来创建可导航的  * URL，使用户可以使用浏览器的前进和后退按钮
+  * 与后端交互：SPA 通常会与后端的 Web API 进行数据交互，获取所需的数据并更新视图
+  * 前端路由：SPA 使用前端路由来管理应用中的不同视图，而不是依赖服务器端的路由
+
+22. 安装React包的诸多问题参考
+* 下载开始后没有变化，显示为`idealTree:npm: sill idealTree buildDeps`
+* [参考链接](https://blog.csdn.net/weixin_38203411/article/details/128812182)
+* Windows下CMD可以记得以管理员身份启动，但我这里不是这个问题；通过将node的仓库地址改成淘宝镜像的仓库地址后成功下载
+
+23. 加壳
+* 全称是可执行程序资源压缩，压缩后的程序可以直接运行
+* 另一种常用的方式是在二进制的程序中植入一段代码，在运行的时候优先取得程序的控制权，之后再把控制权交还给原始代码，这样做的目的是隐藏程序真正的OEP（入口点，防止被破解）。大多数病毒就是基于此原理
+* 加壳的程序需要阻止外部程序或软件对加壳程序本身的反汇编分析或者动态分析，以达到保护壳内原始程序以及软件不被外部程序破坏，保证原始程序正常运行。这种技术也常用来保护软件版权，防止软件被破解。但对于病毒，加壳可以绕过一些杀毒软件的扫描，从而实现它作为病毒的一些入侵或破坏的一些特性
+* 应用加壳时的配置文件：`<link rel="manifest" href="%PUBLIC_URL%/manifest.json" />`
+
+24. 严格模式(strict mode)
+* 目的
+  * 消除 JavaScript 语法的一些不合理、不严谨之处，减少一些怪异行为;
+  * 消除代码运行的一些不安全之处，保证代码运行的安全；
+  * 提高编译器效率，增加运行速度；
+  * 为未来新版本的 JavaScript 做好铺垫
+* 开启：'use strict'
+  ```
+  root.render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+  ```
+
+
+
 
 
 

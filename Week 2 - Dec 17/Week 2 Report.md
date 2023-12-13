@@ -389,7 +389,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
       4. `target`属性：用于配置转发目标地址，也就是我们数据的地址
       5. `changeOrigin`属性：用于控制服务器收到的请求头中`host`字段，可以理解为一个伪装效果，为`true`时，收到的`host`就为请求数据的地址
       6. `pathRewrite`属性：用于去除请求前缀
-      ```
+      ```JavaScript
       const { createProxyMiddleware } = require('http-proxy-middleware');
       module.exports = function(app) {
       app.use("/api",createProxyMiddleware({

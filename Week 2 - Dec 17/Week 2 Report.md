@@ -24,7 +24,7 @@
   * React脚手架ToDoList案例B 16:10-18:05
   * React脚手架配置代理 18:05-18:30
   * React_Github案例 20:00-20:55
-  * React消息订阅与发布 21:15-
+  * React消息订阅与发布 21:15-22:05
   * React路由组件传参
   * React路由跳转
   * React_antd组件库

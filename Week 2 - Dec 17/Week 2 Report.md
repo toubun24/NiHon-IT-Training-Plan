@@ -21,7 +21,7 @@
 * **2023.12.13 水曜日:** 
   * React脚手架简单使用 10:35-11:50
   * React脚手架ToDoList案例A 12:20-13:05
-  * React脚手架ToDoList案例B 
+  * React脚手架ToDoList案例B 16:10-18:05
   * React脚手架配置代理 
   * React_Github案例 
 
@@ -344,18 +344,39 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     然后我们将每个组件，对应的HTML结构CV到对应组件的`index.jsx`文件中`return`出来，再将CSS样式添加到`index.css`文件中。注意，在`index.jsx`中一定要引入`index.css`文件。
   3. 实现动态组件
      1. 动态展示列表
+        * 对于复选框的选中状态，这里采用的是`defaultChecked = {done}`，相比于checked属性，这个设定的是默认值，能够更改
      2. 添加事项功能
         * 保证id的唯一性：`import { nanoid } from 'nanoid';`后`nanoid()`，每一次调用都会返回一个唯一的值
         * 回车键触发：`if(keyCode != 13) return`
         * 判断去除空格后非空：`if(target.value.trim() === '') return`, 其中`trim()`方法去除了左右空格，`===`要求数据的值和数据类型都要完全一样才返回true
-     5. 实现鼠标悬浮效果
-     6. 复选框状态维护
-     7. 限制参数类型
-     8. 删除按钮
-     9. 获取完成数量
-     10. 全选按钮
-     11. 删除已完成
+        * 以目前的知识，兄弟组件没有办法进行直接的数据传递，因此可以将数据传递给父组件再由父组件转发给兄弟组件
+     3. 实现鼠标悬浮效果
+     4. 复选框状态维护
+     5. 限制参数类型
+     6. 删除按钮
+     7. 获取完成数量
+     8. 全选按钮
+        * 使用`checked`全程受状态控制，不可以切换；使用`defaultchecked`只在初始渲染时由状态控制，之后更新不再跟状态有关系
+        * `defaulChecked`只有第一次会起作用，所以我们需要将前面写的改成`checked`添加`onChange`事件即可
+     9. 删除已完成
   5. 总结
+     * 父组件给子组件传递数据，采用`props`
+     * 子组件给父组件传递数据，通过`props`，同时提前给子组件传递一个函数
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -492,14 +513,18 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * Simple React Snippets: 提供了一组精心挑选的React代码片段，可以通过输入几个字母轻松地将其添加到代码中，如输入`imr`会将React导入到组件中
 * ES7+ React/Redux/React-Native snippets: 提供了许多速记前缀来加速开发并帮助开发人员为React、Redux和React Native创建代码片段和语法
 
-24. Chrome插件：
+24. Chrome插件
 * React Developer Tools: 开发者工具审查React组件的浏览器扩展
 
+24. React解构(`const { xxx, xxx } = this.props`)
+* JavaScript的一个特性，它用于从数组或对象中取出部分数据，我们可以将它们分配给开发人员创建的新变量
+* 在解构中，它不会改变数组或任何对象，它通过将所需的对象或数组元素分配给自己的新变量来复制所需的对象或数组元素，稍后我们可以在React(类或函数)中使用这个新变量组件
+* 它使代码更清晰。当我们使用`this`关键字访问`props`时，我们必须在整个程序中使用`this/this.props`，但是通过使用重组，我们可以丢弃`this/this.props` 通过将它们分配到新变量中
+* 这很难在复杂的应用程序中监控`props`，因此通过将这些`props`分配到新的自己的变量中，我们可以使代码更具可读性
+* 使用提取方法：Destructuring中提取的值很多时候都不存在了，那么在这种情况下我们可以使用 Destructuring 的默认行为，在这种情况下，对Destructuring新声明的属性应用一个默认值，未定义则将其设置为true
+* 使用Re-assigning方法：可以使用不是被解构属性的副本的变量名。这是通过重新分配来实现的
 
-
-
-
-
+25. `className="btn btn-danger"`: 弹出框和警告框插件
 
 
 

@@ -19,6 +19,7 @@
   * React脚手架介绍 23:45-00:40
 
 * **2023.12.13 水曜日:** 
+  * React脚手架简单使用 10:35-11:50
   * React脚手架ToDoList案例A 
   * React脚手架ToDoList案例B 
   * React脚手架配置代理 
@@ -332,7 +333,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   └─ yarn.lock                // 包管理工具
   ```
 
-
+**18. React 脚手架简单使用**
 
 
 
@@ -470,12 +471,14 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   );
   ```
 
+24. VS Code插件
+* JS JSX Snippets: React快捷输入，例如输入rcc，快速创建类组件
+* Auto Import - ES6, TS, JSX, TSX: 自动导入
+* Simple React Snippets: 提供了一组精心挑选的React代码片段，可以通过输入几个字母轻松地将其添加到代码中，如输入`imr`会将React导入到组件中
+* ES7+ React/Redux/React-Native snippets: 提供了许多速记前缀来加速开发并帮助开发人员为React、Redux和React Native创建代码片段和语法
 
-
-
-
-
-
+24. Chrome插件：
+* React Developer Tools: 开发者工具审查React组件的浏览器扩展
 
 
 
@@ -493,6 +496,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 从JSTL开始到AJAX，都有点晕，具体某条代码什么的跟着视频走好像也就那回事，但不知道这些代码是在什么情况下使用、整体的框架是什么样子的，后面好像还有Axios和Promise作为React的前置知识，按我个人的学习习惯，打算先把这一系列前置内容快速过一遍，不去追求完全搞懂先，然后到了正式的React如果发现有需要弥补的，或者后续哪项内容又开始用到前面这一系列知识时，首先框架和用法就能清晰许多，其次再去回看具体的知识点应该就行【后续补充：果然从React开始又基本从零开始讲解起来了，就看后面什么时候再遇到这些内容了】
 
 * 05_github案例_pubsub-src报错：`Request failed with status code 504`，网关超时错误，已确认端口按视频中的修改为5001；VPN方面开启或关闭均不影响此报错；控制台信息为`index.jsx:10 GET http://localhost:3000/api/search/users?q=... 504 (Gateway Timeout)`，打算暂时搁置，把这部分差不多学完再尝试解决，如果不再涉及相关内容则再直接咨询
+
+* React脚手架简单使用示例中控制台警告：Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot. printWarning @ react-dom.development.js:86. 应该是现在的React版本相比视频中的又进行了更新，`ReactDOM.render`在新版中似乎不再被支持了，而应使用`createRoot`，否则将视为依然在React 17下运行。那只要不报错就暂时就先继续按照课件格式写，免得学习过程中遇到什么奇怪的bug好了，熟悉一点之后再对新版语法进行尝试，应该不会太麻烦
 
 
 ## 下周计划

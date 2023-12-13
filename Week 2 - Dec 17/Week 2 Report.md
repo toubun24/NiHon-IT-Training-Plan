@@ -23,7 +23,7 @@
   * React脚手架ToDoList案例A 12:20-13:05
   * React脚手架ToDoList案例B 16:10-18:05
   * React脚手架配置代理 18:05-18:30
-  * React_Github案例 
+  * React_Github案例 20:00-
 
 ## 学习笔记
 
@@ -401,10 +401,21 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
       }))
       ```
 
-
-
-
-
+**21. React_Github案例**
+1. 实现静态组件
+  * class需要改成`className`
+  * style的值需要使用双花括号的形式
+  * `img`标签，一定要添加`alt`属性表示图片加载失败时的提示
+  * 'a'标签(超链接)要添加`rel="noreferrer"`属性，不然会有大量的警告出现
+2. axios发送请求
+  > `<input ref={c => this.keyWordElement = c} type="text" />`: 通过`this.keyWordElement`属性来获取到这个当前节点，也就是这个`input`框 \
+  > `const { keyWordElement: { value: keyWord } } = this`: 再通过`value`值，即可获取到当前`input`框中的值
+3. 渲染数据
+4. 增加交互
+  > `isFrist`来判断页面是否第一次启动，初始值给`true`，点击搜索后改为`false` \
+  > `isLoading`来判断是否应该显示`Loading`动画，初始值给`false`，在点击搜索后改为`true`，在拿到数据后改为`false` \
+  > `err`来判断是否渲染错误信息，当报错时填入报错信息，初始值给空 \
+  `state = { users: [], isFirst: true, isLoading: false, err: '' }`
 
 
 
@@ -565,7 +576,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 * 从JSTL开始到AJAX，都有点晕，具体某条代码什么的跟着视频走好像也就那回事，但不知道这些代码是在什么情况下使用、整体的框架是什么样子的，后面好像还有Axios和Promise作为React的前置知识，按我个人的学习习惯，打算先把这一系列前置内容快速过一遍，不去追求完全搞懂先，然后到了正式的React如果发现有需要弥补的，或者后续哪项内容又开始用到前面这一系列知识时，首先框架和用法就能清晰许多，其次再去回看具体的知识点应该就行【后续补充：果然从React开始又基本从零开始讲解起来了，就看后面什么时候再遇到这些内容了】
 
-* 05_github案例_pubsub-src报错：`Request failed with status code 504`，网关超时错误，已确认端口按视频中的修改为5001；VPN方面开启或关闭均不影响此报错；控制台信息为`index.jsx:10 GET http://localhost:3000/api/search/users?q=... 504 (Gateway Timeout)`，打算暂时搁置，把这部分差不多学完再尝试解决，如果不再涉及相关内容则再直接咨询
+* 05_github案例_pubsub-src报错：`Request failed with status code 504`，网关超时错误，已确认端口按视频中的修改为5001；VPN方面开启或关闭，全局代理或规则代理，均不影响此报错；控制台信息为`index.jsx:10 GET http://localhost:3000/api/search/users?q=... 504 (Gateway Timeout)`；打算暂时搁置，把这部分差不多学完再尝试解决，如果不再涉及相关内容则再直接咨询【后续补充：VSCode终端显示信息为`[HPM] Error occurred while proxying request localhost:3000/search/users?q=yyx to http://127.0.0.1:5001/ [ECONNREFUSED] (https://nodejs.org/api/errors.html#errors_common_system_errors)`；尝试搜索预设的用户名依然如此，应该不是VPN问题；[参考链接](https://blog.csdn.net/weixin_44018654/article/details/123775968)，也有可能是node版本导致的问题】
 
 * React脚手架简单使用示例中控制台警告：Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot. printWarning @ react-dom.development.js:86. 应该是现在的React版本相比视频中的又进行了更新，`ReactDOM.render`在新版中似乎不再被支持了，而应使用`createRoot`，否则将视为依然在React 17下运行。那只要不报错就暂时就先继续按照课件格式写，免得学习过程中遇到什么奇怪的bug好了，熟悉一点之后再对新版语法进行尝试，应该不会太麻烦
 

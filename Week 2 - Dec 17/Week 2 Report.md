@@ -20,7 +20,7 @@
 
 * **2023.12.13 水曜日:** 
   * React脚手架简单使用 10:35-11:50
-  * React脚手架ToDoList案例A 
+  * React脚手架ToDoList案例A 12:20-13:05
   * React脚手架ToDoList案例B 
   * React脚手架配置代理 
   * React_Github案例 
@@ -333,14 +333,29 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   └─ yarn.lock                // 包管理工具
   ```
 
-**18. React 脚手架简单使用**
-
-
-
-
-
-
-
+**18. React 脚手架ToDoList案例**
+  1. 拆分组件
+  2. 实现静态组件
+    * 打好注释
+    * 每个部分的CSS要写在一个地方，不要随意写
+    * 命名一定要规范
+    * CSS 选择器不要关联太多层级
+    * 在写 HTML 时就要划分好布局
+    然后我们将每个组件，对应的HTML结构CV到对应组件的`index.jsx`文件中`return`出来，再将CSS样式添加到`index.css`文件中。注意，在`index.jsx`中一定要引入`index.css`文件。
+  3. 实现动态组件
+     1. 动态展示列表
+     2. 添加事项功能
+        * 保证id的唯一性：`import { nanoid } from 'nanoid';`后`nanoid()`，每一次调用都会返回一个唯一的值
+        * 回车键触发：`if(keyCode != 13) return`
+        * 判断去除空格后非空：`if(target.value.trim() === '') return`, 其中`trim()`方法去除了左右空格，`===`要求数据的值和数据类型都要完全一样才返回true
+     5. 实现鼠标悬浮效果
+     6. 复选框状态维护
+     7. 限制参数类型
+     8. 删除按钮
+     9. 获取完成数量
+     10. 全选按钮
+     11. 删除已完成
+  5. 总结
 
 
 

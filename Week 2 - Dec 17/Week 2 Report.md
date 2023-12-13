@@ -450,14 +450,31 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 **22. React消息订阅与发布**
 * 利用消息订阅与发布机制来解决兄弟组件间的通信
-1. 引入库：`import PubSub from 'pubsub-js'`
-2. 订阅消息：`PubSub.subscribe('search',(msg,data)=>{console.log(msg,data);})`
-3. 发布消息：`PubSub.publish('search',{name:'tom',age:18})`
-
-
-
-
-
+1. 安装库：`npm i pubsub-js`
+2. 引入库：`import PubSub from 'pubsub-js'`
+3. 订阅消息：`PubSub.subscribe('search',(msg,data)=>{console.log(msg,data);})`；subscribe会返回一个token，这个就类似于定时器的编号的存在，我们可以通过这个token值，来取消对应的订阅：`  PubSub.unsubscribe(this.token)`
+4. 发布消息：`PubSub.publish('search',{name:'tom',age:18})`
+* 扩展—Fetch发送请求
+  ```JavaScript
+    fetch('http://xxx')
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(err => console.log('Request Failed', err));
+  ```
+  fetch 关注分离(Separation of Concerns)，它在第一次请求时，不会直接返回数据，会先返回联系服务器的状态，在第二步中才能够获取到数据。我们需要在第一次`then`中返回`response.json()`因为这个返回的是包含数据的 promise 对象，再调用一次`then`方法即可实现。但是这么多次的调用`then`并不是我们所期望的。所以可以利用`async`和`await`配合使用，来简化代码
+  ```JavaScript
+    search = async() => {
+      const {keywordelement:{value:keyword}} = this
+      PubSub.publish('lvjiahao',{isFirst:false,isLoading:true})
+      try {
+          const response = await fetch(`/api/search/users?q=${keyword}`)
+          const data = await response.json()
+          PubSub.publish('lvjiahao',{isLoading:false,users:data.items})
+      } catch (error) {
+          PubSub.publish('lvjiahao',{isLoading:false,err:error.reason})
+      }
+    }
+  ```
 
 
 
@@ -605,7 +622,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 25. `className="btn btn-danger"`: 弹出框和警告框插件
 
-
+26. `npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
 
 

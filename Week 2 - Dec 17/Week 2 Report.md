@@ -22,7 +22,7 @@
   * React脚手架简单使用 10:35-11:50
   * React脚手架ToDoList案例A 12:20-13:05
   * React脚手架ToDoList案例B 16:10-18:05
-  * React脚手架配置代理 
+  * React脚手架配置代理 18:05-18:30
   * React_Github案例 
 
 ## 学习笔记
@@ -93,6 +93,15 @@
 
 **6. AJAX**
 * ASynchronous JavaScript And XML: 异步的JavaScript和XML
+* 跨域：因为浏览器使用了同源策略，一个网页向另一个不同域名/不同协议/不同端口的网页请求资源
+* 同源策略：同源策略是浏览器最核心也最基本的安全功能，如果缺少同源策略，浏览器的正常功能可能受到影响。可以说web是构建在同源策略的基础之上的，浏览器只是针对同源策略的一种实现
+* 跨域的五个解决方式:
+  * 前端使用jsonp(不推荐使用)
+  * 后台Http请求转发
+  * 后台配置同源Cors(推荐)
+  * 使用SpringCloud网关
+  * 使用nginx做转发(推荐)
+
 https://github.com/warrenlucky/zerostart/blob/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/AJAX%26JSON.adoc
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/AJAX%E5%AE%8C%E6%95%B4.adoc
 
@@ -333,7 +342,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   └─ yarn.lock                // 包管理工具
   ```
 
-**18. React 脚手架ToDoList案例**
+**19. React 脚手架ToDoList案例**
   1. 拆分组件
   2. 实现静态组件
     * 打好注释
@@ -363,14 +372,34 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
      * 父组件给子组件传递数据，采用`props`
      * 子组件给父组件传递数据，通过`props`，同时提前给子组件传递一个函数
 
-
-
-
-
-
-
-
-
+**20. React脚手架配置代理**
+* React本身只关注于页面，并不包含发送Ajax请求的代码，所以一般都是集成第三方的包，或者自己封装的。自己封装的话，比较麻烦，而且也可能考虑不全。常用的有两个库，一个是JQuery，一个是axios
+  * JQuery比较重，因为Ajax服务也只是它这个库里的一小块功能，它主要做的还是DOM操作，而这不利于React，不推荐使用
+  * axios就比较轻，而且采用Promise风格，代码的逻辑会相对清晰，推荐使用
+* 配置代理方式解决跨域问题
+  * **全局代理**
+    * 直接将代理配置在配置文件`package.json`中，如`"proxy":"http://localhost:5000" // "proxy":"请求的地址"`
+    * 这样配置代理时，首先会在原请求地址上访问，如果访问不到文件，就会转发到这里配置的地址上去请求
+    * 但是这样会有一些问题，它会先向我们请求的地址，也就是这里的 3000 端口下请求数据，如果在 3000 端口中存在我们需要访问的文件，会直接返回，不会再去转发，因此这就会出现问题；同时因为这种方式采用的是全局配置的关系，导致只能转发到一个地址，不能配置多个代理
+  * **setupProxy方式**
+    * 可以给多个请求配置代理；工作原理和全局配置是一样的，但是写法不同
+      1. 首先需要在src目录下，创建代理配置文件`setupProxy.js`(只能叫这个名字)
+      2. 引入`http-proxy-middleware`中间件，然后需要导出一个对象，这里建议使用函数，使用对象的话兼容性不大好
+      3. 在`app.use`中配置我们的代理规则；接收的第一个参数是需要转发的请求，当有这个标志的时候，预示着我们需要采用代理，所有添加了该前缀的请求都会转发到这
+      4. `target`属性：用于配置转发目标地址，也就是我们数据的地址
+      5. `changeOrigin`属性：用于控制服务器收到的请求头中`host`字段，可以理解为一个伪装效果，为`true`时，收到的`host`就为请求数据的地址
+      6. `pathRewrite`属性：用于去除请求前缀
+      ```
+      const { createProxyMiddleware } = require('http-proxy-middleware');
+      module.exports = function(app) {
+      app.use("/api",createProxyMiddleware({
+          target:'http://127.0.0.1:5001', //配置转发目标地址
+          changeOrigin:true, //控制服务器接收到的请求头中host字段的值
+          pathRewrite:{
+              "^/api":""     //去除请求前缀址(必须配置)
+          }
+      }))
+      ```
 
 
 
@@ -526,7 +555,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 25. `className="btn btn-danger"`: 弹出框和警告框插件
 
-
+26. 跨域
+    
 
 
 ## 遇见问题

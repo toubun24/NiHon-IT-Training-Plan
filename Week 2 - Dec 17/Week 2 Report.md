@@ -528,7 +528,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * 提高编译器效率，增加运行速度；
   * 为未来新版本的 JavaScript 做好铺垫
 * 开启：'use strict'
-  ```
+  ```JavaScript
   root.render(
     <React.StrictMode>
       <App />

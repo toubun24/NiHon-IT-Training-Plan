@@ -650,8 +650,6 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 25. `className="btn btn-danger"`: 弹出框和警告框插件
 
-26. `npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
-
 
 
 
@@ -672,5 +670,6 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 * React脚手架简单使用示例中控制台警告：Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot. printWarning @ react-dom.development.js:86. 应该是现在的React版本相比视频中的又进行了更新，`ReactDOM.render`在新版中似乎不再被支持了，而应使用`createRoot`，否则将视为依然在React 17下运行。那只要不报错就暂时就先继续按照课件格式写，免得学习过程中遇到什么奇怪的bug好了，熟悉一点之后再对新版语法进行尝试，应该不会太麻烦
 
+* `npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
 ## 下周计划

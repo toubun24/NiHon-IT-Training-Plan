@@ -25,23 +25,24 @@
   * React脚手架配置代理 18:05-18:30
   * React_Github案例 20:00-20:55
   * React消息订阅与发布 21:15-22:05
-  * React路由组件传参
-  * React路由跳转
-  * React_antd组件库
-  * React_redux基本使用
-  * React数据共享
-  * React前半部分总结
-  * React富文本渲染+轮播图案例
-  * React Hooks补充
-  * Redux持久化储存
-  * Mobx状态管理
-  * TS基本语法
-  * 样式化组件与单元测试
-  * Redux-Saga
-  * React传送门与引用传递
-  * GraphQL
-  * DvaJS
-  * UmiJS
+  * React路由组件基本使用 22:35-23:15
+  * React路由组件传参 
+  * React路由跳转 
+  * React_antd组件库 
+  * React_redux基本使用 
+  * React数据共享 
+  * React前半部分总结 
+  * React富文本渲染+轮播图案例 
+  * React Hooks补充 
+  * Redux持久化储存 
+  * Mobx状态管理 
+  * TS基本语法 
+  * 样式化组件与单元测试 
+  * Redux-Saga 
+  * React传送门与引用传递 
+  * GraphQL 
+  * DvaJS 
+  * UmiJS 
 
 ## 学习笔记
 
@@ -475,6 +476,33 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
       }
     }
   ```
+
+**23. React路由组件基本使用 (V6)**
+* SPA: 单页应用程序。它比传统的Web应用程序更快，因为它们在Web浏览器本身而不是在服务器上执行逻辑。在初始页面加载后，只有数据来回发送，而不是整个HTML，这会降低带宽。它们可以独立请求标记和数据，并直接在浏览器中呈现页面
+* 路由：根据不同的URL地址展示不同的内容或页面。在SPA应用中，大部分页面结果不改变，只改变部分内容的使用
+  * 前端路由的优点：用户体验好，不需要每次都从服务器全部获取整个HTML，快速展现给用户
+  * 前端路由的缺点：SPA无法记住之前页面滚动的位置，再次回到页面时无法记住滚动的位置；使用浏览器的前进和后退键会重新请求，没有合理利用缓存
+* 路由的原理：前端路由主要依靠history，也就是浏览器的历史记录，且历史记录上可以采用`listen`来监听请求路由的改变，从而判断是否改变路径；在H5中新增了`createBrowserHistory`的API，用于创建一个history栈，允许我们手动操作浏览器的历史记录；新增API：`pushState`，`replaceState`
+* 路由的基本使用
+  1. 引入库：`import { Link, BrowserRouter, Route } from 'react-router-dom'`
+  2. 导航区的a标签改为Link标签：`<Link className="list-group-item" to="/about">About</Link>`
+  3. Route标签进行路径的匹配：`<Route path='/home' element={<Home/>} />`
+  4. 添加路由器管理路由：`<BrowserRouter>< App /></BrowserRouter>`
+* 路由组件和一般组件
+  * 一般组件：`<Demo/>`，放在`components`文件夹
+  * 路由组件：`<Route path="/demo" element={<Demo/>}/>`，放在`pages`文件夹，且`props`为空
+* NavLink标签：
+  * 选中某个NavLink标签时，就会自动的在类上添加一个`active`属性：`<NavLink className={({isActive}) => "list-group-item" + (isActive ? " light" : "")} to="/about" >About</NavLink>`(注意`" light"`前的空格)
+* NavLink封装
+  * 新建一个`MyNavLink`一般组件，对`NavLink`进行封装：`<NavLink className={({isActive}) => "list-group-item" + (isActive ? " light" : "")} {...this.props}/>`，`<MyNavLink to="/home">home</MyNavLink>`
+
+
+
+
+
+
+
+
 
 
 

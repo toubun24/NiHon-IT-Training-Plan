@@ -24,7 +24,7 @@
   * React脚手架ToDoList案例B 16:10-18:05
   * React脚手架配置代理 18:05-18:30
   * React_Github案例 20:00-20:55
-  * React消息订阅与发布
+  * React消息订阅与发布 21:15-
   * React路由组件传参
   * React路由跳转
   * React_antd组件库
@@ -137,6 +137,19 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * pending: 未决定的
   * resolved/fullfilled: 成功，结果为value
   * rejected: 失败，结果为reason
+* async&await
+  * Promise: 异步
+  * await: 异步转同步
+    * 可以理解为是async wait的简写。await必须出现在async函数内部，不能单独使用
+    * 后面可以跟任何的JS表达式。虽然说await可以等很多类型的东西，但是它最主要的意图是用来等待Promise对象的状态被resolved。如果await的是promise对象会造成异步函数停止执行并且等待promise的解决,如果等的是正常的表达式则立即执行
+    * await右侧的表达式一般为promise对象, 但也可以是其它的值
+    * 如果表达式是promise对象, await返回的是promise成功的值
+    * 如果表达式是其它值, 直接将此值作为await的返回值
+    * 如果await的promise失败了, 就会抛出异常, 需要通过try…​catch捕获处理
+  * async: 同步转异步
+    * 方法体内部的某个表达式使用await修饰，那么这个方法体所属方法必须要用async修饰所以使用awit方法会自动升级为异步方法
+    * 函数的返回值为promise对象
+    * promise对象的结果由async函数执行的返回值决定
 
 https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%BD%AE%E7%9F%A5%E8%AF%86%E8%A1%A5%E5%85%85/Promise.adoc
 
@@ -435,10 +448,11 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   > `err`来判断是否渲染错误信息，当报错时填入报错信息，初始值给空 \
   `state = { users: [], isFirst: true, isLoading: false, err: '' }`
 
-
-
-
-
+**22. React消息订阅与发布**
+* 利用消息订阅与发布机制来解决兄弟组件间的通信
+1. 引入库：`import PubSub from 'pubsub-js'`
+2. 订阅消息：`PubSub.subscribe('search',(msg,data)=>{console.log(msg,data);})`
+3. 发布消息：`PubSub.publish('search',{name:'tom',age:18})`
 
 
 

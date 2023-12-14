@@ -32,6 +32,7 @@
   * React路由跳转 12:25-12:40
   * React_antd组件库 12:40-12:55
   * React_redux基本使用 13:05-13:40
+  * React-Redux基本使用
   * React数据共享 
   * React前半部分总结 
   * React富文本渲染+轮播图案例 
@@ -577,6 +578,16 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * **单向数据流:** UI组件→action→store→reducer→store
   * **state 只读:** 如果想要改变`state`，则需要触发一次`action`。通过`action`执行`reducer`
   * **纯函数执行:** 每一个`reducer`都是一个纯函数，不会有任何副作用，返回是一个新的 `state`，`state`改变会触发`store`中的`subscribe`
+
+**27. React-Redux基本使用**
+
+
+
+
+
+
+
+
 
 
 

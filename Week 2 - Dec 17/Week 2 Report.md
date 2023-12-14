@@ -27,14 +27,17 @@
   * React消息订阅与发布 21:15-22:05
   * React路由组件基本使用 22:35-23:15
 
-* **2023.12.14 木曜日:** 
+* **2023.12.14 木曜日:** 4h15min
   * React路由组件传参 11:15-12:05
   * React路由跳转 12:25-12:40
   * React_antd组件库 12:40-12:55
   * React_redux基本使用 13:05-13:40
   * React-Redux基本使用 17:35-18:00
   * React数据共享 18:05-18:30
-  * React前半部分总结 18:30-18:50 21:22
+  * React前半部分总结 18:30-18:50 00:05-01:15
+  * *软件工程师常用日本语 P5-P15*
+
+* **2023.12.15 金曜日:** 
   * React富文本渲染+轮播图案例 
   * React Hooks补充 
   * Redux持久化储存 
@@ -598,10 +601,50 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 项目打包：执行`npm run build`命令，即可打包项目，打包完成后，会生成一个`build`文件，这个文件我们需要部署到服务器上运行
 
 **29. React拓展**
-
-
-
-
+* **setState**
+  * React状态更新是异步的
+  * `setState`调用的第二个参数，可以接收一个函数，这个函数会在状态更新完毕并且界面更新之后调用
+  * 函数式的`setState`也是接收两个参数
+     * 第一个参数是`updater`，它是一个能够返回 stateChange 对象的函数
+     * 第二个参数是一个回调函数，用于在状态更新完毕，界面也更新之后调用
+     * 与对象式`setState`不同的是，我们传递的第一个参数`updater`可以接收到2个参数`state`和`props`
+   * 对象式的`setState`是函数式`setState`的语法糖
+* **LazyLoad**
+  * 从`react`库中暴露一个`lazy`函数：`import React, { Component ,lazy } from 'react'`
+  * loading包裹：`<Suspense fallback={<Loading/>}>... </Suspense>`，必须提前引入，不能懒加载
+* **Hooks**
+  * **useState**
+    * 函数式组件没有自己的`this`
+    * `const [state, setState] = React.useState(defaultValue)`: 初始值只有第一次有效；返回一个数组，第一个元素是`state`，第二个是更新`state`的函数
+  * **useEffect**
+    * 第一个参数的函数体相当于`componentDidMount`
+    * 第一个参数的返回体相当于`componentDidUnmount`
+    * 第二个参数表示它要监测的数据，也就是他要监视哪个数据的变化；当我们不需要监听任何状态变化的时候，可以传递一个空数组`, []`，相当于`componentMidMount`
+  * **useRef**
+    * 创建一个`ref`容器，这和`createRef`很类似
+* **Fragment**
+  * 内容能直接挂在`root`标签下
+  * 空标签也能实现，但是它不能接收任何值，而`Fragment`能够接收1个值`key`
+* **Context**
+  * 给子组件的子组件传递数据
+  * 在函数式组件中使用，需要引入`Consumer`
+* **PureComponent**
+  * 只有组件的`state`或者`props`数据发生改变的时候，再调用`render`
+  * `PureComponent`会对比当前对象和下一个状态的`prop`和`state`，属于浅比较，比较的是它的引用地址是否相同，这个比较与内容无关
+* **render props**
+  * 在组件标签中传入一个`render`方法，又属于`props`
+  * 当在一个组件标签中填写内容时，这个内容会被定义为`children props`，可以通过`this.props.children`来获取
+* **ErrorBoundary**
+  * 要对容易出错的组件的父组件做手脚，而不是组件本身
+  * 在父组件中通过`getDerivedStateFromError`来配置子组件出错时的处理函数
+    ```JavaScript
+    static getDerivedStateFromError(error) {
+      console.log(error);
+      return { hasError: error }
+    }
+    {this.state.hasErr ? <h3>当前网络错误，稍后再试</h3> : <Child/>}
+    ```
+  * 可以在`componentDidCatch`中统计错误次数
 
 
 
@@ -760,7 +803,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 29. 空标签`<></>`：用在React中，相当于标签的语法糖，表示一个DOM片段，可以在内存里创建一个DOM节点，但是并不在DOM模版上渲染，进而提升性能
 
-
+30. 语法糖(Syntactic sugar)：指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会
 
 
 

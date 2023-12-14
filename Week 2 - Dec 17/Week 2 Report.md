@@ -28,7 +28,7 @@
   * React路由组件基本使用 22:35-23:15
 
 * **2023.12.14 木曜日:** 
-  * React路由组件传参 
+  * React路由组件传参 11:15-12:05
   * React路由跳转 
   * React_antd组件库 
   * React_redux基本使用 
@@ -497,6 +497,37 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * 选中某个NavLink标签时，就会自动的在类上添加一个`active`属性：`<NavLink className={({isActive}) => "list-group-item" + (isActive ? " light" : "")} to="/about" >About</NavLink>`(注意`" light"`前的空格)
 * NavLink封装
   * 新建一个`MyNavLink`一般组件，对`NavLink`进行封装：`<NavLink className={({isActive}) => "list-group-item" + (isActive ? " light" : "")} {...this.props}/>`，`<MyNavLink to="/home">home</MyNavLink>`
+
+**23. React路由组件传参**
+* 相同路径问题：先从`react-router-dom`中暴露出`Switch`/`Routes`组件，再采用`Switch`(V5)/`Routes`(V6)组件进行包裹
+* 二级路由样式丢失
+  * 将样式引入的路径改成绝对路径`%PUBLIC_URL%`
+  * 引入样式文件时不带`.`
+  * 使用`HashRouter`
+* 路由的精准匹配和模糊匹配
+  * V6版本默认开启精准匹配
+  * 会根据先后顺序匹配路由；如果第一个没有匹配上，那就会失败
+  * 开启精准匹配采用的是`exact`来实现
+* 重定向路由
+  * 默认就能匹配到一个组件；页面找不到指定路径时，就会重定向
+  > V5: `<Redirect to="/about" />`
+  > V6: `<Route path='*' element={<Navigate to='/about'/>} />`
+* 嵌套路由
+* 传递参数
+  * **传递params参数**
+    * 通过将数据拼接在路由地址末尾来实现数据的传递：`<Link to={`detail/${MessageObj.id}/${MessageObj.title}`}>{MessageObj.title}</Link>`
+    * 在注册路由时，我们可以通过`:数据名`来接收数据：`<Route path='detail/:id/:title' element={<Detail/>}/>`
+    * 更改Detail组件为函数式组件，在`react-router-dom`中取出`useParams`
+  * **传递search参数**
+    * 在Link中采用`?`符号的方式来表示后面的为可用数据：`<Link to={`detail/?id=${MessageObj.id}&title=${MessageObj.title}`}>{MessageObj.title}</Link>`
+    * 更改Detail组件为函数式组件，在`react-router-dom`中取出`useSearchParams`
+  * **传递state参数**
+    * 需要在Link中注册跳转时，传递一个路由对象，包括一个跳转地址名，一个state数据，这样我们就可以在Detail组件中获取到这个传递的state数据：`<Link to='detail' state={{ id:MessageObj.id,title:MessageObj.title }}>{MessageObj.title}</Link>`
+    * 采用这种方式传递，无需声明接收，可以在Detail组件中的location对象下的state中取出我们所传递的数据：`const { id, title } = this.props.location.state`
+    * 解决清除缓存造成报错的问题，我们可以在获取不到数据的时候用空对象来替代，更改Detail组件为函数式组件，在`react-router-dom`中取出`useLocation`(`||{}`)
+
+
+
 
 
 

@@ -33,8 +33,8 @@
   * React_antd组件库 12:40-12:55
   * React_redux基本使用 13:05-13:40
   * React-Redux基本使用 17:35-18:00
-  * React数据共享 
-  * React前半部分总结 
+  * React数据共享 18:05-18:30
+  * React前半部分总结 18:30-18:50 21:22
   * React富文本渲染+轮播图案例 
   * React Hooks补充 
   * Redux持久化储存 
@@ -591,12 +591,13 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * `mapDispatchToProps`: 建立UI组件的参数到`store.dispacth`方法的映射
 * 完整开发
 
+**28. React数据共享**
+* 纯函数：不改变参数的函数，也就是说，传入的参数是不能被改变的；如果采用`push`或`unshift`等数组方法，原数组发生改变，也就是传入的参数会被改变
+* 利用对象的简写方法，将键名和键值同名，从而只写一个名即可
+* 合并`reducer`，我们可以将多个`reducer`文件写在一个`index`文件当中，需要采用`combineReducers`来合并
+* 项目打包：执行`npm run build`命令，即可打包项目，打包完成后，会生成一个`build`文件，这个文件我们需要部署到服务器上运行
 
-
-
-
-
-
+**29. React拓展**
 
 
 
@@ -757,7 +758,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 28. `className="btn btn-danger"`: 弹出框和警告框插件
 
-
+29. 空标签`<></>`：用在React中，相当于标签的语法糖，表示一个DOM片段，可以在内存里创建一个DOM节点，但是并不在DOM模版上渲染，进而提升性能
 
 
 

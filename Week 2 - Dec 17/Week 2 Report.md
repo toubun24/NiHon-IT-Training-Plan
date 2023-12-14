@@ -32,7 +32,7 @@
   * React路由跳转 12:25-12:40
   * React_antd组件库 12:40-12:55
   * React_redux基本使用 13:05-13:40
-  * React-Redux基本使用
+  * React-Redux基本使用 17:35-18:00
   * React数据共享 
   * React前半部分总结 
   * React富文本渲染+轮播图案例 
@@ -580,10 +580,16 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * **纯函数执行:** 每一个`reducer`都是一个纯函数，不会有任何副作用，返回是一个新的 `state`，`state`改变会触发`store`中的`subscribe`
 
 **27. React-Redux基本使用**
-
-
-
-
+* 容器组件和UI组件
+  * 所有的UI组件都需要有一个容器组件包裹
+  * 容器组件来负责和Redux打交道，可以随意使用Redux的API
+  * UI组件无任何Redux API
+  * 容器组件用于处理逻辑，UI组件只会负责渲染和交互，不处理逻辑
+* Provider: 把`Provider`注册在根部组件
+* connect
+  * `mapStateToProps`: 打通UI组件和容器组件间的状态传递
+  * `mapDispatchToProps`: 建立UI组件的参数到`store.dispacth`方法的映射
+* 完整开发
 
 
 

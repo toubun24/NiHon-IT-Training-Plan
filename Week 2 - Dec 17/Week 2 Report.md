@@ -564,7 +564,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     * 引入为count组件服务的reducer：`import countReducer from './count_reducer'`
     * 暴露`store`：`export default createStore(countReducer)`
     * 获取当前时刻的`store`：`const state = store.getState();`
-    * 通过`store`中的`dispatch`方法来派生一个`action`对象给`store`：`store.dispatch(`action对象`)`
+    * 通过`store`中的`dispatch`方法来派生一个`action`对象给`store`：`store.dispatch('action对象')`
     * 直接将`subscribe`函数用来监听整个`App`组件的变化：`store.subscribe(() => {ReactDOM.render( < App /> , document.getElementById('root'))})`
   * action
     * `action`是`store`中唯一的数据来源，通过调用`store.dispatch`将`action`传到 `store`：`export const createIncrementAction = data => ({type:INCREMENT,data})`会返回一个`action`对象
@@ -732,16 +732,16 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   );
   ```
 
-24. VS Code插件
+25. VS Code插件
 * JS JSX Snippets: React快捷输入，例如输入rcc，快速创建类组件
 * Auto Import - ES6, TS, JSX, TSX: 自动导入
 * Simple React Snippets: 提供了一组精心挑选的React代码片段，可以通过输入几个字母轻松地将其添加到代码中，如输入`imr`会将React导入到组件中
 * ES7+ React/Redux/React-Native snippets: 提供了许多速记前缀来加速开发并帮助开发人员为React、Redux和React Native创建代码片段和语法
 
-24. Chrome插件
+26. Chrome插件
 * React Developer Tools: 开发者工具审查React组件的浏览器扩展
 
-24. React解构(`const { xxx, xxx } = this.props`)
+27. React解构(`const { xxx, xxx } = this.props`)
 * JavaScript的一个特性，它用于从数组或对象中取出部分数据，我们可以将它们分配给开发人员创建的新变量
 * 在解构中，它不会改变数组或任何对象，它通过将所需的对象或数组元素分配给自己的新变量来复制所需的对象或数组元素，稍后我们可以在React(类或函数)中使用这个新变量组件
 * 它使代码更清晰。当我们使用`this`关键字访问`props`时，我们必须在整个程序中使用`this/this.props`，但是通过使用重组，我们可以丢弃`this/this.props` 通过将它们分配到新变量中
@@ -749,7 +749,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 使用提取方法：Destructuring中提取的值很多时候都不存在了，那么在这种情况下我们可以使用 Destructuring 的默认行为，在这种情况下，对Destructuring新声明的属性应用一个默认值，未定义则将其设置为true
 * 使用Re-assigning方法：可以使用不是被解构属性的副本的变量名。这是通过重新分配来实现的
 
-25. `className="btn btn-danger"`: 弹出框和警告框插件
+28. `className="btn btn-danger"`: 弹出框和警告框插件
 
 
 

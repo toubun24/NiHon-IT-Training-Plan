@@ -29,9 +29,9 @@
 
 * **2023.12.14 木曜日:** 
   * React路由组件传参 11:15-12:05
-  * React路由跳转 
-  * React_antd组件库 
-  * React_redux基本使用 
+  * React路由跳转 12:25-12:40
+  * React_antd组件库 12:40-12:55
+  * React_redux基本使用 13:05-13:40
   * React数据共享 
   * React前半部分总结 
   * React富文本渲染+轮播图案例 
@@ -525,6 +525,63 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     * 需要在Link中注册跳转时，传递一个路由对象，包括一个跳转地址名，一个state数据，这样我们就可以在Detail组件中获取到这个传递的state数据：`<Link to='detail' state={{ id:MessageObj.id,title:MessageObj.title }}>{MessageObj.title}</Link>`
     * 采用这种方式传递，无需声明接收，可以在Detail组件中的location对象下的state中取出我们所传递的数据：`const { id, title } = this.props.location.state`
     * 解决清除缓存造成报错的问题，我们可以在获取不到数据的时候用空对象来替代，更改Detail组件为函数式组件，在`react-router-dom`中取出`useLocation`(`||{}`)
+
+**24. React路由跳转**
+* 默认`push`；在需要开启的链接上加上`replace`: `<Link replace to='detail' state={{ id:MessageObj.id,title:MessageObj.title }}>{MessageObj.title}</Link>`
+编程式路由导航
+* 编程式路由导航
+  * 采用绑定事件的方式实现路由的跳转，在按钮上绑定一个`onClick`事件，当事件触发时，执行一个回调`replaceShow`
+  * `useNavigate`，在回调中，调用`navigate`实现模拟跳转和传递是否为`replace`模式：`const replaceShow = (id,title) => {navigate(`detail`,{state:{id,title},replace:true})}`
+* withRouter(V5)
+  * 只有路由组件才能获取到`history`对象
+  * V6调用`navigate`实现跳转
+    ```JavaScript
+    import { useNavigate } from 'react-router-dom'
+    <button onClick={() => navigate(-1)}>go back</button>
+    <button onClick={() => navigate(1)}>go forward</button>
+    ```
+* `BrowserRouter`和`HashRouter`的区别
+  * 它们的底层实现原理不一样
+    * `对于BrowserRouter`来说它使用的是React为它封装的history API，这里的history和浏览器中的history有所不同 通过操作这些API来实现路由的保存等操作，但是这些 API 是 H5 中提出的，因此不兼容IE9以下版本
+    * 对于`HashRouter`而言，它实现的原理是通过URL的哈希值。可以理解为是锚点跳转，因为锚点跳转会保存历史记录，从而让`HashRouter`有了相关的前进后退操作，`HashRouter`不会将`#`符号后面的内容请求。兼容性更好
+  * 地址栏的表现形式不一样
+    * `BrowserRouter`的路径中不包含`#`，例如`localhost:3000/demo/test`，更为美观
+    * `HashRouter`的路径中包含`#`，例如`localhost:3000/#/demo/test`
+  * 刷新后路由state参数改变
+    * 在`BrowserRouter`中，`state`保存在`history`对象中，刷新不会丢失
+    * `HashRouter`刷新会丢失`state`
+
+**25. React_antd组件库**
+* 在需要使用的文件下引入：`import { Button } from 'antd'`
+* 还需要引入antd的CSS文件：`@import '/node_modules/antd/dist/antd.less';`
+
+**26. React_redux基本使用**
+* Redux三个核心概念
+  * store
+    * 在`src`目录下的redux文件夹中新增一个`store.js`文件，在这个文件中，创建一个`store`对象，并暴露它
+    * `import { createStore } from "redux"`
+    * 引入为count组件服务的reducer：`import countReducer from './count_reducer'`
+    * 暴露`store`：`export default createStore(countReducer)`
+    * 获取当前时刻的`store`：`const state = store.getState();`
+    * 通过`store`中的`dispatch`方法来派生一个`action`对象给`store`：`store.dispatch(`action对象`)`
+    * 直接将`subscribe`函数用来监听整个`App`组件的变化：`store.subscribe(() => {ReactDOM.render( < App /> , document.getElementById('root'))})`
+  * action
+    * `action`是`store`中唯一的数据来源，通过调用`store.dispatch`将`action`传到 `store`：`export const createIncrementAction = data => ({type:INCREMENT,data})`会返回一个`action`对象
+  * reducer
+    * `reducer`会根据`action`的指示，对`state`进行对应的操作，然后返回操作后的`state`
+* 创建constant文件
+  * 在redux目录下创建，用于定义我们代码中常用的一些变量：` export const INCREMENT = 'increment'`
+* 实现异步action
+  * 如果需要实现传入函数，就引入中间件，在原生的`redux`中暴露出`applyMiddleware`中间件执行函数：`import thunk from 'redux-thunk'`并通过第二个参数传递`export default createStore(countReducer, applyMiddleware(thunk))`
+* Redux三大原则
+  * **单向数据流:** UI组件→action→store→reducer→store
+  * **state 只读:** 如果想要改变`state`，则需要触发一次`action`。通过`action`执行`reducer`
+  * **纯函数执行:** 每一个`reducer`都是一个纯函数，不会有任何副作用，返回是一个新的 `state`，`state`改变会触发`store`中的`subscribe`
+
+
+
+
+
 
 
 

@@ -807,9 +807,12 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 30. 语法糖(Syntactic sugar)：指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会
 
 31. React代码框架复习整理
-* App.css
-* App.jsx
+```JavaScript
+// App.css
+```
+
   ```JavaScript
+  // App.jsx
   import React, { Component } from 'react'
   import Xxx1 from './components/Xxx1' // Basic
   import Xxx2 from './components/Xxx2' // Basic

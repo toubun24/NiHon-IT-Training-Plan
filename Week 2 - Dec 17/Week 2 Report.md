@@ -37,9 +37,9 @@
   * React前半部分总结 18:30-18:50 00:05-01:15
   * *软件工程师常用日本语 P5-P15*
 
-* **2023.12.15 金曜日:** 
+* **2023.12.15 金曜日:** 8h05min
   * React富文本渲染+轮播图案例 13:30-13:45 14:35
-  * *复习整理* 13:45-15:50 16:35-18:35 19:45-22:20 23:15-
+  * *复习整理* 13:45-15:50 16:35-18:35 19:45-22:20 23:15-00:25
 
 * **2023.12.16 土曜日:** 
   * React Hooks补充
@@ -1019,7 +1019,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 37. 端口
 
-
+38. CSS `float`
 
 
 
@@ -1037,7 +1037,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 * 【已解决】`npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
-* 复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了【终端输出`src\components\Header\index.jsx
-  Line 14:20:  Expected '!==' and instead saw '!='`，才发现我本地的代码用的是`!=`而课件中是`!==`，已更正；其次是前面提到的`List/index.css`下的`.todo-empty`，经过测试就是没有用上，因为没有对应classname的标签存在，也不清楚原本是打算拿来干什么的了；但又发现另一个问题，我本地运行出来的item中的文字内容会随着行数从上到下依次进位（逐渐从左到右），整体排布就是个左上到右下斜着的状态，】
+* 【已解决】复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了【终端输出`src\components\Header\index.jsx
+  Line 14:20:  Expected '!==' and instead saw '!='`，才发现我本地的代码用的是`!=`而课件中是`!==`，已更正；其次是前面提到的`List/index.css`下的`.todo-empty`，经过测试就是没有用上，因为没有对应classname的标签存在，也不清楚原本是打算拿来干什么的了；但又发现另一个问题，我本地运行出来的item中的文字内容会随着行数从上到下依次进位（逐渐从左到右），整体排布就是个左上到右下斜着的状态；经测试，List组件中渲染return的`<item>`组件改为其他类型标签时不会出现缩进逐级增加的情况，考虑应该是Item相关的CSS设定出了问题；最终排查到问题出在Item下的index.css中的`li label`，删掉其中的`  float: left;`即可恢复正常，我以为是我本地代码错了，去网上找了份该项目的代码发现也是这样错着写的，只能先去拓展一下`float`参数再思考下为什么会引发这个问题了，放在拓展条目38】
 
 ## 下周计划

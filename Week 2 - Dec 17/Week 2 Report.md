@@ -1011,18 +1011,31 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 34. 连续解构赋值+重命名
 如果在jsx中写着`<input ref={c => this.keyWordElement = c} type="text" />`， 那么在获取输入值的时候，如果使用连续解构赋值+重命名的形式，就要这样获取:`const {keyWordElement:{value:keyWord}} = this`这时候获取到的`keyWord`就是用户输入的值
 
+35. `createProxyMiddleware`
+
+
+36. `localhost`
+
+
+37. 端口
+
+
+
+
+
+
 
 ## 遇见问题
 
 * .jsp文件运行：想测试[GitHub/zerostart/.../EL&JSTL](https://github.com/warrenlucky/zerostart/tree/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/code/EL%26JSTL)里存放的示例文件，但似乎需要配置服务器环境才能运行，比如Tomcat；先暂放一下，看后续课件有无用到
 
-* 从JSTL开始到AJAX，都有点晕，具体某条代码什么的跟着视频走好像也就那回事，但不知道这些代码是在什么情况下使用、整体的框架是什么样子的，后面好像还有Axios和Promise作为React的前置知识，按我个人的学习习惯，打算先把这一系列前置内容快速过一遍，不去追求完全搞懂先，然后到了正式的React如果发现有需要弥补的，或者后续哪项内容又开始用到前面这一系列知识时，首先框架和用法就能清晰许多，其次再去回看具体的知识点应该就行【后续补充：果然从React开始又基本从零开始讲解起来了，就看后面什么时候再遇到这些内容了】
+* 【已解决】从JSTL开始到AJAX，都有点晕，具体某条代码什么的跟着视频走好像也就那回事，但不知道这些代码是在什么情况下使用、整体的框架是什么样子的，后面好像还有Axios和Promise作为React的前置知识，按我个人的学习习惯，打算先把这一系列前置内容快速过一遍，不去追求完全搞懂先，然后到了正式的React如果发现有需要弥补的，或者后续哪项内容又开始用到前面这一系列知识时，首先框架和用法就能清晰许多，其次再去回看具体的知识点应该就行【后续补充：果然从React开始又基本从零开始讲解起来了，就看后面什么时候再遇到这些内容了】【已经见过很多次了，搞不清楚的时候翻回去重新看一下即可】
 
-* github相关案例报错：`Request failed with status code 504`，网关超时错误，已确认端口按视频中的修改为5001；VPN方面开启或关闭，全局代理或规则代理，均不影响此报错；控制台信息为`index.jsx:10 GET http://localhost:3000/api/search/users?q=... 504 (Gateway Timeout)`；打算暂时搁置，把这部分差不多学完再尝试解决，如果不再涉及相关内容则再直接咨询【后续补充：VSCode终端显示信息为`[HPM] Error occurred while proxying request localhost:3000/search/users?q=yyx to http://127.0.0.1:5001/ [ECONNREFUSED] (https://nodejs.org/api/errors.html#errors_common_system_errors)`；尝试搜索预设的用户名依然如此，应该不是VPN问题；[参考链接](https://blog.csdn.net/weixin_44018654/article/details/123775968)，也有可能是node版本导致的问题】【部分解决：04_github案例_axios-src下的setupProxy.js中，`target:'http://127.0.0.1:5001'`改为`target:'http://localhost:5001'`即可实现，就能访问真实服务器数据（包括我自己的账号）；但其他几个案例照这样则依然不行，其中06_github案例_fetch-src是搜索后不进行报错，下方组件直接变为空白，偶尔能看到loading，只有继续测试下找下问题了】【03_react配置代理-src案例经测试没有问题，能在终端进行正常返回值】
+* 【已解决】github相关案例报错：`Request failed with status code 504`，网关超时错误，已确认端口按视频中的修改为5001；VPN方面开启或关闭，全局代理或规则代理，均不影响此报错；控制台信息为`index.jsx:10 GET http://localhost:3000/api/search/users?q=... 504 (Gateway Timeout)`；打算暂时搁置，把这部分差不多学完再尝试解决，如果不再涉及相关内容则再直接咨询【后续补充：VSCode终端显示信息为`[HPM] Error occurred while proxying request localhost:3000/search/users?q=yyx to http://127.0.0.1:5001/ [ECONNREFUSED] (https://nodejs.org/api/errors.html#errors_common_system_errors)`；尝试搜索预设的用户名依然如此，应该不是VPN问题；[参考链接](https://blog.csdn.net/weixin_44018654/article/details/123775968)，也有可能是node版本导致的问题】【部分解决：04_github案例_axios-src下的setupProxy.js中，`target:'http://127.0.0.1:5001'`改为`target:'http://localhost:5001'`即可实现，就能访问真实服务器数据（包括我自己的账号）；但其他几个案例照这样则依然不行，其中06_github案例_fetch-src是搜索后不进行报错，下方组件直接变为空白，偶尔能看到loading，只有继续测试下找下问题了】【03_react配置代理-src案例经测试没有问题，能在终端进行正常返回值】【继续部分解决：06_github案例_fetch-src成功，也是`target:'http://127.0.0.1:5001'`改为`target:'http://localhost:5001'`，同时把所有的5001端口改为了5000端口；再次尝试发现5001端口又没问题了，重点还是改`target`，但我之前也已经试过很多次了改`target`值都是不行的，刚刚的几次尝试则都又可以了；04_github案例_axios-src也是同样的方式得到了解决，至此，4个与server.js相关的案例都测试成功，关于`target`的取值和端口相关问题的拓展将放至拓展部分的35，36和37条目中（一直对网络通信相关的知识不是特别擅长orz）】
 
 * React脚手架简单使用示例中控制台警告：Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot. printWarning @ react-dom.development.js:86. 应该是现在的React版本相比视频中的又进行了更新，`ReactDOM.render`在新版中似乎不再被支持了，而应使用`createRoot`，否则将视为依然在React 17下运行。那只要不报错就暂时就先继续按照课件格式写，免得学习过程中遇到什么奇怪的bug好了，熟悉一点之后再对新版语法进行尝试，应该不会太麻烦
 
-* `npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
+* 【已解决】`npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
 * 复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了
 

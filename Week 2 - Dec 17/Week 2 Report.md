@@ -989,4 +989,6 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 * `npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
+* 复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了
+
 ## 下周计划

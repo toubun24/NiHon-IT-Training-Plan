@@ -806,8 +806,65 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 30. 语法糖(Syntactic sugar)：指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会
 
+31. React代码框架复习整理
+* App.jsx
+  ```JavaScript
+  import React, { Component } from 'react'
+  import Xxx1 from './components/Xxx1' // Redux
+  import Xxx2 from './components/Xxx2' // Redux
+  import Xxx1 from './containers/Xxx1' // Redux
+  import Xxx2 from './containers/Xxx2' // Redux
+  export default class App extends Component {
+    render() {
+      return (
+        <div>
+            <Xxx1/>
+            <Xxx2/>
+        </div>
+      )
+    }
+  }
+  ```
 
 
+* index.js
+  ```JavaScript
+  import React from 'react'
+  import ReactDOM from 'react-dom'
+  import App from './App'
+  import {Provider} from 'react-redux' // Redux
+  import store from './redux/store' // Redux
+
+  ReactDOM.render(<App/>,document.getElementById('root')) // Basic
+  ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
+  ```
+
+* **(Basic) containers / (Redux) containers**
+  * **Xxx1**
+    * index.jsx
+
+  * **Xxx2**
+    * index.jsx
+
+
+* **(Redux) containers**
+  * **Xxx1**
+    * index.jsx
+
+  * **Xxx2**
+    * index.jsx
+
+
+* **(Redux) redux**
+  * constant.js
+  * store.js
+  * **actions**
+    * xxx1.js
+    * xxx2.js
+  * **reducers**
+    * xxx1.js
+    * xxx2.js
+    * index.js
 
     
 

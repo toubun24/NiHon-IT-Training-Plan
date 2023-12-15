@@ -811,105 +811,126 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 // App.css
 ```
 
-  ```JavaScript
-  // App.jsx
-  import React, { Component } from 'react'
-  import Xxx1 from './components/Xxx1' // Basic
-  import Xxx2 from './components/Xxx2' // Basic
-  import Xxx1 from './containers/Xxx1' // Redux
-  import Xxx2 from './containers/Xxx2' // Redux
-  import './App.css' // CSS
-  export default class App extends Component { // Format 1
-  class App extends Component { // Format 2
-    // State
-    state = {STATE:[
-      {id:'STATE_ID1',name:'STATE_NAME1',done:false},
-      {id:'STATE_ID2',name:'STATE_NAME2',done:true}
-    ]}
-    // State Function
-    STATE_APP_FUNCTION1 = (...) => { // No STATE_OBJECT
-    STATE_APP_FUNCTION2 = (STATE_OBJECT, ...) => { // STATE_OBJECT: id, name, done in STATE
-      const {STATE} = this.state
-      const NEW_STATE = ... // Type 1
-      const NEW_STATE = STATE.xxx((STATE) => {return {...}}) // Type 2
-      this.setState({STATE:NEW_STATE})
-    }
-    // Render
-    render() {
-      const {STATE} = this.state // State
-      return (
-        <div>
-            <Xxx1/> // Basic
-            <Xxx1 STATE_APP_FUNCTION1={this.STATE_APP_FUNCTION1}/> // APP Function Without State Object Input
-            <Xxx1 STATE={STATE} STATE_APP_FUNCTION2={this.STATE_APP_FUNCTION2}/> // APP Function With State Object Input
-            <Xxx2/>
-        </div>
-      )
-    }
+```JavaScript
+// App.jsx
+import React, { Component } from 'react'
+import Xxx1 from './components/Xxx1' // Basic
+import Xxx2 from './components/Xxx2' // Basic
+import Xxx1 from './containers/Xxx1' // Redux
+import Xxx2 from './containers/Xxx2' // Redux
+import './App.css' // CSS
+export default class App extends Component { // Format 1
+class App extends Component { // Format 2
+  // State
+  state = {STATE:[
+    {id:'STATE_ID1',name:'STATE_NAME1',done:false},
+    {id:'STATE_ID2',name:'STATE_NAME2',done:true}
+  ]}
+  // State Function
+  STATE_APP_FUNCTION1 = (...) => { // No STATE_OBJECT
+  STATE_APP_FUNCTION2 = (STATE_OBJECT, ...) => { // STATE_OBJECT: id, name, done in STATE
+    const {STATE} = this.state
+    const NEW_STATE = ... // Type 1
+    const NEW_STATE = STATE.xxx((STATE) => {return {...}}) // Type 2
+    this.setState({STATE:NEW_STATE})
   }
+  // Render
+  render() {
+    const {STATE} = this.state // State
+    return (
+      <div>
+          <Xxx1/> // Basic
+          <Xxx1 STATE_APP_FUNCTION1={this.STATE_APP_FUNCTION1}/> // APP Function Without State Object Input
+          <Xxx1 STATE={STATE} STATE_APP_FUNCTION2={this.STATE_APP_FUNCTION2}/> // APP Function With State Object Input
+          <Xxx2/>
+      </div>
+    )
+  }
+}
 
-  export default App; // Format 2
-  ```
+export default App; // Format 2
+```
 
+```JavaScript
+// index.js
+import React from 'react'
+import ReactDOM from 'react-dom'
+import App from './App'
+import './App.css' // CSS
+import {Provider} from 'react-redux' // Redux
+import store from './redux/store' // Redux
 
-* index.js
-  ```JavaScript
-  import React from 'react'
-  import ReactDOM from 'react-dom'
-  import App from './App'
-  import './App.css' // CSS
-  import {Provider} from 'react-redux' // Redux
-  import store from './redux/store' // Redux
-
-  ReactDOM.render(<App/>,document.getElementById('root')) // Basic
-  ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
-  ```
-
-
+ReactDOM.render(<App/>,document.getElementById('root')) // Basic
+ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
+```
 
 * **(Basic) containers / (Redux) containers**
   * **Xxx1**
-    * index.jsx
-      ```JavaScript
-      import React,{Component} from 'react'
-      import './index.css' // CSS
-      import xxx1 from './index.module.css' // CSS Modules
-      import { nanoid } from 'nanoid' // Nanoid
+    ```JavaScript
+    \\ index.jsx
+    import React,{Component} from 'react'
+    import './index.css' // CSS
+    import xxx1 from './index.module.css' // CSS Modules
+    import { nanoid } from 'nanoid' // Nanoid
 
-      export default class Xxx1 extends Component{ // Format 1
-      class Footer extends Component { // Format 2
-        render(){
-          return <h1 className='CLASS_NAME'>Welcome</h1> // CSS
-          return <h1 className={xx1.CLASS_NAME}>hello,react</h1> // CSS Modules
-        }
+    export default class Xxx1 extends Component{ // Format 1
+    class Footer extends Component { // Format 2
+      render(){
+        return <h1 className='CLASS_NAME'>Welcome</h1> // CSS
+        return <h1 className={xx1.CLASS_NAME}>hello,react</h1> // CSS Modules
       }
+    }
 
-      export default Xxx1; // Format 2
-      ```
-    * (CSS) index.css / (CSS Modules) index.module.css
-      ```JavaScript
-      .CLASS_NAME{ // #id name .class *all ...
-      .CLASS_NAME ELEMENT{ // label input button ... (连续多个元素用空格划分)
-        background-color: BACKGROUND_COLOR; // font-size, color, text-align, line-height, background, border, width, height, ...
-      }
-      ```
-  * **Xxx2**
-    * index.jsx
-    * index.module.css // CSS Modules
-
-
-* **(Redux) redux**
-  * constant.js
-  * store.js
-  * **actions**
-    * xxx1.js
-    * xxx2.js
-  * **reducers**
-    * xxx1.js
-    * xxx2.js
-    * index.js
-
+    export default Xxx1; // Format 2
+    ```
     
+    ```JavaScript
+    // (CSS) index.css / (CSS Modules) index.module.css
+    .CLASS_NAME{ // #id name .class *all ...
+    .CLASS_NAME ELEMENT{ // label input button ... (连续多个元素用空格划分)
+      background-color: BACKGROUND_COLOR; // font-size, color, text-align, line-height, background, border, width, height, ...
+    }
+    ```
+    
+  * **Xxx2**
+    ```JavaScript
+    // index.jsx
+    ```
+    
+    ```JavaScript
+    // (CSS) index.css / (CSS Modules) index.module.css
+    ```
+    
+* **(Redux) redux**
+  ```JavaScript
+  // constant.js //Redux
+  ```
+  
+  ```JavaScript
+  // store.js //Redux
+  ```
+  
+  * **(Redux) actions**
+    ```JavaScript
+    // xxx1.js //Redux
+    ```
+    
+    ```JavaScript
+    // xxx2.js //Redux
+    ```
+    
+  * **(Redux) reducers**
+    ```JavaScript
+    // xxx1.js //Redux
+    ```
+    
+    ```JavaScript
+    // xxx2.js //Redux
+    ```
+    
+     ```JavaScript
+    // index.js //Redux
+    ```   
 
 32. CSS样式模块化
     > `index.module.css`: 给CSS文件添加module关键字 \

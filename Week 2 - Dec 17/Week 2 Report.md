@@ -39,7 +39,7 @@
 
 * **2023.12.15 金曜日:** 
   * React富文本渲染+轮播图案例 13:30-13:45 14:35
-  * *复习整理* 13:45-15:50 16:35-
+  * *复习整理* 13:45-15:50 16:35-18:35
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -877,8 +877,10 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     export default class Xxx1 extends Component{ // Format 1
     class Xxx1 extends Component { // Format 2
       // Function
-      FUNCTION = () => {
+      FUNCTION = () => { // Basic
+      FUNCTION = (event) => { // Event
         this.props.STATE_APP_FUNCTION(...) // State Function
+        this.props.STATE_APP_FUNCTION(event.target....) // State Function Event
       }
       // PropTypes
       static propTypes = {

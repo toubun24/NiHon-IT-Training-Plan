@@ -864,20 +864,38 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
     ```
 
-* **(Basic) containers / (Redux) containers**
+* **(Basic) components / (Redux) containers**
   * **Xxx1**
     ```JavaScript
     \\ index.jsx
     import React,{Component} from 'react'
     import './index.css' // CSS
     import xxx1 from './index.module.css' // CSS Modules
+    import PropTypes from 'prop-types'; // PropTypes
     import { nanoid } from 'nanoid' // Nanoid
 
     export default class Xxx1 extends Component{ // Format 1
-    class Footer extends Component { // Format 2
-      render(){
-        return <h1 className='CLASS_NAME'>Welcome</h1> // CSS
-        return <h1 className={xx1.CLASS_NAME}>hello,react</h1> // CSS Modules
+    class Xxx1 extends Component { // Format 2
+      // Function
+      FUNCTION = () => {
+        this.props.STATE_APP_FUNCTION(...) // State Function
+      }
+      // PropTypes
+      static propTypes = {
+        STATE:PropTypes.array.isRequired, // PropTypes State
+        STATE_APP_FUNCTION:PropTypes.func.isRequired // PropTypes Function
+      }
+      // Render
+      render() {
+        const {STATE} = this.props // State
+        const CONST_NAME = ... // Const
+        return(
+          <div ATTRIBUTE="...">
+            <h1 className='CLASS_NAME'>Hello</h1> // CSS
+            <h1 className={xx1.CLASS_NAME}>Hello</h1> // CSS Modules
+            <ELEMENT ATTRIBUTE="..." EVENT={this.FUNCTION}>OUTPUT{CONST_NAME}</ELEMENT> // EVENT
+          </div>
+        )
       }
     }
 
@@ -887,7 +905,9 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ```JavaScript
     // (CSS) index.css / (CSS Modules) index.module.css
     .CLASS_NAME{ // #id name .class *all ...
-    .CLASS_NAME ELEMENT{ // label input button ... (连续多个元素用空格划分)
+    .CLASS_NAME ELEMENT{ // ELEMENT: label input button ... (` ` separated)
+    .CLASS_NAME ELEMENT[ATTRIBUTE="..."]{ // ELEMENT ATTRIBUTE
+    .CLASS_NAME ELEMENT[ATTRIBUTE="..."]:STATUS{ // ELEMENT ATTRIBUTE PSEUDO-CLASS: linked visited avtive hover ...
       background-color: BACKGROUND_COLOR; // font-size, color, text-align, line-height, background, border, width, height, ...
     }
     ```
@@ -899,6 +919,15 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     
     ```JavaScript
     // (CSS) index.css / (CSS Modules) index.module.css
+    ```
+
+  * **(Xxx1's Child) Xxx3**
+    ```JavaScript
+    // index.jsx // Xxx1's Child
+    ```
+    
+    ```JavaScript
+    // (CSS) index.css / (CSS Modules) index.module.css // Xxx1's Child
     ```
     
 * **(Redux) redux**

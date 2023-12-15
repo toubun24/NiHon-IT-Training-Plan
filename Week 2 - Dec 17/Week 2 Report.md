@@ -39,7 +39,7 @@
 
 * **2023.12.15 金曜日:** 
   * React富文本渲染+轮播图案例 13:30-13:45 14:35
-  * *复习* 13:45
+  * *复习整理* 13:45
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -810,8 +810,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * App.jsx
   ```JavaScript
   import React, { Component } from 'react'
-  import Xxx1 from './components/Xxx1' // Redux
-  import Xxx2 from './components/Xxx2' // Redux
+  import Xxx1 from './components/Xxx1' // Basic
+  import Xxx2 from './components/Xxx2' // Basic
   import Xxx1 from './containers/Xxx1' // Redux
   import Xxx2 from './containers/Xxx2' // Redux
   export default class App extends Component {
@@ -832,6 +832,10 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   import React from 'react'
   import ReactDOM from 'react-dom'
   import App from './App'
+  import Xxx1 from './index.css' // CSS
+  import Xxx2 from './index.css' // CSS
+  import Xxx1 from './index.module.css' // CSS Modules
+  import Xxx2 from './index.module.css' // CSS Modules
   import {Provider} from 'react-redux' // Redux
   import store from './redux/store' // Redux
 
@@ -839,20 +843,32 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
   ```
 
+
+
 * **(Basic) containers / (Redux) containers**
   * **Xxx1**
     * index.jsx
+      ```JavaScript
+      import React,{Component} from 'react'
+      import './index.css' // CSS
+      import xxx1 from './index.module.css' // CSS Modules
 
+      export default class Xxx1 extends Component{
+        render(){
+          return <h1 className='CLASS_NAME'>Welcome</h1> // CSS
+          return <h1 className={xx1.CLASS_NAME}>hello,react</h1> // CSS Modules
+        }
+      }
+      ```
+    * (CSS) index.css / (CSS Modules) index.module.css
+      ```JavaScript
+      .CLASS_NAME{ // #id name .class *all ...
+        background-color: BACKGROUND_COLOR; // font-size, color, text-align, line-height, background, border, width, height, ...
+      }
+      ```
   * **Xxx2**
     * index.jsx
-
-
-* **(Redux) containers**
-  * **Xxx1**
-    * index.jsx
-
-  * **Xxx2**
-    * index.jsx
+    * index.module.css // CSS Modules
 
 
 * **(Redux) redux**
@@ -867,6 +883,21 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     * index.js
 
     
+
+32. CSS样式模块化
+    > `index.module.css`: 给CSS文件添加module关键字 \
+    > `import xxx from './index.module.css'`: 引入 \
+    > `className`={xxx.title}
+* 通过导入样式文件并将其绑定到组件上，实现样式与组件的一对一关系。这样，每个组件的样式规则都只对当前组件生效，不会影响其他组件
+* Css Module只能作用于类选择器和ID选择器
+* `compose: xxx;`: 一个选择器可以组合其他选择器
+
+33. 引入CSS
+* 引入CSS的方法有2种，import与link
+  * `@import url('地址')`: 这种方式可以放在页面也可以放在css文件中；@import只能加载CSS；需要页面网页完全载入以后加载CSS；低版本浏览器不支持；不支持使用JS控制DOM改变样式
+  * `<link href="地址" rel="stylesheet" type="text/css" />`: link是XHTML标签，除了加载CSS外，还可以定义RSS等其他事务；页面载入时同时加载CSS；无兼容问题；支持使用JS控制DOM改变样式
+
+
 
 
 ## 遇见问题

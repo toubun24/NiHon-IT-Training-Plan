@@ -39,7 +39,7 @@
 
 * **2023.12.15 金曜日:** 
   * React富文本渲染+轮播图案例 13:30-13:45 14:35
-  * *复习整理* 13:45-15:50 16:35-18:35
+  * *复习整理* 13:45-15:50 16:35-18:35 19:45-21:15 
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -819,6 +819,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     import Xxx1 from './containers/Xxx1' // Redux
     import Xxx2 from './containers/Xxx2' // Redux
     import './App.css' // CSS
+    import axios from 'axios' // Proxy Axios In APP
+
     export default class App extends Component { // Format 1
     class App extends Component { // Format 2
       // State
@@ -834,6 +836,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
         const NEW_STATE = STATE.xxx((STATE) => {return {...}}) // Type 2
         this.setState({STATE:NEW_STATE})
       }
+      // Proxy Axios Function
+          AXIOS_GET_DATA = () => {axios.get('/api1/DATA_NAME').then((response) => {...}, (reason) => {...})}
       // Render
       render() {
         const {STATE} = this.state // State
@@ -843,6 +847,7 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
               <Xxx1 STATE_APP_FUNCTION1={this.STATE_APP_FUNCTION1}/> // APP Function Without State Object Input
               <Xxx1 STATE={STATE} STATE_APP_FUNCTION2={this.STATE_APP_FUNCTION2}/> // APP Function With State Object Input
               <Xxx2/>
+              <button onClick={this.AXIOS_GET_DATA}></button> // Proxy Axios In APP
           </div>
         )
       }
@@ -863,6 +868,18 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ReactDOM.render(<App/>,document.getElementById('root')) // Basic
     ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
     ```
+    
+    ```JavaScript
+    // setupProxy.js // Proxy
+    const { createProxyMiddleware } = require('http-proxy-middleware');
+    module.exports = function(app) {
+        app.use("/api1",createProxyMiddleware({
+            target:'http://127.0.0.1:5001',
+            changeOrigin:true,
+            pathRewrite:{"^/api1":""}
+        }))
+      }
+    ```
 
 * **(Basic) components / (Redux) containers**
   * **Xxx1**
@@ -871,11 +888,14 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     import React,{Component} from 'react'
     import './index.css' // CSS
     import xxx1 from './index.module.css' // CSS Modules
-    import PropTypes from 'prop-types'; // PropTypes
+    import PropTypes from 'prop-types' // PropTypes
     import { nanoid } from 'nanoid' // Nanoid
+    import Xxx3 from '../Xxx3' // Child
+    import axios from 'axios' // Proxy Axios
 
     export default class Xxx1 extends Component{ // Format 1
     class Xxx1 extends Component { // Format 2
+      state = {STATE2:false} // State 2
       // Function
       FUNCTION = () => { // Basic
       FUNCTION = (event) => { // Event
@@ -887,15 +907,25 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
         STATE:PropTypes.array.isRequired, // PropTypes State
         STATE_APP_FUNCTION:PropTypes.func.isRequired // PropTypes Function
       }
+      // Proxy Axios
+      search = () => {
+        const {keywordelement:{value:keyword}} = this
+        axios.get(`/api1/search/users?q=${keyword}`).then((response) => {...},(reason) => {...})
+      }
       // Render
       render() {
-        const {STATE} = this.props // State
+        const {STATE, STATE_APP_FUNCTION} = this.props // State // State Function
+        const {STATE2} = this.state // State 2
         const CONST_NAME = ... // Const
         return(
           <div ATTRIBUTE="...">
             <h1 className='CLASS_NAME'>Hello</h1> // CSS
             <h1 className={xx1.CLASS_NAME}>Hello</h1> // CSS Modules
             <ELEMENT ATTRIBUTE="..." EVENT={this.FUNCTION}>OUTPUT{CONST_NAME}</ELEMENT> // EVENT
+            <ul className="CLASS_NAME">{STATE.map((State) => {return <Xxx3 key={State.id} {...State} FUNCTION={FUNCTION}/>})}</ul> // Map Child
+            // Proxy Axios
+            <input ref={c => this.keywordelement = c} type="text"/>&nbsp;
+            <button onClick={this.search}></button>
           </div>
         )
       }
@@ -976,7 +1006,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   * `@import url('地址')`: 这种方式可以放在页面也可以放在css文件中；@import只能加载CSS；需要页面网页完全载入以后加载CSS；低版本浏览器不支持；不支持使用JS控制DOM改变样式
   * `<link href="地址" rel="stylesheet" type="text/css" />`: link是XHTML标签，除了加载CSS外，还可以定义RSS等其他事务；页面载入时同时加载CSS；无兼容问题；支持使用JS控制DOM改变样式
 
-
+34. 连续解构赋值+重命名
+如果在jsx中写着`<input ref={c => this.keyWordElement = c} type="text" />`， 那么在获取输入值的时候，如果使用连续解构赋值+重命名的形式，就要这样获取:`const {keyWordElement:{value:keyWord}} = this`这时候获取到的`keyWord`就是用户输入的值
 
 
 ## 遇见问题

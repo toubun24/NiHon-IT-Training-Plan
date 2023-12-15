@@ -807,62 +807,62 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 30. 语法糖(Syntactic sugar)：指计算机语言中添加的某种语法，这种语法对语言的功能并没有影响，但是更方便程序员使用。通常来说使用语法糖能够增加程序的可读性，从而减少程序代码出错的机会
 
 31. React代码框架复习整理
-```JavaScript
-// App.css
-```
-
-```JavaScript
-// App.jsx
-import React, { Component } from 'react'
-import Xxx1 from './components/Xxx1' // Basic
-import Xxx2 from './components/Xxx2' // Basic
-import Xxx1 from './containers/Xxx1' // Redux
-import Xxx2 from './containers/Xxx2' // Redux
-import './App.css' // CSS
-export default class App extends Component { // Format 1
-class App extends Component { // Format 2
-  // State
-  state = {STATE:[
-    {id:'STATE_ID1',name:'STATE_NAME1',done:false},
-    {id:'STATE_ID2',name:'STATE_NAME2',done:true}
-  ]}
-  // State Function
-  STATE_APP_FUNCTION1 = (...) => { // No STATE_OBJECT
-  STATE_APP_FUNCTION2 = (STATE_OBJECT, ...) => { // STATE_OBJECT: id, name, done in STATE
-    const {STATE} = this.state
-    const NEW_STATE = ... // Type 1
-    const NEW_STATE = STATE.xxx((STATE) => {return {...}}) // Type 2
-    this.setState({STATE:NEW_STATE})
-  }
-  // Render
-  render() {
-    const {STATE} = this.state // State
-    return (
-      <div>
-          <Xxx1/> // Basic
-          <Xxx1 STATE_APP_FUNCTION1={this.STATE_APP_FUNCTION1}/> // APP Function Without State Object Input
-          <Xxx1 STATE={STATE} STATE_APP_FUNCTION2={this.STATE_APP_FUNCTION2}/> // APP Function With State Object Input
-          <Xxx2/>
-      </div>
-    )
-  }
-}
-
-export default App; // Format 2
-```
-
-```JavaScript
-// index.js
-import React from 'react'
-import ReactDOM from 'react-dom'
-import App from './App'
-import './App.css' // CSS
-import {Provider} from 'react-redux' // Redux
-import store from './redux/store' // Redux
-
-ReactDOM.render(<App/>,document.getElementById('root')) // Basic
-ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
-```
+    ```JavaScript
+    // App.css
+    ```
+  
+    ```JavaScript
+    // App.jsx
+    import React, { Component } from 'react'
+    import Xxx1 from './components/Xxx1' // Basic
+    import Xxx2 from './components/Xxx2' // Basic
+    import Xxx1 from './containers/Xxx1' // Redux
+    import Xxx2 from './containers/Xxx2' // Redux
+    import './App.css' // CSS
+    export default class App extends Component { // Format 1
+    class App extends Component { // Format 2
+      // State
+      state = {STATE:[
+        {id:'STATE_ID1',name:'STATE_NAME1',done:false},
+        {id:'STATE_ID2',name:'STATE_NAME2',done:true}
+      ]}
+      // State Function
+      STATE_APP_FUNCTION1 = (...) => { // No STATE_OBJECT
+      STATE_APP_FUNCTION2 = (STATE_OBJECT, ...) => { // STATE_OBJECT: id, name, done in STATE
+        const {STATE} = this.state
+        const NEW_STATE = ... // Type 1
+        const NEW_STATE = STATE.xxx((STATE) => {return {...}}) // Type 2
+        this.setState({STATE:NEW_STATE})
+      }
+      // Render
+      render() {
+        const {STATE} = this.state // State
+        return (
+          <div>
+              <Xxx1/> // Basic
+              <Xxx1 STATE_APP_FUNCTION1={this.STATE_APP_FUNCTION1}/> // APP Function Without State Object Input
+              <Xxx1 STATE={STATE} STATE_APP_FUNCTION2={this.STATE_APP_FUNCTION2}/> // APP Function With State Object Input
+              <Xxx2/>
+          </div>
+        )
+      }
+    }
+    
+    export default App; // Format 2
+    ```
+    
+    ```JavaScript
+    // index.js
+    import React from 'react'
+    import ReactDOM from 'react-dom'
+    import App from './App'
+    import './App.css' // CSS
+    import {Provider} from 'react-redux' // Redux
+    import store from './redux/store' // Redux
+    
+    ReactDOM.render(<App/>,document.getElementById('root')) // Basic
+    ReactDOM.render(<Provider store={store}><App/></Provider>,document.getElementById('root')) // Redux
+    ```
 
 * **(Basic) containers / (Redux) containers**
   * **Xxx1**

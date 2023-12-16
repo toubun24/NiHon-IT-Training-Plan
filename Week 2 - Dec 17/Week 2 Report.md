@@ -2,7 +2,7 @@
 
 ## 学习内容及时长
 
-* **2023.12.11 月曜日:** 4h15min
+* **2023.12.11 月曜日:** 4h15min (白天拍照去噜orz)
   * EL&JSTL 23:25-00:50
   * AJAX 21:00-21:40
   * Axios 21:50-22:05
@@ -38,10 +38,13 @@
   * *软件工程师常用日本语 P5-P15*
 
 * **2023.12.15 金曜日:** 8h05min
-  * React富文本渲染+轮播图案例 13:30-13:45 14:35
+  * React富文本渲染+轮播图案例 13:30-13:45 14:35 
   * *复习整理* 13:45-15:50 16:35-18:35 19:45-22:20 23:15-00:25
 
-* **2023.12.16 土曜日:** 
+* **2023.12.16 土曜日:** (今天去看劫杯决赛噜)
+
+* **2023.12.17 日曜日:** 
+  * React富文本渲染+轮播图案例 02:15-
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -649,10 +652,12 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
     ```
   * 可以在`componentDidCatch`中统计错误次数
 
-
-
-
-
+**30. React富文本渲染+轮播图案例**
+* `dangerouslySetHTM`: 允许我们动态设置`innerHTML`
+```JavaScript
+  state = {myhtml:`<...>...</...>`}
+  render(){return(<div dangerouslySetInnerHTML={{__html:this.state.myhtml}}></div>);}
+```
 
 
 

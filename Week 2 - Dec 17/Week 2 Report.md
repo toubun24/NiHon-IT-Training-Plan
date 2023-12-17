@@ -38,13 +38,13 @@
   * *软件工程师常用日本语 P5-P15*
 
 * **2023.12.15 金曜日:** 8h05min
-  * React富文本渲染+轮播图案例 13:30-13:45 14:35 
+  * React富文本渲染+轮播图案例 13:30-13:45
   * *复习整理* 13:45-15:50 16:35-18:35 19:45-22:20 23:15-00:25
 
 * **2023.12.16 土曜日:** (今天去看劫杯决赛噜)
 
 * **2023.12.17 日曜日:** 
-  * React富文本渲染+轮播图案例 02:15-
+  * React富文本渲染+轮播图案例 13:40-14:30
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -654,10 +654,31 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 **30. React富文本渲染+轮播图案例**
 * `dangerouslySetHTM`: 允许我们动态设置`innerHTML`
-```JavaScript
-  state = {myhtml:`<...>...</...>`}
-  render(){return(<div dangerouslySetInnerHTML={{__html:this.state.myhtml}}></div>);}
-```
+  ```JavaScript
+  state = {MYTHML:`<...>...</...>`}
+  render(){return(<div dangerouslySetInnerHTML={{__html:this.state.MYTHML}}></div>);}
+  ```
+* 模糊搜索：在`componentDidMount`生命周期直接发送AJAX请求并携带请求验证信息
+  ```JavaScript
+  componentDidMount() {
+    axios({url:'URL',method:'GET',headers:{'X-Client-Info':'{...}','X-Host': 'mall.film-ticket.cinema.list'
+  }}).then((response)=>{this.setState({STATE:response.data.data....})},(reason) => {console.log(reason.message)})}
+  ```
+* React+自定义Swiper组件+插槽：自定义组件Swiper
+  1. ` import Swiper, { Navigation, Pagination } from "swiper";`: 暴露出相应组件
+  2. `<div className="swiper"><div className='swiper-wrapper'>{this.props.children}//预留插槽</div><div className="swiper-pagination"></div></div>`: `render`中预留`children`插槽
+  3.  `export default Kswiper;`: 将此模版一般组件暴露出去
+  4.  `<div className="swiper-slide">{this.props.children}</div>`: 为渲染细项定义SwiperItem自定义组件
+  5.  `export default KSwiperItem;`: 将此一般组件暴露出去
+  6.  `import KSwiper from "./.../KSwiper"; import KSwiperItem from "./.../KSwiperItem";`: 需要使用Swiper组件时，可以引入自定义Swiper组件（高复用，自定义程度高）
+
+
+
+
+
+
+
+
 
 
 
@@ -1026,6 +1047,8 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 38. CSS `float`
 
+39. React 插槽
+https://blog.csdn.net/qq_40340943/article/details/107825079
 
 
 
@@ -1046,3 +1069,5 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   Line 14:20:  Expected '!==' and instead saw '!='`，才发现我本地的代码用的是`!=`而课件中是`!==`，已更正；其次是前面提到的`List/index.css`下的`.todo-empty`，经过测试就是没有用上，因为没有对应classname的标签存在，也不清楚原本是打算拿来干什么的了；但又发现另一个问题，我本地运行出来的item中的文字内容会随着行数从上到下依次进位（逐渐从左到右），整体排布就是个左上到右下斜着的状态；经测试，List组件中渲染return的`<item>`组件改为其他类型标签时不会出现缩进逐级增加的情况，考虑应该是Item相关的CSS设定出了问题；最终排查到问题出在Item下的index.css中的`li label`，删掉其中的`  float: left;`即可恢复正常，我以为是我本地代码错了，去网上找了份该项目的代码发现也是这样错着写的，只能先去拓展一下`float`参数再思考下为什么会引发这个问题了，放在拓展条目38】
 
 ## 下周计划
+
+* 差不多可以开始每天顺便也背点N1的单词了，单词量缺乏导致的听不懂或者表达不出来的情况也不在少数毕竟

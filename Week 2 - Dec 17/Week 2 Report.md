@@ -45,6 +45,11 @@
 
 * **2023.12.17 日曜日:** 
   * React富文本渲染+轮播图案例 13:40-14:30
+  * React Hooks补充 16:20-17:00
+  * *复习整理* 21:20-
+  * *软件工程师常用日本语 P16-P40*
+
+
   * React Hooks补充
   * Redux持久化储存 
   * Mobx状态管理 
@@ -672,19 +677,38 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
   5.  `export default KSwiperItem;`: 将此一般组件暴露出去
   6.  `import KSwiper from "./.../KSwiper"; import KSwiperItem from "./.../KSwiperItem";`: 需要使用Swiper组件时，可以引入自定义Swiper组件（高复用，自定义程度高）
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+**31. ReactReact Hooks补充**
+* useCallback(记忆函数)
+  * `const XXX = useCallback((event) => {settext(event.target.value)},[...])`
+  * 防止因为组件重新渲染，导致方法被重新创建，起到缓存作用；只有第二个参数变化了，才重新声明一次
+* useMemo(记忆组件)
+  * `const XXX1 = useMemo(() => XXX2.XXX3(item => {return ...}),[...])`
+  * `useCallback`的功能完全可以由`useMemo`所取代；唯一的区别是，`useCallback`不会执行第一个参数函数，而是将它返回给你，而`useMemo`会执行第一个函数并且将函数执行结果返回；所以`useCallback`常用记忆事件函数，生成记忆后的事件函数并传递给子组件使用。而`useMemo`更适合经过函数计算得到一个确定的值，比如记忆组件
+* useRef(保存引用值)
+  * 相当于`React.createRef()`使用,作用为创建一个容器，可以保存某一节点数据；也可用于保存引用值
+* useContext(减少组件层级)
+  * 当想要给子组件的子组件传递数据时(生产者消费者模式)，可以通过Context；同样也可以在函数式组件中使用`useContext`
+* useReducer(React引入经典思想)
+  ```JavaScript
+  const reducer = (prevstate,actions) => {
+    const newstate = {...prevstate}
+    switch (actions.type) {
+      case "add":
+        newstate.count++
+        return newstate
+      case "minus":
+        newstate.count--
+        return newstate
+      default :
+        return prevstate
+      }
+  }
+  ```
+  * reducer比setState更加擅长描述“如何更新状态”。比如，reducer能够读取相关的状态、同时更新多个状态
+  * useReducer总是返回相同的dispatch函数：状态更新逻辑可以任意变化，而发起actions的渠道始终不变
+  * useReducer+useContext
+* 自定义hooks
+  * 想在两个函数之间共享逻辑时，我们会把它提取到第三个函数中
 
 ## 内容拓展
 
@@ -1041,17 +1065,27 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 
 
 36. `localhost`
-
+* 给回路网络接口(loopback)的一个标准主机名，相对应的IP地址为127.0.0.1(IPv4)和[::1](IPv6)
 
 37. 端口
+* 虚拟端口：虚拟端口指计算机内部或交换机路由器内的端口，不可见
+* 物理端口：又称为接口，是可见端口，计算机背板的RJ45网口，交换机路由器集线器等RJ45端口等
+* 一个IP地址的端口有65536(即：2^16)个之多，端口是通过端口号来标记的，端口号只有整数，范围是从0到65535
+* 在Internet上，各主机间通过TCP/IP协议发送和接收数据包，各个数据包根据其目的主机的ip地址来进行互联网络中的路由选择,把数据包顺利的传送到目的主机。大多数操作系统都支持多程序(进程)同时运行；本地操作系统会给那些有需求的进程分配协议端口(protocol port，即常说的端口)，当目的主机接收到数据包后，将根据报文首部的目的端口号，把数据发送到相应端口
+* 不光接受数据包的进程需要开启它自己的端口，发送数据包的进程也需要开启端口，这样，数据包中将会标识有源端口，以便接受方能顺利地回传数据包到这个端口
 
 38. CSS `float`
+* 会使元素向左或向右移动，其周围的元素也会重新排列
+* 元素的水平方向浮动，意味着元素只能左右移动而不能上下移动
+* 浮动元素之前的元素将不会受到影响
 
 39. React 插槽
 https://blog.csdn.net/qq_40340943/article/details/107825079
 
+40. 127.0.0.1 (127.x.x.x)
+* 回送地址(Loopback Address)，指本地机，一般用来测试使用，即主机IP堆栈内部的IP地址，主要用于网络软件测试以及本地机进程间通信，无论什么程序，一旦使用回送地址发送数据，协议软件立即返回，不进行任何网络传输
 
-
+41. CSS `cursor: pointer`: 鼠标由箭头形状改为手的形状
 
 ## 遇见问题
 
@@ -1070,4 +1104,6 @@ https://blog.csdn.net/qq_40340943/article/details/107825079
 
 ## 下周计划
 
-* 差不多可以开始每天顺便也背点N1的单词了，单词量缺乏导致的听不懂或者表达不出来的情况也不在少数毕竟
+* 差不多可以开始每天顺便也背点单词了，单词量缺乏导致的听不懂或者表达不出来的情况也不在少数毕竟
+* 这期多听了很多课才开始复习整理，因为想先多学些课时，了解个整体框架再去抠细节；但还有部分源代码没有去抓细节，下周再继续复习
+* 优化下《遇到问题》板块的格式，方便分多次解决或逐步开展进度的情况下的展示效果

@@ -46,7 +46,7 @@
 * **2023.12.17 日曜日:** 
   * React富文本渲染+轮播图案例 13:40-14:30
   * React Hooks补充 16:20-17:00
-  * *复习整理* 21:20-
+  * *复习整理* 21:20-23:15
   * *软件工程师常用日本语 P16-P40*
 
 
@@ -1062,6 +1062,42 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 如果在jsx中写着`<input ref={c => this.keyWordElement = c} type="text" />`， 那么在获取输入值的时候，如果使用连续解构赋值+重命名的形式，就要这样获取:`const {keyWordElement:{value:keyWord}} = this`这时候获取到的`keyWord`就是用户输入的值
 
 35. `createProxyMiddleware`
+    ```JavaScript
+    // Search/index.jsx
+    axios.get(`http://localhost:3000/api1/search/users?q=${keyWord}`).then(
+      response => {this.props.updateAppState({ isLoading: false, users: response.data.items })},
+      error => {this.props.updateAppState({ isLoading: false, err: error.message })}
+    )
+    ```
+
+    ```JavaScript
+    // setupProxy.js
+    module.exports = function(app) {
+      app.use("/api",createProxyMiddleware({
+        target:'http://localhost:5001',
+        changeOrigin:true,
+        pathRewrite:{"^/api":""}
+      }))
+    }
+    ```
+
+    ```JavaScript
+    // server.js
+    app.get("/search/users", function (req, res) {
+      const {q} = req.query
+      axios({
+        url: 'https://api.github.com/search/users',
+        params: {q}
+      }).then(response => {
+        res.json(response.data)
+      })
+    })
+    ```
+* `get`传参：仅仅支持params
+* `post`传参: 支持data和params
+* data是放在body里的，在url中看不见参数，但使用params的话，说明参数在url里面是能够看见的
+* `params: params`等价于`params`; `data: data`等价于`data`
+* 通过创建一个代理中间件类，并将createProxyMiddleware应用于该类，从而实现对网络请求的代理处理
 
 
 36. `localhost`
@@ -1087,6 +1123,13 @@ https://blog.csdn.net/qq_40340943/article/details/107825079
 
 41. CSS `cursor: pointer`: 鼠标由箭头形状改为手的形状
 
+42. CSS 列表
+* `ul`: 表示无序列表的整体，用于包裹`li`标签
+* `ol`: 表示有序列表的整体，用于包裹`li`标签
+* `li`: 表示无序列表的每一项，用于包含每一行的内容
+* `ul`, `ol`标签中只允许包含`li`标签，`li`标签可以包含任意内容
+* 去掉无序列表前的圆点：`list-style-type:none;`
+
 ## 遇见问题
 
 * .jsp文件运行：想测试[GitHub/zerostart/.../EL&JSTL](https://github.com/warrenlucky/zerostart/tree/main/java/%E5%BE%85%E5%88%86%E7%B1%BB/code/EL%26JSTL)里存放的示例文件，但似乎需要配置服务器环境才能运行，比如Tomcat；先暂放一下，看后续课件有无用到
@@ -1099,8 +1142,8 @@ https://blog.csdn.net/qq_40340943/article/details/107825079
 
 * 【已解决】`npm i pubsub-js`安装问题：下载很慢，最后卡住；将VPN设为全局模式并使用管理员身份打开CMD后再次运行成功，就不知道实际上到底是哪边出的问题了
 
-* 【已解决】复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了【终端输出`src\components\Header\index.jsx
-  Line 14:20:  Expected '!==' and instead saw '!='`，才发现我本地的代码用的是`!=`而课件中是`!==`，已更正；其次是前面提到的`List/index.css`下的`.todo-empty`，经过测试就是没有用上，因为没有对应classname的标签存在，也不清楚原本是打算拿来干什么的了；但又发现另一个问题，我本地运行出来的item中的文字内容会随着行数从上到下依次进位（逐渐从左到右），整体排布就是个左上到右下斜着的状态；经测试，List组件中渲染return的`<item>`组件改为其他类型标签时不会出现缩进逐级增加的情况，考虑应该是Item相关的CSS设定出了问题；最终排查到问题出在Item下的index.css中的`li label`，删掉其中的`  float: left;`即可恢复正常，我以为是我本地代码错了，去网上找了份该项目的代码发现也是这样错着写的，只能先去拓展一下`float`参数再思考下为什么会引发这个问题了，放在拓展条目38】
+* 【已解决（原因尚不明）】复习整理时注意到React ToDoList案例components/List/index.css中涉及`.todo-main`和`.todo-empty`的样式，但index.jsx中只设置过`<ul className="todo-main">`，`-empty`看上去不像什么专有的语法形式，网上也没查到这个词条（比如原标签找不到时自动调用该样式什么的），怀疑是在index.jsx中漏写了空标签`<ul className="todo-empty">`方便在没有Item时List中依然包含一段空样式？但直接加个空标签的话empty样式又一直存在在List中了，可能还是需要设计一下；之后再回原课件看下有没有提到这里，先继续整理代码了【终端输出`src\components\Header\index.jsx
+  Line 14:20:  Expected '!==' and instead saw '!='`，才发现我本地的代码用的是`!=`而课件中是`!==`，已更正；其次是前面提到的`List/index.css`下的`.todo-empty`，经过测试就是没有用上，因为没有对应classname的标签存在，也不清楚原本是打算拿来干什么的了；但又发现另一个问题，我本地运行出来的item中的文字内容会随着行数从上到下依次进位（逐渐从左到右），整体排布就是个左上到右下斜着的状态；经测试，List组件中渲染return的`<item>`组件改为其他类型标签时不会出现缩进逐级增加的情况，考虑应该是Item相关的CSS设定出了问题；最终排查到问题出在Item下的index.css中的`li label`，删掉其中的`  float: left;`即可恢复正常，我以为是我本地代码错了，去网上找了份该项目的代码发现也是这样错着写的，只能先去拓展一下`float`参数再思考下为什么会引发这个问题了，放在拓展条目38】【float是写在Item下的，而不管是Item单独return一个<li>标签还是List通过map罗列Item都不该让不同的Item之间引发浮动导致的往右缩进的bug啊】
 
 ## 下周计划
 

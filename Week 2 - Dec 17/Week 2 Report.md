@@ -43,12 +43,11 @@
 
 * **2023.12.16 土曜日:** (今天去看劫杯决赛噜)
 
-* **2023.12.17 日曜日:** 
+* **2023.12.17 日曜日:** 4h05min
   * React富文本渲染+轮播图案例 13:40-14:30
   * React Hooks补充 16:20-17:00
-  * *复习整理* 21:20-23:30 23:40-
+  * *复习整理* 21:20-23:30 23:40-00:05
   * *软件工程师常用日本语 P16-P40*
-
 
   * React Hooks补充
   * Redux持久化储存 
@@ -1145,7 +1144,20 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 去掉无序列表前的圆点：`list-style-type:none;`
 
 43. 深拷贝
-* 
+* JS中，数组和对象的复制如果使用`=`，则只是浅拷贝，如`let arr2 = arr`，`arr`的修改会影响`arr2`的值
+* 一层深拷贝
+  * 拓展运算符: `let arr2 = [...arr1]`
+  * 封装函数，遍历数组元素，返回新数组
+  * 截取：`slice(start, end)`
+  * 拼接：`concat()`
+*多层深拷贝
+  * 手写递归
+  * `JSON.stringify()`及`JSON.parse()`
+  * lodash
+
+44. `let`
+* 存在块级作用域，使用`let`声明变量就会和当前的花括号绑定，只在当前花括号内有效，花括号外不能使用此变量，因此很适合用在for循环中
+* [参考链接](https://blog.csdn.net/zhangawei123/article/details/127738330)
 
 ## 遇见问题
 

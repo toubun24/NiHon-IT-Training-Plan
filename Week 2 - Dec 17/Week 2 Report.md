@@ -46,7 +46,7 @@
 * **2023.12.17 日曜日:** 
   * React富文本渲染+轮播图案例 13:40-14:30
   * React Hooks补充 16:20-17:00
-  * *复习整理* 21:20-23:15
+  * *复习整理* 21:20-23:30
   * *软件工程师常用日本语 P16-P40*
 
 
@@ -1115,8 +1115,23 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * 元素的水平方向浮动，意味着元素只能左右移动而不能上下移动
 * 浮动元素之前的元素将不会受到影响
 
-39. React 插槽
-https://blog.csdn.net/qq_40340943/article/details/107825079
+39. React插槽
+* 用于组件的分发；为了复用，如轮播图
+* 具名插槽
+  * 使用具体名字的`props`传递一个react元素，实现组件分发
+* `props.children`
+  * 可任意分发组件内容
+  * `props.children`的值有四种可能情况
+    > `undefined`: 无内容 \
+    > `object`: 当只有一个组件时，即组件实例 \
+    > `array`: 当有多个组件时，返回数组，即存放每个组件实例的数组 \
+    > `string`: 当传入不是react元素为字符串
+  * 处理方法
+    > `React.Children.map(childrenArr, fn)`: 为多组件数组每个组件实例执行一次fn函数，可返回
+    > `React.Children.forEach(childrenArr, fn)`: 为多组件数组每个组件实例执行一次fn函数，无返回
+    > `React.Children.count(childrenArr, fn)`: 返回组件实例个数
+    > `React.Children.only(childrenArr)`: 返回唯一的子组件、
+  * [示例代码链接](https://blog.csdn.net/m0_55173487/article/details/128497369)
 
 40. 127.0.0.1 (127.x.x.x)
 * 回送地址(Loopback Address)，指本地机，一般用来测试使用，即主机IP堆栈内部的IP地址，主要用于网络软件测试以及本地机进程间通信，无论什么程序，一旦使用回送地址发送数据，协议软件立即返回，不进行任何网络传输

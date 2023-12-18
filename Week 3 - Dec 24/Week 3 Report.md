@@ -4,7 +4,8 @@
 
 * **2023.12.18 月曜日:** 
   * Redux持久化储存 10:00-10:30 10:55-12:50
-  * Mobx状态管理 
+  * *拓展补充* 17:15-17.55
+  * Mobx状态管理 18:10-19:25
   * TS基本语法 
 
 * **2023.12.19 火曜日:**
@@ -109,6 +110,50 @@
     ```
 * `fromJS`: 自动分析数据并转化为`immutable`对象，而无需再分层`Map`: `state = {info:XXX({...})}`
 
+4. [MobX](https://cn.mobx.js.org/)
+* 任何源自应用状态的东西都应该自动地获得。利用`getter`和`setter`来收集组件的数据依赖关系，从而在数据发生变化的时候精确知道哪些组件需要重绘，在界面的规模变大的时候，往往会有很多细粒度更新
+  * Actions: 事件调用Actions，是唯一可以修改State的东西，并且可能有其它副作用，`@action onClick = () => {this.props.todo.done = true;}`
+  * State: 可观察和最低限度定义的，不应包含冗余或推导数据，`@observable todos = [{title: "learn MobX", done: false}]`
+  * Computed values: 可以使用pure function从State中推导出的值，会自动更新它并在其不再使用时优化掉，`@computed get completedTodos() {return this.todos.filter(todo => todo.done)}`
+  * Reactions: 会对State的变化做出反应，但不产生值，而是产生副作用，像是更新UI，`const Todos = observer({todos} => <ul>todos.map(todo => <TodoView ... />)</ul>)`
+* MobX与redux的区别:
+  * MobX写法上更偏向于OOP
+  * 对一份数据直接进行修改操作，不需要始终返回一个新的数据
+  * 并非单一store，可以多store
+  * Redux默认以JavaScript原生对象形式存储数据，而MobX使用可观察对象
+* `observable`和`autorun`
+  * `import { observable , autorun } from 'mobx'`
+  * `observable`
+    * 只有在它可以被制作成可观察的数据结构时才会成功。其他值，不会执行转换
+    * 值可以是JS基本数据类型、引用类型、普通对象、类实例、数组和映射
+    * `observable.box`创建一个`observable`的盒子，它用来存储value的`observable`引用。使用`get()`方法可以得到盒子中的当前value，而使用`set()`方法可以更新value
+  * `autorun`
+    * 所提供的函数总是立即被触发一次，然后每次它的依赖关系改变时会再次被触发
+* `action`, `runInAction`与严格模式
+  * `import {observable, configure, action,runInAction} from 'mobx'`
+  * `configure(options)`: 对活动的MobX实例进行全局行为设置，`configure({enforceActions:'always'})`，如果是never，可以不写action
+  * `action`: 任何应用都有动作。动作是任何用来修改状态的东西，使用MobX可以在代码中显式地标记出动作所在的位置
+  * `unInAction`工具函数
+    * 非严格模式下，store数据操作可以不用runInAction包裹
+    * 严格模式下，异步数据操作需要用runInAction包裹：`setTimeout(() => runInAction(() => ...), 1000)`
+* mobx-react
+  * React组件里使用`@observer`：`observer`函数/装饰器可以用来将React组件转变成响应式组件
+  * 可观察的局部组件状态：`@observable`装饰器在React组件上引入可观察属性。而不需要通过React的冗长和强制性的`setState`机制来管理
+  1. 创建`.babelrc`
+  2. 创建`config-overrides.js`
+  3. 修改`package.json`
+  4. `import {observable, configure, action,runInAction} from 'mobx' // store.jsx`
+  5. `import {inject,observer} from "mobx-react"; // App.jsx`
+  * `inject`(mobx-react包): 相当于Provider 的高阶组件。可以用来从 React 的context中挑选 store 作为 prop 传递给目标组件
+  * `observer`: 可以用作包裹React组件的高阶组件。在组件的`render`函数中的任何已使用的`observable`发生变化时，组件都会自动重新渲染
+
+
+
+
+
+
+
+
 
 ## 内容拓展
 1. JS `{}`
@@ -151,17 +196,87 @@
 
 7. `JSON.parse()`: 将JSON字符串转为javascript对象
 
+8. immutable.js `toJS()`
+* 用于将不可变的Map或List对象转换成JavaScript普通对象或数组。这对于数据从immutable.js向其他API迁移非常有用。我们只需使用toJS方法将不可变数据转换为普通JavaScript对象后，即可将其传递给其他API，以与现有的代码或其他JavaScript库无缝集成，而不需要担心类型出错或不一致的问题
+* 递归地将一个(observable)对象转换为javascript结构。 支持observable数组、对象、映射和原始类型。 计算值和其他不可枚举的属性不会成为结果的一部分。 默认情况下可以正确支持检测到的循环，但也可以禁用它来获得性能上的提升
+* toJS 接收两个选项
+  > `exportMapsAsObjects`: 是否将observable映射序列化为对象(true)或JavaScript Map对象(false)。默认为true \
+  > `detectCycles`: 如果检测到循环，则重新使用已经序列化的对象。这可以防止无限递归。默认为true
 
-https://www.baidu.com/link?url=H53O8aPmNMQmMTnFdOoQXKs9kT_NuQRaPsC-9OELoN4ZJhzXMUaWl1VtegHIqQ29_abhLHPmeqI6u0eQIvh6oa&wd=&eqid=e981a0af005cf6a100000006657fb73b
+9. JS数组常用方法及[示例](https://blog.csdn.net/weixin_64530670/article/details/131560914)
+    > `push()`: 在数组最后添加一个或者多个新元素，并且返回新数组的长度 \
+    > `pop()`: 删除数组最后一个元素，并返回数组末尾删除元素\
+    > `unshift()`: 在数组前面添加一个或多个元素，并返回新元素的长度\
+    > `shift()`: 删除数组首部元素，并返回被删除的元素\
+    > `splice()`: 对数组进行删除和修改操作，返回被删除元素组成的数组\
+    > `slice()`: 剪切(截取)数组，并返回一个包含剪切值的新数组，不会改变原数组，也可以截取字符串；负参数会将负的参数加上字符串的长度\
+    > `concat()`: 合并两个或多个数组，返回新数组，不会改变原数组\
+    > `join()`: 将数组转化为字符串，不会改变原有数组，此方法会返回转换后的字符串，默认以','分隔，会改变原数组\
+    > `revres()`: 颠倒数组元素，会改变原数组\
+    > `indexOf()`: 返回数组元素首次在数组中出现的索引，没找到返回-1\
+    > `sort()`: 对数组进行排序，a-b从小到大排序，b-a从大到小\
+    > `filter()`: 返回数组中满足条件的元素组成新数组，元素只能做布尔类型判断，不会改变原数组组\
+    > `map()`: 创建一个新数组，这个新数组由原数组中的每个元素都调用一次提供的函数后的返回值组成，可以做运算，不能过滤原素组元素，不会改变原数组\
+    > `every()`: 用于判断数组中的元素是否都满足条件，当每个元素都满足条件时，返回ture，否则false，不会改变原数组\
+    > `some()`: 判断数组是否至少有一个满足条件，一旦找到一个就立即停止并返回true，否则false，不会改变原数组；当some的数组为空时返回false，当every的数组为空时返回true；every只要有一个失败就返回失败，some只要有一个成功就返回成功\
+    > `forEach()`: 遍历整个数组，中途不能用break中断\
+    > `reduce()`: 给数组做四则运算，第二个参数一般设为0，不会改变原数组\
+    > `includes()`: 判断数组中是否存在，若存在返回true，不存在即返回false\
+    > `findIndex()`: 返回传入一个测试条件(函数)符合条件的数组第一个元素位置。如果没有符合条件的元素返回-1\
+    > `form()`: 伪数组转换成真数组\
+    > `split('分隔符')`: 把字符串转换为数组，使用和join方法相反\
+    > `字符串.substring(开始下标，结束下标)`: 返回被截取的字符串，不包含结束下标对应的字符；不写结束下标，即从开始截取到字符串结尾
 
-https://blog.csdn.net/weixin_64530670/article/details/131560914
+10. 字符串截取的方法`slice()`, `substring()`, `substr()`
+* 相同点：三者皆返回一个新字符串，原字符串不做改变；传入一个正参数时，三者返回的字符串相同，返回的新字符串都是从参数位置到原字符串长度位置的
+* 传入两个正参数时，`slice()`和`substring()`返回的字符串相同，第二个参数都表示结束位置，但`substr()`的表示字符串的个数
+* `substring()`不接受负参数，若传入负参数,将被转换成0
+* `substr()`传入一个负参数时，与slice()相同,转换成参数+字符串长度
+* `substr()`传入两个负参数时，与substring()相同，转换成0。但`substring()`会将参数从小到大排序，`substr()`不会
+* 截取字符串的后几位之前的字符串`slice()``substring()`括号内的第二个参数为`str.length`(需要几位数就写几)
 
-http://www.javascriptcn.com/post/600560bd81e8991b448df045
+11. `immutable-list`不可变操作
+    > `push`: 在列表末尾插入一个元素 \
+    > `pop`: 弹出列表末尾的元素 \
+    > `shift`: 移除列表的第一个元素 \
+    > `unshift`: 在列表的开头插入一个元素 \
+    > `update`: 用给定的值更新列表中的某个元素 \
+    > `splice`: 移除并/或插入列表中的元素 \
+    > `concat`: 将另一个列表附加到当前列表的末尾 \
+    > `slice`: 返回一个包含指定元素的新列表 \
+    > `filter`: 返回一个包含指定条件的元素的新列表 \
+    > `map`: 将每个元素映射到一个新的值并返回一个新列表 \
+    > `reduce`: 依次将列表元素应用于 reducer 并返回单个值
+
+12. 引用赋值、浅拷贝和深拷贝
+* 引用赋值：将一个对象赋值给另一个变量时，实际上是将对象的引用地址赋值给了另一个变量，即两个变量指向同一块内存地址的对象。这意味着，对其中一个变量所指向的对象进行修改，另一个变量也会受到影响
+* 浅拷贝：复制对象时，只复制对象中的基本类型属性和对象引用地址，而不复制对象的子对象或数组的引用地址。这样，当对复制后的对象进行修改时，不会影响原始对象，但如果原始对象中包含的子对象或数组的引用地址发生改变，复制后的对象和原始对象都会受到影响
+* 深拷贝：复制对象时，完整复制对象中的所有属性和子属性，包括嵌套对象和数组。这样，当对复制后的对象进行修改时，不会影响原始对象和原始对象中的子对象或数组
+
+13. Set, Map, Object比较及转化
+* set
+  * 类似于数组，但成员值是唯一的，没有重复的(可以接受一个数组作为参数，进行初始化)
+  * 本身是一个构造函数(要new)，用来生成Set数据结构
+  * Set对象允许你储存任何类型的唯一值，无论是原始值或者是对象引用
+  * 向Set加入值的时候，不会发生类型转换，所以5和"5"是两个不同的值
+* Object
+  * 本质上是键值对的集合(Hash结构)
+  * 只能用字符串当作键
+* map
+  * 它类似于对象，也是键值对的集合，但是“键”的范围不限于字符串，各种类型的值(包括对象）都可以当作键
+  * 本身是一个构造函数(要new)，接受数组作为参数(原理上`Array.forEach`)
+  * 如果对同一个键多次赋值，后面的值将覆盖前面的值，如果读取一个未知的键，则返回undefined
+  * Map的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键
+  * 继承自Object
 
 
-https://blog.csdn.net/weixin_44995391/article/details/131419074
 
-https://blog.csdn.net/weixin_40247192/article/details/132162767
+
+
+
+
+
+
 
 
 ## 遇见问题

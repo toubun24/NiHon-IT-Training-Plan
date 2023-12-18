@@ -1,16 +1,15 @@
 # 学习内容及时长
 
 * **2023.12.18 月曜日:** 
-React Hooks补充
-Redux持久化储存
-Mobx状态管理
-TS基本语法
-样式化组件与单元测试
-Redux-Saga
-React传送门与引用传递
-GraphQL
-DvaJS
-UmiJS
+* Redux持久化储存
+* Mobx状态管理
+* TS基本语法
+* 样式化组件与单元测试
+* Redux-Saga
+* React传送门与引用传递
+* GraphQL
+* DvaJS
+* UmiJS
 
 * **2023.12.19 火曜日:**
 

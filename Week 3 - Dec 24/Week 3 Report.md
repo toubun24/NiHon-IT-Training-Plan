@@ -6,7 +6,8 @@
   * Redux持久化储存 10:00-10:30 10:55-12:50
   * *拓展补充* 17:15-17.55
   * Mobx状态管理 18:10-19:25
-  * TS基本语法 
+  * *N1单词(60个)* 21:30-22:10
+  * TS基本语法 22:15-23:50
 
 * **2023.12.19 火曜日:**
   * 样式化组件与单元测试 
@@ -40,11 +41,11 @@
 
 ## 学习笔记
 
-1. [Flux](https://github.com/voronianski/flux-comparison)
+1. **[Flux](https://github.com/voronianski/flux-comparison)**
 * Facebook Flux是用来构建客户端Web应用的应用架构。它利用单向数据流的方式来组合React中的视图组件
 * Redux最主要是用作应用状态的管理。简言之，Redux用一个单独的常量状态树(state对象)保存这一整个应用的状态，这个对象不能直接被改变。当一些数据变化了，一个新的对象就会被创建(使用actions和reducers)，这样就可以进行数据追踪，实现时光旅行
 
-2. Redux持久化存储
+2. **Redux持久化存储**
 * store状态树的state并不是持久保存的，在浏览器端刷新之后数据会消失，需要重新获取。这个时候就需要Redux store数据的持久化
 * [redux-persist插件](https://github.com/rt2zz/redux-persist): 把Redux的store中的数据缓存到浏览器的localStorage中
   1. 在store页面中引用redux-persist
@@ -88,7 +89,7 @@
       };
       ```
 
-3. Immutable
+3. **Immutable**
 * 深拷贝与浅拷贝
   * `Object.assign()`: 只是一级属性复制，比浅拷贝多拷贝了一层而已
   * `const obj1 = JSON.parse(JSON.stringify(obj))`: 数组或对象都好用的方法，但不能有undefined
@@ -110,7 +111,7 @@
     ```
 * `fromJS`: 自动分析数据并转化为`immutable`对象，而无需再分层`Map`: `state = {info:XXX({...})}`
 
-4. [MobX](https://cn.mobx.js.org/)
+4. **[MobX](https://cn.mobx.js.org/)**
 * 任何源自应用状态的东西都应该自动地获得。利用`getter`和`setter`来收集组件的数据依赖关系，从而在数据发生变化的时候精确知道哪些组件需要重绘，在界面的规模变大的时候，往往会有很多细粒度更新
   * Actions: 事件调用Actions，是唯一可以修改State的东西，并且可能有其它副作用，`@action onClick = () => {this.props.todo.done = true;}`
   * State: 可观察和最低限度定义的，不应包含冗余或推导数据，`@observable todos = [{title: "learn MobX", done: false}]`
@@ -146,6 +147,28 @@
   5. `import {inject,observer} from "mobx-react"; // App.jsx`
   * `inject`(mobx-react包): 相当于Provider 的高阶组件。可以用来从 React 的context中挑选 store 作为 prop 传递给目标组件
   * `observer`: 可以用作包裹React组件的高阶组件。在组件的`render`函数中的任何已使用的`observable`发生变化时，组件都会自动重新渲染
+
+5. **TS基本语法**
+* 声明文件：`npm i --save @types/{依赖包名称} //编译器需要通过这个声明文件，进行类型检查工作`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -269,14 +292,39 @@
   * Map的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键
   * 继承自Object
 
+14. JS 定义
+* class：定义类
+* interface：定义接口
+* extends：类继承类或者接口继承接口
+* implements：类实现接口
+* throws：方法需要往上抛出异常
+* 注意：上面的哪个地方加s哪个地方不加都是有讲究的，比如class和interface都是单个类和接口的定义，所以不加s；而extends可能考虑到接口是多继承，因此加了s，虽然类是单继承，可能为了方便，所以没有做两份；由于类是多实现，所以加了s；由于可以抛出多个异常，异常中间用逗号`,`隔开
 
+15. JS Class `implements`和`extends`
+* 相同点：两者都可以实现父类，减少代码，而且面向对象特征
+* 区别：`implements`实现父类，子类不可以覆盖父类的方法或者变量。即使子类定义与父类相同的变量或者函数，也会被父类取代掉；`extends`可以实现父类，也可以调用父类初始化`this.parent()`。而且会覆盖父类定义的变量或者函数。这样的好处是：架构师定义好接口，让工程师实现就可以了
 
+16. TS断言
+* `as`: `let 变量 = 值 as 类型`
+* `!`: 非空断言
 
+17. `typeof`和`keyof`
+* `typeof`: 用来获取变量或属性类型，`type 变量 = typeof 常量`
+* `keyof`: 获取对象类型的属性名 , 得到新的类型，`type 类型 = keyof 类型/对象常量`
 
-
-
-
-
+18. 泛型
+* 泛型函数：`function 函数名<类型参数> (形参:类型参数):类型参数{}`
+* 默认情况下，泛型函数的类型变量可以代表多个类型，这导致在泛型函数内部无法访问任何属性
+* 泛型约束
+  * 指定更加具体的类型
+  * 添加约束
+* 泛型接口
+  * 接口的类型变量，对接口中所有其他成员可见，也就是接口中所有成员都可以使用类型变量
+  * 使用泛型接口时，需要显式指定具体的类型
+* 泛型工具类型
+ > `Partial`: 把已有的类型属性,变成一个新类型的可选属性，`type 新类型 = partial<老类型>` \
+ > `Readonly`: 把已有类型全部转换为只读类型，`type 新类型 = Readonly<老类型>` \
+ > `Pick`: 从已有类型中选一些属性来构造新的类型，`type 新类型 = partial<老类型,属性|属性2>`
 
 
 ## 遇见问题

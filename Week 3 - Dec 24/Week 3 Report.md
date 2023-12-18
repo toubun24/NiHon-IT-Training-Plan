@@ -58,7 +58,7 @@
   * **CommonJS模块规范:** 每个js文件就是一个模块，有自己的作用域。在一个文件里面定义的变量、函数、类，都是私有的，对其他文件不可见。如果要暴露给其他程序，需要以`module.exports`导出接口，以`require`引入模块
   * **ES6模块规范:** 以export指令导出接口，以import引入模块。在Node.js编程中，Node模块系统遵循的是CommonJS规范
 
-
+[****](https://blog.csdn.net/LlanyW/article/details/130216645)https://blog.csdn.net/LlanyW/article/details/130216645
 
 
 

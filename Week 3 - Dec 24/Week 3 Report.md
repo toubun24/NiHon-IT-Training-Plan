@@ -69,6 +69,7 @@
         return { store, persistor }
       }
       ```
+
   3. 改造`index.js`入口文件
       ```JavaScript
       import { PersistGate } from 'redux-persist/integration/react'
@@ -107,6 +108,7 @@
     const arr2 = arr1.xxx(x)
     ```
 * `fromJS`: 自动分析数据并转化为`immutable`对象，而无需再分层`Map`: `state = {info:XXX({...})}`
+
 
 ## 内容拓展
 1. JS `{}`

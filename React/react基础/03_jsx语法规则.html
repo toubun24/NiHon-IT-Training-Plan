@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSX语法规则</title>
+    <style>
+        .title{
+            background-color: cornflowerblue;
+            width: 300px;
+        }
+        #MYID{ /*id selector*/
+            background-color: red;
+            width: 600px;
+        }
+    </style>
+</head>
+<body>
+    <div id="id_VDOM"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        const MYID = 'myid'
+        const MYDATA1 = 'rEACT, className = "title"'
+        const MYDATA2 = 'rEACT, id = {MYID.toUpperCase()}'
+        const VDOM = (
+            <span>
+                <h2 className="title"> {/*注释...*/}
+                    <span style={{color:'white',fontSize:'40px'}}>
+                        {MYDATA1.toUpperCase()}
+                    </span>
+                </h2>
+                <h2 id={MYID.toUpperCase()}> {/*{...}*/}
+                    <span style={{color:'white',fontSize:'40px'}}>
+                        {MYDATA2.toLowerCase()}
+                    </span>
+                </h2>
+                <input/>
+            </span>
+        )
+        ReactDOM.render(VDOM,document.getElementById('id_VDOM'))
+    </script>
+</body>
+</html>

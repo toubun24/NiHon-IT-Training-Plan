@@ -188,14 +188,14 @@ https://github.com/warrenlucky/zerostart/blob/main/java/React/React%E5%89%8D%E7%
 * JSX创建虚拟DOM
   > `const VDOM = (<h1><span>Hello, React</span></h1>)`: 创建虚拟DOM \
   > `ReactDOM.render(VDOM, document.getElementById('test'))`: 渲染虚拟DOM到页面
-* JSX语法
+* **JSX语法**
   * 标签中混入JS表达式的时候使用`{}`
   * 样式的类名指定不能使用class，使用className
   * 内联样式要使用`{{}}`包裹
   * 不能有多个根标签，只能有一个根标签
   * 标签必须闭合(`< ></ >`)，自闭合(`< />`)也行
   * 如果小写字母开头，就将标签转化为html同名元素，如果html中无该标签对应的元素，就报错；如果是大写字母开头，React就去渲染对应的组件，如果没有定义就报错
-  * 注释必须写在花括号里，如`{/*注释...*/}`
+  * **注释**必须写在**花括号**里，如`{/*注释...*/}`
   * JSX 允许在模板中插入数组，数组自动展开全部成员
 
 **12. React组件**

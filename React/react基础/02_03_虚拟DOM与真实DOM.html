@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>虚拟DOM与真实DOM</title>
+</head>
+<body>
+    <div id="id_VDOM">VDOM in div</div> <!--no output-->
+    <div id="id_TDOM">TDOM in div</div> <!--output-->
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        const VDOM = (
+            <h1>
+                <span>VDOM</span>
+            </h1>
+        )
+        ReactDOM.render(VDOM,document.getElementById('id_VDOM'))
+        const TDOM = document.getElementById('id_TDOM') // TDOM
+
+        console.log('虚拟DOM',VDOM) // Object
+        console.log('真实DOM',TDOM) // <div id="demo"></div>
+        debugger; // framework ignore list
+        console.log(typeof VDOM) // object
+        console.log(VDOM instanceof Object) // true
+    </script>
+</body>
+</html>

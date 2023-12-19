@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>hello_react</title>
+</head>
+<body>
+    <div id="test"></div>
+    <!--react-->
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+
+    <script type="text/babel"> // jsx to js
+        const VDOM = <h1>hello_react</h1> // VDOM
+        ReactDOM.render(VDOM, document.getElementById('test'))
+    </script>
+</body>
+</html>

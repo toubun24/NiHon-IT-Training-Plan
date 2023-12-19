@@ -10,7 +10,7 @@
   * TS基本语法 22:15-23:50
 
 * **2023.12.19 火曜日:**
-  * *复习整理* 14:30-
+  * *代码复现* 14:30-
   * 样式化组件与单元测试 
   * Redux-Saga 
   * React传送门与引用传递 
@@ -326,6 +326,26 @@
  > `Partial`: 把已有的类型属性,变成一个新类型的可选属性，`type 新类型 = partial<老类型>` \
  > `Readonly`: 把已有类型全部转换为只读类型，`type 新类型 = Readonly<老类型>` \
  > `Pick`: 从已有类型中选一些属性来构造新的类型，`type 新类型 = partial<老类型,属性|属性2>`
+
+19. Git
+* `git status`: 查看工作区代码相对于暂存区的差别
+* `git add .`: 将当前目录下修改的所有代码从工作区添加到暂存区`.`代表当前目录
+* `git commit -m`: ‘注释’ 将缓存区内容添加到本地仓库
+* `git pull origin master`: 先将远程仓库master中的信息同步到本地仓库master中
+* `git push origin master`: 将本地版本库推送到远程服务器
+* `origin`:是远程主机，`master`表示是远程服务器上的master分支和本地分支重名的简写，分支名是可以修改的
+
+20. `<script type="text/...">`
+* `text/babel`: 将React语句写在script标签中，且babel类型会将其中的jsx语法翻译为js语法；其中，创建虚拟DOM，并将其渲染到前述对应的div中
+* `text/javascript`: React-JS语法(也就不再需要引入`<script src="./js/babel.min.js"></script>`)
+
+
+
+
+
+
+
+
 
 
 ## 遇见问题

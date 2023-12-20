@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>State</title>
+</head>
+<body>
+    <div id="id_VDOM"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class Weather extends React.Component {
+            state = {isHot:false,wind:'微风'} // 初始化内部State，省掉了构造函数
+            render(){
+                const {isHot,wind} = this.state
+                return (
+                    <ul>
+                        <h1 onClick={this.changeWeather}>今天天气很{isHot ? '炎热' : '凉爽'}，{wind}</h1>
+                        <h1 onClick={this.changeWeather2}>今天天气很{isHot ? '炎热' : '凉爽'}，{wind}</h1> {/*Uncaught TypeError: Cannot read properties of undefined (reading 'state')*/}
+                        <h1 onClick={this.changeWeather2.bind(this)}>今天天气很{isHot ? '炎热' : '凉爽'}，{wind}</h1> {/*正常输出*/}
+                    </ul>
+                )   
+            }
+            changeWeather=()=>{ // 自定义方法要用赋值语句的形式+箭头函数：箭头函数中的this指向组件的实例，而不是undefined，因此不需要使用bind()来绑定this
+                console.log('changeWeather');
+                const isHot = this.state.isHot
+                this.setState({isHot:!isHot})
+                console.log(this);
+            }
+            changeWeather2(){ // 需要使用bind()来绑定this
+                console.log('changeWeather2');
+                console.log(this.state.isHot);
+                const isHot = this.state.isHot
+                this.setState({isHot:!isHot})
+                console.log(this);
+            }
+        }
+        ReactDOM.render(<Weather/>,document.getElementById('id_VDOM'))
+    </script>
+</body>
+</html>

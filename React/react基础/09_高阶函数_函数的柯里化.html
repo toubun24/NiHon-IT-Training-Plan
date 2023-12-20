@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高阶函数_函数的柯里化</title>
+</head>
+<body>
+    <div id='test'></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+    class Login extends React.Component{
+        state = {
+            username:'',
+            password:''
+        }
+        saveFormdata = (dataType) => {
+            return (event) => {
+                this.setState({[dataType]:event.target.value})
+            }
+        }   
+        upload = (event) => {
+            event.preventDefault()
+            const {username,password} = this.state
+            alert(`你输入的用户名是：${username}，你输入的密码是：${password}`)
+        }
+        render(){
+            return (
+                <form onSubmit={this.upload}>
+                    用户名&nbsp;<input onChange={this.saveFormdata('username')} type="text" name='username'/>&nbsp;
+                    密码&nbsp;<input onChange={this.saveFormdata('password')} type="password" name='password'/>&nbsp;
+                    <button>登录</button>
+                </form>
+            )
+        }
+    }
+    ReactDOM.render(<Login/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

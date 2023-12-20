@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>getSnapshotBeforeUpdate使用场景</title>
+    <style>
+        .list{
+            width: 200px;
+            background-color: skyblue;
+            height: 150px;
+            overflow: auto;
+        }
+        .news{
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="test"></div>
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+        class News extends React.Component{
+            state = {arr:[]}
+            componentDidMount(){
+                setInterval(() => {
+                    const {arr} = this.state
+                    const news = '新闻'+ (arr.length+1)
+                    this.setState({arr:[news,...arr]})
+                }, 1000);
+            }
+            getSnapshotBeforeUpdate(){
+                return this.refs.test.scrollHeight
+            }
+            componentDidUpdate(prevprops,prevstate,height){
+                this.refs.test.scrollTop += this.refs.test.scrollHeight - height
+            }
+            render(){
+                return (
+                    <div className='list' ref='test'>
+                        {
+                            this.state.arr.map((n,index) => {
+                                return <div key={index} className='news'>{n}</div>
+                                }
+                            )
+                        }
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<News/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

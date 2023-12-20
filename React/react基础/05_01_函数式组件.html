@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSX练习</title>
+    <title>函数式组件</title>
 </head>
 <body>
     <div id="id_VDOM"></div>
@@ -12,10 +12,9 @@
     <script src="./js/babel.min.js"></script>
     <script type="text/babel">
         function FunctionComponent () {
-        //此处的this是undefined，因为babel编译后开启了严格模式
-        return <h2>我是用函数定义的组件(适用于【简单组件】的定义)</h2>
-    }
-        ReactDOM.render(FunctionComponent,document.getElementById('id_VDOM'))
+            return <h2>我是用函数定义的组件(适用于【简单组件】的定义)</h2> // 标签包裹
+        }
+        ReactDOM.render(<FunctionComponent/>,document.getElementById('id_VDOM')) // 标签包裹函数组件
     </script>
 </body>
 </html>

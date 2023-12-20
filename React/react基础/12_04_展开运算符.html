@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>arugments</title>
+</head>
+<body>
+    <script>
+        let arr1 = [1,2,3,4,5]
+        let arr2 = [6,7,8,9,10]
+        console.log(...arr1)
+        console.log(...arr2)
+        let arr3 = [...arr1,...arr2]
+        console.log(arr3)
+        function sum (...numbers){
+           return numbers.reduce((x,y) => {
+             return x + y
+           })
+       }
+       console.log(sum(1,2,3,4,5))
+       let person = {name:'tom',age:18}
+       let person2 = {...person}
+       person.name = 'jerry'
+       console.log(person2)
+       console.log(person)
+       let person3 = {...person,name:'jack',age:20,adress:'地球'}
+       console.log(person3)
+ 
+
+
+    </script>
+    
+</body>
+</html>

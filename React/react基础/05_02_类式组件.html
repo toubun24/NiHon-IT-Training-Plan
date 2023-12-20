@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>类式组件</title>
+</head>
+<body>
+    <div id="id_VDOM"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class ClassComponent extends React.Component {
+            render(){
+                console.log(this) //this——ClassComponent的实例对象<=>ClassComponent组件实例对象 // ClassComponent
+                return <h2>我是用类定义的组件(适用于【复杂组件】的定义)</h2>
+            }
+        }
+        ReactDOM.render(<ClassComponent/>,document.getElementById('id_VDOM')) // 标签包裹类式组件
+    </script>
+</body>
+</html>

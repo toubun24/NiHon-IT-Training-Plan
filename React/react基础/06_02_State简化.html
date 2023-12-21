@@ -14,7 +14,7 @@
         class Weather extends React.Component {
             state = {isHot:false,wind:'微风'} // 初始化内部State，省掉了构造函数
             render(){
-                const {isHot,wind} = this.state
+                const {isHot,wind} = this.state // render和return之间
                 return (
                     <ul>
                         <h1 onClick={this.changeWeather}>今天天气很{isHot ? '炎热' : '凉爽'}，{wind}</h1>

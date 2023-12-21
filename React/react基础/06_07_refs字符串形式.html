@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>refs字符串形式</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class Demo extends React.Component{
+            showData = ()=>{ // 左边
+                const {input1} = this.refs // this.refs
+                alert(input1.value)
+            }
+            showData2 = ()=>{ // 右边
+                const {input2} = this.refs
+                alert(input2.value)
+            }
+            render(){
+                return(
+                    <div>
+                        <input ref="input1" type="text" placeholder="点击按钮提示数据"/>&nbsp; {/*ref="input"传参, &nbsp;小间隔*/}
+                        <button onClick={this.showData}>点我提示左侧的数据</button>&nbsp;
+                        <input ref="input2" onBlur={this.showData2} type="text" placeholder="失去焦点提示数据"/>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Demo/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

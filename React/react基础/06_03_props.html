@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>props</title>
+</head>
+<body>
+    <div id="props1"></div>
+    <div id="props2"></div>
+    <div id="props3"></div>
+    <div id="props4"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class Person extends React.Component{
+            render(){
+                console.log(this);
+                const {name,age,sex} = this.props // 解构
+                return (
+                    <ul>
+                        <li>姓名：{name}</li>
+                        <li>性别：{sex}</li>
+                        <li>年龄：{age+1}</li>
+                    </ul>
+                )
+            }
+        }
+        ReactDOM.render(<Person name="jerry" age={19} sex="男"/>,document.getElementById('props1')) // input type 1
+        ReactDOM.render(<Person name="tom" age={18} sex="女"/>,document.getElementById('props2'))
+        const p = {name:'老刘',age:18,sex:'女'}
+        console.log('@', p,'@'); // @ {name: '老刘', age: 18, sex: '女'} @
+        console.log('@', ...p,'@'); // @ @
+        ReactDOM.render(<Person name={p.name} age={p.age} sex={p.sex}/>,document.getElementById('props3')) // input type 2
+        ReactDOM.render(<Person {...p}/>,document.getElementById('props4')) // input type 3
+    </script>
+</body>
+</html>

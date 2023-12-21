@@ -16,8 +16,8 @@
   * *N1单词(150个)* 14:05-14:45 15:05-15:15 16:50-17:05
   * *代码复现* 23:40-01:20
 
-* **2023.12.21 木曜日:** (晚饭后电脑进不了系统，最后搞下来要么是因为内存超频(手动调过小参)要么是windows的系统自动更新orz(以前也这样过))
-  * *代码复现* 10:45-11:40 16:20-17:50 00:45-
+* **2023.12.21 木曜日:** 3h20min (晚饭后电脑进不了系统，最后搞下来要么是因为内存超频(手动调过小参)要么是windows的系统自动更新orz(以前也这样过))
+  * *代码复现* 10:45-11:40 16:20-17:50 00:45-01:10 2:00-2:30
 
 * **2023.12.22 金曜日:**
   * 样式化组件与单元测试 
@@ -371,6 +371,35 @@ https://zhuanlan.zhihu.com/p/631616556
 * `ref={c => this.input1 = c}`: 结合箭头函数的特性，只有一个参数，那么可以省略参数的小括号，函数体也就一句，也可以省略箭头函数右侧花括号。所以ref这样精简
 * 事件函数会发生改变。原来是`const {input2} = this.refs`，而现在是`const {input2} = this`，因为此`ref`所处的dom节点挂载到实例上，所以直接写`this`即可
 * 如果`ref`回调函数是以内联函数的方式定义的，在更新过程中它会被执行两次，第一次传入参数null，然后第二次会传入参数DOM元素。这是因为在每次渲染时会创建一个新的函数实例，所以React清空旧的`ref`并且设置新的。通过将`ref`的回调函数定义成`class`的绑定函数的方式可以避免上述问题，但是大多数情况下它是无关紧要的。注意，我们上面所写代码，将ref回调函数写在input标签内，这就是以内联函数的方式定义ref回调函数，符合官网的说明。但是，在更新过程中才会被执行两次，一次null一次传入参数dom元素，第一次执行render渲染dom是初始化，并非更新
+
+31. `event`: 如果不传递参数默认函数自带event；不传递event的时候也可以传参
+
+32. `event.preventDefault()`
+* 如果`Event`对象的`cancelable`属性是`fasle`，那么就没有默认动作，或者不能阻止默认动作。无论哪种情况，调用该方法都没有作用
+* 此方法并不被ie支持，在ie下需要用`window.event.returnValue = false;`来实现
+
+33. ES6的对象解构赋值：在一个对象中，当属性(key)与属性值(前面定义的变量)一样的时候，是可以省略的，可以只写一个(key)属性
+
+34. `console.log(username, password, this)`
+```JavaScript
+<input type="text" name="username">
+<input type="password" name="password">
+Login {props: {…}, context: {…}, refs: {…}, updater: {…}, handleSubmit: ƒ, …}
+context: {}
+handleSubmit: ƒ ()
+password: input
+props: {}
+refs: {}
+state: null
+updater: {isMounted: ƒ, enqueueSetState: ƒ, enqueueReplaceState: ƒ, enqueueForceUpdate: ƒ}
+username: input
+_reactInternalFiber: FiberNode {tag: 1, key: null, stateNode: Login, elementType: ƒ, type: ƒ, …}
+_reactInternalInstance: {_processChildContext: ƒ}
+isMounted: (…)
+replaceState: (…)
+[[Prototype]]: Component
+```
+
 
 ## 遇见问题
 

@@ -8,27 +8,29 @@
 </head>
 <body>
     <div id='test'></div>
-    <script src="../js/react.development.js"></script>
-    <script src="../js/react-dom.development.js"></script>
-    <script src="../js/babel.min.js"></script>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
     <script type="text/babel">
-    class Login extends React.Component{
-        upload = (event) => {
-            event.preventDefault()
-            const {username,password} = this
-            alert(`你输入的用户名是：${username.value}，你输入的密码是：${password.value}`)
-        }
-        render(){
-            return (
-                <form onSubmit={this.upload}>
-                    用户名&nbsp;<input ref={c => this.username = c} type="text" name='username'/>&nbsp;
-                    密码&nbsp;<input ref={c => this.password = c} type="password" name='password'/>&nbsp;
+        class Login extends React.Component{
+            handleSubmit = ()=>{
+                event.preventDefault()
+                const {username,password} = this // this
+                console.log(username, password, this) // week3_34
+                alert(`你输入的用户名是：${username.value},你输入的密码是：${password.value}`) // ${username.value} ${password.value}
+            }
+            render(){
+                return(
+                <form onSubmit={this.handleSubmit}>
+                    用户名：<input ref={c => this.username = c} type="text" name="username"/> {/*ref={c => this.username = c}*/}
+                    密码：<input ref={c => this.password = c} type="password" name="password"/> {/*ref={c => this.password = c}*/}
                     <button>登录</button>
                 </form>
-            )
+                )
+            }
         }
-    }
-    ReactDOM.render(<Login/>,document.getElementById('test'))
+        //渲染组件
+        ReactDOM.render(<Login/>,document.getElementById('test'))
     </script>
 </body>
 </html>

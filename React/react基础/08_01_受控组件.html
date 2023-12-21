@@ -13,29 +13,26 @@
     <script src="./js/babel.min.js"></script>
     <script type="text/babel">
         class Login extends React.Component{
-            state = {
+            state = { // state
                 username:'',
                 password:''
             }
-            //保存用户名到状态中
-            saveUsername = ()=>{
-                this.setState({username:event.target.value})
+            saveUsername = ()=>{ // 如果不传递参数默认函数自带event, 不传递event的时候也可以传参
+                this.setState({username:event.target.value}) // setState
             }
-            //保存密码到状态中
             savePassword = ()=>{
                 this.setState({password:event.target.value})
             }
-            //表单提交的回调
             handleSubmit = ()=>{
                 event.preventDefault() //阻止表单提交
-                const {username,password} = this.state
-                alert(`你输入的用户名是：${username},你输入的密码是：${password}`)
+                const {username,password} = this.state // this.state
+                alert(`你输入的用户名是：${username},你输入的密码是：${password}`) // ${username} ${password}
             }
             render(){
                 return(
                 <form onSubmit={this.handleSubmit}>
-                    用户名：<input onChange={this.saveUsername} type="text" name="username"/>
-                    密码：<input onChange={this.savePassword} type="password" name="password"/>
+                    用户名：<input onChange={this.saveUsername} type="text" name="username"/> {/*onChange={this.saveUsername}*/}
+                    密码：<input onChange={this.savePassword} type="password" name="password"/> {/*onChange={this.savePassword}*/}
                     <button>登录</button>
                 </form>
                 )

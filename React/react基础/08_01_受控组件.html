@@ -31,8 +31,8 @@
             render(){
                 return(
                 <form onSubmit={this.handleSubmit}>
-                    用户名：<input onChange={this.saveUsername} type="text" name="username"/> {/*onChange={this.saveUsername}*/}
-                    密码：<input onChange={this.savePassword} type="password" name="password"/> {/*onChange={this.savePassword}*/}
+                    用户名：<input onChange={this.saveUsername} type="text" name="username"/> {/*非受控组件: ref={c => this.username = c}*/}
+                    密码：<input onChange={this.savePassword} type="password" name="password"/> {/*非受控组件: ref={c => this.password = c}*/}
                     <button>登录</button>
                 </form>
                 )

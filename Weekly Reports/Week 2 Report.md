@@ -49,17 +49,6 @@
   * *复习整理* 21:20-23:30 23:40-00:05
   * *软件工程师常用日本语 P16-P40*
 
-  * React Hooks补充
-  * Redux持久化储存 
-  * Mobx状态管理 
-  * TS基本语法 
-  * 样式化组件与单元测试 
-  * Redux-Saga 
-  * React传送门与引用传递 
-  * GraphQL 
-  * DvaJS 
-  * UmiJS 
-
 ## 学习笔记
 
 ### LalaPodo

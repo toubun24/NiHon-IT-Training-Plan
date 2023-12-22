@@ -19,9 +19,9 @@
 </head>
 <body>
     <div id="test"></div>
-    <script src="../js/17.0.1/react.development.js"></script>
-    <script src="../js/17.0.1/react-dom.development.js"></script>
-    <script src="../js/17.0.1/babel.min.js"></script>
+    <script src="./js/17.0.1/react.development.js"></script>
+    <script src="./js/17.0.1/react-dom.development.js"></script>
+    <script src="./js/17.0.1/babel.min.js"></script>
     <script type="text/babel">
         class News extends React.Component{
             state = {arr:[]}
@@ -33,12 +33,15 @@
                 }, 1000);
             }
             getSnapshotBeforeUpdate(){
+                console.log('getSnapshotBeforeUpdate') // 2. getSnapshotBeforeUpdate
                 return this.refs.test.scrollHeight
             }
             componentDidUpdate(prevprops,prevstate,height){
-                this.refs.test.scrollTop += this.refs.test.scrollHeight - height
+                console.log('componentDidUpdate') // 3. componentDidUpdate
+                this.refs.test.scrollTop += this.refs.test.scrollHeight - height // +=30
             }
             render(){
+                console.log('render');// 1. render
                 return (
                     <div className='list' ref='test'>
                         {
@@ -51,7 +54,7 @@
                 )
             }
         }
-        ReactDOM.render(<News/>,document.getElementById('test'))
+        ReactDOM.render(<News/>,document.getElementById('test')) // 初始化: render 
     </script>
 </body>
 </html>

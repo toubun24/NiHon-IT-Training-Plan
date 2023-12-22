@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期引入</title>
+</head>
+<body>
+    <div id='test'></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class Life extends React.Component{
+            state = {opacity:1} // 透明度
+            delete = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById('test')) // unmountComponentAtNode() => componentWillUnmount()
+            }
+            componentDidMount(){
+               this.timer =  setInterval(() => { // 定时器，每间隔一定时间调用一次 // setInterval() => clearInterval()
+                    let {opacity} = this.state
+                    opacity -= 0.1
+                    if(opacity <= 0) opacity = 1
+                    this.setState({opacity})
+                },200)
+            }
+            componentWillUnmount(){
+                alert("componentWillUnmount")
+                clearInterval(this.timer) // 清除定时器
+            }
+            render(){
+                return (
+                    <div>
+                        <h2 style={{opacity:this.state.opacity}}>React学不会怎么办</h2> {/*透明度变化*/}
+                        <button onClick={this.delete}>不学了</button> {/*<div id="test"><div><h2 style="opacity: 0.9;">React学不会怎么办</h2> <button>不学了</button></div></div> => <div id="test"></div>*/}
+                    </div> //                                                                                     ↑ 动态变化中
+                )
+            }
+        }
+        ReactDOM.render(<Life/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

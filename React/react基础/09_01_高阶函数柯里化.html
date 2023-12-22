@@ -8,30 +8,41 @@
 </head>
 <body>
     <div id='test'></div>
-    <script src="../js/react.development.js"></script>
-    <script src="../js/react-dom.development.js"></script>
-    <script src="../js/babel.min.js"></script>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
     <script type="text/babel">
     class Login extends React.Component{
         state = {
             username:'',
             password:''
         }
+
+        /*
+        08_01_受控组件:
+        saveUsername = ()=>{
+            this.setState({username:event.target.value}) // setState
+        }
+        savePassword = ()=>{
+            this.setState({password:event.target.value})
+        }
+        */
         saveFormdata = (dataType) => {
             return (event) => {
                 this.setState({[dataType]:event.target.value})
             }
-        }   
-        upload = (event) => {
+        }
+
+        handleSubmit = (event) => {
             event.preventDefault()
             const {username,password} = this.state
-            alert(`你输入的用户名是：${username}，你输入的密码是：${password}`)
+            alert(`你输入的用户名是：${username},你输入的密码是：${password}`)
         }
         render(){
             return (
-                <form onSubmit={this.upload}>
-                    用户名&nbsp;<input onChange={this.saveFormdata('username')} type="text" name='username'/>&nbsp;
-                    密码&nbsp;<input onChange={this.saveFormdata('password')} type="password" name='password'/>&nbsp;
+                <form onSubmit={this.handleSubmit}>
+                    用户名&nbsp;<input onChange={this.saveFormdata('username')} type="text" name='username'/>&nbsp; {/*受控组件: onChange={this.saveUsername}*/} {/*不用函数柯里化: onChange={event => this.saveFormdata('username',event)}*/}
+                    密码&nbsp;<input onChange={this.saveFormdata('password')} type="password" name='password'/>&nbsp; {/*受控组件: onChange={this.savePassword}*/} {/*不用函数柯里化: onChange={event => this.saveFormdata('password',event)}*/}
                     <button>登录</button>
                 </form>
             )

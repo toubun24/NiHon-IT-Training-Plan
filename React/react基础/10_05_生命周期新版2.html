@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期新版2</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script src="./js/17.0.1/react.development.js"></script>
+    <script src="./js/17.0.1/react-dom.development.js"></script>
+    <script src="./js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+        class A extends React.Component{
+            state = {carName:'奔驰'}
+            changeCar = () => {
+                const {carName} = this.state
+                this.setState({carName:'奥迪'})
+            }
+            render(){
+                console.log('A---render'); // 1. A---render
+                return (
+                    <div>
+                        <div>我是A组件</div>
+                        <button onClick={this.changeCar}>换车</button>
+                        <B carName={this.state.carName}/>
+                    </div>
+                )
+            }
+        }
+        class B extends React.Component{
+            UNSAFE_componentWillReceiveProps(props){
+                console.log('B---UNSAFE_componentWillReceiveProps',props) // 2. B---UNSAFE_componentWillReceiveProps {carName: '奥迪'} // 2. B---componentWillReceiveProps {carName: '奥迪'}
+            }
+            shouldComponentUpdate(){
+                console.log('B---shouldComponentUpdate') // 3. B---shouldComponentUpdate
+                return true
+            }
+            UNSAFE_componentWillUpdate(){
+                console.log('B---UNSAFE_componentWillUpdate') // 4. B---UNSAFE_componentWillUpdate // 4. B---componentWillUpdate
+            }
+            componentDidUpdate(){
+                console.log('B---componentDidUpdate') // 6. B---componentDidUpdate
+            }
+            render(){
+                console.log('B---render') // 5. B---render
+                return (
+                    <div>
+                        <div>我是B组件</div>
+                        <div>我展示的车是：{this.props.carName}</div>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<A/>,document.getElementById('test')) // 初始化: A---render B---render
+    </script>
+</body>
+</html>

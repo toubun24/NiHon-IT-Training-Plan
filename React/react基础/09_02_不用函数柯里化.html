@@ -8,28 +8,31 @@
 </head>
 <body>
     <div id='test'></div>
-    <script src="../js/react.development.js"></script>
-    <script src="../js/react-dom.development.js"></script>
-    <script src="../js/babel.min.js"></script>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
     <script type="text/babel">
     class Login extends React.Component{
         state = {
             username:'',
             password:''
         }
-        saveFormdata = (dataType,event) => {
-                this.setState({[dataType]:event.target.value})
-        }   
-        upload = (event) => {
+        saveFormdata = (dataType) => {
+            // 09_01_高阶函数柯里化
+            // return (event) => {
+            this.setState({[dataType]:event.target.value}) // 要么在此处return，要么后面加上event=>
+            // }
+        }
+        handleSubmit = (event) => {
             event.preventDefault()
             const {username,password} = this.state
             alert(`你输入的用户名是：${username}，你输入的密码是：${password}`)
         }
         render(){
             return (
-                <form onSubmit={this.upload}>
-                    用户名&nbsp;<input onChange={event => this.saveFormdata('username',event)} type="text" name='username'/>&nbsp;
-                    密码&nbsp;<input onChange={event => this.saveFormdata('password',event)} type="password" name='password'/>&nbsp;
+                <form onSubmit={this.handleSubmit}>
+                    用户名&nbsp;<input onChange={event => this.saveFormdata('username',event)} type="text" name='username'/>&nbsp; {/*高阶函数柯里化: onChange={this.saveFormdata('username')}*/}
+                    密码&nbsp;<input onChange={event => this.saveFormdata('password',event)} type="password" name='password'/>&nbsp; {/*高阶函数柯里化: onChange={this.saveFormdata('password')}*/}
                     <button>登录</button>
                 </form>
             )

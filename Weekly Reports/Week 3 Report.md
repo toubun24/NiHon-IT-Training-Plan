@@ -20,12 +20,7 @@
   * *代码复现* 10:45-11:40 16:20-17:50 00:45-01:10 2:00-2:30
 
 * **2023.12.22 金曜日:**
-  * 样式化组件与单元测试 
-  * Redux-Saga 
-  * React传送门与引用传递 
-  * GraphQL 
-  * DvaJS 
-  * UmiJS 
+* *代码复现* 13:20-14:35 15:25-17:00
 
 * **2023.12.23 土曜日:**
 
@@ -33,7 +28,12 @@
 
 * **2023.12.24 日曜日:** 
 
-
+  * 样式化组件与单元测试 
+  * Redux-Saga 
+  * React传送门与引用传递 
+  * GraphQL 
+  * DvaJS 
+  * UmiJS 
 
 
 ## 学习笔记
@@ -399,6 +399,38 @@ isMounted: (…)
 replaceState: (…)
 [[Prototype]]: Component
 ```
+
+35. `<meta http-equiv="X-UA-Compatible" content="IE=edge">`: IE8/9及以后的版本都会以最高版本IE来渲染页面
+
+36. `ReactDOM.unmountComponentAtNode(container)`: [参考链接](https://blog.csdn.net/qq_41581588/article/details/129178364)
+
+37. React `componentWillUnmount()`
+* 在组件卸载及销毁之前直接调用
+* 方法中不应调用`setState()`，因为该组件将永远不会重新渲染。组件实例卸载后，将永远不会再挂载它
+
+38. React定时器
+* `setInterval()`: 确保只在组件挂载时启动一次定时器，并使用`clearInterval()`函数在组件卸载时清除定时器
+* `setTimeout()`: 确保只在组件挂载时启动一次定时器，并使用`clearTimeout()`函数在组件卸载时清除定时器
+
+39. `UNSAFE_componentWillReceiveProps`
+* 可以在子组件的render函数执行前获取新的props，从而更新子组件自己的state。
+这样的好处是，可以将数据请求放在这里进行执行，需要传的参数则从componentWillReceiveProps(nextProps)中获取。而不必将所有的请求都放在父组件中。于是该请求只会在该组件渲染时才会发出，从而减轻请求负担。
+* 实现监听props改变 重新发起请求 修改state值，不需要setState,因为后面有render函数
+* 里面第一个参数是改变后的props
+* 这个生命周期要注意：数据改变的来源尽量只来自于1方 ，例如当通过props修改子组件的state.age，有通过子组件自身修改state.age会相互覆盖的
+* Rename componentWillUpdate to `UNSAFE_componentWill...` to suppress this warning in non-strict mode. In React 18.x, only the UNSAFE_ name will work. To rename all deprecated lifecycles to their new names, you can run `npx react-codemod rename-unsafe-lifecycles` in your project source folder.
+
+40. `static getDerivedStateFromProps(props, state)`
+* 这个生命周期函数是为了替代`componentWillReceiveProps`存在的，所以在你需要使用`componentWillReceiveProps`的时候，就可以考虑使用`getDerivedStateFromProps`来进行替代
+* 两者的参数是不相同的，而`getDerivedStateFromProps`是一个静态函数，也就是这个函数不能通过`this`访问到`class`的属性，也并不推荐直接访问属性。而是应该通过参数提供的`nextProps`以及`prevState`来进行判断，根据新传入的`props`来映射到`state`
+* 如果`props`传入的内容不需要影响到你的`state`，那么就需要返回一个`null`，这个返回值是必须的，所以尽量将其写到函数的末尾
+* 作用就是为了让`props`能更新到组件内部`state`中。所以它可能的使用场景有两个
+  * 无条件的根据`prop`来更新内部`state`，也就是只要有传入`prop`值， 就更新`state`
+  * 只有`prop`值和`state`值不同时才更新`state`值
+
+
+
+
 
 
 ## 遇见问题

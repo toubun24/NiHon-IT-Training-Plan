@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期旧版2</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class A extends React.Component { // 父组件
+            state = { carName: '奔驰' }
+            changeCar = () => {
+                this.setState({ carName: '奥迪' })
+            }
+
+            render() {
+                console.log('A---render'); // 1. A---render
+                return (
+                    <div>
+                        <div>我是A组件</div>
+                        <button onClick={this.changeCar}>换车</button>
+                        <B carName={this.state.carName} />
+                    </div>
+                )
+            }
+        }
+
+        class B extends React.Component { // 子组件
+            componentWillReceiveProps(props) { // 组件将要接收新的props的钩子
+                console.log('B---componentWillReceiveProps', props); // 2. B---componentWillReceiveProps {carName: '奥迪'}
+            }
+            shouldComponentUpdate() {
+                console.log('B---shouldComponentUpdate'); // 3. B---shouldComponentUpdate
+                return true // return
+            }
+            componentWillUpdate() {
+                console.log('B---componentWillUpdate'); // 4. B---componentWillUpdate
+            }
+            componentDidUpdate() {
+                console.log('B---componentDidUpdate'); // 6. B---componentDidUpdate
+            }
+            render() {
+                console.log('B---render'); // 5. B---render
+                return (
+                    <div>我是B组件，接收到的车是:{this.props.carName}</div>
+                )
+            }
+        }
+
+        ReactDOM.render(<A/>,document.getElementById('test')) // 初始化: A---render B---render
+    </script>
+</body>
+</html>

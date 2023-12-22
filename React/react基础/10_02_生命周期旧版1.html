@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生命周期旧版1</title>
+</head>
+<body>
+    <div id="test"></div>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
+    <script type="text/babel">
+        class Count extends React.Component{
+            constructor(props){
+                console.log('Count---constructor');
+                super(props)
+                this.state = {count:0}
+            }
+            add = ()=>{
+                const {count} = this.state
+                this.setState({count:count+1})
+            }
+            death = ()=>{
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+            }
+            force = ()=>{
+                this.forceUpdate()
+            }
+            componentWillMount(){
+                console.log('Count---componentWillMount');
+            }
+            componentDidMount(){
+                console.log('Count---componentDidMount');
+            }
+            componentWillUnmount(){
+                console.log('Count---componentWillUnmount');
+            }
+            shouldComponentUpdate(){
+                console.log('Count---shouldComponentUpdate');
+                return true // return
+            }
+            componentWillUpdate(){
+                console.log('Count---componentWillUpdate');
+            }
+            componentDidUpdate(){
+                console.log('Count---componentDidUpdate');
+            }
+            render(){
+                {/* 初始化
+                    Count---constructor
+                    Count---componentWillMount
+                    Count---render
+                    Count---componentDidMount
+                */}
+                console.log('Count---render');
+                const {count} = this.state
+                return(
+                    <div>
+                    <h2>当前求和为：{count}</h2>
+                    <button onClick={this.add}>点我+1</button>
+                    {/* 更新
+                        Count---shouldComponentUpdate
+                        Count---componentWillUpdate
+                        Count---render
+                        Count---componentDidUpdate
+                    */}
+                    <button onClick={this.death}>卸载组件</button>
+                    {/* 卸载
+                        Count---componentWillUnmount
+                    */}
+                    <button onClick={this.force}>不更改任何状态中的数据，强制更新一下</button>
+                    {/* 强制更新
+                        Count---componentWillUpdate
+                        Count---render
+                        Count---componentDidUpdate
+                    */}
+                    </div>
+                )
+            }
+        }        
+        ReactDOM.render(<Count/>,document.getElementById('test'))
+    </script>
+</body>
+</html>

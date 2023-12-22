@@ -8,9 +8,9 @@
 </head>
 <body>
     <div id='test'></div>
-    <script src="../js/react.development.js"></script>
-    <script src="../js/react-dom.development.js"></script>
-    <script src="../js/babel.min.js"></script>
+    <script src="./js/react.development.js"></script>
+    <script src="./js/react-dom.development.js"></script>
+    <script src="./js/babel.min.js"></script>
     <script type="text/babel">
         class Time extends React.Component{
             state = {date:new Date()}
@@ -23,10 +23,10 @@
                 return (
                     <div>
                         <h2>hello</h2>
-                        <input type="text"/><br/>
+                        <input type="text"/><br/> {/*unchanged*/}
                         <span>
                             现在的时间是: {this.state.date.toLocaleTimeString()}<br/>
-                            <input type="text"/>
+                            <input type="text"/> {/*unchanged*/}
                         </span>
                     </div>
                 )

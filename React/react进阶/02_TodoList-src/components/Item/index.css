@@ -1,0 +1,10 @@
+li {
+    cursor: pointer; /*鼠标指针*/
+    list-style: none; /*无序标点*/
+    line-height: 36px;
+    border-bottom: 1px solid #ddd;
+}
+.buttonItem {
+    vertical-align: middle;
+    margin-top: 6px; /*float: right导致靠齐右上角，调整高度回归居中*/
+}

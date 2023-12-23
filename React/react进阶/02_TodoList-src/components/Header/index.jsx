@@ -20,7 +20,7 @@ export default class Header extends Component {
   }
   render() {
     return (
-      <div>
+      <div className="divHeader"> {/*NNN*/}
         <input type="text" onKeyUp={this.handleKeyUp} placeholder='请输入你的任务名称，按回车键确认' /> {/*placeholder*/} {/*onKeyUp*/}
       </div>
     )

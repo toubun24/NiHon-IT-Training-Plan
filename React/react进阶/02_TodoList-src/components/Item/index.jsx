@@ -30,7 +30,7 @@ export default class Item extends Component {
             <input type="checkbox" checked={done} onChange={this.handleCheck(id)} /> {/*<input type="checkbox"/>*/} {/*defaultChecked & checked*/}
             <span>{name}</span>
           </label>
-          <button style={{ display: mouse ? 'inline' : 'none' }} onClick={this.handleDelete(id)}>删除</button> {/*类内定义的函数调用时前缀this.*/}
+          <button className="buttonItem" style={{ display: mouse ? 'inline' : 'none' }} onClick={this.handleDelete(id)}>删除</button> {/*类内定义的函数调用时前缀this.*/}
         </li>
       </div>
     )

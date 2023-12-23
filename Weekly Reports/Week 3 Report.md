@@ -21,9 +21,10 @@
 
 * **2023.12.22 金曜日:**
 * *代码复现* 13:20-14:35 15:25-17:00 17:50-19:50
+* *N1单词(复习160个)* 21:35-22:05
 
 * **2023.12.23 土曜日:**
-
+* *代码复现* 13:20-14:00 15:45-18:55
 
 
 * **2023.12.24 日曜日:** 
@@ -429,6 +430,42 @@ replaceState: (…)
   * 只有`prop`值和`state`值不同时才更新`state`值
 
 41. `toLocaleTimeString()`: 方法可根据本地时间把`Date`对象的时间部分转换为字符串,并返回结果
+
+42. `<input type="checkbox"/>`
+* `defaultChecked`: 只在初次渲染时生效，更新时不受控制
+* `checked`: 始终受到控制，必须通过绑定`onChange`事件来控制选中情况
+
+43. `event`
+* `event.target`: 返回触发此事件的元素(事件的目标节点)。重要作用：事件委托(就是将事件绑定到父级/爷爷级对象上，通过事件对象的target属性来控制子级对象的改变，例：点击子级元素时子级发生样式改变): `event.target.style=''`
+* `event.currentTarget`: 返回其事件监听器触发该事件的元素，相当于`this`
+* `event.type`: 返回当前`Event`对象表示的事件的名称
+* `event.timeStamp`: 返回事件生成的日期和时间
+* `event.keyCode`: 键盘按键代码(返回值number)和`keydown`/`keyup`(事件会在键盘按下/松开时触发)配合使用
+
+44. CSS `display`
+* `none`: 此元素将不被显示
+* `block`: 此元素将显示为块级元素，此元素前后会带有换行符
+* `inline`: 此元素会被显示为内联元素，元素前后没有换行符，将不能再设置宽和高以及上下方向的margin和padding
+* `inline-block`: 既具有block元素可以设置width和height属性的特性，又保持了inline元素不换行的特性
+* `inherit`: 规定应该从父元素继承 display 属性的值
+
+45. `array.reduce(callback, initialValue)`
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

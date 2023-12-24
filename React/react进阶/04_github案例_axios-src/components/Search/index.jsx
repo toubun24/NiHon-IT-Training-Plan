@@ -6,10 +6,10 @@ export default class Search extends Component {
         const { keyWordElement: { value: keyWord } } = this // 连续的解构赋值，最后将value改名为keyWord
         this.props.updateAppState({isFirst:false,isLoading:true}) // 加载状态
         axios.get(`http://localhost:3000/api/search/users?q=${keyWord}`).then(
-            response => {
+            response => { // (response)
                 this.props.updateAppState({ isLoading: false, users: response.data.items })
             },
-            error => {
+            error => { // (reason)
                 this.props.updateAppState({ isLoading: false, err: error.message })
             }
         )

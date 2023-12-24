@@ -28,7 +28,7 @@
   * *日语影子跟读初中级 Unit1* 22:50-23:20
 
 * **2023.12.24 日曜日:** 
-  * *代码复现* 
+  * *代码复现* 12:50-13:25 15:15-15:45 16:25-17:20
   * *日语影子跟读初中级 Unit1* 
 
   * 样式化组件与单元测试 
@@ -456,12 +456,23 @@ replaceState: (…)
 
 47. `npm install --save axios`: 新建工作区后需要在VSCode中重新配置
 
+48. React 18 index.js
+```JavaScript
+import React from 'react'
+import ReactDOM from 'react-dom/client' // import ReactDOM from 'react-dom'
+import App from './App'
 
+// ReactDOM.render(<App></App>,document.getElementById('root'))
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
+```
 
+49. 连续解构赋值+重命名: 如果在jsx中写着`<input ref={c => this.keyWordElement = c} type="text" />`， 那么在获取输入值的时候，如果使用连续解构赋值+重命名的形式，就要这样获取: `const {keyWordElement:{value:keyWord}} = this`，这时候获取到的`keyWord`就是用户输入的值
 
-
-
-
+50. CSS rem与em
+* em是相对单位，使用em进行尺寸度量的元素，都是相对于自身的文字尺寸，各自为政，太过零散，不好进行统一的控制
+* rem也是相对单位，所有使用rem进行尺寸度量的元素，都是相对于根元素html标签的文字尺寸，可以很容易的进行统一控制，只要html标签的字体变了，所有元素的rem都会变化
 
 
 

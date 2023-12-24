@@ -4,7 +4,7 @@ export default class About extends Component {
   render() {
     return (
       <div>
-         <h1>Content of About</h1>
+         <span>Content of About</span> {/*纯内容*/}
       </div>
     )
   }

@@ -19,17 +19,16 @@ export default class Message extends Component {
             MessageArr.map((MessageObj) => {
               return (
                 <li key={MessageObj.id}>
-                  {/* <Link to={`detail/${MessageObj.id}/${MessageObj.title}`}>{MessageObj.title}</Link> */} {/* param */}
-                  {/* <Link to={`detail/?id=${MessageObj.id}&title=${MessageObj.title}`}>{MessageObj.title}</Link> */} {/* search */}
-                  <Link to='detail' state={{ id:MessageObj.id,title:MessageObj.title }}>{MessageObj.title}</Link> {}
+                  {/* <Link to={`detail/${MessageObj.id}/${MessageObj.title}`}>{MessageObj.title}</Link> */}
+                  <Link to={`detail/?id=${MessageObj.id}&title=${MessageObj.title}`}>{MessageObj.title}</Link>
                 </li>
               )
             })
           }
         </ul>
         <Routes>
-          {/* <Route path='detail/:id/:title' element={<Detail />} /> */} {/* param */}
-          <Route path='detail' element={<Detail/>}/> {/* search/state */}
+          {/* <Route path='detail/:id/:title' element={<Detail />} /> */}
+          <Route path='detail' element={<Detail/>}/> {/* /:id/:title */}
         </Routes>
       </div>
     )

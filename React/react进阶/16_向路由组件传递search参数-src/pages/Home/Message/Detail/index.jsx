@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom' // useLocation
+import { useSearchParams } from 'react-router-dom' // useSearchParams
 
 const DetailData = [
     { id: "01", content: 'content1' },
@@ -8,25 +8,18 @@ const DetailData = [
 ]
 
 export default function Detail() {
-    /* params
+    /*
     const { id, title } = useParams()
     const findDetailData = DetailData.find((detailobj) => {
         return detailobj.id === id
     })
     */
-    /* search
     const [params] = useSearchParams() // Hooks
     const id = params.getAll('id')[0]
     const title = params.getAll('title')[0]
     const finddetaildata = DetailData.find((detailobj) => {
         return detailobj.id === id
     })
-    */
-    const { state } = useLocation()
-    const { id, title } = state || {} // 获取不到数据时用空对象来替代
-    const finddetaildata = DetailData.find((detailobj) => {
-        return detailobj.id === id
-    }) || {} // 获取不到数据时用空对象来替代
     return (
         <div>
             <li>ID:{id}</li>

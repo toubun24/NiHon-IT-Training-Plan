@@ -2,6 +2,7 @@
 
 ## 软件工程师常用日本语
 * 初级上: https://www.bilibili.com/video/BV1Ep4y1w7W6/
+* 初级中: https://www.bilibili.com/video/BV16C4y1V7jD/
 
 ## 日本語を話そう
 * 初~中級編: https://www.bilibili.com/video/BV133411L7st/

@@ -16,7 +16,6 @@ export default class App extends Component {
                         <div className="list-group">
                             {/*</div>Link to="/about">About</Link>*/}
                             <NavLink className={({ isActive }) => "list-group-item" + (isActive ? " light" : "")} to="/about" >About</NavLink>
-                            <br />
                             {/*<Link to="/home">Home</Link>*/}
                             <NavLink className={({ isActive }) => "list-group-item" + (isActive ? " light" : "")} to="/home" >Home</NavLink>
                         </div>

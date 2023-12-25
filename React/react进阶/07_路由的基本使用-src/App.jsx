@@ -8,14 +8,24 @@ export default class App extends Component {
         return (
             <div>
                 <h1>React Router Demo</h1>
-                <hr/> {/*横线*/}
-                <Link to="/about">About</Link>
-                <br/> {/*换行*/}
-                <Link to="/home">Home</Link>
-                <Routes> {/*Routes包裹Route*/}
-                    <Route path='/about' element={<About />} />
-                    <Route path='/home' element={<Home />} />
-                </Routes>
+                <hr /> {/*横线*/}
+                <div className="col-xs-2 col-xs-offset-2"> {/*2列*/}
+                    <div className="list-group"> {/*list-group*/}
+                        <Link className="list-group-item" to="/about">About</Link> {/*className="list-group-item"*/}
+                        {/*<br/> {/*换行*/}
+                        <Link className="list-group-item" to="/home">Home</Link>
+                    </div>
+                </div>
+                <div className="col-xs-6"> {/*col-xs-6*/}
+                    <div className="panel"> {/*panel*/}
+                        <div className="panel-body">
+                            <Routes> {/*Routes包裹Route*/}
+                                <Route path='/about' element={<About />} />
+                                <Route path='/home' element={<Home />} />
+                            </Routes>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

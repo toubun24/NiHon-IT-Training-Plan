@@ -19,3 +19,4 @@
 * node.js: 10.2.3
 * react-dom: 18.2.0
 * react-router-dom: 6.21.1
+* redux: 5.0.1

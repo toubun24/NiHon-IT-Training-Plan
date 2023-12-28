@@ -7,19 +7,19 @@ export default class Count extends Component {
     // state = { count: 0 } // initcount
     increment = () => {
         // const { count } = this.state
-        const { selectNumber: { value } } = this
+        const { selectNumber: { value } } = this // const {value} = this.selectNumber
         // this.setState({ count: count + value * 1 })
         store.dispatch({ type: 'increment', data: value * 1 }) // {type,data} = action
     }
     decrement = () => {
         // const { count } = this.state
-        const { selectNumber: { value } } = this
+        const { selectNumber: { value } } = this // const {value} = this.selectNumber
         // this.setState({ count: count - value * 1 })
         store.dispatch({ type: 'decrement', data: value * 1 })
     }
     incrementIfOdd = () => {
         // const { count } = this.state
-        const { selectNumber: { value } } = this
+        const { selectNumber: { value } } = this // const {value} = this.selectNumber
         const count = store.getState() // getState
         if (count % 2 !== 0) { // count
             // this.setState({ count: count + value * 1 })
@@ -28,7 +28,7 @@ export default class Count extends Component {
     }
     incrementAsync = () => {
         // const { count } = this.state
-        const { selectNumber: { value } } = this
+        const { selectNumber: { value } } = this // const {value} = this.selectNumber
         setTimeout(() => {
             // this.setState({ count: count + value * 1 })
             store.dispatch({ type: 'increment', data: value * 1 }) // increment

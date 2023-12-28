@@ -1,38 +1,36 @@
 import React, { Component } from 'react'
-import store from '../../redux/store'
-import { createIncrementAction, createDecrementAction } from '../../redux/count_action' // count_action
 
 export default class Count extends Component {
-    increment = () => {
-        const { selectNumber: { value } } = this
-        // store.dispatch({ type: 'increment', data: value * 1 })
-        store.dispatch(createIncrementAction(value * 1)) // createIncrementAction
+    state = { count: 0 } // state
+    increment = () => { // function
+        const { count } = this.state
+        const { selectNumber: { value } } = this // selectNumber // this
+        this.setState({ count: count + value * 1 })
     }
     decrement = () => {
+        const { count } = this.state
         const { selectNumber: { value } } = this
-        // store.dispatch({ type: 'decrement', data: value * 1 })
-        store.dispatch(createDecrementAction(value * 1)) // createDecrementAction
+        this.setState({ count: count - value * 1 })
     }
     incrementIfOdd = () => {
+        const { count } = this.state
         const { selectNumber: { value } } = this
-        const count = store.getState()
         if (count % 2 !== 0) {
-            // store.dispatch({ type: 'increment', data: value * 1 })
-            store.dispatch(createIncrementAction(value * 1))
+            this.setState({ count: count + value * 1 })
         }
     }
     incrementAsync = () => {
+        const { count } = this.state
         const { selectNumber: { value } } = this
         setTimeout(() => {
-            // store.dispatch({ type: 'increment', data: value * 1 })
-            store.dispatch(createIncrementAction(value * 1))
+            this.setState({ count: count + value * 1 })
         }, 500)
     }
     render() {
         return (
             <div>
-                <h1>当前求和为：{store.getState()}</h1>
-                <select ref={c => this.selectNumber = c}>
+                <h1>当前求和为：{this.state.count}</h1>
+                <select ref={c => this.selectNumber = c}> {/* selectNumber */}
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>

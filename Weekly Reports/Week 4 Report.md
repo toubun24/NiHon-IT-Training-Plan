@@ -12,15 +12,10 @@
   * 软件工程师常用日本语初级中(P46-P50) 15:45-16:05
   * 日语影子跟读初中级Unit2 16:05-16:20
 
-* **2023.12.27 水曜日:** 
-  * 代码复现 
-  * 软件工程师常用日本语初级中(P51-P55) 
-  * 日语影子跟读初中级Unit2 
-
-
-
 * **2023.12.28 木曜日:** 
-
+  * 代码复现 16:15-17:50
+  * 软件工程师常用日本语初级中(P51-P55) 14:55-15:25
+  * 日语影子跟读初中级Unit2 15:25-15:50
 
 
 * **2023.12.29 金曜日:** 
@@ -71,7 +66,7 @@ componentWillUnmount(){
 5. redux插件
 为了方便我们开发，推荐安装一下`redux`的开发工具：`redux-devtools`(`yarn add redux-devtools -D`)，需要注意的是在 chrome 浏览器中我们也需要安装对应的插件：`redux-devtools`来结合使用
 
-
+6. `const { selectNumber: { value } } = this` = `const {value} = this.selectNumber`
 
 
 
@@ -112,7 +107,40 @@ const store = configureStore({
 export default store
 ```
 
-3.【已解决】上一个问题中顺带遇见并解决的一个小问题，控制台显示报错`manifest.json:1 Manifest: Line: 1, column: 1, Syntax error.`。因为重新建了文件夹存放redux相关内容的复现代码，对react脚手架源文件进行了删减；只要将`public`文件夹下的`manifest.json`和`logo192.png`保留即可
+3. 【已解决】上一个问题中顺带遇见并解决的一个小问题，控制台显示报错`manifest.json:1 Manifest: Line: 1, column: 1, Syntax error.`。因为重新建了文件夹存放redux相关内容的复现代码，对react脚手架源文件进行了删减；只要将`public`文件夹下的`manifest.json`和`logo192.png`保留即可
+
+4. 【已解决】早先已经参考React18的语法将`index.js`的代码作过调整，由
+```JavaScript
+ReactDOM.render(<BrowserRouter><App/></BrowserRouter>,document.getElementById('root'))
+```
+改为
+```JavaScript
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
+```
+但在redux板块，`index.js`的原本写法为
+```JavaScript
+ReactDOM.render(<App/>,document.getElementById('root'))
+store.subscribe(() => {
+    ReactDOM.render(<App/>,document.getElementById('root'))
+})
+```
+当时我也没多想，就把每一条的`ReactDOM.render`替换为了React18版本下的三行代码，并且在首次渲染及默认选择"1"为加减数值时的测试过程均无报错，便没有注意到问题，直到后来测试发现选择"2"或"3"进行运算操作时，运算一次后选择器便会回到"1"的默认值去。一开始以为是选择器标签部分的代码出现了问题，后来以为是ref存储的问题，最后参考警告信息`You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it.`找到渲染的相关代码，意识到`const`重复创建初始化了相关数据。最终，`index.js`正确的写法如下
+```JavaScript
+import React from 'react'
+import ReactDOM from 'react-dom/client' // react-dom/client
+import App from './App'
+import store from './redux/store'
+
+const container = document.getElementById('root');
+const root = ReactDOM.createRoot(container);
+root.render(<App />);
+store.subscribe(() => {
+    root.render(<App />);
+})
+```
+
 
 
 

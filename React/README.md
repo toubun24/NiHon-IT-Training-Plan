@@ -16,7 +16,9 @@
 * 多尝试不同的用法(包括替代方法或错误用法)并给出结果呈现或控制台输出
 
 ## 版本信息
-* node.js: 10.2.3
-* react-dom: 18.2.0
-* react-router-dom: 6.21.1
-* redux: 5.0.1
+* node.js@10.2.3
+* react-dom@18.2.0
+* react-router-dom@6.21.1
+* redux@5.0.1
+* react-redux@9.0.4
+* redux-thunk@3.1.0

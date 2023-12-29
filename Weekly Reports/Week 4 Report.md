@@ -19,7 +19,9 @@
 
 
 * **2023.12.29 金曜日:** 
-
+  * 代码复现 16:30-17:35 22:00-22:50 22:55-23:05 23:50-00:40
+  * 软件工程师常用日本语初级中(P56-P60) 15:40-16:05
+  * 日语影子跟读初中级Unit3 16:05-16:25
 
 
 * **2023.12.30 土曜日:** 
@@ -144,6 +146,39 @@ store.subscribe(() => {
 5. 【已解决】小问题，**04_redux异步action-src**中，自己尝试把奇数加函数的判定也封装到`action`对象中进行调用，但需要注意两点：1. 判定包裹return; 2. 不满足判定条件时也需要return一个dispatch的空箭头函数，来触发`count_reducer.js`中的`default: peturn prevstate`
 
 6. 【已解决】小问题，**05_react-redux的基本使用-src**中，`App.jsx`引入部分的`import Count from './components/Count'`变更为了`import Count from './containers/Count'`，但我没有注意到这一点，一直以为是其他部分的错误导致state和function出现无法传参的情况，找了半天bug。。。看来之后还是得注意文件夹和组件的命名，都叫Count确实很容易看混
+
+7. 【已解决】小问题，**07_react-redux数据共享-src**中，`import { composeWithDevTools } from "redux-devtools-extension"`会报错`can't resolve 'redux-devtools-extension'`，而通过`npm i redux-devtools-extension`进行安装时则报错如下
+```
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: react_redux@0.1.0
+npm ERR! Found: redux@5.0.1
+npm ERR! node_modules/redux
+npm ERR!   redux@"^5.0.1" from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer redux@"^3.1.0 || ^4.0.0" from redux-devtools-extension@2.13.9
+npm ERR! node_modules/redux-devtools-extension
+npm ERR!   redux-devtools-extension@"*" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+```
+后来通过网上资料尝试使用`yarn add @redux-devtools/extension`进行安装能够成功，随后的导入语句也就相应地调整为`import { composeWithDevTools } from '@redux-devtools/extension';`即可正常运行。值得顺便一提的是`redux/store.js`中，按
+```JavaScript
+const store = configureStore({
+    reducer: countReducer
+}, applyMiddleware(thunk))
+export default store
+```
+的新版语法格式将`export default createStore(AllReducer,composeWithDevTools(applyMiddleware(thunk)))`改写为如下即可
+```JavaScript
+export default configureStore({
+    reducer: AllReducer
+}, composeWithDevTools(applyMiddleware(thunk)))
+```
 
 ## 下周计划
 * 日语方面每天保持软件工程师日语+影子日语的节奏还可以，之后尽量继续保持

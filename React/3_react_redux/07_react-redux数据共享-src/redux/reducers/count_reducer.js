@@ -1,9 +1,6 @@
-import { INCREMENT, DECREMENT } from "./constant"
+import { INCREMENT, DECREMENT } from "../constant" // ..
 
 const initcount = 0
-//const state = {
-//    count: 0
-//}
 export default function countReducer(prevstate = initcount, action) {
     const { type, data } = action
     switch (type) {

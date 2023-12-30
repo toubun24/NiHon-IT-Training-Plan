@@ -25,8 +25,14 @@
 
 
 * **2023.12.30 土曜日:** 
+  * 代码复现 11:40-13:15
+  * 软件工程师常用日本语初级中(P61-P65) 
+  * 日语影子跟读初中级Unit3 
 
-
+* **2023.12.31 日曜日:** 
+  * 代码复现 
+  * 软件工程师常用日本语初级中(P56-P60) 
+  * 日语影子跟读初中级Unit3 
 
   * 样式化组件与单元测试 
   * Redux-Saga 
@@ -70,7 +76,7 @@ componentWillUnmount(){
 
 6. `const { selectNumber: { value } } = this` = `const {value} = this.selectNumber`
 
-
+7. React `root.unmount()`: [官方文档](https://react.docschina.org/reference/react-dom/client/createRoot#root-unmount)
 
 
 ## 遇见问题
@@ -179,6 +185,31 @@ export default configureStore({
     reducer: AllReducer
 }, composeWithDevTools(applyMiddleware(thunk)))
 ```
+
+8. **4_react拓展/03_hooks-src**中，`ReactDOM.unmountComponentAtNode(document.getElementById('root'))`在React18版本下被弃用，转而使用`root.unmount()`，卸载组件函数如下
+```JavaScript
+death = () => {
+    // ReactDOM.unmountComponentAtNode(document.getElementById('root'))
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.unmount()
+}
+```
+可以正常执行功能，但F12控制台会提示如下信息
+```
+Warning: You are calling ReactDOMClient.createRoot() on a container that has already been passed to createRoot() before. Instead, call root.render() on the existing root instead if you want to update it.
+```
+[参考链接1](https://www.cnblogs.com/qinghuanjing/p/16316758.html)中也提到了这个问题，以后再尝试解决。[参考链接2](http://www.kuazhi.com/post/397036.html)
+
+9. **4_react拓展/03_hooks-src**中，`useEffect`初始化时输出`被调用了`没有问题，但在之后的每次+1后，都会先出现`被卸载了`然后是`被调用了`，而在卸载组件时则什么都没输出，与预期不符。`useEffect`相关代码如下
+```JavaScript
+useEffect(() => {
+        console.log('被调用了'); // componentDidMount & componentDidUpdata 
+        return () => {
+            console.log('被卸载了'); // componentDidUnmount
+        }
+    }, [count]) // componentDidUpdata 
+```
+卸载组件时无法输出可能和问题8有关系，暂且不表；但正常的更新组件为什么会调用卸载组件才会出现的输出，确实就很奇怪。附一个有一丁点相关的[参考链接](https://www.sohu.com/a/552024311_121124376)
 
 ## 下周计划
 * 日语方面每天保持软件工程师日语+影子日语的节奏还可以，之后尽量继续保持

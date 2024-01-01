@@ -27,16 +27,7 @@
   * 软件工程师常用日本语初级中(P61-P65) 16:30-16:55
   * 日语影子跟读初中级Unit3 16:55-17:10
 
-  * 样式化组件与单元测试 
-  * Redux-Saga 
-  * React传送门与引用传递 
-  * GraphQL 
-  * DvaJS 
-  * UmiJS 
-
 ## 学习笔记
-
-
 
 ## 内容拓展
 1. PubSub `token` for subscriber

@@ -3,7 +3,7 @@
 ## 学习内容及时长
 
 * **2024.01.01 月曜日:** 
-  * 代码复现 
+  * 代码复现 21:05-22:45
   * 软件工程师常用日本语初级中(P66-P70) 19:50-20:15
   * 日语影子跟读初中级Unit3 20:15-20:35
 
@@ -32,13 +32,43 @@
 
 
 ## 内容拓展
+1. 二进制和八进制
+* ES6 提供了二进制和八进制数值的新的写法，分别用前缀0b(或0B)和0o(或0O)表示
+* 如果要将0b和0o前缀的字符串数值转为十进制，要使用Number方法，如`Number('0o10')`
 
+2. `<dl>`, `<dt>`, `<dd>`
+* `<dl>`: Definition List (定义列表)
+* `<dt>`: Definition Term（定义项）
+* `<dd>`: Definition Description（定义描述）
+* 这三个标签必须同时出现，而且dt，dd必须嵌套在dl内。dt和dd是同级关系，并不是嵌套关系。dd必须紧跟在dt之后，dd前可以有多个dt，但dd前面必须至少有一个dt。dt后面至少需要有一个dd。dt和dd是多对多的关系
 
 
 
 ## 遇见问题
-
-
+1. 【已解决】**3_swiper-同步.jsx**中，关于Swiper的引入，示例代码使用的是
+```JavaScript
+import Swiper, { Navigation, Pagination } from "swiper";
+```
+然而报错
+```
+export 'Navigation' (imported as 'Navigation') was not found in 'swiper' (possible exports: Swiper, default)
+export 'Pagination' (imported as 'Pagination') was not found in 'swiper' (possible exports: Swiper, default)
+```
+现在已经比较有经验了，一看就是版本问题导致引入方式发生了改变，于是去官网参考了新的引入方式()
+```JavaScript
+import { Swiper } from 'swiper/react'
+import { Navigation, Pagination } from 'swiper/modules'
+```
+然而依然报错
+```
+swiper_react__WEBPACK_IMPORTED_MODULE_1__.Swiper is not a constructor
+TypeError: swiper_react__WEBPACK_IMPORTED_MODULE_1__.Swiper is not a constructor
+```
+去掉`/react`部分后则又能运行通过了
+```JavaScript
+import { Swiper } from 'swiper'
+import { Navigation, Pagination } from 'swiper/modules'
+```
 
 
 ## 下周计划

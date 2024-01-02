@@ -8,7 +8,7 @@
   * 日语影子跟读初中级Unit3 20:15-20:35
 
 * **2023.01.02 火曜日:** 
-  * 代码复现 
+  * 代码复现 17:30-18:30
   * 软件工程师常用日本语初级中(P71-P75) 16:10-16:40
   * 日语影子跟读初中级Unit3 16:40-17:05
 
@@ -77,6 +77,25 @@ import { Navigation, Pagination } from 'swiper/modules'
 ```
 
 2. **5_swiper组件**中，原本的[轮播图链接](https://m.maizuo.com/gateway?type=2&cityId=442000&k=5402781)已失效，去[官网](https://m.maizuo.com/)查看后发现网站中已经不再进行轮播图的显示，遂去b站之类的地方找轮播图，其中有的网站找半天找不到轮播图的模块(可能是找的方法还不够成熟)，有的网站找到了轮播图模块，但`Headers`中并未暴露出axios所需的`X-Client-Info`和`X-Host`，可能是网站做了什么保密手段？还不太熟悉这一块的内容，暂且搁置一下，手动将轮播图的url写进`state`得以先实现
+
+3. 【已解决】**09_useRef**中，`myRef.current`在`useCallback`中
+```JavaScript
+const push = useCallback(() => {
+            setlist([...list,myRef.current.value])
+            myRef.current.value = ''
+        },[list,myRef.current]
+    )
+```
+会出现警告：`React Hook useCallback has an unnecessary dependency: 'myRef.current'. Either exclude it or remove the dependency array. Mutable values like 'myRef.current' aren't valid dependencies because mutating them doesn't re-render the component react-hooks/exhaustive-deps`，修改为以下片段后警告消失
+```JavaScript
+const push = useCallback(() => {
+            setlist([...list,myRef.current.value])
+            myRef.current.value = ''
+        },[list] // ,myRef.current
+    )
+```
+
+
 
 ## 下周计划
 

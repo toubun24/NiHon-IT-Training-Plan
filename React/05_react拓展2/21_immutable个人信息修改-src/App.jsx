@@ -1,18 +1,15 @@
 import React, { Component } from 'react'
-import { fromJS } from "immutable" // Map, List
+import { Map, List } from "immutable" // immutable
 
 export default class App extends Component {
   state = {
-    // info: Map({
-    info: fromJS({ // fromJS
+    info: Map({
       name: 'xiaoming',
-      // location: Map({
-      location: { // Map(）
+      location: Map({
         provinces: "beijing",
         city: 'beijing'
-      }, // }),
-      // favorite: List(["读书", "看报", "写作业"])
-      favorite: ["读书", "看报", "写作业"] // List()
+      }),
+      favorite: List(["读书", "看报", "写作业"])
     })
   }
   render() {
@@ -23,8 +20,7 @@ export default class App extends Component {
         <button onClick={
           () => {
             return this.setState({
-              // info: this.state.info.set("name", "laowang").set("location", this.state.info.get("location").set("provinces", "shanghai").set("city", "shanghai"))
-              info: this.state.info.set("name", "laowang").setIn(["location", "provinces"], "shanghai").setIn(["location", "city"], "shanghai") // set => setIn []
+              info: this.state.info.set("name", "laowang").set("location", this.state.info.get("location").set("provinces", "shanghai").set("city", "shanghai")) // get & set
             })
           }
         }>change</button>
@@ -43,8 +39,7 @@ export default class App extends Component {
               <button onClick={
                 () => {
                   this.setState({
-                    // info: this.state.info.set('favorite', this.state.info.get('favorite').splice(index, 1))
-                    info: this.state.info.updateIn(['favorite'],(list)=>list.splice(index,1)) // set => updateIn []
+                    info: this.state.info.set('favorite', this.state.info.get('favorite').splice(index, 1)) // splice(index, 1)将某个值从数组里面删除 // Property 'splice' may not exist on type 'string | Map<string, string> | List<string>'
                   })
                 }
               }>del</button>

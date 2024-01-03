@@ -16,7 +16,7 @@
   * 代码复现 16:45-18:55
   * 软件工程师常用日本语初级下(P76-P80) 15:30-15:55
   * 日语影子跟读初中级Unit4 15:55-16:05
-  * Mobx状态管理 
+  * Mobx状态管理 00:20-01:55
 
 * **2023.01.04 木曜日:** 
 
@@ -50,6 +50,12 @@
 * 这三个标签必须同时出现，而且dt，dd必须嵌套在dl内。dt和dd是同级关系，并不是嵌套关系。dd必须紧跟在dt之后，dd前可以有多个dt，但dd前面必须至少有一个dt。dt后面至少需要有一个dd。dt和dd是多对多的关系
 
 3. `rcc`, `rfc`
+
+4. `npm --save`
+* 将安装的包添加到项目的package.json文件的dependencies字段中
+* 当运行`npm install <package-name>`时，默认情况下，npm会将安装的包保存到项目的node_modules目录中，但不会将其添加到package.json文件中。这意味着如果将项目分享给其他人或在其他环境中部署项目时，其他人或其他环境需要手动运行`npm install`来安装依赖。为了简化依赖管理，你可以使用--save选项来告诉npm将安装的包添加到package.json文件中的dependencies字段中。这样，其他人或其他环境只需要运行npm install即可安装项目的所有依赖
+
+
 
 ## 遇见问题
 1. 【已解决】**3_swiper-同步.jsx**中，关于Swiper的引入，示例代码使用的是
@@ -96,6 +102,12 @@ const push = useCallback(() => {
     )
 ```
 
+4. 【已解决】原示例代码**24_mobx2**(在复现代码仓库中则是**25_mobx3-src**)运行后首先缺少`mobx-react`包，需要`npm install mobx-react`；其次，无报错信息且显示出相关组件后，对按钮进行操作发现显示的数值并未得到更新，一直是0；而控制台中的组件信息下，`store`的`count`是能够变化的（但不是实时变化，每次需要重新进出一次那个界面才会更新），或者对源代码进行修改后重新保存渲染也会使得网页显示的`<h2>当前和为:{this.props.store.count}</h2>`直接得到更新渲染，说明不是传值的问题，是渲染不到位的问题；查询之后发现应该是新版本的mobx6导致的渲染问题。在`store.jsx`中，`@observable count = 0`后面添加以下代码即可
+```JavaScript
+constructor(){
+    makeObservable(this)
+}
+```
 
 
 ## 下周计划

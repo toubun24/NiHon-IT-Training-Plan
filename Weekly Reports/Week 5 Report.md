@@ -19,9 +19,9 @@
   * Mobx状态管理 00:20-02:00
 
 * **2023.01.04 木曜日:** 
-  * 软件工程师常用日本语初级下(P81-P85) 
-  * 日语影子跟读初中级Unit4 
-  * TS基本语法 
+  * 软件工程师常用日本语初级下(P81-P85) 16:30-16:55
+  * 日语影子跟读初中级Unit4 17:10-17:20
+  * TS基本语法 17:20-
 
 * **2023.01.05 金曜日:** 
 
@@ -38,10 +38,13 @@
 
 ## 学习笔记
 
-
+1. **TS基本语法**
+* 脚手架安装: `create-react-app xxx --template typescript`
+* 声明文件: `npm i --save @types/{依赖包名称}`，编译器需要通过这个声明文件，进行类型检查工作
 
 
 ## 内容拓展
+
 1. 二进制和八进制
 * ES6 提供了二进制和八进制数值的新的写法，分别用前缀0b(或0B)和0o(或0O)表示
 * 如果要将0b和0o前缀的字符串数值转为十进制，要使用Number方法，如`Number('0o10')`
@@ -58,7 +61,7 @@
 * 将安装的包添加到项目的package.json文件的dependencies字段中
 * 当运行`npm install <package-name>`时，默认情况下，npm会将安装的包保存到项目的node_modules目录中，但不会将其添加到package.json文件中。这意味着如果将项目分享给其他人或在其他环境中部署项目时，其他人或其他环境需要手动运行`npm install`来安装依赖。为了简化依赖管理，你可以使用--save选项来告诉npm将安装的包添加到package.json文件中的dependencies字段中。这样，其他人或其他环境只需要运行npm install即可安装项目的所有依赖
 
-
+5. TS泛型：[链接](https://blog.csdn.net/semlinker/article/details/106882403?spm=1001.2101.3001.6661.1&utm_medium=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-106882403-blog-124017662.235%5Ev40%5Epc_relevant_3m_sort_dl_base3&depth_1-utm_source=distribute.pc_relevant_t0.none-task-blog-2%7Edefault%7EBlogCommendFromBaidu%7ERate-1-106882403-blog-124017662.235%5Ev40%5Epc_relevant_3m_sort_dl_base3&utm_relevant_index=1)
 
 ## 遇见问题
 1. 【已解决】**3_swiper-同步.jsx**中，关于Swiper的引入，示例代码使用的是
@@ -111,6 +114,9 @@ constructor(){
     makeObservable(this)
 }
 ```
+
+5. TS中对`import React, { Component } from 'react'`警告`'React' is declared but its value is never read.`。React 17引入了新的JSX编译方式，无须在组件中显式地`import React`。注意需要配合TypeScript 4.1+版本。随后把文件放到非`src`的文件夹下后又警告`'React' refers to a UMD global, but the current file is a module. Consider adding an import instead`，于是又把`React`重新`import`了。。
+
 
 
 ## 下周计划

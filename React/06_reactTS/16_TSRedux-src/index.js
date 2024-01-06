@@ -1,5 +1,5 @@
 import ReactDOM from 'react-dom/client'
-import Prop from './App'
+import App from './App'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
-root.render(<Prop />)
+root.render(<App />)

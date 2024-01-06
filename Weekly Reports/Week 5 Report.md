@@ -74,33 +74,33 @@
   * redux-saga是以命令/答复的形式与各个saga之间进行通讯，当接收到指令时会执行对应的saga
 * `npm install redux-saga`
 * `createSagaMiddleware(options)`
-  * `sagaMontior`：用于接收middleware传递的监视事件
-  * `emmiter`：用于从redux向redux-saga进给actions
-  * `logger`：自定义日志方法（默认情况下，middleware会把所有的错误和警告记录到控制台中）
-  * `onError`：当提供该方法时，middleware将带着Sagas中未被捕获的错误调用它
+  * `sagaMontior`: 用于接收middleware传递的监视事件
+  * `emmiter`: 用于从redux向redux-saga进给actions
+  * `logger`: 自定义日志方法（默认情况下，middleware会把所有的错误和警告记录到控制台中）
+  * `onError`: 当提供该方法时，middleware将带着Sagas中未被捕获的错误调用它
 * Effect创建器
-  > `Take:` 创建一个`Effect`描述信息，用来命令`middleware`在`Store`上等待指定的`action`。 在发起与`pattern`匹配的`action`之前，`Generator`将暂停 \
-  > `Put:` 创建一个`Effect`描述信息，用来命令`middleware`向`Store`发起一个`action`。 这个`Effect`是非阻塞型的，并且所有向下游抛出的错误（例如在`reducer`中），都不会冒泡回到`saga`当中 \
-  > `Call:` 创建一个`Effect`描述信息，用来命令`middleware`以参数 args 调用函数`fn` \
-  > `Apply:` 类似Call \
-  > `Fork:` 创建一个`Effect`描述信息，用来命令`middleware`以非阻塞调用的形式执行`fn` \
-  > `Spawn:` 与fork类似，但创建的是被分离的任务。被分离的任务与其父级任务保持独立 \
-  > `Join:` 创建一个`Effect`描述信息，用来命令`middleware`等待之前的一个分叉任务的结果 \
-  > `Cancel:` 创建一个 Effect，用以取消任务 \
-  > `Select:` 创建一个 Effect，用来命令`middleware`在当前`Store`的`state`上调用指定的选择器（即返回`selector(getState(), ...args)`的结果） \
-  > `ActionChannel:` 创建一个 Effect，用来命令`middleware`通过一个事件`channel`对匹配`pattern`的`action`进行排序 \
-  > `Flush:` 创建一个 Effect，用来命令`middleware`从`channel`中冲除所有被缓存的数据。被冲除的数据会返回至`saga`，这样便可以在需要的时候再次被利用 \
-  > `Cancelled:` 创建一个 Effect，用来命令`middleware`返回该`generator`是否已经被取消 \
-  > `setContext:` 创建一个 effect，用来命令`middleware`更新其自身的上下文 \
-  > `getContext:` 创建一个 effect，用来命令`middleware`返回`saga`的上下文中的一个特定属性
+  > `Take`: 创建一个`Effect`描述信息，用来命令`middleware`在`Store`上等待指定的`action`。 在发起与`pattern`匹配的`action`之前，`Generator`将暂停 \
+  > `Put`: 创建一个`Effect`描述信息，用来命令`middleware`向`Store`发起一个`action`。 这个`Effect`是非阻塞型的，并且所有向下游抛出的错误（例如在`reducer`中），都不会冒泡回到`saga`当中 \
+  > `Call`: 创建一个`Effect`描述信息，用来命令`middleware`以参数 args 调用函数`fn` \
+  > `Apply`: 类似Call \
+  > `Fork`: 创建一个`Effect`描述信息，用来命令`middleware`以非阻塞调用的形式执行`fn` \
+  > `Spawn`: 与fork类似，但创建的是被分离的任务。被分离的任务与其父级任务保持独立 \
+  > `Join`: 创建一个`Effect`描述信息，用来命令`middleware`等待之前的一个分叉任务的结果 \
+  > `Cancel`: 创建一个 Effect，用以取消任务 \
+  > `Select`: 创建一个 Effect，用来命令`middleware`在当前`Store`的`state`上调用指定的选择器（即返回`selector(getState(), ...args)`的结果） \
+  > `ActionChannel`: 创建一个 Effect，用来命令`middleware`通过一个事件`channel`对匹配`pattern`的`action`进行排序 \
+  > `Flush`: 创建一个 Effect，用来命令`middleware`从`channel`中冲除所有被缓存的数据。被冲除的数据会返回至`saga`，这样便可以在需要的时候再次被利用 \
+  > `Cancelled`: 创建一个 Effect，用来命令`middleware`返回该`generator`是否已经被取消 \
+  > `setContext`: 创建一个 effect，用来命令`middleware`更新其自身的上下文 \
+  > `getContext`: 创建一个 effect，用来命令`middleware`返回`saga`的上下文中的一个特定属性
 * Effect组合器
-  > `Race:` 创建一个`Effect`描述信息，用来命令`middleware`在多个`Effect`间运行 竞赛（Race）（与`Promise.race([...])`的行为类似） \
-  > `All:` 创建一个`Effect`描述信息，用来命令`middleware`并行地运行多个`Effect`，并等待它们全部完成。这是标准的`Promise`
+  > `Race`: 创建一个`Effect`描述信息，用来命令`middleware`在多个`Effect`间运行 竞赛（Race）（与`Promise.race([...])`的行为类似） \
+  > `All`: 创建一个`Effect`描述信息，用来命令`middleware`并行地运行多个`Effect`，并等待它们全部完成。这是标准的`Promise`
 * Saga辅助函数
-  > `TakeEvery:` 在发起（dispatch）到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga` \
-  > `TakeLatest:` 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。并自动取消之前所有已经启动但仍在执行中的`saga`任务 \
-  > `TakeLeading:` 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。 它将在派生一次任务之后阻塞，直到派生的`saga`完成，然后又再次开始监听指定的`pattern` \
-  > `Throttle:` 在发起到`Store`并且匹配`pattern`的一个`action`上派生一个`saga`。 它在派生一次任务之后，仍然将新传入的`action`接收到底层的`buffer`中，至多保留（最近的）一个。但与此同时，它在ms毫秒内将暂停派生新的任务，也就是它被命名为节流阀`throttle`的原因。其用途，是在处理任务时，无视给定的时长内新传入的`action`
+  > `TakeEvery`: 在发起（dispatch）到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga` \
+  > `TakeLatest`: 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。并自动取消之前所有已经启动但仍在执行中的`saga`任务 \
+  > `TakeLeading`: 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。 它将在派生一次任务之后阻塞，直到派生的`saga`完成，然后又再次开始监听指定的`pattern` \
+  > `Throttle`: 在发起到`Store`并且匹配`pattern`的一个`action`上派生一个`saga`。 它在派生一次任务之后，仍然将新传入的`action`接收到底层的`buffer`中，至多保留（最近的）一个。但与此同时，它在ms毫秒内将暂停派生新的任务，也就是它被命名为节流阀`throttle`的原因。其用途，是在处理任务时，无视给定的时长内新传入的`action`
 
 
 ## 内容拓展

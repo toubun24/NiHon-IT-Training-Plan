@@ -1,5 +1,3 @@
-// npm install redux-saga
-
 import React, { Component } from 'react'
 import store from './redux/store'
 

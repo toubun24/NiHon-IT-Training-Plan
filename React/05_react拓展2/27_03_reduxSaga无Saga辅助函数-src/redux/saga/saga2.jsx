@@ -4,7 +4,6 @@ function* watchSaga2() {
         // 监听add2
         yield take('add2')
         yield fork(getList2)
-
     }
     // yield takeEvery('add2',getList2) // 第二种方法
 }

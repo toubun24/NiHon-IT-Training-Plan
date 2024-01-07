@@ -33,9 +33,11 @@
   * Redux-Saga 19:55-23:35 00:25-01:25
 
 * **2023.01.07 日曜日:** 
+  * React传送门与引用传递 09:40-11:00
+  * 软件工程师常用日本语
+  * 日语影子跟读初中级Unit4 
 
-  * Redux-Saga 
-  * React传送门与引用传递 
+
   * GraphQL 
   * DvaJS 
   * UmiJS 
@@ -54,8 +56,8 @@
 * 浅渲染：将一个组件渲染成虚拟DOM对象，但是只渲染第一层，不渲染所有子组件，所以处理速度非常快。它不需要DOM环境，因为根本没有加载进DOM
 * 测试顺序
   * 测试脚本里面应该包括一个或多个describe块，每个describe块应该包括一个或多个it块
-  * describe块称为"测试套件"（test suite），表示一组相关的测试。它是一个函数，第一个参数是测试套件的名称，第二个参数是一个实际执行的函数
-  * it块称为"测试用例"（test case），表示一个单独的测试，是测试的最小单位。它也是一个函数，第一个参数是测试用例的名称，第二个参数是一个实际执行的函数
+  * describe块称为"测试套件"(test suite)，表示一组相关的测试。它是一个函数，第一个参数是测试套件的名称，第二个参数是一个实际执行的函数
+  * it块称为"测试用例"(test case)，表示一个单独的测试，是测试的最小单位。它也是一个函数，第一个参数是测试用例的名称，第二个参数是一个实际执行的函数
   * expect断言的写法都是一样的。头部是expect方法，尾部是断言方法，比如equal、a/an、ok、match等。两者之间使用to或to.be连接
 
 4. **JavaScript生成器函数(Generator function)**
@@ -68,39 +70,77 @@
 * 自动执行器相当于`async``await`源码
 
 5. **redux-saga**
-* redux-saga是一个以redux中间件形式存在的一个库，主要是为了更优雅地 管理 Redux 应用程序中的副作用（Side Effects），执行更高效，测试更简单，在处理故障时更容易
+* redux-saga是一个以redux中间件形式存在的一个库，主要是为了更优雅地 管理 Redux 应用程序中的副作用(Side Effects)，执行更高效，测试更简单，在处理故障时更容易
 * redux-saga与redux-thunk区别
-  * redux-thunk监控传入系统中的每一个action，如果是个函数的话，那么它就会调用那个函数；选择以`middleware`的形式来增强redux store的`dispatch`方法（即：支持了 dispatch(function)），从而在拥有了异步获取数据能力的同时，又可以进一步将数据获取相关的业务逻辑 从View层分离出去
+  * redux-thunk监控传入系统中的每一个action，如果是个函数的话，那么它就会调用那个函数；选择以`middleware`的形式来增强redux store的`dispatch`方法(即：支持了 dispatch(function))，从而在拥有了异步获取数据能力的同时，又可以进一步将数据获取相关的业务逻辑 从View层分离出去
   * redux-saga是以命令/答复的形式与各个saga之间进行通讯，当接收到指令时会执行对应的saga
 * `npm install redux-saga`
 * `createSagaMiddleware(options)`
   * `sagaMontior`: 用于接收middleware传递的监视事件
   * `emmiter`: 用于从redux向redux-saga进给actions
-  * `logger`: 自定义日志方法（默认情况下，middleware会把所有的错误和警告记录到控制台中）
+  * `logger`: 自定义日志方法(默认情况下，middleware会把所有的错误和警告记录到控制台中)
   * `onError`: 当提供该方法时，middleware将带着Sagas中未被捕获的错误调用它
 * Effect创建器
   > `Take`: 创建一个`Effect`描述信息，用来命令`middleware`在`Store`上等待指定的`action`。 在发起与`pattern`匹配的`action`之前，`Generator`将暂停 \
-  > `Put`: 创建一个`Effect`描述信息，用来命令`middleware`向`Store`发起一个`action`。 这个`Effect`是非阻塞型的，并且所有向下游抛出的错误（例如在`reducer`中），都不会冒泡回到`saga`当中 \
+  > `Put`: 创建一个`Effect`描述信息，用来命令`middleware`向`Store`发起一个`action`。 这个`Effect`是非阻塞型的，并且所有向下游抛出的错误(例如在`reducer`中)，都不会冒泡回到`saga`当中 \
   > `Call`: 创建一个`Effect`描述信息，用来命令`middleware`以参数 args 调用函数`fn` \
   > `Apply`: 类似Call \
   > `Fork`: 创建一个`Effect`描述信息，用来命令`middleware`以非阻塞调用的形式执行`fn` \
   > `Spawn`: 与fork类似，但创建的是被分离的任务。被分离的任务与其父级任务保持独立 \
   > `Join`: 创建一个`Effect`描述信息，用来命令`middleware`等待之前的一个分叉任务的结果 \
   > `Cancel`: 创建一个 Effect，用以取消任务 \
-  > `Select`: 创建一个 Effect，用来命令`middleware`在当前`Store`的`state`上调用指定的选择器（即返回`selector(getState(), ...args)`的结果） \
+  > `Select`: 创建一个 Effect，用来命令`middleware`在当前`Store`的`state`上调用指定的选择器(即返回`selector(getState(), ...args)`的结果) \
   > `ActionChannel`: 创建一个 Effect，用来命令`middleware`通过一个事件`channel`对匹配`pattern`的`action`进行排序 \
   > `Flush`: 创建一个 Effect，用来命令`middleware`从`channel`中冲除所有被缓存的数据。被冲除的数据会返回至`saga`，这样便可以在需要的时候再次被利用 \
   > `Cancelled`: 创建一个 Effect，用来命令`middleware`返回该`generator`是否已经被取消 \
   > `setContext`: 创建一个 effect，用来命令`middleware`更新其自身的上下文 \
   > `getContext`: 创建一个 effect，用来命令`middleware`返回`saga`的上下文中的一个特定属性
 * Effect组合器
-  > `Race`: 创建一个`Effect`描述信息，用来命令`middleware`在多个`Effect`间运行 竞赛（Race）（与`Promise.race([...])`的行为类似） \
+  > `Race`: 创建一个`Effect`描述信息，用来命令`middleware`在多个`Effect`间运行 竞赛(Race)(与`Promise.race([...])`的行为类似) \
   > `All`: 创建一个`Effect`描述信息，用来命令`middleware`并行地运行多个`Effect`，并等待它们全部完成。这是标准的`Promise`
 * Saga辅助函数
-  > `TakeEvery`: 在发起（dispatch）到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga` \
+  > `TakeEvery`: 在发起(dispatch)到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga` \
   > `TakeLatest`: 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。并自动取消之前所有已经启动但仍在执行中的`saga`任务 \
   > `TakeLeading`: 在发起到`Store`并且匹配`pattern`的每一个`action`上派生一个`saga`。 它将在派生一次任务之后阻塞，直到派生的`saga`完成，然后又再次开始监听指定的`pattern` \
-  > `Throttle`: 在发起到`Store`并且匹配`pattern`的一个`action`上派生一个`saga`。 它在派生一次任务之后，仍然将新传入的`action`接收到底层的`buffer`中，至多保留（最近的）一个。但与此同时，它在ms毫秒内将暂停派生新的任务，也就是它被命名为节流阀`throttle`的原因。其用途，是在处理任务时，无视给定的时长内新传入的`action`
+  > `Throttle`: 在发起到`Store`并且匹配`pattern`的一个`action`上派生一个`saga`。 它在派生一次任务之后，仍然将新传入的`action`接收到底层的`buffer`中，至多保留(最近的)一个。但与此同时，它在ms毫秒内将暂停派生新的任务，也就是它被命名为节流阀`throttle`的原因。其用途，是在处理任务时，无视给定的时长内新传入的`action`
+
+6. **React Portal(传送门)**
+* 子组件样式会受父组件限制，但子组件并不想受父组件限制时
+* 在父元素设置`zIndex`后无论子元素`zIndex`值有多大，子元素都会受父元素的影响
+* `import { createPortal } from 'react-dom'`, `createPortal(children, domNode, key?)`
+  * `children`：React可以渲染的任何内容，如JSX片段（`<div />`或`<SomeComponent />`等等）、Fragment（`<>...</>`）、字符串或数字，以及这些内容构成的数组
+  * `domNode`：某个已经存在的DOM节点，例如由`document.getElementById()`返回的节点。在更新过程中传递不同的DOM节点将导致portal内容被重建
+  * 可选参数`key`：用作portal key的独特字符串或数字
+  * 返回值：`createPortal`返回一个可以包含在JSX中或从React组件中返回的React节点。如果React在渲染输出中遇见它，它将把提供的children放入提供的`domNode`中
+* Portal事件冒泡：Portal渲染的元素在父组件的盒子之外，但是渲染的dom节点仍在React的元素树上，事件是会冒泡从传送门的入口端冒出来的，所以在那个dom元素上的点击事件仍然能在dom树中监听到
+
+7. **React forwardRef(React引用传递)**
+* 通过组件向子组件自动传递引用ref
+* `import { forwardRef } from 'react'`
+* 特定使用场景
+  * 处理焦点、文本选择或者媒体的控制
+  * 触发必要的动画
+  * 集成第三方DOM库
+
+8. **Functional Component缓存**
+* 性能优化方向
+  * 数据：利用缓存，减少rerender的次数
+  * 计算：精确判断更新时机和范围，减少计算量
+  * 渲染：精细粒度，降低组件复杂度
+* 数据缓存优化：`useCallback`, `useMemo`, `React.memo`
+* `React.memo`可以仅仅让某些组件进行渲染，可以通过第二个参数自定义比较的逻辑，以高阶函数的形式对组件进行改造，更加灵活，且可用于functional组件；而`PureComponent`只能用于class组件
+* `React.memo(Component, areEqual)`: 高阶组件，接受一个组件作为参数返回一个新的组件。新的组件仅检查props变更，会将当前的props和上一次的`props`进行浅层比较，相同则阻止渲染；第二个参数可以传入自定义的比较逻辑(仅比较`props`)，例如实现深层比较(与`shouldComponentUpdate`的返回值相反，该方法返回`true`代表的是阻止渲染，返回`false`代表的是`props`发生变化，应当重新渲染)
+* 区分三种性能优化方式
+  * `React.memo()`：缓存虚拟DOM(组件UI)
+  * `useCallback`：缓存函数
+  * `useMemo`：缓存值
+
+
+
+
+
+
+
 
 
 ## 内容拓展
@@ -111,8 +151,8 @@
 
 2. `<dl>`, `<dt>`, `<dd>`
 * `<dl>`: Definition List (定义列表)
-* `<dt>`: Definition Term（定义项）
-* `<dd>`: Definition Description（定义描述）
+* `<dt>`: Definition Term(定义项)
+* `<dd>`: Definition Description(定义描述)
 * 这三个标签必须同时出现，而且dt，dd必须嵌套在dl内。dt和dd是同级关系，并不是嵌套关系。dd必须紧跟在dt之后，dd前可以有多个dt，但dd前面必须至少有一个dt。dt后面至少需要有一个dd。dt和dd是多对多的关系
 
 3. `rcc`, `rfc`
@@ -129,8 +169,7 @@
 
 7. `createSagaMiddleware()`
 * 创建一个Redux中间件，将Sagas与Redux Store链接起来
-* sagas中的每个函数都必须返回一个Generator对象，middleware会迭代这个Generator并执行所有`yield`后的Effect（Effect可以看作是redux-saga的任务单元）
-
+* sagas中的每个函数都必须返回一个Generator对象，middleware会迭代这个Generator并执行所有`yield`后的Effect(Effect可以看作是redux-saga的任务单元)
 
 
 
@@ -185,7 +224,7 @@ const push = useCallback(() => {
     )
 ```
 
-4. 【已解决】原示例代码**24_mobx2**(在复现代码仓库中则是**25_mobx3-src**)运行后首先缺少`mobx-react`包，需要`npm install mobx-react`；其次，无报错信息且显示出相关组件后，对按钮进行操作发现显示的数值并未得到更新，一直是0；而控制台中的组件信息下，`store`的`count`是能够变化的（但不是实时变化，每次需要重新进出一次那个界面才会更新），或者对源代码进行修改后重新保存渲染也会使得网页显示的`<h2>当前和为:{this.props.store.count}</h2>`直接得到更新渲染，说明不是传值的问题，是渲染不到位的问题；查询之后发现应该是新版本的mobx6导致的渲染问题。在`store.jsx`中，`@observable count = 0`后面添加以下代码即可
+4. 【已解决】原示例代码**24_mobx2**(在复现代码仓库中则是**25_mobx3-src**)运行后首先缺少`mobx-react`包，需要`npm install mobx-react`；其次，无报错信息且显示出相关组件后，对按钮进行操作发现显示的数值并未得到更新，一直是0；而控制台中的组件信息下，`store`的`count`是能够变化的(但不是实时变化，每次需要重新进出一次那个界面才会更新)，或者对源代码进行修改后重新保存渲染也会使得网页显示的`<h2>当前和为:{this.props.store.count}</h2>`直接得到更新渲染，说明不是传值的问题，是渲染不到位的问题；查询之后发现应该是新版本的mobx6导致的渲染问题。在`store.jsx`中，`@observable count = 0`后面添加以下代码即可
 ```JavaScript
 constructor(){
     makeObservable(this)
@@ -223,7 +262,7 @@ export default store
 ```
 则报错`Uncaught Error: 'middleware' field must be a callback`。
 * 直接使用`createStore()`而非`configureStore()`则虽然提示`deprecated`但能正常运行。
-* 关于`Uncaught Error: 'middleware' field must be a callback`，参考[链接](https://github.com/reduxjs/redux-toolkit/discussions/3945)中，`Updates the middleware and enhancers options of configureStore to require callbacks`，发布日期是Dec 4, 2023，也就是在这之前的版本其实并没有要求回调，也因此查到的大多数基于React18下`configureStore()`的示例代码在这里又会触犯最新更新的回调规范。。（感觉复现代码最费时间的就是React18带来的版本问题。。又很难搜到当前版本的最新内容，调整半天多半就是某个语句语法的新写法或者某个新函数的替换。。）相关更新内容如下
+* 关于`Uncaught Error: 'middleware' field must be a callback`，参考[链接](https://github.com/reduxjs/redux-toolkit/discussions/3945)中，`Updates the middleware and enhancers options of configureStore to require callbacks`，发布日期是Dec 4, 2023，也就是在这之前的版本其实并没有要求回调，也因此查到的大多数基于React18下`configureStore()`的示例代码在这里又会触犯最新更新的回调规范。。(感觉复现代码最费时间的就是React18带来的版本问题。。又很难搜到当前版本的最新内容，调整半天多半就是某个语句语法的新写法或者某个新函数的替换。。)相关更新内容如下
 ```
 configureStore Options Changes
 configureStore.middleware must be a callback

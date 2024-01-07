@@ -1,0 +1,26 @@
+.right {
+    background: skyblue;
+    flex: 1;
+    position: relative;
+    z-index: 5;
+}
+
+.left {
+    width: 200px;
+    /* height: 200px; */
+    background: yellow;
+    position: relative;
+    z-index: 10;
+}
+*{
+    margin:0;
+    padding:0;
+}
+.left,.right{
+    height:100vh;
+
+}
+.box{
+    display:flex;
+
+}

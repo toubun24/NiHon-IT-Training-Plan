@@ -1,0 +1,14 @@
+.right {
+    background: skyblue;
+    flex: 1;
+    position: relative;
+    z-index: 5; /* zIndex */
+}
+
+.left {
+    width: 200px;
+    height: 200px; /* height */
+    background: yellow;
+    position: relative;
+    z-index: 10; /* zIndex */
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <h3>GraphQL-TEST</h3>
+    <button onclick="queryFilm()">查询</button>
+    <button onclick="createFilm()">增加</button>
+    <button onclick="updateFilm()">更新</button>
+    <button onclick="deleteFilm()">删除</button>
+    <script>
+        function queryFilm() {
+            const myquery = `
+                query{
+                    getDB{
+                        name,
+                        id,
+                        poster,
+                        price
+                    }
+                }
+            `
+            fetch('/graphql', { // http://localhost:4001
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: myquery
+                })
+            }).then(response => response.json()).then(response => console.log(response))
+        }
+        function createFilm() {
+            const myquery = `
+                mutation($input:FilmInput){
+                    createFilm(input:$input){
+                        id,
+                        name,
+                        poster,
+                        price
+                    }
+                }
+            `
+            fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ACCEPT': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: myquery,
+                    variables: {
+                        input: {
+                            name: "444",
+                            price: 40,
+                            poster: "http://444"
+                        }
+                    }
+                })
+            }).then(response => response.json()).then(response => console.log(response))
+        }
+        function updateFilm() {
+            const myquery = `
+                mutation($id:String!,$input:FilmInput){
+                    updateFilm(id:$id,input:$input){
+                        id,
+                        name,
+                        poster,
+                        price
+                    }
+                }
+            `
+            fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ACCEPT': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: myquery,
+                    variables: {
+                        id: "6222ed0c95efe00f106fe14d", // 注意
+                        input: {
+                            name: "444-修改",
+                            price: 44,
+                            poster: "http://444-修改"
+                        }
+                    }
+                })
+            }).then(response => response.json()).then(response => console.log(response))
+        }
+        function deleteFilm() {
+            const myquery = `
+                mutation($id:String!){
+                  deleteFilm(id:$id)
+                }
+            `
+            fetch('/graphql', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'ACCEPT': 'application/json'
+                },
+                body: JSON.stringify({
+                    query: myquery,
+                    variables: {
+                        id: "6222ed0c95efe00f106fe14d"
+                    }
+                })
+            }).then(response => response.json()).then(response => console.log(response))
+        }
+    </script>
+</body>
+
+</html>

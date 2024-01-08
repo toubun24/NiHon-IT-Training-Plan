@@ -3,9 +3,9 @@
 ## 学习内容及时长
 
 * **2024.01.08 月曜日:** 
-  * 代码复现 
-  * 软件工程师常用日本语初级中(P-P)
-  * 日语影子跟读初中级Unit5 
+  * GraphQL 12:00-13:50 15:15-15:40
+  * 软件工程师常用日本语(P1-P5)
+  * 日语影子跟读初中级Unit4 
 
 * **2023.01.09 火曜日:** 
 
@@ -19,17 +19,38 @@
 
 * **2023.01.14 日曜日:** 
 
-  * 样式化组件与单元测试 
-  * Redux-Saga 
-  * React传送门与引用传递 
+
   * GraphQL 
   * DvaJS 
   * UmiJS 
 
 ## 学习笔记
-
-
-
+1. **GraphQL**
+* GraphQL与RESTful区别
+  * RESTful一个接口只能返回一个资源，GraphQL一次可以获取多个资源
+  * RESTful用不同的URL来区分资源，GraphQL用类型区分资源
+* Schema：用于描述接口获取数据逻辑
+  * Query描述资源的获取方式，可以将Schema理解为多个Query组成的一张表。其中，Query特指GraphQL中的查询（包含三种类型），query指GraphQL中的查询类型（仅指查询类型）
+  * GraphQL中使用Query来抽象数据的查询逻辑，标准情况，有三种查询类型，分别是query（查询）、mutation（更改）和subscription（订阅）
+* GraphQL，启动！
+  * `npm install express express-graphql graphql mongoose`
+  * create `xxx.js` with code
+  * `http://localhost:4001/graphql`
+    * `4001`: `app.listen(4001)`
+    * `/graphql`: `app.use('/graphql', graphqlHTTP({ schema: Schema, rootValue: root, graphiql: true}))`
+* 参数类型与传递
+  * 基本类型：在GraphQL中他们统称叫标量类型(Scalar Type)，主要包括：`Int`（整型）, `Float`（浮点型）, `String`（字符串）, `Boolean`（布尔型）和`ID`（唯一标识符类型）；也允许自定义标量类型；另有对象类型
+  * `!`用来表示这个参数不可以是空的；`[]`表示查询这个字段返回的是数组，`[]`里面是数组的类型
+* GraphQL与React
+  * 导入依赖: `npm i react-apollo apollo-boost graphql graphql-tag`
+  * 要在React里使用Apollo数据栈前端至少需要三个包
+    * `apollo-client`用于连接到Apollo后端
+    * `graphql-tag`用于编写GraphQL查询
+    * `react-apollo`用于执行GraphQL查询并将结果传给React的展示组件
+  * `apollo-boost`：这个包包含了搭建Apollo客户端需要的所有东西
+  * `react-apollo`：集成React的视图层
+  * `graphql-tag`：解析GraphQL查询必要依赖
+  * `graphql`：用于解析GraphQL查询
 
 ## 内容拓展
 
@@ -37,9 +58,98 @@
 
 
 ## 遇见问题
+1. 【已解决】**04_mongoDB.js**中，涉及mongoDB的配置，在CMD中输入`mongod -dbpath=G:\NiHon-IT-Training-Plan\React\07_reactGraphQL\DB`报错`'mongod' is not recognized as an internal or external command`。配置环境变量`C:\Program Files\MongoDB\Server\7.0\bin\`(注意结尾的`\`)后`mongod -version`
+```
+db version v7.0.5
+Build Info: {
+    "version": "7.0.5",
+    "gitVersion": "7809d71e84e314b497f282ea8aa06d7ded3eb205",
+    "modules": [],
+    "allocator": "tcmalloc",
+    "environment": {
+        "distmod": "windows",
+        "distarch": "x86_64",
+        "target_arch": "x86_64"
+    }
+}
+```
 
+2. [课件链接](https://github.com/warrenlucky/zerostart/blob/main/java/React/(%E4%BA%8C%E5%8D%81%E5%85%AD)GraphQL.adoc#%E5%8F%AF%E8%A7%86%E5%8C%96%E5%B7%A5%E5%85%B7%E6%9F%A5%E8%AF%A2)中关于可视化工具查询，不清楚是什么软件，就暂时没去下载或复现
 
+3. 【已解决】**04_mongoDB.js**中，`mongoose.connect("mongodb://localhost:27017/maizuo", { useNewUrlParser: true, useUnifiedTopology: true })`提示警告如下
+```
+[MONGODB DRIVER] Warning: useNewUrlParser is a deprecated option: useNewUrlParser has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+[MONGODB DRIVER] Warning: useUnifiedTopology is a deprecated option: useUnifiedTopology has no effect since Node.js Driver version 4.0.0 and will be removed in the next major version
+```
+经查询搜索后知道，去掉那两个已弃用参数即可，即直接使用`mongoose.connect("mongodb://localhost:27017/maizuo")`就行
 
+4. 【基本解决】**05_GraphQL普通页面.html**中，与数据库的连接有问题，导致任何操作都会报错
+```
+05_GraphQL普通页面.html:30 
+POST http://127.0.0.1:5500/graphql 405 (Method Not Allowed)
+queryFilm @ 05_GraphQL普通页面.html:30
+onclick @ 05_GraphQL普通页面.html:14
+VM3511:1 Uncaught (in promise) SyntaxError: Unexpected end of JSON input
+at 05_GraphQL普通页面.html:39:42
+```
+给`fetch('/graphql', {...})`补全为`'http://localhost:4001/graphql'`后恢复正常；但控制台的输出依旧是出现个几秒后就自己清空掉了，还不清楚是什么情况
+
+5. 【基本解决】**06_query-src**中，安装`react-apollo`报错
+```
+PS G:\NiHon-IT-Training-Plan\React\07_reactGraphQL> npm i react-apollo
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: graphql@0.1.0
+npm ERR! Found: graphql@15.8.0
+npm ERR! node_modules/graphql
+npm ERR!   graphql@"^15.8.0" from the root project
+npm ERR!   peer graphql@"^0.11.0 || ^0.12.0 || ^0.13.0 || ^14.0.0 || ^15.0.0" from 
+apollo-client@2.6.10
+npm ERR!   node_modules/apollo-client
+npm ERR!     peer apollo-client@"^2.6.4" from react-apollo@3.1.5
+npm ERR!     node_modules/react-apollo
+npm ERR!       react-apollo@"*" from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer graphql@"^14.3.1" from react-apollo@3.1.5
+npm ERR! node_modules/react-apollo
+npm ERR!   react-apollo@"*" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+```
+查了一下发现近一两年的用法基本都是引入的`@apollo/client`，考虑到是不是apollo的版本也迭代了。于是安装了相应的依赖并作改写(注释中的内容是改写的新依赖)
+```JavaScript
+import React, { Component } from 'react'
+import { ApolloProvider, Query } from 'react-apollo'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+```
+改写为
+```JavaScript
+import React, { Component } from 'react'
+import { Query } from '@apollo/client/react/components'
+import { ApolloClient, ApolloProvider, gql } from '@apollo/client'
+```
+但这样写的话编译能过，网页端则依然报错
+```
+invariant.ts:12 Uncaught Invariant Violation: An error occurred! For more details, see the full error text at https://go.apollo.dev/c/err#%7B%22version%22%3A%223.8.8%22%2C%22message%22%3A15%2C%22args%22%3A%5B%5D%7D
+```
+若把`react-apollo`包以外的依赖按原样写
+```JavaScript
+import React, { Component } from 'react'
+import { ApolloProvider } from 'react-apollo'
+import { Query } from '@apollo/client/react/components'
+import ApolloClient from 'apollo-boost'
+import gql from 'graphql-tag'
+```
+则报错变为
+```
+Uncaught TypeError: Cannot read properties of undefined (reading 'bind') at useQuery.ts:483:1
+react-dom.development.js:18687 The above error occurred in the <Query> component: at Query (http://localhost:3000/static/js/bundle.js:52359:24)
+```
+按`npm i react-apollo --legacy-peer-deps`方式安装能成功，并且也按最初的依赖引入方式来写，就能成功运行，但总觉得这样是不是不太好，只是刚好没遇到什么冲突才得以正常运行，新版的话是不是还是应该用`@apollo/client`的方法来做，但网上的相关内容则又基本没有使用到`Query`组件进行包裹的形式，而报错也正是在`Query`组件上，很怀疑是不是`import { Query } from '@apollo/client/react/components'`的引入方式有问题
 
 ## 下周计划
 

@@ -2,17 +2,18 @@
 
 ## 学习内容及时长
 
-* **2024.01.08 月曜日:** 
+* **2024.01.08 月曜日:** 5h35min
   * GraphQL 12:00-13:50 15:15-19:00
 
-* **2023.01.09 火曜日:** 
+* **2023.01.09 火曜日:** 5h50min
   * GraphQL 12:35-14:00
   * DvaJS 14:20-14:50 16:45-18:05
-  * UmiJS 18:05-18:30
+  * UmiJS 18:05-18:30 20:40-22:50
+
+* **2023.01.10 水曜日:** 
   * 软件工程师常用日本语(P1-P5)
   * 日语影子跟读初中级Unit4 
 
-* **2023.01.10 水曜日:** 
 
 * **2023.01.11 木曜日:** 
 
@@ -86,6 +87,7 @@
   > `.webpackrc`: 自定义的webpack配置文件，JSON格式，如果需要JS格式，可修改为`.webpackrc.js`
 
 3. **UmiJS**
+* Umi以路由为基础的，同时支持配置式路由和**约定式路由**，保证路由的功能完备，并以此进行功能扩展
 * 什么时候不用Umi？
   * 需要支持IE 8或更低版本的浏览器
   * 需要支持React 16.8.0以下的React
@@ -114,6 +116,32 @@
           └── index.tsx
       └── app.ts 运行时配置文件，可以在这里扩展运行时的能力，比如修改路由、修改 render 方法等
   ```
+* 约定式路由
+  * 约定式路由也叫文件路由，就是不需要手写配置，文件系统即路由
+  * 通过src/pages目录和文件及其命名分析出路由配置, 也就是让umi根据约定好的目录结构帮我们生成路由配置文件
+  * 需要注意的是，满足以下任意规则的文件不会被注册为路由
+    > 以.或_开头的文件或目录 \
+    > 以d.ts结尾的类型定义文件 \
+    > 以test.ts、spec.ts、e2e.ts结尾的测试文件（适用于.js、.jsx和.tsx文件） \
+    > components和component目录 \
+    > utils和util目录 \
+    > 不是.js、.jsx、.ts或.tsx文件 \
+    > 文件内容不包含JSX元素
+* mock功能
+  * umi里约定mock文件夹下的文件或者page(s)文件夹下的_mock文件即mock文件
+  * 文件导出接口定义，支持基于require动态分析的实时刷新，支持ES6语法，以及友好的出错提示
+* dva集成
+  * 按目录约定注册model，无需手动app.model
+  * 文件名即namespace，可以省去model导出的namespace key
+  * 无需手写router.js，交给umi处理，支持model和component的按需加载
+  * 内置query-string处理，无需再手动解码和编码
+  * 内置dva-loading和dva-immer，其中dva-immer需通过配置开启(简化reducer编写)
+
+
+
+
+
+
 
 
 ## 内容拓展
@@ -227,7 +255,7 @@ export default {
 };
 ```
 
-7. **09_reactUmiJS**创建项目并`nom start`时报错
+7. 【已解决】**09_reactUmiJS**创建项目并`npm start`时报错
 ```
 node:internal/crypto/hash:68
   this[kHandle] = new _Hash(algorithm, xofLen);
@@ -252,6 +280,36 @@ Error: error:0308010C:digital envelope routines::unsupported
 
 Node.js v20.10.0
 ```
+解决办法为将`package.json`文件中
+```
+"start": "umi dev",
+```
+改成
+```
+"start": "SET NODE_OPTIONS=--openssl-legacy-provider && umi dev",
+```
+
+8. 【基本解决】**09_reactUmiJS**中
+* 首先是`./src/pages/cinema.tsx`中`import { SearchOutline } from 'antd-mobile-icons';`的`'antd-mobile-icons'`标红，于是`npm install antd-mobile-icons`即可
+* 其次，`./src/pages/cinema.tsx`中`import { NavBar, DotLoading } from 'antd-mobile';`的`DotLoading`与`./src/pages/city.tsx`中`import { IndexBar, List } from 'antd-mobile';`的`IndexBar`均标红；同时，`./src/pages/cinema.tsx`中`<NavBar back={props.cityName} ... >`的`back`也标红，报错信息为
+```
+No overload matches this call.
+  Overload 1 of 2, '(props: NavBarProps | Readonly<NavBarProps>): NavBar', gave the following error.
+    Type '{ children: string; back: any; right: Element; backArrow: boolean; onBack: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<NavBar> & Pick<Readonly<NavBarProps> & Readonly<...>, "method" | ... 363 more ... | "key"> & Partial<...> & Partial<...>'.
+      Property 'back' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<NavBar> & Pick<Readonly<NavBarProps> & Readonly<...>, "method" | ... 363 more ... | "key"> & Partial<...> & Partial<...>'.
+  Overload 2 of 2, '(props: NavBarProps, context: any): NavBar', gave the following error.
+    Type '{ children: string; back: any; right: Element; backArrow: boolean; onBack: () => void; }' is not assignable to type 'IntrinsicAttributes & IntrinsicClassAttributes<NavBar> & Pick<Readonly<NavBarProps> & Readonly<...>, "method" | ... 363 more ... | "key"> & Partial<...> & Partial<...>'.
+      Property 'back' does not exist on type 'IntrinsicAttributes & IntrinsicClassAttributes<NavBar> & Pick<Readonly<NavBarProps> & Readonly<...>, "method" | ... 363 more ... | "key"> & Partial<...> & Partial<...>'.ts(2769)
+```
+最后通过`npm install antd-mobile`得到解决(找不到组件还可以说是版本问题，重新安装得到解决，和back参数有什么关系实在没想通orz)
+* 顺便一提，运行后不显示轮播图且控制台依然会警告
+```
+Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+```
+是因为原网站的轮播图无了，相应的内容都没有了，应该影响到state的update也无法进行了的缘故
+* 关于`antd-mobile`，在`.umirc.ts`中有`antd: {mobile: false,},`，后来搜到其用途是关闭umi自带mobile，否则可能会有冲突报错，所以需要额外重新安装一次`antd-mobile`似乎也就说得通了
+
+
 
 ## 下周计划
 

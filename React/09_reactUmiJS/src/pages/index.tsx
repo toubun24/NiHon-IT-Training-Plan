@@ -1,9 +1,6 @@
-import styles from './index.less';
+// 重定向
 
-export default function IndexPage() {
-  return (
-    <div>
-      <h1 className={styles.title}>Page index</h1>
-    </div>
-  );
-}
+import { Redirect } from 'umi';
+
+const Index = () => { return <Redirect to="/film" />; };
+export default Index;

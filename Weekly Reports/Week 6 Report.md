@@ -7,7 +7,8 @@
 
 * **2023.01.09 火曜日:** 
   * GraphQL 12:35-14:00
-  * DvaJS 14:20-14:50 16:45-18:00
+  * DvaJS 14:20-14:50 16:45-18:05
+  * UmiJS 18:05-18:30
   * 软件工程师常用日本语(P1-P5)
   * 日语影子跟读初中级Unit4 
 
@@ -22,9 +23,7 @@
 * **2023.01.14 日曜日:** 
 
 
-  * GraphQL 
-  * DvaJS 
-  * UmiJS 
+
 
 ## 学习笔记
 1. **GraphQL**
@@ -55,7 +54,66 @@
   * `graphql-tag`：解析GraphQL查询必要依赖
   * `graphql`：用于解析GraphQL查询
 
+2. **DvaJS**
+* dva是基于现有应用架构(redux+react-router+redux-saga等)的一层轻量封装，没有引入任何新概念
+* DvaJS特性
+  * 易学易用，仅有6个api，对redux用户尤其友好，配合umi使用后更是降低为0 API
+  * elm概念，通过reducers, effects和subscriptions组织model
+  * 插件机制，比如dva-loading可以自动处理loading状态，不用一遍遍地写showLoading和hideLoading
+  * 支持HMR（模块热替换），基于babel-plugin-dva-hmr实现components、routes和 models的HMR
+* 数据流向
+  * 所有的`state`通过`connect`流向组件，组件经过`dispatch`发起`action`请求
+  * 通过model中的`reducer`和`effect`去改变`state`,`effect`副作用函数统一`call`/`fork`同步或者异步与服务进行数据交互
+* 启动！
+  * `npm install dva-cli -g`
+  * `dva new react-dva`
+  * `npm start`
+* 项目目录结构
+  > `mock`: 存放用于 mock 数据的文件 \
+  > `public`: 一般用于存放静态文件，打包时会被直接复制到输出目录(./dist) \
+  > `src`: 文件夹用于存放项目源代码 \
+    > `asserts`: 用于存放静态资源，打包时会经过 webpack 处理 \
+    > `components`: 用于存放 React 组件，一般是该项目公用的无状态组件 \
+    > `models`: 用于存放模型文件 \
+    > `routes`: 用于存放需要 connect model 的路由组件 \
+    > `services`: 用于存放服务文件，一般是网络请求等 \
+    > `utils`: 工具类库 \
+    > `router.js`: 路由文件 \
+    > `index.js`: 项目的入口文件 \
+  > `editorconfig`: 编辑器配置文件 \
+  > `.eslintrc`: ESLint配置文件 \
+  > `.roadhogrc.mock.js`: Mock配置文件 \
+  > `.webpackrc`: 自定义的webpack配置文件，JSON格式，如果需要JS格式，可修改为`.webpackrc.js`
 
+3. **UmiJS**
+* 什么时候不用Umi？
+  * 需要支持IE 8或更低版本的浏览器
+  * 需要支持React 16.8.0以下的React
+  * 需要跑在Node 10以下的环境中
+  * 有很强的webpack自定义需求和主观意愿
+  * 需要选择不同的路由方案
+* 为什么不是create-react-app: 是基于webpack的打包层方案，包含build、dev、lint等，他在打包层把体验做到了极致，但是不包含路由，不是框架，也不支持配置
+* 为什么不是next.js: 不够贴近业务，不够接地气
+* 约定化思想: 按照约定好的方式开发，就能达到某种效果，中间的过程由框架帮我们完成
+* 技术收敛: 把大家常用的技术栈进行整理，收敛到一起
+* 插件体系: 是Umi最重要的基建，包括Umi内部实现也是全部由插件构成
+* 项目目录结构: 最重要的文件是``.umirc.ts`配置文件，在里面可以配置各种功能和插件，umi支持不同环境读取不同的配置文件
+  ```
+  .
+  ├── package.json
+  ├── .umirc.ts 配置文件，包含 umi 内置功能和插件的配置。
+  ├── .env 环境变量
+  ├── dist 执行 umi build 后，产物默认会存放在这里
+  ├── mock 存储 mock 文件，此目录下所有 js 和 ts 文件会被解析为 mock 文件
+  ├── public 此目录下所有文件会被 copy 到输出路径
+  └── src
+      ├── .umi 临时文件目录，比如入口文件、路由等，都会被临时生成到这里
+      ├── layouts/index.tsx 约定式路由时的全局布局文件
+      ├── pages 所有路由组件存放在这里
+          ├── index.less
+          └── index.tsx
+      └── app.ts 运行时配置文件，可以在这里扩展运行时的能力，比如修改路由、修改 render 方法等
+  ```
 
 
 ## 内容拓展
@@ -169,6 +227,31 @@ export default {
 };
 ```
 
+7. **09_reactUmiJS**创建项目并`nom start`时报错
+```
+node:internal/crypto/hash:68
+  this[kHandle] = new _Hash(algorithm, xofLen);
+                  ^
+
+Error: error:0308010C:digital envelope routines::unsupported
+    at new Hash (node:internal/crypto/hash:68:19)
+    at Object.createHash (node:crypto:138:10)
+    at module.exports.__webpack_modules__.57442.module.exports (G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:135907:62)
+    at NormalModule._initBuildHash (G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:109317:16)
+    at handleParseError (G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:109371:10)
+    at G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:109403:5
+    at G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:109258:12
+    at G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:61157:3
+    at iterateNormalLoaders (G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:60998:10)
+    at Array.<anonymous> (G:\NiHon-IT-Training-Plan\React\09_reactUmiJS\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:60989:4) {
+  opensslErrorStack: [ 'error:03000086:digital envelope routines::initialization error' ],
+  library: 'digital envelope routines',
+  reason: 'unsupported',
+  code: 'ERR_OSSL_EVP_UNSUPPORTED'
+}
+
+Node.js v20.10.0
+```
 
 ## 下周计划
 

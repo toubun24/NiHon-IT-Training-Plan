@@ -3,11 +3,12 @@
 ## 学习内容及时长
 
 * **2024.01.08 月曜日:** 
-  * GraphQL 12:00-13:50 15:15-15:40
-  * 软件工程师常用日本语(P1-P5)
-  * 日语影子跟读初中级Unit4 
+  * GraphQL 12:00-13:50 15:15-19:00
 
 * **2023.01.09 火曜日:** 
+  * GraphQL 12:35-13:55
+  * 软件工程师常用日本语(P1-P5)
+  * 日语影子跟读初中级Unit4 
 
 * **2023.01.10 水曜日:** 
 
@@ -41,6 +42,7 @@
 * 参数类型与传递
   * 基本类型：在GraphQL中他们统称叫标量类型(Scalar Type)，主要包括：`Int`（整型）, `Float`（浮点型）, `String`（字符串）, `Boolean`（布尔型）和`ID`（唯一标识符类型）；也允许自定义标量类型；另有对象类型
   * `!`用来表示这个参数不可以是空的；`[]`表示查询这个字段返回的是数组，`[]`里面是数组的类型
+* MongoDB，启动: `mongod -dbpath=G:\NiHon-IT-Training-Plan\React\07_reactGraphQL\DB`
 * GraphQL与React
   * 导入依赖: `npm i react-apollo apollo-boost graphql graphql-tag`
   * 要在React里使用Apollo数据栈前端至少需要三个包
@@ -51,6 +53,9 @@
   * `react-apollo`：集成React的视图层
   * `graphql-tag`：解析GraphQL查询必要依赖
   * `graphql`：用于解析GraphQL查询
+
+
+
 
 ## 内容拓展
 

@@ -6,7 +6,8 @@
   * GraphQL 12:00-13:50 15:15-19:00
 
 * **2023.01.09 火曜日:** 
-  * GraphQL 12:35-13:55
+  * GraphQL 12:35-14:00
+  * DvaJS 14:20-14:50 16:45-18:00
   * 软件工程师常用日本语(P1-P5)
   * 日语影子跟读初中级Unit4 
 
@@ -155,6 +156,19 @@ Uncaught TypeError: Cannot read properties of undefined (reading 'bind') at useQ
 react-dom.development.js:18687 The above error occurred in the <Query> component: at Query (http://localhost:3000/static/js/bundle.js:52359:24)
 ```
 按`npm i react-apollo --legacy-peer-deps`方式安装能成功，并且也按最初的依赖引入方式来写，就能成功运行，但总觉得这样是不是不太好，只是刚好没遇到什么冲突才得以正常运行，新版的话是不是还是应该用`@apollo/client`的方法来做，但网上的相关内容则又基本没有使用到`Query`组件进行包裹的形式，而报错也正是在`Query`组件上，很怀疑是不是`import { Query } from '@apollo/client/react/components'`的引入方式有问题
+
+6. 【已解决】**08_reactDvaJS**中，`Login`部分实现有问题，报错
+```
+POST http://localhost:8000/users/login 404 (Not Found)
+```
+后来找到是没有去修改`./.roadhogrc.mock.js`文件为
+```JavaScript
+const mockobj  = require('./mock/test')
+export default {
+  ...mockobj
+};
+```
+
 
 ## 下周计划
 

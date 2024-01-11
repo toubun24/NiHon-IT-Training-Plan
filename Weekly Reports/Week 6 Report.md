@@ -10,21 +10,21 @@
   * DvaJS 14:20-14:50 16:45-18:05
   * UmiJS 18:05-18:30 20:40-22:50
 
-* **2023.01.10 水曜日:** 
+* **2023.01.10 水曜日:** 1h50min
   * 软件工程师常用日本语中级上 (P91-P95) 17:35-17:50
   * 日语影子跟读初中级Unit4 17:50-18:00
   * 项目和路由搭建 18:00-18:15 18:25-18:30 18:35-18:45
   * 基本路由完善 18:45-19:05 02:40-03:15
 
-* **2023.01.11 木曜日:** 
+* **2023.01.11 木曜日:** 5h35min
   * Layout布局 15:40-17:35
   * Header布局 18:05-18:45
-  * 侧边栏布局 18:45-
-
+  * 侧边栏布局 18:45-19:25 20:10-20:30 23:30-24:00
+  * 侧边栏取数据 00:00-01:30
 
 
 * **2023.01.12 金曜日:** 
-  * 侧边栏取数据 
+
   * 侧边栏渲染 
   * 侧边栏样式优化 
   * 权限列表布局 
@@ -158,8 +158,10 @@
   * 内置query-string处理，无需再手动解码和编码
   * 内置dva-loading和dva-immer，其中dva-immer需通过配置开启(简化reducer编写)
 
-
-
+4. **JSON Server**: https://www.npmjs.com/package/json-server
+* `npm install -g json-server`: 全局安装，否则找不到`json-server`指令，也不是环境变量的问题
+* `json-server db.json --port 5000`: 在当前终端所在的文件夹目录上确保存在`db.json`本地文件
+* `http://localhost:5000/`
 
 
 
@@ -368,7 +370,7 @@ theme不是组件，但是babel-plugin-import把它当成组件处理了，所�
 
 11. 【已解决】**Layout布局**中设置`#root .ant-layout {height: 100dvh;}` 依然存在滚动条。原因似乎与Chrome等浏览器的动态地址栏有关。使用了推荐的可以动态调整的`dvh`单位后问题依然存在，且Chrome和Edge均存在此问题。后来再检视的时候发现`<body>`标签竟然自带了`margin: 8px`，设0之后就填充满了
 
-
+12. **侧边栏取数据**中，关于JSON Server，`http://localhost:5000/rights?_embed=children`报错`query._embed?.forEach is not a function`，同时控制台报错`Failed to load resource: the server responded with a status of 500 (Internal Server Error)`；其他的简单判断如`id=`是能够正常运行的
 
 
 

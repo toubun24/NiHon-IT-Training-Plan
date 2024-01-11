@@ -10,3 +10,13 @@ const Auth = (props) => { // props: any in TS
 };
 
 export default Auth;
+
+// > localStorage
+// < Storage {token: 'dddwwq', length: 1}
+// http://localhost:8000/home
+
+// > localStorage.setItem('token', '')
+// < undefined
+// http://localhost:8000/login
+
+// > localStorage.setItem('token', 'dddwwq')

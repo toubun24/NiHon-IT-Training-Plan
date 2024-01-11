@@ -14,9 +14,16 @@
   * 软件工程师常用日本语中级上 (P91-P95) 17:35-17:50
   * 日语影子跟读初中级Unit4 17:50-18:00
   * 项目和路由搭建 18:00-18:15 18:25-18:30 18:35-18:45
-  * 基本路由完善 18:45-19:05
-  * Layout布局 
+  * 基本路由完善 18:45-19:05 02:40-03:15
+
+* **2023.01.11 木曜日:** 
+  * Layout布局 15:40-17:35
   * Header布局 
+
+
+
+
+* **2023.01.12 金曜日:** 
   * 侧边栏布局 
   * 侧边栏取数据 
   * 侧边栏渲染 
@@ -33,10 +40,6 @@
   * 添加用户(下) 
   * 修改与过滤用户 
 
-
-* **2023.01.11 木曜日:** 
-
-* **2023.01.12 金曜日:** 
 
 * **2023.01.13 土曜日:** 
 
@@ -327,6 +330,49 @@ Warning: Can't perform a React state update on an unmounted component. This is a
 ```
 是因为原网站的轮播图无了，相应的内容都没有了，应该影响到state的update也无法进行了的缘故
 * 关于`antd-mobile`，在`.umirc.ts`中有`antd: {mobile: false,},`，后来搜到其用途是关闭umi自带mobile，否则可能会有冲突报错，所以需要额外重新安装一次`antd-mobile`似乎也就说得通了
+
+9. **10_reactBackEndSystem**中，`_layout.jsx`嵌套路由是umi3.x的内容，新版嵌套路由参考[链接](https://github.com/umijs/umi/issues/8850#issuecomment-1206194329)
+
+10. 【已解决】**Layout布局**报错
+```
+ERROR  Failed to compile with 1 errors                                                     16:29:48
+This dependency was not found:
+
+* antd/es/theme/style in ./src/layouts/index.jsx
+
+To install it, you can run: npm install --save antd/es/theme/style
+
+ERROR in ./src/layouts/index.jsx
+Module not found: Error: Can't resolve 'antd/es/theme/style' in 'G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\src\layouts'
+ @ ./src/layouts/index.jsx 7:0-29
+ @ ./src/.umi/core/routes.ts
+ @ ./src/.umi/umi.ts
+ @ multi ./node_modules/@umijs/preset-built-in/bundled/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js ./src/.umi/umi.ts
+```
+其实一开始有提到有2个依赖都找不到，`npm install antd`后就只剩`antd/es/theme/style`找不到了。按报错给出的解决方案`npm install --save antd/es/theme/style`也没用，提示为
+```
+npm ERR! code ENOENT
+npm ERR! syscall open
+npm ERR! path G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\antd\es\theme\style/package.jsonnpm ERR! errno -4058
+npm ERR! enoent ENOENT: no such file or directory, open 'G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\antd\es\theme\style\package.json'
+npm ERR! enoent This is related to npm not being able to find a file.
+npm ERR! enoent
+
+npm ERR! A complete log of this run can be found in: C:\Users\Toubun\AppData\Local\npm-cache\_logs\2024-01-11T08_32_51_653Z-debug-0.log
+```
+去到`node_modules`里面也确实找不到这个目录。至此，一直觉得是依赖缺失的问题。后来查到相关的问题讨论，参考[链接1](https://github.com/ant-design/pro-components/issues/6104)和[链接2](https://github.com/montr/montr/issues/1706#issuecomment-1328019807)
+因为讨论中似乎提到这个问题的本质应该是
+```
+theme不是组件，但是babel-plugin-import把它当成组件处理了，所以导致找不到antd/es/theme/style
+```
+所以我这边给出的解决方案是，在`node_modules/antd/es/theme`目录下创建了名为`style.js`的空文件。。果然顺利运行出来噜！
+
+11. 【已解决】**Layout布局**中设置`#root .ant-layout {height: 100dvh;}` 依然存在滚动条。原因似乎与Chrome等浏览器的动态地址栏有关。使用了推荐的可以动态调整的`dvh`单位后问题依然存在，且Chrome和Edge均存在此问题。后来再检视的时候发现`<body>`标签竟然自带了`margin: 8px`，设0之后就填充满了
+
+
+
+
+
 
 
 

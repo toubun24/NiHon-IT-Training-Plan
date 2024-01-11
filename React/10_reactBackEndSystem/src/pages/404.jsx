@@ -5,5 +5,5 @@ const error = () => {
         <Redirect to='/home' />
     )
 }
-
+error.wrappers = ['@/wrappers/Auth'] // error.
 export default error;

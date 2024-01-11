@@ -9,7 +9,8 @@ import {
   VideoCameraOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Button, theme } from 'antd';
-import './index.less'
+import './index.less';
+import MyDropdown from '../components/myDropdown'; // 下拉菜单
 
 const { Header, Sider, Content } = Layout;
 
@@ -48,7 +49,8 @@ const App = (props) => { // props
       <Layout>
         <Header
           style={{
-            padding: 0,
+            // padding: 0,
+            padding: '0 16px',
             background: colorBgContainer,
           }}
         >
@@ -62,6 +64,9 @@ const App = (props) => { // props
               height: 64,
             }}
           />
+          <div style={{ float: 'right' }}> {/* 额外用<div>包裹并对其应用右浮动 */}
+            <MyDropdown /> {/* 下拉菜单 */}
+          </div>
         </Header>
         <Content
           style={{

@@ -6,3 +6,43 @@
     margin: 10px;
     text-align: center;
 }
+
+/* 滚动条式侧边栏 */
+
+// 滚动条整体
+::-webkit-scrollbar {
+    z-index: 50;
+    width: 10px;
+    height: 3px;
+}
+
+// 滚动条滑道
+::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+// 滚动滑块样式
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.1);
+    transition: all .2s;
+    height: 20px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+// 滚动条的样式，是可以跟 :hover 伪类叠加使用的
+// 滚动条鼠标悬浮时的样式
+:hover::-webkit-scrollbar-thumb {
+    transition: all .2s;
+}
+
+// 滚动条上下的箭头按钮
+::-webkit-scrollbar-button {
+    display: none;
+}
+
+::-webkit-scrollbar-corner {
+    display: none;
+}

@@ -24,8 +24,8 @@
 
 
 * **2023.01.12 金曜日:** 
-
-  * 侧边栏渲染 
+  * 侧边栏取数据 16:50-17:50
+  * 侧边栏渲染 17:50-
   * 侧边栏样式优化 
   * 权限列表布局 
   * 权限列表样式优化 
@@ -371,9 +371,64 @@ theme不是组件，但是babel-plugin-import把它当成组件处理了，所�
 11. 【已解决】**Layout布局**中设置`#root .ant-layout {height: 100dvh;}` 依然存在滚动条。原因似乎与Chrome等浏览器的动态地址栏有关。使用了推荐的可以动态调整的`dvh`单位后问题依然存在，且Chrome和Edge均存在此问题。后来再检视的时候发现`<body>`标签竟然自带了`margin: 8px`，设0之后就填充满了
 
 12. **侧边栏取数据**中，关于JSON Server，`http://localhost:5000/rights?_embed=children`报错`query._embed?.forEach is not a function`，同时控制台报错`Failed to load resource: the server responded with a status of 500 (Internal Server Error)`；其他的简单判断如`id=`是能够正常运行的
+```
+C:\Windows\system32>json-server -v
+Unknown option '-v'
+Usage: json-server [options] <file>
 
+Options:
+  -p, --port <port>  Port (default: 3000)
+  -h, --host <host>  Host (default: localhost)
+  -s, --static <dir> Static files directory (multiple allowed)
+  --help             Show this message
+  --version          Show version number
+```
+```
+C:\Windows\system32>json-server --version
+file:///C:/Users/Toubun/AppData/Roaming/npm/node_modules/json-server/lib/bin.js:60
+            const pkg = JSON.parse(readFileSync(join(__dirname, '../package.json'), 'utf8'));
+                                                     ^
 
+ReferenceError: __dirname is not defined in ES module scope
+This file is being treated as an ES module because it has a '.js' file extension and 'C:\Users\Toubun\AppData\Roaming\npm\node_modules\json-server\package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+    at args (file:///C:/Users/Toubun/AppData/Roaming/npm/node_modules/json-server/lib/bin.js:60:54)
+    at file:///C:/Users/Toubun/AppData/Roaming/npm/node_modules/json-server/lib/bin.js:91:49
+    at ModuleJob.run (node:internal/modules/esm/module_job:218:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:329:24)
+    at async loadESM (node:internal/process/esm_loader:34:7)
+    at async handleMainPromise (node:internal/modules/run_main:113:12)
 
+Node.js v20.10.0
+```
+* 将`C:\Users\Toubun\AppData\Roaming\npm\node_modules\json-server\lib`目录下的`bin.js`中涉及`__dirname`的直接写出来
+```JavaScript
+// --version
+if (values.version) {
+    const pkg = JSON.parse(readFileSync('C:/Users/Toubun/AppData/Roaming/npm/node_modules/json-server/package.json', 'utf8')); // join(__dirname, '../package.json')
+    console.log(pkg.version);
+    process.exit();
+}
+```
+得到
+```
+C:\Windows\system32>json-server -v
+Unknown option '-v'
+Usage: json-server [options] <file>
+
+Options:
+  -p, --port <port>  Port (default: 3000)
+  -h, --host <host>  Host (default: localhost)
+  -s, --static <dir> Static files directory (multiple allowed)
+  --help             Show this message
+  --version          Show version number
+```
+与
+```
+C:\Windows\system32>json-server --version
+1.0.0-alpha.19
+```
+震惊！`http://localhost:5000/rights?_embed=children`也能正常运行了！所以主要就是个`__dirname`路径问题。。（也去过`C:\Users\Toubun\AppData\Roaming\npm\node_modules\json-server\lib\service.js`里面查看过`embed`等函数的具体情况，是没有问题的，所以其实是因为路径缺失导致找不到了的缘故。。网上基本没有我这个问题的情况，不知道为什么
+* 顺便补充，`__dirname`代表当前js文件所在目录的路径(绝对路径)
 
 
 

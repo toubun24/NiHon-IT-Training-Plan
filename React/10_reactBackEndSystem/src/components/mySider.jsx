@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'; // useEffect
+import React, { useState, useEffect } from 'react'; // useState, useEffect
 import {
   UserOutlined,
   UnorderedListOutlined,
@@ -8,9 +8,11 @@ import {
 import { Layout, Menu, theme } from 'antd';
 import './mySider.less'
 import { useHistory } from 'umi'; // useHistory
-import axios from 'axios' // axios
+import axios from 'axios'; // axios
+// import { responsiveArray } from 'antd/es/_util/responsiveObserver';
 
 const { Sider } = Layout;
+/*
 function getItem(label, key, icon, children, type) { // menu
   return {
     key,
@@ -30,10 +32,22 @@ const items = [
     getItem('权限列表', '/rightManage/right/rightList', <UnorderedListOutlined />),
   ]),
 ];
+*/
 
 const MySider = ({ collapsed }) => { // {collapsed}
   const { token: { }, } = theme.useToken();
   const history = useHistory(); // useHistory
+  const [menuList, setMenuList] = useState([]) // menuList
+  useEffect(
+    () => {
+axios.get('http://localhost:5000/rights?_embed=children').then(
+  response=>{
+    console.log(response.data)
+    setMenuList(response.data)
+  }
+)
+    },[]
+  )
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div className="demo-logo-vertical">
@@ -63,7 +77,8 @@ const MySider = ({ collapsed }) => { // {collapsed}
           ]}
         */
         defaultOpenKeys={['sub1']} // menu
-        items={items} // menu
+        // items={items} // menu
+        items={menuList} // menuList
         onClick={({ key }) => {
           history.push(key) // history
         }} // function({ item, key, keyPath, domEvent })

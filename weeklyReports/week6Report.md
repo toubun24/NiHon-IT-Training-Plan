@@ -451,7 +451,7 @@ AxiosError {message: 'Request failed with status code 404', name: 'AxiosError',
 ```
 而直接点击链接`http://localhost:5000/rights?id=1`都是没问题的（值得一提的是，网上提到的语法诸如`http://localhost:5000/rights/1`在我本地直接打开的话依然报错`Failed to load resource: the server responded with a status of 404 (Not Found)`，像是`json-server -v`这种的简写也不行，必须写全`--version`才行，所以即使经过了上一个问题的调整，总还是哪里有点问题这个json server
 * 又回官网仔细看了一遍，终于真相大白！
-![](https://github.com/toubun24/NiHon-IT-Training-Plan/imgStorage/QQ20240113011036.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240113011036.png)
 居然npm默认下载到了刚发布十几个小时的测试版。。怪不得在上个解答里面我还需要手动进源文件里面引入才能保证`__dirname`不报错，是说为什么就我遇到这个问题。。
 卸载之后参考`https://www.npmjs.com/package/json-server/v/0.17.4`使用`npm i json-server@0.17.4 -g`重新下载旧的下载人数最多的稳定版
 ```

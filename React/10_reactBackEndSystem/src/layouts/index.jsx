@@ -15,9 +15,9 @@ const App = (props) => { // props
   } = theme.useToken();
   return (
     <Layout>
-      <MySider collapsed={collapsed}/> {/* 侧边栏 */} {/* collapsed={collapsed} */}
+      <MySider collapsed={collapsed} /> {/* 侧边栏 */} {/* collapsed={collapsed} */}
       <Layout>
-        <MyHeader collapsed={collapsed}  setCollapsed={setCollapsed}/> {/* collapsed={collapsed}  setCollapsed={setCollapsed} */}
+        <MyHeader collapsed={collapsed} setCollapsed={setCollapsed} /> {/* collapsed={collapsed}  setCollapsed={setCollapsed} */}
         <Content
           style={{
             margin: '24px 16px',
@@ -25,6 +25,7 @@ const App = (props) => { // props
             minHeight: 280,
             background: colorBgContainer,
             borderRadius: borderRadiusLG,
+            overflow: 'auto', // 界面溢出
           }}
         >
           {/* Content */}

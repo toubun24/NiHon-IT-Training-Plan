@@ -15,6 +15,12 @@ const list = () => {
     () => {
       axios.get('http://localhost:5000/rights?_embed=children').then(
         response => {
+          const list = response.data
+          list.forEach(item => {
+            if (item.children.length === 0) {
+              item.children = '' // ID栏拓展+号在没有子项时进行隐藏
+            }
+          })
           setTable(response.data)
         }
       )
@@ -52,11 +58,13 @@ const list = () => {
   ];
   // const destroyAll = () => { Modal.destroyAll(); };
   const comfirmedDelete = (item) => { // const
-    if (item.grade === 1) {
+    if (item.grade === 1) { // 删除大项
       setTable(table.filter(data => data.id !== item.id)) // 过滤删除 // setTable: 放在组件函数体内 // state.filter
       // axios.delete('http://localhost:5000/rights/${item.id}') // 删数据库
-    } else {
-  
+    } else { // 删除子项
+      let list = table.filter(data => data.id === item.rightId) // let: 变量一旦初始化之后，还可以重新赋值；不存在变量提升
+      list[0].children = list[0].children.filter(data => data.id !== item.id)
+      setTable([...table]) // 不能直接给table，否则会不知道差别，需要展开再给回去
     }
   };
   const deleteItem = (item) => {

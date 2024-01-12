@@ -74,7 +74,7 @@ const MySider = ({ collapsed }) => { // {collapsed}
     () => {
       axios.get('http://localhost:5000/rights?_embed=children').then(
         response => {
-          console.log(response.data)
+          // console.log(response.data)
           setMenuList(response.data)
         }
       )

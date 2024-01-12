@@ -1,4 +1,4 @@
-import { Table, Tag, Button, Modal } from 'antd'; // Modal: 对话框
+import { Table, Tag, Button, Modal, Popover, Switch } from 'antd'; // Modal: 对话框
 import { useState, useEffect } from 'react'; // useEffect
 import axios from 'axios';
 import {
@@ -50,17 +50,34 @@ const list = () => {
       // dataIndex: '',
       render: (item) => { // item
         return <div>
-          <Button type="primary" icon={<EditOutlined />}>修改</Button>
+          <Popover content={<div style={{ textAlign: 'center' }}>
+            <Switch checked={item.pagepermission} onChange={() => { switchMethod(item) }} />
+          </div>} title="页面配置项" trigger={item.pagepermission === undefined ? '' : "click"}>
+            <Button type="primary" icon={<EditOutlined />} disabled={item.pagepermission === undefined}>修改</Button>
+          </Popover>
           <Button danger icon={<DeleteOutlined />} onClick={() => { deleteItem(item) }}>删除</Button>
         </div>
       }
     },
   ];
+  const switchMethod = (item) => { // 滑块滑动
+    item.pagepermission = item.pagepermission === 1 ? 0 : 1
+    setTable([...table])
+    if (item.grade === 1) {
+      axios.patch(`http://localhost:5000/rights/${item.id}`, { // `` not '' // `http://localhost:5000/rights?id=${item.id}`返回的是数组[{}]而不是{}，会报错404
+        pagepermission: item.pagepermission
+      })
+    } else {
+      axios.patch(`http://localhost:5000/children/${item.id}`, { // `` not '' // `http://localhost:5000/children?id=${item.id}`返回的是数组[{}]而不是{}，会报错404
+        pagepermission: item.pagepermission
+      })
+    }
+  };
   // const destroyAll = () => { Modal.destroyAll(); };
   const comfirmedDelete = (item) => { // const
     if (item.grade === 1) { // 删除大项
       setTable(table.filter(data => data.id !== item.id)) // 过滤删除 // setTable: 放在组件函数体内 // state.filter
-      // axios.delete('http://localhost:5000/rights/${item.id}') // 删数据库
+      // axios.delete(`http://localhost:5000/rights/${item.id}`) // 删数据库
     } else { // 删除子项
       let list = table.filter(data => data.id === item.rightId) // let: 变量一旦初始化之后，还可以重新赋值；不存在变量提升
       list[0].children = list[0].children.filter(data => data.id !== item.id)

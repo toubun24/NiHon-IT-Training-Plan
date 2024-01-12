@@ -1,4 +1,4 @@
-// cd G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\JSONServer
+// cd G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem
 // json-server db.json --port 5000
 
 import React, { useState, useEffect } from 'react'; // useState, useEffect

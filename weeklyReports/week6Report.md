@@ -31,7 +31,7 @@
   * 权限列表样式优化 21:50-22:10
   * 权限列表一级删除 22:10-22:25 22:30-22:55
   * 权限列表二级删除 22:55-23:10
-  * 权限列表编辑按钮 
+  * 权限列表编辑按钮 23:10-01:30
   * 角色列表 
   * 角色列表布局 
   * 用户列表删除开关功能 
@@ -159,7 +159,7 @@
   * 内置dva-loading和dva-immer，其中dva-immer需通过配置开启(简化reducer编写)
 
 4. **JSON Server**: https://www.npmjs.com/package/json-server
-* `npm install -g json-server`: 全局安装，否则找不到`json-server`指令，也不是环境变量的问题
+* `npm install -g json-server`: 全局安装，否则找不到`json-server`指令，也不是环境变量的问题——然而还不够，近期默认下载的大概率是测试版，截至目前应该使用的命令是`npm i json-server@0.17.4 -g`才行
 * `json-server db.json --port 5000`: 在当前终端所在的文件夹目录上确保存在`db.json`本地文件
 * `http://localhost:5000/`
 
@@ -427,10 +427,46 @@ Options:
 C:\Windows\system32>json-server --version
 1.0.0-alpha.19
 ```
-震惊！`http://localhost:5000/rights?_embed=children`也能正常运行了！所以主要就是个`__dirname`路径问题。。（也去过`C:\Users\Toubun\AppData\Roaming\npm\node_modules\json-server\lib\service.js`里面查看过`embed`等函数的具体情况，是没有问题的，所以其实是因为路径缺失导致找不到了的缘故。。网上基本没有我这个问题的情况，不知道为什么
+震惊！`http://localhost:5000/rights?_embed=children`也能正常运行了！所以主要就是个`__dirname`路径问题。。（也去过`C:\Users\Toubun\AppData\Roaming\npm\node_modules\json-server\lib\service.js`里面查看过`embed`等函数的具体情况，是没有问题的，所以其实是因为路径缺失导致找不到了的缘故。。网上基本没有我这个问题的情况，不知道为什么（路径确认过是全英文路径，没有什么有风险的特殊字符存在）
 * 顺便补充，`__dirname`代表当前js文件所在目录的路径(绝对路径)
+* `__dirname`更合适的写法为
+```JavaScript
+import { dirname } from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+```
 
+13. **权限列表编辑按钮**中
+```JavaScript
+axios.patch(`http://localhost:5000/rights?id=${item.id}`, { // `` not ''
+        pagepermission: item.pagepermission
+      })
+```
+报错
+```
+PATCH http://localhost:5000/rights?id=1 404 (Not Found)
 
+Uncaught (in promise) 
+AxiosError {message: 'Request failed with status code 404', name: 'AxiosError', code: 'ERR_BAD_REQUEST', config: {…}, request: XMLHttpRequest, …}code: "ERR_BAD_REQUEST"config: {transitional: {…}, adapter: Array(2), transformRequest: Array(1), transformResponse: Array(1), timeout: 0, …}message: "Request failed with status code 404"name: "AxiosError"request: XMLHttpRequest {onreadystatechange: null, readyState: 4, timeout: 0, withCredentials: false, upload: XMLHttpRequestUpload, …}response: {data: 'Not Found', status: 404, statusText: 'Not Found', headers: AxiosHeaders, config: {…}, …}stack: "AxiosError: Request failed with status code 404\n    at settle (http://localhost:8000/umi.js:105191:12)\n    at XMLHttpRequest.onloadend (http://localhost:8000/umi.js:103701:70)"[[Prototype]]: Error
+```
+而直接点击链接`http://localhost:5000/rights?id=1`都是没问题的（值得一提的是，网上提到的语法诸如`http://localhost:5000/rights/1`在我本地直接打开的话依然报错`Failed to load resource: the server responded with a status of 404 (Not Found)`，像是`json-server -v`这种的简写也不行，必须写全`--version`才行，所以即使经过了上一个问题的调整，总还是哪里有点问题这个json server
+* 又回官网仔细看了一遍，终于真相大白！
+[](https://github.com/toubun24/NiHon-IT-Training-Plan/imgStorage/QQ20240113011036.png)
+居然npm默认下载到了刚发布十几个小时的测试版。。怪不得在上个解答里面我还需要手动进源文件里面引入才能保证`__dirname`不报错，是说为什么就我遇到这个问题。。
+卸载之后参考`https://www.npmjs.com/package/json-server/v/0.17.4`使用`npm i json-server@0.17.4 -g`重新下载旧的下载人数最多的稳定版
+```
+C:\Windows\system32>npm i json-server@0.17.4 -g
+
+added 116 packages in 5s
+
+C:\Windows\system32>json-server --version
+0.17.4
+
+C:\Windows\system32>json-server -v
+0.17.4
+```
+再也不用纠结什么`-v`和`--version`了
+* 不过值得注意的是，``http://localhost:5000/rights/${item.id}``和``http://localhost:5000/rights?id=${item.id}``还真不一样，手动打开链接的话两者都能打开，但返回的是数组[{}]而不是{}，会报错404估计也是这个原因导致的。而之前用的测试版中哪怕是手动打开链接``http://localhost:5000/rights/${item.id}``也是`Not Found`，所以是真的无解，新测试版绝对很有问题呕呜，终于测试通过了，下机！
 
 ## 下周计划
 

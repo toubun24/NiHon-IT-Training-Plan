@@ -41,14 +41,14 @@ const getItem = (menuList) => {
     if (item.children && checkPagePermission(item) && item.children.length > 0) {
       return {
         key: item.key,
-        label: item.label,
+        label: item.title, // label => title
         children: getItem(item.children), // .map is not a function => .children
         icon: iconList[item.key], // icon // []
       }
     }
     return checkPagePermission(item) && {
       key: item.key,
-      label: item.label,
+      label: item.title, // label => title
       icon: iconList[item.key], // icon // []
     }
   })

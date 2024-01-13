@@ -36,7 +36,7 @@ const list = () => {
     },
     {
       title: '权限名称',
-      dataIndex: 'label',
+      dataIndex: 'title', // label => title
     },
     {
       title: '权限路径',

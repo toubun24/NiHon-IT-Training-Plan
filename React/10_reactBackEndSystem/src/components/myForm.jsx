@@ -3,8 +3,11 @@ import { Table, Button, Modal, Switch, Form, Input, Select } from 'antd'; // Swi
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
+const MyForm = forwardRef(({ region, role, isActive2 }, ref) => { // ({}) // (props, ref)
   const [isActive, setIsActive] = useState(false) // 超级管理员 => select区域disabled
+  useEffect(() => {
+    setIsActive(isActive2)
+  }, [isActive2])
   return ( // forwardRef 透传
     <Form
       // form={form}
@@ -39,7 +42,7 @@ const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
         name="region"
         label="区域"
         // rules={[
-        rules={[isActive?[]: // 超级管理员 => select区域非required
+        rules={[isActive ? [] : // 超级管理员 => select区域非required
           {
             required: true,
             message: '请选择区域',

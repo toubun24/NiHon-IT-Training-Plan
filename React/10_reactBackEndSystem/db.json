@@ -71,15 +71,6 @@
       "roleState": true,
       "default": false,
       "id": 8
-    },
-    {
-      "username": "321",
-      "password": "321",
-      "region": "",
-      "roleId": 1,
-      "roleState": true,
-      "default": false,
-      "id": 9
     }
   ],
   "roles": [

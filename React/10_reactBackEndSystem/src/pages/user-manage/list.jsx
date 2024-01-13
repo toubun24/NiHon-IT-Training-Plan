@@ -56,7 +56,8 @@ const list = () => {
       title: '角色名称',
       dataIndex: 'role',
       render: (role) => {
-        return <b>{role.roleName}</b>
+        // return <b>{role.roleName}</b> // ?.可选链操作符 // 及时拿到"角色名称"信息，而无需刷新
+        return <b>{role?.roleName}</b>
       }
     },
     {
@@ -114,8 +115,26 @@ const list = () => {
         onCancel={() => { setOpen(false) }} // () => {}
         onOk={() => {
           // form.validateFields().then((values) => { form.resetFields(); onCreate(values); }).catch((info) => { console.log('Validate Failed:', info); });
-          console.log('ok')
-          console.log(ref)
+          // console.log('ok')
+          // console.log(ref)
+          ref.current.validateFields().then(response => {
+            // console.log(response)
+            setOpen(false) // 确认后关闭弹窗
+            ref.current.resetFields() // 重置一组字段到initialValues
+            axios.post('http://localhost:5000/users', { // 添加数据
+              ...response,
+              "roleState": true,
+              "default": false,
+            }).then(response2 => {
+              // console.log(response2)
+              setTable([...table, {
+                ...response2.data,
+                role: role.filter(item => item.id === response.roleId)[0] // 及时拿到"角色名称"信息，而无需刷新 // 注释掉这行则需要等待刷新
+              }])
+            })
+          }).catch(
+            err => console.log(err)
+          )
         }}
       >
         <MyForm region={region} role={role} ref={ref} /> {/* forwardRef => ref */}

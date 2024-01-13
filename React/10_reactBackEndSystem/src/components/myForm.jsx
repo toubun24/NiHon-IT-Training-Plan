@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
+  const [isActive, setIsActive] = useState(false) // 超级管理员 => select区域disabled
   return ( // forwardRef 透传
     <Form
       // form={form}
@@ -37,7 +38,8 @@ const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
       <Form.Item
         name="region"
         label="区域"
-        rules={[
+        // rules={[
+        rules={[isActive?[]: // 超级管理员 => select区域非required
           {
             required: true,
             message: '请选择区域',
@@ -56,6 +58,7 @@ const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
               label: item.title, // 显示文字
             }
           })}
+          disabled={isActive} // 超级管理员 => select区域disabled
         /></Form.Item>
       <Form.Item
         name="roleId"
@@ -75,6 +78,16 @@ const MyForm = forwardRef(({ region, role }, ref) => { // ({}) // (props, ref)
               label: item.roleName,
             }
           })}
+          onChange={(roleId) => {
+            if (roleId === 1) {
+              setIsActive(true) // 超级管理员 => select区域disabled
+              ref.current.setFieldsValue({
+                region: '' // 清空region已选内容
+              })
+            } else {
+              setIsActive(false)
+            }
+          }}
         /></Form.Item>
     </Form>
   )

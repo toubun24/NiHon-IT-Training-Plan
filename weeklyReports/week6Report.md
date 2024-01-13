@@ -36,8 +36,8 @@
   * 角色列表 12:30-13:30
   * 角色列表布局 18:05-18:20
   * 用户列表删除开关功能 18:20-19:05
-  * 添加用户(上) 19:05-
-  * 添加用户(下) 
+  * 添加用户(上) 19:05-20:00
+  * 添加用户(下) 20:00-
   * 修改与过滤用户 
 
 * **2023.01.14 日曜日:** 
@@ -472,7 +472,11 @@ Error: Too many re-renders. React limits the number of renders to prevent an inf
 ```
 原因为`onCancel={setOpen(false)}`内部应该写为箭头函数`onCancel={() => { setOpen(false) }}`，网上的相关问题也是类似的情况，所以很快就找到出问题的地方了
 
-
+15. 【已解决】**添加用户(上)**中`MyForm.jsx`报错
+```
+TypeError: react__WEBPACK_IMPORTED_MODULE_6___default(...) is not a function
+```
+原因竟然是忘记了`import {forwardRef} from 'react'`的`{}`；不过也就当顺便复习了下`forwardRef`
 
 ## 下周计划
 

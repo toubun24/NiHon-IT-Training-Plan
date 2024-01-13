@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Switch } from 'antd';
+import { Table, Button, Modal, Switch, Form, Input, Select } from 'antd'; // Switch, Form, Input, Select
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
@@ -11,6 +11,7 @@ const { confirm } = Modal;
 
 const list = () => {
   const [table, setTable] = useState([]);
+  const [open, setOpen] = useState(false); // visible => open
   useEffect(
     () => {
       axios.get('http://localhost:5000/users?_expand=role').then(
@@ -43,7 +44,7 @@ const list = () => {
       title: '用户状态',
       dataIndex: 'roleState', // roleState: true/false, 无render时则无渲染显示
       render: (roleState, item) => {
-        return <Switch checked={roleState} disabled={item.default} />
+        return <Switch checked={roleState} disabled={item.default} onChange={() => handleChange(item)} />
       }
     },
     {
@@ -57,7 +58,8 @@ const list = () => {
     },
   ];
   const comfirmedDelete = (item) => {
-
+    setTable(table.filter(data => data.id !== item.id))
+    // axios.delete(`http://localhost:5000/users/${item.id}`) // users
   };
   const deleteItem = (item) => {
     confirm({
@@ -70,10 +72,91 @@ const list = () => {
       },
     });
   };
+  const handleChange = (item) => {
+    item.roleState = !item.roleState
+    setTable([...table])
+    axios.patch(`http://localhost:5000/users/${item.id}`, { roleState: item.roleState })
+  };
 
   return (
     <>
+      <Button type='primary' onClick={() => { setOpen(true) }} style={{ float: 'right' }}>添加用户</Button>
       <Table dataSource={table} columns={columns} pagination={{ pageSize: 5 }} rowKey={item => item.id} />
+      <Modal
+        open={open}
+        title="添加用户"
+        okText="确认"
+        cancelText="取消"
+        // onCancel={setOpen(false)} // Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
+        onCancel={() => { setOpen(false) }} // () => {}
+        onOk={() => {
+          // form.validateFields().then((values) => { form.resetFields(); onCreate(values); }).catch((info) => { console.log('Validate Failed:', info); });
+          console.log('ok')
+        }}
+      >
+        <Form
+          // form={form}
+          layout="vertical"
+        // name="form_in_modal"
+        // initialValues={{ modifier: 'public', }}
+        >
+          <Form.Item
+            name="username"
+            label="用户名"
+            rules={[
+              {
+                required: true,
+                message: '请输入用户名',
+              },
+            ]}
+          >
+            <Input /></Form.Item>
+          <Form.Item
+            name="password"
+            label="密码"
+            rules={[
+              {
+                required: true,
+                message: '请输入密码',
+              },
+            ]}
+          >
+            <Input /></Form.Item>
+          <Form.Item
+            name="region"
+            label="区域"
+            rules={[
+              {
+                required: true,
+                message: '请选择区域',
+              },
+            ]}
+          >
+            <Select
+              // defaultValue="lucy"
+              // style={{ width: 120 }}
+              // onChange={handleChange}
+              options={[
+                { value: 'jack', label: 'Jack' }, // 死数据
+              ]}
+            /></Form.Item>
+          <Form.Item
+            name="roleId"
+            label="角色"
+            rules={[
+              {
+                required: true,
+                message: '请选择角色',
+              },
+            ]}
+          >
+            <Select
+              options={[
+                { value: 'jack', label: 'Jack' },
+              ]}
+            /></Form.Item>
+        </Form>
+      </Modal>
     </>
   )
 }

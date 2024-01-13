@@ -35,8 +35,8 @@
 * **2023.01.13 土曜日:** 
   * 角色列表 12:30-13:30
   * 角色列表布局 18:05-18:20
-  * 用户列表删除开关功能 18:20-
-  * 添加用户(上) 
+  * 用户列表删除开关功能 18:20-19:05
+  * 添加用户(上) 19:05-
   * 添加用户(下) 
   * 修改与过滤用户 
 
@@ -465,6 +465,14 @@ C:\Windows\system32>json-server -v
 ```
 再也不用纠结什么`-v`和`--version`了
 * 不过值得注意的是，``http://localhost:5000/rights/${item.id}``和``http://localhost:5000/rights?id=${item.id}``还真不一样，手动打开链接的话两者都能打开，但返回的是数组[{}]而不是{}，会报错404估计也是这个原因导致的。而之前用的测试版中哪怕是手动打开链接``http://localhost:5000/rights/${item.id}``也是`Not Found`，所以是真的无解，新测试版绝对很有问题呕呜，终于测试通过了，下机！
+
+14. 【已解决】**用户列表删除开关功能**中报错
+```
+Error: Too many re-renders. React limits the number of renders to prevent an infinite loop.
+```
+原因为`onCancel={setOpen(false)}`内部应该写为箭头函数`onCancel={() => { setOpen(false) }}`，网上的相关问题也是类似的情况，所以很快就找到出问题的地方了
+
+
 
 ## 下周计划
 

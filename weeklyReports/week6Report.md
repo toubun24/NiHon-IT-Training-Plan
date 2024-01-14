@@ -41,7 +41,7 @@
   * 修改与过滤用户 21:30-22:05 00:50-01:45
 
 * **2023.01.14 日曜日:** 
-  * 登录界面 
+  * 登录界面 11:45-14:30 18:15-20:05 20:20-22:15
   * 登录权限优化 
   * 登录路由权限控制优化 
   * 撰写新闻布局 
@@ -492,6 +492,177 @@ Error: Too many re-renders. React limits the number of renders to prevent an inf
 TypeError: react__WEBPACK_IMPORTED_MODULE_6___default(...) is not a function
 ```
 原因竟然是忘记了`import {forwardRef} from 'react'`的`{}`；不过也就当顺便复习了下`forwardRef`
+
+16. 【】**登录页面**中，`tsparticles`报错
+```
+ERROR in ./node_modules/@tsparticles/engine/browser/Utils/Utils.js 74:45
+Module parse failed: Unexpected token (74:45)
+You may need an appropriate loader to handle this file type, currently no loaders are configured to 
+process this file. See https://webpack.js.org/concepts#loaders
+```
+有很多这样的报错，基本都是在`??`、`?.`之类的表达式上，然后最后一条报错不会直接触发，而是在尝试刷新页面后弹出，同时会中断项目，内容为
+```
+node:internal/process/promises:289
+            triggerUncaughtException(err, true /* fromPromise */);
+            ^
+
+AssertionError [ERR_ASSERTION]: chunk of umi not found.
+    at G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\preset-built-in\lib\plugins\commands\htmlUtils.js:104:27
+    at Array.forEach (<anonymous>)
+    at chunksToFiles (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\preset-built-in\lib\plugins\commands\htmlUtils.js:93:14)
+    at G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\preset-built-in\lib\plugins\commands\htmlUtils.js:189:32
+    at Generator.next (<anonymous>)
+    at asyncGeneratorStep (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\preset-built-in\lib\plugins\commands\htmlUtils.js:62:103)
+    at _next (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\preset-built-in\lib\plugins\commands\htmlUtils.js:64:194)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: undefined,
+  expected: true,
+  operator: '=='
+}
+
+Node.js v20.10.0
+```
+这一条还不太清楚，先去研究下`??`报错
+* 尝试更换了课件中的引入和后续语法，依然报同样的错，接下来开始考虑Babel和Webpack方向
+* 尝试在`.umirc.ts`中添加
+```JavaScript
+extraBabelIncludes: ['/@tsparticles'],
+```
+其中，`extraBabelIncludes`在官方文档中的描述为
+```
+extraBabelIncludes
+类型：Array<string | RegExp>
+默认值：[]
+配置额外需要做Babel编译的NPM包或目录
+```
+它和[链接](http://www.taodudu.cc/news/show-4264428.html?action=onClick)中提到的Vue的`transpileDependencies`作用类似。但是报错问题还在
+* 另一个方向，关于Babel，参考[链接](https://zhuanlan.zhihu.com/p/409899884)和[链接](https://github.com/babel/babel-loader)，尝试了在`.umirc.ts`配置`babel-loader`
+```JavaScript
+chainWebpack(config) {
+    config.module
+      .rule('babel-loader')
+      .test(/\.(js)$/)
+      .use('babel-loader?name=[path][name].[ext]')
+      .loader('babel-loader')
+      .end();
+},
+```
+报错信息很严重，因为是对全体`.js`应用了此项修改，但感觉方向不太对（还对loader很不熟，用起来很没把握），暂时搁置。顺便一提
+```
+Umi@2 no longer supports webpack.config.js, instead it is implemented by configuring chainWebpack
+```
+所以是在对`chainWebpack`进行配置
+* 尝试创建`babel.config.json`并写入
+```JavaScript
+// npm i @babel/plugin-proposal-nullish-coalescing-operator
+// npm i @babel/plugin-proposal-optional-chaining
+// npm install babel-plugin-import -S
+
+{
+  "presets": [
+    // "@vue/cli-plugin-babel/preset"
+  ],
+  "plugins": [
+    // ？？
+    "@babel/plugin-proposal-nullish-coalescing-operator",
+    // 可选链
+    "@babel/plugin-proposal-optional-chaining",
+    [
+      "import",
+      {
+        "libraryName": "@tsparticles",
+        "libraryDirectory": "es",
+        "style": true
+      },
+      "@tsparticles"
+    ]
+  ]
+}
+```
+依然同样报错，但感觉`@babel/plugin-proposal-nullish-coalescing-operator`和`babel/plugin-proposal-optional-chaining`似乎已经很接近答案了
+* 参考[官方文档](https://v3.umijs.org/config/#extrababelplugins)又删掉了`babel.config.json`，转而回`.umirc.ts`中设置`extraBabelPlugins`
+```
+extraBabelPlugins: [
+    "@babel/plugin-proposal-optional-chaining",
+    "@babel/plugin-proposal-nullish-coalescing-operator",
+  ],
+```
+* 注意到`@babel/plugin-proposal-optional-chaining`的官方文档[链接](https://www.npmjs.com/package/@babel/plugin-proposal-optional-chaining)提示
+```
+This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-optional-chaining instead.
+```
+且新的官方文档[链接](https://babeljs.io/docs/babel-plugin-transform-optional-chaining)中提到
+```
+This plugin is included in @babel/preset-env, in ES2020
+```
+同样的，`@babel/plugin-proposal-nullish-coalescing-operator`的官方文档[链接](https://www.npmjs.com/package/@babel/plugin-proposal-nullish-coalescing-operator)提示
+```
+This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-nullish-coalescing-operator instead.
+```
+* 同样值得一提的是，`extraBabelIncludes`也很奇怪，一旦我按照官网上的格式写成`extraBabelIncludes: ['@tsparticles/react']`或者`extraBabelIncludes: ['tsparticles']`或者`extraBabelIncludes: ['./node_modules/@tsparticles']`则报错
+```
+node:internal/validators:162
+    throw new ERR_INVALID_ARG_TYPE(name, 'string', value);
+    ^
+
+TypeError: The "id" argument must be of type string. Received null
+    at validateString (node:internal/validators:162:11)
+    at Module.require (node:internal/modules/cjs/loader:1228:3)
+    at require (node:internal/modules/helpers:176:18)
+    at shouldTransform (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\bundler-webpack\lib\getConfig\pkgMatch.js:43:20)
+    at Array.<anonymous> (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\bundler-webpack\lib\getConfig\getConfig.js:259:48)
+    at Array.<anonymous> (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:113959:16)
+    at Object.resource (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:113968:17)
+    at RuleSet._run (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:114365:30)
+    at RuleSet._run (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:114420:10)
+    at RuleSet.exec (G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@umijs\deps\compiled\webpack\4\bundle4.js:114348:8) {
+  code: 'ERR_INVALID_ARG_TYPE'
+}
+
+Node.js v20.10.0
+```
+只有在前面多加个`/`变成`extraBabelIncludes: ['/@tsparticles/react']`才能重新报回原先运算符的错
+* 暂时放弃了，等周一直接求助好了x最后总结一下
+  * 首先`extraBabelIncludes`的参数可能有问题导致没有针对那个粒子包专门做babel
+  * 其次，`extraBabelPlugins`里我看github涉及到这个函数的相关代码里，一部分人是像我一样写入的babel插件，但也有很一部分人往里面写入的是想要处理的目标依赖
+  * 以目前查的文档来看，应该只和`extraBabelIncludes`，`extraBabelPresets`，`extraBabelPlugins`的`chainWebpack`中的`loader`这几个函数有关，答案应该就在其中
+* 再贴一下目前的`.umirc.ts`
+```JavaScript
+// npm install --save-dev @babel/plugin-transform-optional-chaining
+// npm install --save-dev @babel/plugin-transform-nullish-coalescing-operator
+// npm i @umijs/babel-preset-umi
+
+import { defineConfig } from 'umi';
+
+export default defineConfig({
+  nodeModulesTransform: {
+    type: 'none',
+  },
+  // routes: [
+  //   { path: '/', component: '@/pages/index' },
+  // ],
+  fastRefresh: {},
+  // https://umijs.org/docs/api/config#extrababelincludes
+  extraBabelIncludes: ['/@tsparticles'], // 配置额外需要做 Babel 编译的 NPM 包或目录
+  // extraBabelPresets: ['@umijs/babel-preset-umi'], // @babel/preset-env // 配置额外的 babel 插件。可传入插件地址或插件函数
+  extraBabelPlugins: [ // 配置额外的 babel 插件。可传入插件地址或插件函数
+    "@babel/plugin-transform-optional-chaining",
+    "@babel/plugin-transform-nullish-coalescing-operator",
+    /*
+    [
+      "import",
+      {
+        libraryName: "@tsparticles",
+        // libraryDirectory: "/@tsparticles",
+      }
+    ]
+    */
+  ],
+});
+```
+* 复现地址：https://github.com/toubun24/NiHon-IT-Training-Plan/tree/main/React/10_reactBackEndSystem
 
 ## 下周计划
 

@@ -5,8 +5,9 @@
 import { defineConfig } from 'umi';
 
 export default defineConfig({
-  nodeModulesTransform: {
-    type: 'none',
+  nodeModulesTransform: { // https://v3.umijs.org/config#nodemodulestransform
+    type: 'all',
+    exclude: [],
   },
   // routes: [
   //   { path: '/', component: '@/pages/index' },

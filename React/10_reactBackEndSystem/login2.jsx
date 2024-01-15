@@ -6,11 +6,11 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message } from 'antd'; // Checkbox // message
 import './login.less';
-// import Particles, { initParticlesEngine } from "@tsparticles/react"; // particles背景粒子效果
-import Particles from "react-tsparticles"; // npm i tsparticles@2.0.6
+import Particles, { initParticlesEngine } from "@tsparticles/react"; // particles背景粒子效果
+// import Particles from "react-tsparticles"; // npm i tsparticles@2.0.6
 // import { loadAll } from "@/tsparticles/all"; // if you are going to use `loadAll`, install the "@tsparticles/all" package too.
-import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
-///import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+// import { loadFull } from "tsparticles"; // if you are going to use `loadFull`, install the "tsparticles" package too.
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 // import { loadBasic } from "@tsparticles/basic"; // if you are going to use `loadBasic`, install the "@tsparticles/basic" package too.
 import axios from 'axios';
 import { useHistory } from 'umi';
@@ -31,7 +31,6 @@ const Login = () => {
       }
     )
   };
-  /*
   const [init, setInit] = useState(false); // particles背景粒子效果
   // this should be run only once per application lifetime
   useEffect(() => {
@@ -48,17 +47,17 @@ const Login = () => {
       console.log('init')
     });
   }, []);
-  */
+  /*
   const particlesInit = async (main) => {
     // you can initialize the tsParticles instance (main) here, adding custom shapes or presets
     // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
     // starting from v2 you can add only the features you need reducing the bundle size
     await loadFull(main);
   };
+  */
   const particlesLoaded = (container) => {
     // console.log(container);
   };
-  /*
   const options = useMemo(
     () => ({
       background: {
@@ -130,17 +129,15 @@ const Login = () => {
     [],
   );
   if (init) {
-    */
-  return (
-    <div style={{ height: '100vh', background: 'rgba(0, 0, 0, 0.1)' }}>
-      {/*
+    return (
+      <div style={{ height: '100vh', background: 'rgba(0, 0, 0, 0.1)' }}>
         <Particles
           id="tsparticles"
           particlesLoaded={particlesLoaded}
           options={options}
-          // url="http://foo.bar/particles.json"
+        // url="http://foo.bar/particles.json"
         />
-      */}
+        {/*
       <Particles
         id="tsparticles"
         init={particlesInit}
@@ -260,40 +257,41 @@ const Login = () => {
           }
         }}
       />
-      <Form
-        name="normal_login"
-        className="login-form"
-        // initialValues={{ remember: true, }}
-        onFinish={onFinish}
-      >
-        <div className="logi-title">后台登录</div>
-        <Form.Item
-          name="username"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Username!',
-            },
-          ]}
+      */}
+        <Form
+          name="normal_login"
+          className="login-form"
+          // initialValues={{ remember: true, }}
+          onFinish={onFinish}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
-        </Form.Item>
-        <Form.Item
-          name="password"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your Password!',
-            },
-          ]}
-        >
-          <Input
-            prefix={<LockOutlined className="site-form-item-icon" />}
-            type="password"
-            placeholder="Password"
-          />
-        </Form.Item>
-        {/*
+          <div className="logi-title">后台登录</div>
+          <Form.Item
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Username!',
+              },
+            ]}
+          >
+            <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: 'Please input your Password!',
+              },
+            ]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+          {/*
           <Form.Item>
             <Form.Item name="remember" valuePropName="checked" noStyle>
               <Checkbox>Remember me</Checkbox>
@@ -304,16 +302,16 @@ const Login = () => {
             </a>
           </Form.Item>
           */}
-        <Form.Item>
-          <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
-          </Button>
-          {/* Or <a href="">register now!</a> */}
-        </Form.Item>
-      </Form>
-    </div>
-  )
-  // }
+          <Form.Item>
+            <Button type="primary" htmlType="submit" className="login-form-button">
+              Log in
+            </Button>
+            {/* Or <a href="">register now!</a> */}
+          </Form.Item>
+        </Form>
+      </div>
+    )
+  }
 }
 
 export default Login;

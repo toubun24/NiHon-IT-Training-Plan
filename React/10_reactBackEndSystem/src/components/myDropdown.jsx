@@ -5,11 +5,13 @@ import { useHistory } from 'umi'; // history
 
 const MyDropdown = () => {
   const history = useHistory(); // history
+  // console.log('dorp-token',token)
+  // const {role:{roleName},username} = JSON.parse(localStorage.getItem('token'))
   const items = [
     {
       key: '1',
       label: (
-        <a target="_blank" rel="noopener noreferrer">
+        <a target="_blank" rel="noopener noreferrer"> {/* 超级管理员Admin */}
           超级管理员Admin
         </a>
       ),

@@ -23,11 +23,6 @@
     "@ant-design/pro-layout": "^6.5.0",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.23.8",
-    "@tsparticles/all": "^3.1.0",
-    "@tsparticles/basic": "^3.1.0",
-    "@tsparticles/engine": "^3.1.0",
-    "@tsparticles/react": "^3.0.0",
-    "@tsparticles/slim": "^3.1.0",
     "@umijs/babel-preset-umi": "^4.1.0",
     "antd": "^5.12.8",
     "axios": "^1.6.5",
@@ -36,7 +31,7 @@
     "react": "17.x",
     "react-dom": "17.x",
     "react-tsparticles": "^2.12.2",
-    "tsparticles": "^3.1.0",
+    "tsparticles": "^2.0.6",
     "umi": "^3.5.41"
   },
   "devDependencies": {

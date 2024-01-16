@@ -18,10 +18,10 @@ import { useHistory } from 'umi';
 const Login = () => {
   const history = useHistory();
   const onFinish = (values) => {
-    console.log('Received values of form: ', values); // 控制台输出确认输入的账号密码
+    // console.log('Received values of form: ', values); // 控制台输出确认输入的账号密码
     axios.get(`http://localhost:5000/users?username=${values.username}&password=${values.password}&roleState=true&_expand=role`).then(
       res => {
-        console.log(res)
+        // console.log(res)
         if (res.data.length === 0) {
           message.error('登录失败')
         } else {

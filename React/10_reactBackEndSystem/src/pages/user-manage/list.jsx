@@ -20,14 +20,25 @@ const list = () => {
   const ref2 = useRef(); // forwardRef => useRef // Update
   const [current, setCurrent] = useState(); // 点击所在item的id
   const [isActive2, setIsActive2] = useState(); // 是否是超级管理员类别下的区域设置
+  const tokenContent = localStorage.getItem('token');
+  const { role: { roleName }, username, region: region2, roleId } = tokenContent == '' ? { role: { roleName: '' }, username: '', region2: '', roleId: '' } : JSON.parse(tokenContent) // JSON.parse // region: region2 重命名别名
   useEffect(
     () => {
+      const roleObj = { // 映射id信息
+        "1": 'superAdmin',
+        "2": 'admin',
+        "3": 'editor',
+      }
       axios.get('http://localhost:5000/users?_expand=role').then(
         response => {
-          setTable(response.data)
+          // setTable(response.data)
+          setTable(roleObj[roleId]==='superAdmin'?response.data:[
+            ...response.data.filter(item=>item.username===username),
+            ...response.data.filter(item=>item.region===region2&&roleObj[item.roleId]==='editor')
+          ])
         }
       )
-    }, []
+    }, [roleId,username,region2]
   )
   useEffect( // setRegion
     () => {
@@ -52,7 +63,7 @@ const list = () => {
       title: '区域',
       dataIndex: 'region',
       filters: [
-        ...region.map(item=>({
+        ...region.map(item => ({
           text: item.title,
           value: item.value,
         })),
@@ -196,7 +207,7 @@ const list = () => {
           })
         }}
       >
-        <MyForm region={region} role={role} ref={ref2} isActive2={isActive2} /> {/* ref2 for update */}
+        <MyForm region={region} role={role} ref={ref2} isActive2={isActive2} isUpdate={true}/> {/* ref2 for update */} {/* isUpdate={true} 来告诉MyForm这是修改用户的场合，而不是在添加用户 */}
       </Modal >
     </>
   )

@@ -4,8 +4,13 @@
 
 * **2024.01.15 月曜日:** 
   * 登录界面 13:40-14:45 14:50-15:15 18:25-21:35
+  * 登录权限优化 22:30-23:35
 
 * **2023.01.16 火曜日:** 
+  * 软件工程师常用日本语中级上 (P96-P100) 17:30-17:48
+  * 日语影子跟读初中级Unit4 17:48-18:00
+  * 登录权限优化 18:00-19:20
+  * 登录路由权限控制优化 
 
 * **2023.01.17 水曜日:** 
 
@@ -18,7 +23,6 @@
 * **2023.01.21 日曜日:** 
 
 
-  * 软件工程师常用日本语中级上 (P96-P100) 
   * 登录权限优化 
   * 登录路由权限控制优化 
   * 撰写新闻布局 
@@ -231,3 +235,56 @@ nodeModulesTransform: {
   },
 ```
 因为。。虽然只下载了2个依赖，但`node_modules`里还构建了一堆`tsparticles-XXX`的目录，这些目录文件夹名称不一样，需要一个个去指定的话有几十条。。我在考虑能不能用正则化的方式批量指定？查了下，除非先创个很长的列表把所有名字都放进去再拆成分段的字符串数组，而好像没有办法让一个数据的内容去自动匹配一样，除非去修改`nodeModulesTransform`的函数，让`exclude`的匹配方式改变？
+
+### 退出登录(token为空)的情况下网页打开报错"SyntaxError: Unexpected end of JSON input"
+```
+SyntaxError: Unexpected end of JSON input
+MyDropdown
+./src/components/myDropdown.jsx:9
+   6 | const MyDropdown = () => {
+   7 |   const history = useHistory(); // history
+   8 |   // console.log('dorp-token',token)
+>  9 |   const { role: { roleName }, username } = JSON.parse(localStorage.getItem('token'))
+  10 |   const items = [
+  11 |     {
+  12 |       key: '1',
+```
+这是因为退出登录后`token`为空，`localStorage.getItem('token')`取到并传递给`JSON.parse`的值也为空，但`JSON.parse`不允许接受空值。所以将
+```JavaScript
+const { role: { roleName }, username } = JSON.parse(localStorage.getItem('token'))
+```
+修改为
+```JavaScript
+const tokenContent = localStorage.getItem('token');
+const { role: { roleName }, username } = tokenContent == '' ? { role: { roleName: '' }, username: "" } : JSON.parse(tokenContent)
+```
+顺便注意，一开始我是采用的`if-const`结构，但这也是不合法的，因为`const`只在`if`块内生效
+
+### "登录权限优化"中，侧边栏展示权限在切换用户进入界面后还保留着上一个用户的界面权限，需要刷新之后才能展示出正确权限的侧边栏内容，且控制台Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function
+```
+devScripts.js:6523 Warning: Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+    at Overflow (http://localhost:8000/umi.js:135555:32)
+    at InheritableContextProvider (http://localhost:8000/umi.js:132409:23)
+    at http://localhost:8000/umi.js:130947:29
+    at http://localhost:8000/umi.js:86964:66
+    at http://localhost:8000/umi.js:86872:69
+    at div
+    at div
+    at div
+    at aside
+    at http://localhost:8000/umi.js:85445:34
+    at MySider (http://localhost:8000/umi.js:229687:24)
+    at div
+    at http://localhost:8000/umi.js:85799:76
+    at Layout
+```
+结果是不小心把
+```JavaScript
+const tokenContent = localStorage.getItem('token');
+const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent)
+const checkPagePermission = (item) => {
+  return item.pagepermission && rights.checked.includes(item.key)
+}
+```
+写在函数组件外部了，导致了错误的调用顺序
+* 但警告依然存在，会在退出登录时进行提示，也就是如字面意思卸载组件的时候会有这个问题，留到以后再优化

@@ -36,26 +36,6 @@ const items = [
   ]),
 ];
 */
-const getItem = (menuList) => {
-  return menuList.map(item => {
-    if (item.children && checkPagePermission(item) && item.children.length > 0) {
-      return {
-        key: item.key,
-        label: item.title, // label => title
-        children: getItem(item.children), // .map is not a function => .children
-        icon: iconList[item.key], // icon // []
-      }
-    }
-    return checkPagePermission(item) && {
-      key: item.key,
-      label: item.title, // label => title
-      icon: iconList[item.key], // icon // []
-    }
-  })
-}
-const checkPagePermission = (item) => {
-  return item.pagepermission === 1 // true/false
-}
 const iconList = {
   '/home': <AimOutlined />,
   '/user-manage': <UserOutlined />,
@@ -80,6 +60,29 @@ const MySider = ({ collapsed }) => { // {collapsed}
       )
     }, []
   )
+  const tokenContent = localStorage.getItem('token');
+  const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse
+  const checkPagePermission = (item) => {
+    // return item.pagepermission === 1 // true/false
+    return item.pagepermission && rights.checked.includes(item.key)
+  }
+  const getItem = (menuList) => {
+    return menuList.map(item => {
+      if (item.children && checkPagePermission(item) && item.children.length > 0) {
+        return {
+          key: item.key,
+          label: item.title, // label => title
+          children: getItem(item.children), // .map is not a function => .children
+          icon: iconList[item.key], // icon // []
+        }
+      }
+      return checkPagePermission(item) && {
+        key: item.key,
+        label: item.title, // label => title
+        icon: iconList[item.key], // icon // []
+      }
+    })
+  }
   return (
     <Sider trigger={null} collapsible collapsed={collapsed}>
       <div style={{ display: 'flex', height: '100%', flexDirection: 'column' }}>

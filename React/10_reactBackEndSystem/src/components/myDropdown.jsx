@@ -6,13 +6,15 @@ import { useHistory } from 'umi'; // history
 const MyDropdown = () => {
   const history = useHistory(); // history
   // console.log('dorp-token',token)
-  // const {role:{roleName},username} = JSON.parse(localStorage.getItem('token'))
+  // const { role: { roleName }, username } = JSON.parse(localStorage.getItem('token')) // SyntaxError: Unexpected end of JSON input (token为空)
+  const tokenContent = localStorage.getItem('token');
+  const { role: { roleName }, username } = tokenContent == '' ? { role: { roleName: '' }, username: "" } : JSON.parse(tokenContent) // JSON.parse
   const items = [
     {
       key: '1',
       label: (
-        <a target="_blank" rel="noopener noreferrer"> {/* 超级管理员Admin */}
-          超级管理员Admin
+        <a target="_blank" rel="noopener noreferrer"> {/* 超级管理员Admin {roleName} {username} */}
+          {roleName} {username}
         </a>
       ),
     },
@@ -30,7 +32,7 @@ const MyDropdown = () => {
       ),
     },
   ];
-  
+
   return (
     <Dropdown menu={{ items, }} >
       <a onClick={(e) => e.preventDefault()}>

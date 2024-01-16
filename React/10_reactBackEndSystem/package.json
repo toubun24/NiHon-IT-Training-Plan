@@ -20,18 +20,20 @@
     ]
   },
   "dependencies": {
-    "@ant-design/pro-layout": "^6.5.0",
+    "@ant-design/pro-layout": "^7.17.16",
     "@babel/plugin-proposal-optional-chaining": "^7.21.0",
     "@babel/preset-env": "^7.23.8",
     "@tsparticles/react": "^3.0.0",
     "@tsparticles/slim": "^3.1.0",
     "@umijs/babel-preset-umi": "^4.1.0",
-    "antd": "^5.12.8",
+    "antd": "^5.13.1",
     "axios": "^1.6.5",
     "babel-loader": "^9.1.3",
     "babel-plugin-import": "^1.13.8",
+    "draftjs-to-html": "^0.9.1",
     "react": "17.x",
     "react-dom": "17.x",
+    "react-draft-wysiwyg": "^1.15.0",
     "react-tsparticles": "^2.12.2",
     "tsparticles": "^2.0.6",
     "umi": "^3.5.41"

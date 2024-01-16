@@ -9,8 +9,9 @@
 * **2023.01.16 火曜日:** 
   * 软件工程师常用日本语中级上 (P96-P100) 17:30-17:48
   * 日语影子跟读初中级Unit4 17:48-18:00
-  * 登录权限优化 18:00-19:20
-  * 登录路由权限控制优化 
+  * 登录权限优化 18:00-19:25
+  * 撰写新闻布局 19:45-21:50 23:05-23:30 01:40-02:05
+  * 登录路由权限控制优化 02:10
 
 * **2023.01.17 水曜日:** 
 
@@ -288,3 +289,30 @@ const checkPagePermission = (item) => {
 ```
 写在函数组件外部了，导致了错误的调用顺序
 * 但警告依然存在，会在退出登录时进行提示，也就是如字面意思卸载组件的时候会有这个问题，留到以后再优化
+
+### AntD PageHeader Module not found
+`PageHeader`相关的`Module not found`报错一连串，比如
+```
+ERROR in ./node_modules/@ant-design/pro-layout/es/components/PageContainer/index.js
+Module not found: Error: Can't resolve 'antd/es/page-header' in 'G:\NiHon-IT-Training-Plan\React\10_reactBackEndSystem\node_modules\@ant-design\pro-layout\es\components\PageContainer'
+ @ ./node_modules/@ant-design/pro-layout/es/components/PageContainer/index.js 7:0-46 180:19-30        
+ @ ./node_modules/@ant-design/pro-layout/es/index.js
+ @ ./src/pages/news-manage/add.jsx
+ @ ./src/.umi/core/routes.ts
+ @ ./src/.umi/umi.ts
+ @ multi ./node_modules/@umijs/preset-built-in/bundled/@pmmmwh/react-refresh-webpack-plugin/client/ReactRefreshEntry.js ./src/.umi/umi.ts
+```
+首先在官方文档里搜不到直接给出的`PageHeader`使用方法了，查看[官方文档](https://ant-design.antgroup.com/docs/react/migration-v5-cn#%E7%BB%84%E4%BB%B6%E9%87%8D%E6%9E%84%E4%B8%8E%E7%A7%BB%E9%99%A4)，回头确认`package.json`，果然是antd5.x，也就是说要用新的引入方法调用`PageHeader`
+```JavaScript
+- import { PageHeader } from 'antd';
++ import { PageHeader } from '@ant-design/pro-layout';
+  const App: React.FC = () => (
+    <>
+      <PageHeader />
+    </>
+  );
+  export default App;
+```
+但是照此方法引用报了以上的错，参照报错去`node_modules`，无论是在`@ant-design`还是在`antd`的对应子目录下均找不到`PageHeader`相关内容，只有个`PageContainer`有点关系，但调用它依然会报错
+* 尝试把示例代码`node_modules`里antd4.x的`PageHeader`复制进来，果然还是行不通x然后想到会不会是@ant-design/pro-layout@6.x和antd@5.x的版本不对应，一查果然@ant-design/pro-layout已经更新到了@7.x，但默认安装不知道为什么是安装的@6.x，于是手动安装`npm i @ant-design/pro-layout@7.17.16`，果然@ant-design/pro-layout目录下出现了`PageHeader`，按新版的调用也就成功了
+* **下次做大项目直接按示例的node_modules来做了，再也不自己从零配环境了呜嗷**

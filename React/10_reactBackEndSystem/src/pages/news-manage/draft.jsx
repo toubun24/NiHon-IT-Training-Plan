@@ -1,11 +1,13 @@
-import { Table, Tag, Button, Modal, Popover, Switch } from 'antd'; // Modal: 对话框
+import { Table, Button, Modal, notification } from 'antd'; // Modal: 对话框 // notification
 import { useState, useEffect } from 'react'; // useEffect
 import axios from 'axios';
 import {
   EditOutlined,
   DeleteOutlined,
   ExclamationCircleOutlined,
+  UploadOutlined, // upload
 } from '@ant-design/icons';
+import { useHistory } from 'umi';
 
 const { confirm } = Modal;
 
@@ -13,6 +15,9 @@ const Draft = () => {
   const [table, setTable] = useState([])
   const tokenContent = localStorage.getItem('token');
   const { username } = tokenContent == '' ? { username: '' } : JSON.parse(tokenContent) // JSON.parse
+  const history = useHistory();
+  const [api] = notification.useNotification() // antd notification
+
   useEffect(
     () => {
       axios.get(`http://localhost:5000/news?author=${username}&auditState=0&_expand=category`).then(
@@ -33,7 +38,7 @@ const Draft = () => {
     {
       title: '新闻标题',
       dataIndex: 'title', // label => title
-      render:(title, item)=>{ // 预览页面 // item
+      render: (title, item) => { // 预览页面 // item
         return <a href={`/news-manage/preview/${item.id}`}>{title}</a>
       }
     },
@@ -53,8 +58,13 @@ const Draft = () => {
       // dataIndex: '',
       render: (item) => { // item
         return <div>
-          <Button icon={<EditOutlined />} >修改</Button>
+          <Button icon={<EditOutlined />} onClick={() => {
+            history.push(`/news-manage/update/${item.id}`) // 路径开头'/'
+          }}>修改</Button>
           <Button danger icon={<DeleteOutlined />} onClick={() => { deleteItem(item) }}>删除</Button>
+          <Button type='primary' icon={<UploadOutlined />} onClick={() => { // upload
+            handleUpload(item.id)
+          }}>上传</Button>
         </div>
       }
     },
@@ -78,6 +88,21 @@ const Draft = () => {
       },
     });
   };
+  const handleUpload = (itemId) => {
+    axios.patch(`http://localhost:5000/news/${itemId}`, {
+      "auditState": 1 // 0 for 未审核，1 for 审核中
+    }).then(res => {
+      history.push('audit-manage/list') // 无需再判断
+      api.info({ // antd notification
+        message: `通知`,
+        description:
+          '请到审核列表查看',
+        placement: 'buttomRight',
+      });
+    }
+
+    )
+  }
 
   return (
     <>

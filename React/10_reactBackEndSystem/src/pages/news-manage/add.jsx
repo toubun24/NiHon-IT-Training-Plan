@@ -16,9 +16,9 @@ const Add = () => {
   const [step2Content, setStep2Content] = useState('') // 富文本内容
   const [step1Content, setStep1Content] = useState({}) // ({}): 对象
   const tokenContent = localStorage.getItem('token')
+  const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
   const history = useHistory()
   const [api] = notification.useNotification() //  // antd notification
-
   useEffect(() => {
     axios.get('http://localhost:5000/categories').then(res => {
       setCategoryList(res.data)
@@ -28,9 +28,9 @@ const Add = () => {
     axios.post('http://localhost:5000/news', {
       ...step1Content,
       "content": step2Content, // 富文本内容
-      "region": tokenContent.region ? tokenContent.region : "全球",
-      "author": tokenContent.username,
-      "roleId": tokenContent.roleId,
+      "region": myContent.region ? myContent.region : "全球", // JSON.parse(localStorage.getItem('token')), or undefined
+      "author": myContent.username, // JSON.parse(localStorage.getItem('token')), or undefined
+      "roleId": myContent.roleId, // JSON.parse(localStorage.getItem('token')), or undefined
       "auditState": auditNum,  // 0 for 保存草稿, 1 for 提交审核, 2 for 审核通过
       "publishState": 0,
       "createTime": Date.now(), // 时间戳
@@ -43,7 +43,7 @@ const Add = () => {
       api.info({ // antd notification
         message: `通知`,
         description:
-          `请到${auditNum===0?'草稿箱':'审核列表'}查看`,
+          `请到${auditNum === 0 ? '草稿箱' : '审核列表'}查看`,
         placement: 'buttomRight',
       });
     })

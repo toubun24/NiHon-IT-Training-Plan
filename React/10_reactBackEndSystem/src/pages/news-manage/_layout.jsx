@@ -8,5 +8,5 @@ const index = (props) => { // props
         </div>
     )
 }
-index.wrappers = ['@/wrappers/Auth'] // 只需要在_layout处配置一次，则会在该文件夹下的所有路由中应用该权限判断
+// index.wrappers = ['@/wrappers/Auth'] // 只需要在_layout处配置一次，则会在该文件夹下的所有路由中应用该权限判断 // 所有人都有该部分权限，除了新闻分类板块
 export default index

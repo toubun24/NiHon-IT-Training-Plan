@@ -1,8 +1,12 @@
 // 权限判断通用代码
 
-import { Redirect } from 'umi';
+import { Redirect, useLocation } from 'umi'; // useLocation
 
 const Auth = (props) => { // props: any in TS
+    // const location = useLocation()
+    // const tokenContent = localStorage.getItem('token')
+    // const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse
+    // rights.checked.push('/')
     if (localStorage.getItem('token')) { // 有token则遵循../index.jsx跳转到home
         return <div>{props.children}</div>;
     }

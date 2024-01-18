@@ -23,8 +23,9 @@
 * **2023.01.18 木曜日:** 
   * 审核列表实现 17:10-17:45 17:55-18:50
   * 审核新闻实现 19:50-20:45
-  * 新闻分类实现 
-  
+  * 新闻分类实现 22:15-23:50 00:10-00:45
+  * 发布管理 
+
 * **2023.01.19 金曜日:** 
 
 * **2023.01.20 土曜日:** 
@@ -33,10 +34,8 @@
 
 
 
-  * 审核列表实现 
-  * 审核新闻实现 
-  * 新闻分类实现 
-  * 发布管理 
+
+
   * 侧边栏折叠功能 
   * 首页布局 
   * 首页完善 
@@ -363,3 +362,167 @@ View compiled
   * 不要在循环，条件或嵌套函数中调用Hook
   * 确保总是在React函数的最顶层以及任何return之前使用Hook
 这有助于React在多个useState和useEffect调用之间保留钩子的状态
+
+### 【已解决】AntD可编辑单元格实现失败，效果无法呈现，且控制台报错"Warning: Received `true` for a non-boolean attribute `editable`.", "Warning: React does not recognize the `dataIndex` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `dataindex` instead. If you accidentally passed it from a parent component, remove it from the DOM element"和"Warning: React does not recognize the `handleSave` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `handlesave` instead. If you accidentally passed it from a parent component, remove it from the DOM element"
+* 完整三条警告信息如下
+```
+devScripts.js:6523 Warning: Received `true` for a non-boolean attribute `editable`.
+
+If you want to write it to the DOM, pass a string instead: editable="true" or editable={value.toString()}.
+    at td
+    at Cell (http://localhost:8000/umi.js:337471:74)
+    at tr
+    at BodyRow (http://localhost:8000/umi.js:337047:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at tbody
+    at Body (http://localhost:8000/umi.js:337333:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at table
+    at div
+    at div
+    at div
+    at Provider (http://localhost:8000/umi.js:139340:22)
+    at Table (http://localhost:8000/umi.js:338554:72)
+    at ImmutableComponent (http://localhost:8000/umi.js:139252:72)
+    at div
+    at div
+    at Spin (http://localhost:8000/umi.js:208895:34)
+    at div
+    at InternalTable (http://localhost:8000/umi.js:212626:34)
+    at Table (http://localhost:8000/umi.js:213160:68)
+    at Category (http://localhost:8000/umi.js:446862:74)
+    at Route
+    at Switch
+    at div
+    at index (http://localhost:8000/umi.js:446360:21)
+    at Route
+    at Switch
+    at main
+    at http://localhost:8000/umi.js:192893:34
+    at Content
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at App (http://localhost:8000/umi.js:445010:58)
+    at Route
+    at Switch
+    at Router (http://localhost:8000/umi.js:393241:30)
+    at RouterComponent (http://localhost:8000/umi.js:163060:23)
+    at SrcUmiPlugininitialstateProvider (http://localhost:8000/umi.js:442756:24)
+    at SrcUmiPluginmodelProvider (http://localhost:8000/umi.js:443018:23)
+```
+```
+devScripts.js:6523 Warning: React does not recognize the `dataIndex` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `dataindex` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+    at td
+    at Cell (http://localhost:8000/umi.js:337471:74)
+    at tr
+    at BodyRow (http://localhost:8000/umi.js:337047:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at tbody
+    at Body (http://localhost:8000/umi.js:337333:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at table
+    at div
+    at div
+    at div
+    at Provider (http://localhost:8000/umi.js:139340:22)
+    at Table (http://localhost:8000/umi.js:338554:72)
+    at ImmutableComponent (http://localhost:8000/umi.js:139252:72)
+    at div
+    at div
+    at Spin (http://localhost:8000/umi.js:208895:34)
+    at div
+    at InternalTable (http://localhost:8000/umi.js:212626:34)
+    at Table (http://localhost:8000/umi.js:213160:68)
+    at Category (http://localhost:8000/umi.js:446862:74)
+    at Route
+    at Switch
+    at div
+    at index (http://localhost:8000/umi.js:446360:21)
+    at Route
+    at Switch
+    at main
+    at http://localhost:8000/umi.js:192893:34
+    at Content
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at App (http://localhost:8000/umi.js:445010:58)
+    at Route
+    at Switch
+    at Router (http://localhost:8000/umi.js:393241:30)
+    at RouterComponent (http://localhost:8000/umi.js:163060:23)
+    at SrcUmiPlugininitialstateProvider (http://localhost:8000/umi.js:442756:24)
+    at SrcUmiPluginmodelProvider (http://localhost:8000/umi.js:443018:23)
+```
+```
+Warning: React does not recognize the `handleSave` prop on a DOM element. If you intentionally want it to appear in the DOM as a custom attribute, spell it as lowercase `handlesave` instead. If you accidentally passed it from a parent component, remove it from the DOM element.
+    at td
+    at Cell (http://localhost:8000/umi.js:337471:74)
+    at tr
+    at BodyRow (http://localhost:8000/umi.js:337047:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at tbody
+    at Body (http://localhost:8000/umi.js:337333:74)
+    at ImmutableComponent (http://localhost:8000/umi.js:139291:7)
+    at table
+    at div
+    at div
+    at div
+    at Provider (http://localhost:8000/umi.js:139340:22)
+    at Table (http://localhost:8000/umi.js:338554:72)
+    at ImmutableComponent (http://localhost:8000/umi.js:139252:72)
+    at div
+    at div
+    at Spin (http://localhost:8000/umi.js:208895:34)
+    at div
+    at InternalTable (http://localhost:8000/umi.js:212626:34)
+    at Table (http://localhost:8000/umi.js:213160:68)
+    at Category (http://localhost:8000/umi.js:446862:74)
+    at Route
+    at Switch
+    at div
+    at index (http://localhost:8000/umi.js:446360:21)
+    at Route
+    at Switch
+    at main
+    at http://localhost:8000/umi.js:192893:34
+    at Content
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at div
+    at http://localhost:8000/umi.js:192919:76
+    at Layout
+    at App (http://localhost:8000/umi.js:445010:58)
+    at Route
+    at Switch
+    at Router (http://localhost:8000/umi.js:393241:30)
+    at RouterComponent (http://localhost:8000/umi.js:163060:23)
+    at SrcUmiPlugininitialstateProvider (http://localhost:8000/umi.js:442756:24)
+    at SrcUmiPluginmodelProvider (http://localhost:8000/umi.js:443018:23)
+```
+* 关于第一条警告，参考[链接]()和其[引用链接]()，将
+```JavaScript
+const columns = [ // 涉及修改所以放到函数组件中
+    {
+        title: '栏目名称',
+        dataIndex: 'title', // label => title
+        onCell: (record) => ({ // 可编辑单元格属性
+            record,
+            editable: true, // col.editable,
+            dataIndex: 'title', // col.dataIndex,
+            title: '栏目名称', // col.title,
+            handleSave,
+        }),
+    },
+];
+```
+中的`editable: true`改为`editable: 1`即可暂时解决该问题
+* 原先以为是源文件中函数定义的时候的语法在不同版本下的差别导致自定义参数传参出现问题，直到尝试把`EditableCell`和`EditableRow`写在`Category`外面之后就没问题了。。

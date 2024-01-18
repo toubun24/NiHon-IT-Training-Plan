@@ -77,7 +77,7 @@ const list = () => {
   const comfirmedDelete = (item) => { // const
     if (item.grade === 1) { // 删除大项
       setTable(table.filter(data => data.id !== item.id)) // 过滤删除 // setTable: 放在组件函数体内 // state.filter
-      // axios.delete(`http://localhost:5000/rights/${item.id}`) // 删数据库
+      axios.delete(`http://localhost:5000/rights/${item.id}`) // 删数据库
     } else { // 删除子项
       let list = table.filter(data => data.id === item.rightId) // let: 变量一旦初始化之后，还可以重新赋值；不存在变量提升
       list[0].children = list[0].children.filter(data => data.id !== item.id)

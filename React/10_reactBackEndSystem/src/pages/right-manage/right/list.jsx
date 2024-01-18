@@ -21,7 +21,7 @@ const list = () => {
               item.children = '' // ID栏拓展+号在没有子项时进行隐藏
             }
           })
-          setTable(response.data)
+          setTable(list) // list
         }
       )
     }, []

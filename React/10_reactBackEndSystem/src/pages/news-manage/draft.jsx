@@ -92,7 +92,7 @@ const Draft = () => {
     axios.patch(`http://localhost:5000/news/${itemId}`, {
       "auditState": 1 // 0 for 未审核，1 for 审核中
     }).then(res => {
-      history.push('audit-manage/list') // 无需再判断
+      history.push('/audit-manage/list') // 无需再判断 // /
       api.info({ // antd notification
         message: `通知`,
         description:
@@ -100,7 +100,6 @@ const Draft = () => {
         placement: 'buttomRight',
       });
     }
-
     )
   }
 

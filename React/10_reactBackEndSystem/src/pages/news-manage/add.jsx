@@ -39,7 +39,7 @@ const Add = () => {
       // "id": 123,
       // "publishTime": 123456
     }).then(res => {
-      history.push(auditNum === 0 ? '/news-manage/draft' : 'audit-manage/list')
+      history.push(auditNum === 0 ? '/news-manage/draft' : '/audit-manage/list') // /
       api.info({ // antd notification
         message: `通知`,
         description:

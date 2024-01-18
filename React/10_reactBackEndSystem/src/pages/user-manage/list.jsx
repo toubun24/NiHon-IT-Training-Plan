@@ -21,7 +21,7 @@ const list = () => {
   const [current, setCurrent] = useState(); // 点击所在item的id
   const [isActive2, setIsActive2] = useState(); // 是否是超级管理员类别下的区域设置
   const tokenContent = localStorage.getItem('token');
-  const { role: { roleName }, username, region: region2, roleId } = tokenContent == '' ? { role: { roleName: '' }, username: '', region2: '', roleId: '' } : JSON.parse(tokenContent) // JSON.parse // region: region2 重命名别名
+  const { username, region: region2, roleId } = tokenContent == '' ? { username: '', region2: '', roleId: '' } : JSON.parse(tokenContent) // JSON.parse // region: region2 重命名别名 // role: { roleName }
   useEffect(
     () => {
       const roleObj = { // 映射id信息

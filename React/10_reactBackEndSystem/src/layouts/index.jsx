@@ -16,10 +16,11 @@ const App = (props) => { // props
   useEffect(() => {
     NProgress.done();
   })
+  const [collapsed, setCollapsed] = useState(false); // Error: Rendered more hooks than during the previous render.
   if (props.location.pathname === '/login' || props.location.pathname === '/login/') {
     return <div>{props.children}</div> // 离开后台界面回到登录页面
   }
-  const [collapsed, setCollapsed] = useState(false); // useState
+  // const [collapsed, setCollapsed] = useState(false); // useState
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();

@@ -22,8 +22,9 @@
 
 * **2023.01.18 木曜日:** 
   * 审核列表实现 17:10-17:45 17:55-18:50
-  * 审核新闻实现 19:50-
-
+  * 审核新闻实现 19:50-20:45
+  * 新闻分类实现 
+  
 * **2023.01.19 金曜日:** 
 
 * **2023.01.20 土曜日:** 
@@ -318,3 +319,47 @@ Module not found: Error: Can't resolve 'antd/es/page-header' in 'G:\NiHon-IT-Tra
 但是照此方法引用报了以上的错，参照报错去`node_modules`，无论是在`@ant-design`还是在`antd`的对应子目录下均找不到`PageHeader`相关内容，只有个`PageContainer`有点关系，但调用它依然会报错
 * 尝试把示例代码`node_modules`里antd4.x的`PageHeader`复制进来，果然还是行不通x然后想到会不会是@ant-design/pro-layout@6.x和antd@5.x的版本不对应，一查果然@ant-design/pro-layout已经更新到了@7.x，但默认安装不知道为什么是安装的@6.x，于是手动安装`npm i @ant-design/pro-layout@7.17.16`，果然@ant-design/pro-layout目录下出现了`PageHeader`，按新版的调用也就成功了
 * **下次做大项目直接按示例的node_modules来做了，再也不自己从零配环境了呜嗷**
+
+### 登录或退出登录时网页加载缓慢，进度条基本卡住不动，刷新网页后报错"Error: Rendered more hooks than during the previous render."，再次刷新后又正常进入目标页面并正常显示内容
+* 完整报错信息为
+```
+Error: Rendered more hooks than during the previous render.
+▶ 5 stack frames were collapsed.
+App
+./src/layouts/index.jsx:23
+  20 | if (props.location.pathname === '/login' || props.location.pathname === '/login/') {
+  21 |   return <div>{props.children}</div> // 离开后台界面回到登录页面
+  22 | }
+> 23 | const [collapsed, setCollapsed] = useState(false); // useState
+     | ^  24 | const {
+  25 |   token: { colorBgContainer, borderRadiusLG },
+  26 | } = theme.useToken();
+View compiled
+▶ 19 stack frames were collapsed.
+(anonymous function)
+./modules/Router.js:34
+  31 | if (!props.staticContext) {
+  32 |   this.unlisten = props.history.listen(location => {
+  33 |     if (this._isMounted) {
+> 34 |       this.setState({ location });
+     | ^  35 |     } else {
+  36 |       this._pendingLocation = location;
+  37 |     }
+View compiled
+▶ 7 stack frames were collapsed.
+(anonymous function)
+./src/pages/login.jsx:29
+  26 |       message.error('登录失败')
+  27 |     } else {
+  28 |       localStorage.setItem('token', JSON.stringify(res.data[0]))
+> 29 |       history.push('/home')
+     | ^  30 |     }
+  31 |   }
+  32 | )
+```
+参考[链接](https://www.jb51.net/article/268993.htm)，应该与钩子函数的位置和使用方式有关
+  * 只从React函数组件或自定义钩子中调用Hook
+  * 只在最顶层使用Hook
+  * 不要在循环，条件或嵌套函数中调用Hook
+  * 确保总是在React函数的最顶层以及任何return之前使用Hook
+这有助于React在多个useState和useEffect调用之间保留钩子的状态

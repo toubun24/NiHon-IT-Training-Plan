@@ -99,8 +99,7 @@ const Draft = () => {
           '请到审核列表查看',
         placement: 'buttomRight',
       });
-    }
-    )
+    })
   }
 
   return (

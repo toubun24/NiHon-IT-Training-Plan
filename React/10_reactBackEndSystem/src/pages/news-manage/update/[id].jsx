@@ -29,7 +29,7 @@ const Update = () => {
       "content": step2Content, // 富文本内容
       "auditState": auditNum,  // 0 for 保存草稿, 1 for 提交审核, 2 for 审核通过
     }).then(res => {
-      history.push(auditNum === 0 ? '/news-manage/draft' : 'audit-manage/list')
+      history.push(auditNum === 0 ? '/news-manage/draft' : '/audit-manage/list') // /
       api.info({ // antd notification
         message: `通知`,
         description:

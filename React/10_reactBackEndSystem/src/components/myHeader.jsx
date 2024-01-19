@@ -5,13 +5,16 @@ import {
 } from '@ant-design/icons';
 import { Layout, Button, theme } from 'antd';
 import MyDropdown from '../components/myDropdown'; // 下拉菜单
+import useCollapsed from '../models/useCollapsed'; // hox
 
 const { Header } = Layout;
 
-const MyHeader = ({collapsed, setCollapsed}) => { // {collapsed, setCollapsed}
+//const MyHeader = ({collapsed, setCollapsed}) => { // {collapsed, setCollapsed}
+const MyHeader = () => { // hox
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  const {collapsed, changeCollapsed} = useCollapsed(); // hox // {}方式解构 // changeCollapsed
   return (
     <Header
       style={{
@@ -23,7 +26,9 @@ const MyHeader = ({collapsed, setCollapsed}) => { // {collapsed, setCollapsed}
       <Button
         type="text"
         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-        onClick={() => setCollapsed(!collapsed)}
+        // icon={collapsed ? <MenuUnfoldOutlined onClick={changeCollapsed} /> : <MenuFoldOutlined onClick={changeCollapsed}/>} // hox // 必须点小图标才能触发onClick
+        // onClick={() => setCollapsed(!collapsed)}
+        onClick={changeCollapsed} // 整个按钮范围均可触发
         style={{
           fontSize: '16px',
           width: 64,

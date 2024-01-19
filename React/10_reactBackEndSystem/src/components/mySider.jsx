@@ -13,6 +13,7 @@ import './mySider.less'
 import { useHistory, useLocation } from 'umi'; // useHistory // useLocation
 import axios from 'axios'; // axios
 // import { responsiveArray } from 'antd/es/_util/responsiveObserver';
+import useCollapsed from '../models/useCollapsed'; // hox
 
 const { Sider } = Layout;
 /*
@@ -45,11 +46,13 @@ const iconList = {
   '/right-manage/right/list': <UnorderedListOutlined />,
 }
 
-const MySider = ({ collapsed }) => { // {collapsed}
+// const MySider = ({ collapsed }) => { // {collapsed}
+const MySider = () => { // hox
   const { token: { }, } = theme.useToken();
   const history = useHistory(); // useHistory
   const [menuList, setMenuList] = useState([]) // menuList
   const location = useLocation() // useLocation
+  const {collapsed} = useCollapsed(); // hox // {}方式解构 // 可以不解构set
   useEffect(
     () => {
       axios.get('http://localhost:5000/rights?_embed=children').then(

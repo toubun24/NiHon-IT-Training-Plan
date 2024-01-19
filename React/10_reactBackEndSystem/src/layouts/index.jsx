@@ -16,7 +16,7 @@ const App = (props) => { // props
   useEffect(() => {
     NProgress.done();
   })
-  const [collapsed, setCollapsed] = useState(false); // Error: Rendered more hooks than during the previous render.
+  // const [collapsed, setCollapsed] = useState(false); // Error: Rendered more hooks than during the previous render. // hox in MyHeader
   const { // Error: Rendered more hooks than during the previous render.
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -31,9 +31,11 @@ const App = (props) => { // props
   */
   return (
     <Layout>
-      <MySider collapsed={collapsed} /> {/* 侧边栏 */} {/* collapsed={collapsed} */}
+      {/* <MySider collapsed={collapsed} /> */} {/* 侧边栏 */} {/* collapsed={collapsed} */}
+      <MySider /> {/* hox */}
       <Layout>
-        <MyHeader collapsed={collapsed} setCollapsed={setCollapsed} /> {/* collapsed={collapsed}  setCollapsed={setCollapsed} */}
+        {/* <MyHeader collapsed={collapsed} setCollapsed={setCollapsed} /> */} {/* collapsed={collapsed}  setCollapsed={setCollapsed} */}
+        <MyHeader /> {/* hox */}
         <Content
           style={{
             margin: '24px 16px',

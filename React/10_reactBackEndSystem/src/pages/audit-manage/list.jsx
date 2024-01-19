@@ -72,7 +72,8 @@ const list = () => {
           {
             item.auditState === 2 && <Button danger onClick={() => {
               axios.patch(`http://localhost:5000/news/${item.id}`, {
-                "publishState": 2 // 已发布
+                "publishState": 2, // 已发布
+                "publishTime": Date.now()
               }).then(res => {
                 console.log(res.data)
                 history.push('/publish-manage/published') // 页面跳转

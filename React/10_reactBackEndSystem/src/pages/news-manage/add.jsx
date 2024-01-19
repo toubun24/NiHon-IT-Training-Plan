@@ -18,7 +18,7 @@ const Add = () => {
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
   const history = useHistory()
-  const [api] = notification.useNotification() //  // antd notification
+  const [api] = notification.useNotification() // antd notification
   useEffect(() => {
     axios.get('http://localhost:5000/categories').then(res => {
       setCategoryList(res.data)

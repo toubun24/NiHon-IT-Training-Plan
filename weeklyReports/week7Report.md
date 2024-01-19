@@ -2,11 +2,11 @@
 
 ## 学习内容及时长
 
-* **2024.01.15 月曜日:** 
+* **2024.01.15 月曜日:** 5h40min
   * 登录界面 13:40-14:45 14:50-15:15 18:25-21:35
   * 登录权限优化 22:30-23:35
 
-* **2023.01.16 火曜日:** 
+* **2023.01.16 火曜日:** 5h15min
   * 软件工程师常用日本语中级上 (P96-P100) 17:30-17:48
   * 日语影子跟读初中级Unit4 17:48-18:00
   * 登录权限优化 18:00-19:25
@@ -14,13 +14,13 @@
   * 登录路由权限控制优化 02:25-02:35
   * 撰写新闻逻辑实现 02:35-02:50 
 
-* **2023.01.17 水曜日:** 
+* **2023.01.17 水曜日:** 4h35min
   * 撰写新闻逻辑实现 11:00-11:20 11:30-12:00
   * 草稿箱实现(上) 13:25-14:50 18:20-18:40
   * 草稿箱实现(下) 18:40-20:00
   * 登录路由权限控制优化 21:25-22:05
 
-* **2023.01.18 木曜日:** 
+* **2023.01.18 木曜日:** 4h35min
   * 审核列表实现 17:10-17:45 17:55-18:50
   * 审核新闻实现 19:50-20:45
   * 新闻分类实现 22:15-23:50 00:10-00:45
@@ -31,14 +31,34 @@
   * 首页布局 11:55-12:40
   * 首页完善 18:40-20:15
   * 新闻浏览页面 20:15-21:05
+  * reactCHS-项目构思 22:55-23:40
+  * reactCHS-Scrum 
 
 * **2023.01.20 土曜日:** 
 
 * **2023.01.21 日曜日:** 
 
-
-
-
+  * reactCHS-项目配置基本布局和路由 
+  * reactCHS-侧边栏及顶部 
+  * reactCHS-角色权限页面 
+  * reactCHS-页面显示控制 
+  * reactCHS-添加用户页面 
+  * reactCHS-用户列表页面 
+  * reactCHS-用户编辑页面 
+  * reactCHS-登录页面 
+  * reactCHS-库存管理 
+  * reactCHS-售价管理页面 
+  * reactCHS-Sprint总结回顾 
+  * reactCHS-宠物档案页面 
+  * reactCHS-新增病例页面 
+  * reactCHS-医生待处理病历页面 
+  * reactCHS-助手待处理病历页面 
+  * reactCHS-病历管理细节处理 
+  * reactCHS-病历档案页面 
+  * reactCHS-预约页面 
+  * reactCHS-游客界面 
+  * reactCHS-细节修改 
+  * reactCHS-项目总结 
 
 ## 学习笔记
 
@@ -526,3 +546,40 @@ const columns = [ // 涉及修改所以放到函数组件中
 * 原先以为是源文件中函数定义的时候的语法在不同版本下的差别导致自定义参数传参出现问题（参考网上的代码写法也尝试过诸如`handleSave: handleSave,`的写法），直到尝试把`EditableCell`和`EditableRow`写在`Category`外面之后就没问题了。。
 
 ### 还没注意到什么时候触发的警告"Warning: [antd: Notification] You are calling notice in render which will break in React 18 concurrent mode. Please trigger in effect instead."
+
+### React新项目参考现成package.json安装依赖npm install报错"ERESOLVE unable to resolve dependency tree"
+* 完整错误信息如下
+```
+PS G:\NiHon-IT-Training-Plan\React\11_reactCatHospitalSystem> npm install
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR! 
+npm ERR! While resolving: cat-hospital@0.1.0
+npm ERR! Found: react-scripts@5.0.1
+npm ERR! node_modules/react-scripts
+npm ERR!   react-scripts@"5.0.1" from the root project      
+npm ERR! 
+npm ERR! Could not resolve dependency:
+npm ERR! peer react-scripts@"^4.0.0" from @craco/craco@6.4.5
+npm ERR! node_modules/@craco/craco
+npm ERR!   @craco/craco@"^6.4.5" from the root project      
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR! 
+npm ERR!
+npm ERR! For a full report see:
+npm ERR! C:\Users\Toubun\AppData\Local\npm-cache\_logs\2024-01-19T15_13_35_557Z-eresolve-report.txt
+
+npm ERR! A complete log of this run can be found in: C:\Users\Toubun\AppData\Local\npm-cache\_logs\2024-01-19T15_13_35_557Z-debug-0.log
+```
+* 报错原因：在新版本的npm中，默认情况下，npm install遇到冲突的peerDependencies时将失败
+* 解决办法：使用--force或--legacy-peer-deps可解决这种情况
+  * --force 会无视冲突，并强制获取远端npm库资源，当有资源冲突时覆盖掉原先的版本。
+  * --legacy-peer-deps标志是在v7中引入的，目的是绕过peerDependency自动安装；它告诉NPM忽略项目中引入的各个modules之间的相同modules但不同版本的问题并继续安装，保证各个引入的依赖之间对自身所使用的不同版本modules共存
+  * 建议用--legacy-peer-deps 比较保险一点
+  * [参考链接](https://blog.csdn.net/weixin_61465100/article/details/126528236)
+```
+npm install --legacy-peer-deps
+```

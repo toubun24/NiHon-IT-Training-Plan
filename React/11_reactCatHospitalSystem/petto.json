@@ -1,0 +1,617 @@
+{
+  "rights": [
+    {
+      "id": 1,
+      "title": "管理页面",
+      "key": "/",
+      "right": 1,
+      "showed": 1,
+      "rank": 0,
+      "children": [
+        {
+          "title": "人员管理",
+          "key": "/user",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "用户列表",
+              "key": "/user/list",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "添加用户",
+              "key": "/user/add",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "用户信息维护",
+              "key": "/user/edit",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "权限管理",
+          "key": "/right",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "角色权限",
+              "key": "/right/role",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "页面显示控制",
+              "key": "/right/page",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "库存及定价管理",
+          "key": "/inStock",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "库存管理",
+              "key": "/inStock/list",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "定价管理",
+              "key": "/inStock/pricing",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "待办事项",
+          "key": "/todo",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "待医生处理病历",
+              "key": "/todo/doctor",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "待助理处理病历",
+              "key": "/todo/assistant",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "手术排班表",
+              "key": "/todo/reserve",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "档案管理",
+          "key": "/archives",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "宠物档案",
+              "key": "/archives/cats",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "病历档案",
+              "key": "/archives/records",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "管理页面",
+      "key": "/",
+      "right": 1,
+      "showed": 1,
+      "rank": 0,
+      "children": [
+        {
+          "title": "人员管理",
+          "key": "/user",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "用户列表",
+              "key": "/user/list",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "添加用户",
+              "key": "/user/add",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "用户信息维护",
+              "key": "/user/edit",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "权限管理",
+          "key": "/right",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "角色权限",
+              "key": "/right/role",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "页面显示控制",
+              "key": "/right/page",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "库存及定价管理",
+          "key": "/inStock",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "库存管理",
+              "key": "/inStock/list",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "定价管理",
+              "key": "/inStock/pricing",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "待办事项",
+          "key": "/todo",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "待医生处理病历",
+              "key": "/todo/doctor",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "待助理处理病历",
+              "key": "/todo/assistant",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "手术排班表",
+              "key": "/todo/reserve",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "档案管理",
+          "key": "/archives",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "宠物档案",
+              "key": "/archives/cats",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "病历档案",
+              "key": "/archives/records",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "管理页面",
+      "key": "/",
+      "right": 1,
+      "showed": 1,
+      "rank": 0,
+      "children": [
+        {
+          "title": "人员管理",
+          "key": "/user",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "用户列表",
+              "key": "/user/list",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "添加用户",
+              "key": "/user/add",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "用户信息维护",
+              "key": "/user/edit",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "权限管理",
+          "key": "/right",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "角色权限",
+              "key": "/right/role",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "页面显示控制",
+              "key": "/right/page",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "库存及定价管理",
+          "key": "/inStock",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "库存管理",
+              "key": "/inStock/list",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "定价管理",
+              "key": "/inStock/pricing",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "待办事项",
+          "key": "/todo",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "待医生处理病历",
+              "key": "/todo/doctor",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "待助理处理病历",
+              "key": "/todo/assistant",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "手术排班表",
+              "key": "/todo/reserve",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "档案管理",
+          "key": "/archives",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "宠物档案",
+              "key": "/archives/cats",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "病历档案",
+              "key": "/archives/records",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "roles": [
+    {
+      "id": 1,
+      "katagaki": "院长",
+      "key": 1,
+      "rightsId": 1
+    },
+    {
+      "id": 2,
+      "katagaki": "医生",
+      "key": 2,
+      "rightsId": 2
+    },
+    {
+      "id": 3,
+      "katagaki": "助理",
+      "key": 3,
+      "rightsId": 3
+    }
+  ],
+  "staff": [
+    {
+      "id": 1,
+      "username": "1",
+      "password": "1",
+      "name": "张佳佳",
+      "key": 1609434122000,
+      "rolesId": 1,
+      "intro": "string",
+      "zaishoku": 1,
+      "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
+    },
+    {
+      "id": 2,
+      "username": "2",
+      "password": "2",
+      "name": "李思思",
+      "key": 1640970122000,
+      "rolesId": 2,
+      "intro": "string",
+      "zaishoku": 1,
+      "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
+    },
+    {
+      "id": 3,
+      "username": "3",
+      "password": "3",
+      "name": "王豆豆",
+      "key": 1640990126000,
+      "rolesId": 3,
+      "intro": "string",
+      "zaishoku": 1,
+      "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
+    }
+  ],
+  "cats": [
+    {
+      "id": 1,
+      "nickname": "猫咪1",
+      "catOwner": "客人1",
+      "phoneNumber": "13787654321",
+      "birthday": 1609414122000,
+      "key": 1609494122000,
+      "vaccine": [
+        1640966461000,
+        1643644861000,
+        1646064061000
+      ],
+      "vermifuge": [
+        1640966461000,
+        1643644861000,
+        1646064061000
+      ],
+      "sex": 1,
+      "sterilize": 1
+    },
+    {
+      "id": 2,
+      "nickname": "猫咪2",
+      "catOwner": "客人1",
+      "phoneNumber": "13787654321",
+      "birthday": 1609404122000,
+      "key": 1609493122000,
+      "vaccine": [
+        1640964461000,
+        1643642861000,
+        1646062061000
+      ],
+      "vermifuge": [
+        1640964461000,
+        1643642861000,
+        1646062061000
+      ],
+      "sex": 0,
+      "sterilize": 0
+    },
+    {
+      "id": 3,
+      "nickname": "猫咪3",
+      "catOwner": "客人2",
+      "phoneNumber": "13787654322",
+      "birthday": 1609413122000,
+      "key": 1609493122000,
+      "vaccine": [
+        1640966261000,
+        1643644261000,
+        1646064261000
+      ],
+      "vermifuge": [
+        1640966261000,
+        1643644261000,
+        1646064261000
+      ],
+      "sex": 1,
+      "sterilize": 1
+    }
+  ],
+  "inStocks": [
+    {
+      "id": 1,
+      "type": 0,
+      "key": "麻醉",
+      "consumed": 22,
+      "amount": 0,
+      "purchasePrice": 0,
+      "sellPrice": 70
+    },
+    {
+      "id": 2,
+      "type": 0,
+      "key": "绝育",
+      "consumed": 322,
+      "amount": 0,
+      "purchasePrice": 0,
+      "sellPrice": 600
+    },
+    {
+      "id": 3,
+      "type": 0,
+      "key": "洁牙",
+      "consumed": 42,
+      "amount": 0,
+      "purchasePrice": 0,
+      "sellPrice": 270
+    },
+    {
+      "id": 4,
+      "type": 1,
+      "key": "喵三多",
+      "consumed": 122,
+      "amount": 854,
+      "purchasePrice": 35,
+      "sellPrice": 170
+    },
+    {
+      "id": 5,
+      "type": 1,
+      "key": "大宠爱",
+      "consumed": 321,
+      "amount": 775,
+      "purchasePrice": 24,
+      "sellPrice": 72
+    }
+  ],
+  "records": [
+    {
+      "id": 1,
+      "catsId": 1,
+      "date": 1,
+      "staffId": 2,
+      "weight": "2.5kg",
+      "treatments": [
+        {
+          "treatment": "麻醉",
+          "useage": 1,
+          "sellPrice": 170,
+          "result": "string"
+        },
+        {
+          "treatment": "大宠爱",
+          "useage": 1,
+          "sellPrice": 72,
+          "result": "string"
+        },
+        {
+          "treatment": "洁牙",
+          "useage": 1,
+          "sellPrice": 270,
+          "result": "string"
+        }
+      ],
+      "diagnosis": "<p>富文本转string、待补充</p>",
+      "reserve": 0,
+      "bill": 1
+    }
+  ]
+}

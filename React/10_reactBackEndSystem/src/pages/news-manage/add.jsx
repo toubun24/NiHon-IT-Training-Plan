@@ -107,7 +107,7 @@ const Add = () => {
           }} />
         </div>
         <div style={{ display: current === 2 ? '' : 'none' }}> {/* 第3页内容 */}
-          333
+          orz
         </div>
       </div>
       <div style={{ marginTop: '50px' }}>

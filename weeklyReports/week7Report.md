@@ -29,7 +29,7 @@
   * 发布管理 09:45-10:40
   * 侧边栏折叠功能 11:10-11:55
   * 首页布局 11:55-12:40
-  * 首页完善 
+  * 首页完善 18:40-20:15
   * 新闻浏览页面 
 
 * **2023.01.20 土曜日:** 
@@ -524,3 +524,5 @@ const columns = [ // 涉及修改所以放到函数组件中
 ```
 中的`editable: true`改为`editable: 1`即可暂时解决该问题
 * 原先以为是源文件中函数定义的时候的语法在不同版本下的差别导致自定义参数传参出现问题（参考网上的代码写法也尝试过诸如`handleSave: handleSave,`的写法），直到尝试把`EditableCell`和`EditableRow`写在`Category`外面之后就没问题了。。
+
+### 还没注意到什么时候触发的警告"Warning: [antd: Notification] You are calling notice in render which will break in React 18 concurrent mode. Please trigger in effect instead."

@@ -1,0 +1,3 @@
+G:
+cd G:\NiHon-IT-Training-Plan\React\11_reactCatHospitalSystem
+json-server petto.json --port 7890

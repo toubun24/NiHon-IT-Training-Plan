@@ -32,7 +32,8 @@
   * 首页完善 18:40-20:15
   * 新闻浏览页面 20:15-21:05
   * reactCHS-项目构思 22:55-23:40
-  * reactCHS-Scrum 
+  * reactCHS-Scrum 03:40-03:45
+  * reactCHS-项目配置基本布局和路由 03:45-04:45
 
 * **2023.01.20 土曜日:** 
 
@@ -582,4 +583,45 @@ npm ERR! A complete log of this run can be found in: C:\Users\Toubun\AppData\Loc
   * [参考链接](https://blog.csdn.net/weixin_61465100/article/details/126528236)
 ```
 npm install --legacy-peer-deps
+```
+
+### React初始创建路由报错"Uncaught TypeError: routes.forEach is not a function"
+* 完整报错信息如下
+```
+utils.ts:604
+Uncaught TypeError: routes.forEach is not a function
+    at flattenRoutes (utils.ts:604:1)
+    at matchRoutes (utils.ts:483:1)
+    at useRoutesImpl (hooks.tsx:430:1)
+    at useRoutes (hooks.tsx:343:1)
+    at App (main.f3bbd2b5b27a91f32749.hot-update.js:34:76)
+    at renderWithHooks (react-dom.development.js:16305:1)
+    at updateFunctionComponent (react-dom.development.js:19588:1)
+    at beginWork (react-dom.development.js:21601:1)
+    at HTMLUnknownElement.callCallback (react-dom.development.js:4164:1)
+    at Object.invokeGuardedCallbackDev (react-dom.development.js:4213:1)
+```
+和上述报错类似的总共三条
+```
+main.f3bbd2b5b27a91f32749.hot-update.js:66
+The above error occurred in the <App> component:
+
+    at App (http://localhost:3000/main.f3bbd2b5b27a91f32749.hot-update.js:34:76)
+    at Router (http://localhost:3000/static/js/bundle.js:39478:15)
+    at BrowserRouter (http://localhost:3000/static/js/bundle.js:37450:5)
+
+Consider adding an error boundary to your tree to customize error handling behavior.
+Visit https://reactjs.org/link/error-boundaries to learn more about error boundaries.
+```
+* 解决方法：将`App.js`中的
+```JavaScript
+import RouterList from './router/RouterList'
+...
+let element = useRoutes(RouterList)
+```
+改为
+```JavaScript
+import RouterList from './router/RouterList'
+...
+let element = useRoutes(RouterList())
 ```

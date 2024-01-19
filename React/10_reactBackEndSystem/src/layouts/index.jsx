@@ -20,7 +20,13 @@ const App = (props) => { // props
   const { // Error: Rendered more hooks than during the previous render.
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-  if (props.location.pathname === '/login' || props.location.pathname === '/login/') {
+  if (
+    props.location.pathname === '/login' ||
+    props.location.pathname === '/login/' ||
+    props.location.pathname === '/news' ||
+    props.location.pathname === '/news/' ||
+    props.location.pathname.includes('/detail') // includes // detail/[id].jsx
+    ) {
     return <div>{props.children}</div> // 离开后台界面回到登录页面
   }
   /*

@@ -36,13 +36,15 @@
   * reactCHS-项目配置基本布局和路由 03:45-04:45
 
 * **2023.01.20 土曜日:** 
+  * reactCHS-侧边栏及顶部 17:50-18:35 18:45-20:35
+  * reactCHS-角色权限页面 
+  * reactCHS-页面显示控制 
+
+
 
 * **2023.01.21 日曜日:** 
 
-  * reactCHS-项目配置基本布局和路由 
-  * reactCHS-侧边栏及顶部 
-  * reactCHS-角色权限页面 
-  * reactCHS-页面显示控制 
+
   * reactCHS-添加用户页面 
   * reactCHS-用户列表页面 
   * reactCHS-用户编辑页面 

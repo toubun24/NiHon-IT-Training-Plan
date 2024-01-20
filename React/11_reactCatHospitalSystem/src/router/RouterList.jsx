@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Navigate } from 'react-router-dom'
+import axios from 'axios'
 
 import Guest from '../views/Guest'
 import Login from '../views/Login'
@@ -19,10 +20,10 @@ import ArchivesCats from '../views/Backend/ArchivesCats'
 import ArchivesRecords from '../views/Backend/ArchivesRecords'
 import ArchivesAddrecord from '../views/Backend/ArchivesAddrecord'
 
-import Appointment from '../views/Guest/Appointment';
-import View from '../views/Guest/View';
-import Doctor from '../views/Guest/Doctor';
-import Register from '../views/Guest/Register';
+// import Appointment from '../views/Guest/Appointment';
+// import View from '../views/Guest/View';
+// mport Doctor from '../views/Guest/Doctor';
+// import Register from '../views/Guest/Register';
 
 const routeList = { // 需要拿token进行权限判断的页面 // 路由映射表
   "/user/list": <UserList />,
@@ -42,30 +43,30 @@ const routeList = { // 需要拿token进行权限判断的页面 // 路由映射
 
 export default function RouterList() {
   const [routerList, setRouterList] = useState([])
-  /*
   useEffect(() => {
     axios.get('http://localhost:7890/rights?id=1').then(res => {
-      localStorage.setItem('token', JSON.stringify(res.data[0]))
+      localStorage.setItem('token', JSON.stringify(res.data[0])) // 初始测试时设定管理员token
     })
   }, [])
-  */
-  let token = localStorage.getItem('token') // 临时参考
+  // let token = localStorage.getItem('token') // 临时参考
+  // console.log("token", token)
   useEffect(() => { // 获取权限数组
-    if (token !== null) { // 临时参考
-      // const token = JSON.parse(localStorage.getItem('token'))
-      const token = JSON.parse(token)
-      let arr = []
-      token.children.forEach(item => {
-        if (item.right === 1) {
-          item.children.forEach(item => {
-            if (item.right === 1) { // 如果有1级目录需要链接页面的，在这里修改判断；目前没有
-              arr = [...arr, item.key]
-            }
-          })
-        }
-      })
-      setRouterList(arr)
-    } // 临时参考
+    // if (token !== null) { // 临时参考
+    const token = JSON.parse(localStorage.getItem('token'))
+    // console.log("token", token)
+    // const token = JSON.parse(token) // 临时参考
+    let arr = []
+    token.children.forEach(item => {
+      if (item.right === 1) {
+        item.children.forEach(item => {
+          if (item.right === 1) { // 如果有1级目录需要链接页面的，在这里修改判断；目前没有
+            arr = [...arr, item.key]
+          }
+        })
+      }
+    })
+    setRouterList(arr)
+    // } // 临时参考
   }, [])
   return (
     [ // []

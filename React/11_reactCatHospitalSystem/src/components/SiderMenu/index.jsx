@@ -3,6 +3,7 @@ import { Layout, Menu } from 'antd';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom'; // useNavigate
 import './index.css'
+import axios from 'axios';
 
 /*
 function getItem(label, key, icon, children, type) {
@@ -48,28 +49,40 @@ const iconList = { // 图标映射表
 
 const SiderMenu = ({ collapsed }) => {
   const [items, setItems] = useState([])
+  const { rightsId, id } = JSON.parse(localStorage.getItem('token')) // 写在useEffect外面，否则会报错
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('token')).children // JSON.parse(...).children
-    setItems(token.map(item => {
-      if (item.right === 1 && item.showed === 1) {
-        return {
-          key: item.key,
-          label: item.title,
-          icon: iconList[item.key],
-          children: item.children.map(item => {
-            if (item.right === 1 && item.showed === 1) {
-              return {
-                key: item.key,
-                label: item.title,
-              }
+    // const token = JSON.parse(localStorage.getItem('token')).children // JSON.parse(...).children
+    // const { rightsId, id } = JSON.parse(localStorage.getItem('token'))
+    axios.get(`http://localhost:7890/staff/${id}`).then(resStaff => {
+      axios.get(`http://localhost:7890/rights/${rightsId}`).then(res => {
+        // setItems(token.map(item => {
+        setItems(res.data.children.map(item => {
+          // if (item.right === 1 && item.showed === 1) {
+          if (item.right === 1 && resStaff.data.showed.includes(item.key)) { // .includes(): 检查一个数组是否包含某个特定的元素 // resRights: item.key: "/XXX"
+            return {
+              key: item.key,
+              label: item.title,
+              icon: iconList[item.key],
+              children: item.children.map(item => {
+                // if (item.right === 1 && item.showed === 1) {
+                if (item.right === 1 && resStaff.data.showed.includes(item.key)) {
+                  return {
+                    key: item.key,
+                    label: item.title,
+                  }
+                }
+                // return {}
+                return null
+              })
             }
-            return {}
-          })
-        }
-      }
-      return {}
-    }))
-  }, [])
+          }
+          // return {}
+          return null
+        }))
+      })
+    })
+    //}, [])
+  }, [rightsId, id])
   const [openKeys, setOpenKeys] = useState(['sub1']);
   const navigate = useNavigate()
   const handleClick = (item) => { // 点击后跳转路径

@@ -106,7 +106,7 @@
               "rank": 2
             },
             {
-              "title": "手术排班表",
+              "title": "预约就诊表",
               "key": "/todo/reserve",
               "right": 1,
               "showed": 1,
@@ -131,6 +131,13 @@
             {
               "title": "病历档案",
               "key": "/archives/records",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "新建病历",
+              "key": "/archives/addrecord",
               "right": 1,
               "showed": 1,
               "rank": 2
@@ -150,8 +157,8 @@
         {
           "title": "人员管理",
           "key": "/user",
-          "right": 0,
-          "showed": 0,
+          "right": 1,
+          "showed": 1,
           "rank": 1,
           "children": [
             {
@@ -171,8 +178,8 @@
             {
               "title": "用户信息维护",
               "key": "/user/edit",
-              "right": 0,
-              "showed": 0,
+              "right": 1,
+              "showed": 1,
               "rank": 2
             }
           ]
@@ -180,8 +187,8 @@
         {
           "title": "权限管理",
           "key": "/right",
-          "right": 0,
-          "showed": 0,
+          "right": 1,
+          "showed": 1,
           "rank": 1,
           "children": [
             {
@@ -194,8 +201,8 @@
             {
               "title": "页面显示控制",
               "key": "/right/page",
-              "right": 0,
-              "showed": 0,
+              "right": 1,
+              "showed": 1,
               "rank": 2
             }
           ]
@@ -245,7 +252,7 @@
               "rank": 2
             },
             {
-              "title": "手术排班表",
+              "title": "就诊预约表",
               "key": "/todo/reserve",
               "right": 1,
               "showed": 1,
@@ -270,6 +277,13 @@
             {
               "title": "病历档案",
               "key": "/archives/records",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "新建病历",
+              "key": "/archives/addrecord",
               "right": 1,
               "showed": 1,
               "rank": 2
@@ -289,8 +303,8 @@
         {
           "title": "人员管理",
           "key": "/user",
-          "right": 0,
-          "showed": 0,
+          "right": 1,
+          "showed": 1,
           "rank": 1,
           "children": [
             {
@@ -310,8 +324,8 @@
             {
               "title": "用户信息维护",
               "key": "/user/edit",
-              "right": 0,
-              "showed": 0,
+              "right": 1,
+              "showed": 1,
               "rank": 2
             }
           ]
@@ -319,8 +333,8 @@
         {
           "title": "权限管理",
           "key": "/right",
-          "right": 0,
-          "showed": 0,
+          "right": 1,
+          "showed": 1,
           "rank": 1,
           "children": [
             {
@@ -333,8 +347,8 @@
             {
               "title": "页面显示控制",
               "key": "/right/page",
-              "right": 0,
-              "showed": 0,
+              "right": 1,
+              "showed": 1,
               "rank": 2
             }
           ]
@@ -384,7 +398,7 @@
               "rank": 2
             },
             {
-              "title": "手术排班表",
+              "title": "预约就诊表",
               "key": "/todo/reserve",
               "right": 1,
               "showed": 1,
@@ -411,6 +425,159 @@
               "key": "/archives/records",
               "right": 1,
               "showed": 1,
+              "rank": 2
+            },
+            {
+              "title": "新建病历",
+              "key": "/archives/addrecord",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "管理页面",
+      "key": "/",
+      "right": 1,
+      "showed": 1,
+      "rank": 0,
+      "children": [
+        {
+          "title": "人员管理",
+          "key": "/user",
+          "right": 1,
+          "showed": 1,
+          "rank": 1,
+          "children": [
+            {
+              "title": "用户列表",
+              "key": "/user/list",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "添加用户",
+              "key": "/user/add",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "用户信息维护",
+              "key": "/user/edit",
+              "right": 1,
+              "showed": 1,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "权限管理",
+          "key": "/right",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "角色权限",
+              "key": "/right/role",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "页面显示控制",
+              "key": "/right/page",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "库存及定价管理",
+          "key": "/inStock",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "库存管理",
+              "key": "/inStock/list",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "定价管理",
+              "key": "/inStock/pricing",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "待办事项",
+          "key": "/todo",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "待医生处理病历",
+              "key": "/todo/doctor",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "待助理处理病历",
+              "key": "/todo/assistant",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "预约就诊表",
+              "key": "/todo/reserve",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            }
+          ]
+        },
+        {
+          "title": "档案管理",
+          "key": "/archives",
+          "right": 0,
+          "showed": 0,
+          "rank": 1,
+          "children": [
+            {
+              "title": "宠物档案",
+              "key": "/archives/cats",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "病历档案",
+              "key": "/archives/records",
+              "right": 0,
+              "showed": 0,
+              "rank": 2
+            },
+            {
+              "title": "新建病历",
+              "key": "/archives/addrecord",
+              "right": 0,
+              "showed": 0,
               "rank": 2
             }
           ]
@@ -436,41 +603,324 @@
       "katagaki": "助理",
       "key": 3,
       "rightsId": 3
+    },
+    {
+      "id": 4,
+      "katagaki": "未分配",
+      "key": 4,
+      "rightsId": 4
     }
   ],
   "staff": [
     {
       "id": 1,
-      "username": "1",
-      "password": "1",
+      "username": "admin123",
+      "password": "Qwer4321",
       "name": "张佳佳",
-      "key": 1609434122000,
-      "rolesId": 1,
-      "intro": "string",
+      "key": 1502173286454,
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/inStock/list",
+        "/user/list",
+        "/right/role",
+        "/user",
+        "/right",
+        "/inStock",
+        "/todo"
+      ],
+      "rolesId": "1",
+      "rightsId": "1",
+      "intro": "<h3><span style=\"color: rgb(0,168,133);\">・経歴</span></h3>\n<p><span style=\"font-size: 10px;\">平成18年4月</span><br><span style=\"font-size: 10px;\">はとがや動物病院副院長</span><br><span style=\"font-size: 10px;\">平成21年4月</span><br><span style=\"font-size: 10px;\">どうぶつ園通りの動物病院院長（旭川）</span></p>\n<h3><span style=\"color: rgb(0,168,133);\">・業績</span></h3>\n<p><span style=\"font-size: 10px;\">AO Vet Table Instructor</span><br><span style=\"font-size: 10px;\">DePuySynthes骨折セミナー講師・インストラクター</span></p>\n<h3><span style=\"color: rgb(0,168,133);\">・資格</span></h3>\n<p><span style=\"font-size: 10px;\">AO Principle course 修了<br>AO Advance course　修了<br>Synthes Vet TPLO seminar 修了<br>Synthes Vet Spine seminar Advance 修了</span></p>\n<h3><span style=\"color: rgb(0,168,133);\">・所属学会</span></h3>\n<p><span style=\"font-size: 10px;font-family: Arial;\">日獣医麻酔外科学会<br>獣医神経病学会<br>北獣協<br>旭川小動物臨床研究会 </span></p>\n",
       "zaishoku": 1,
-      "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
+      "avatar": "https://joeschmoe.io/api/v1/random"
     },
     {
       "id": 2,
-      "username": "2",
-      "password": "2",
+      "username": "lisisi",
+      "password": "Qwer4321",
       "name": "李思思",
       "key": 1640970122000,
-      "rolesId": 2,
-      "intro": "string",
+      "showed": [
+        "/user",
+        "/user/list",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/right/role",
+        "/right/page",
+        "/inStock",
+        "/inStock/list",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records"
+      ],
+      "rolesId": "2",
+      "rightsId": "2",
+      "intro": "<p>自我介绍自己改</p>\n",
       "zaishoku": 1,
       "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
     },
     {
       "id": 3,
-      "username": "3",
-      "password": "3",
+      "username": "wangdd",
+      "password": "Qwer4321",
       "name": "王豆豆",
       "key": 1640990126000,
-      "rolesId": 3,
-      "intro": "string",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "rolesId": "3",
+      "rightsId": "3",
+      "intro": "<p>自我介绍自己改222</p>\n",
       "zaishoku": 1,
       "avatar": "http://p0.itc.cn/images01/20201218/03697d2d279144c0a4b05e4cb2016aae.jpeg"
+    },
+    {
+      "name": "陈点点",
+      "username": "wangqing",
+      "password": "Qwer4321",
+      "rolesId": "2",
+      "key": 1659343270751,
+      "intro": "<p>自我介绍自己改</p>\n<p>自我介绍</p>\n",
+      "rightsId": "2",
+      "zaishoku": 1,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 4
+    },
+    {
+      "name": "王吖吖",
+      "username": "wangyaya",
+      "password": "Qwer4321",
+      "rolesId": "2",
+      "key": 1659344468508,
+      "intro": "<p>自我介绍</p>\n<p>王医生</p>\n",
+      "rightsId": "2",
+      "zaishoku": 1,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 5
+    },
+    {
+      "name": "李圈圈",
+      "username": "liquanquan",
+      "password": "Qwer4321",
+      "rolesId": "3",
+      "key": 1659344772945,
+      "intro": "<p>自我介绍···</p>\n<p>111</p>\n",
+      "rightsId": "3",
+      "zaishoku": 1,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 6
+    },
+    {
+      "name": "游客测试",
+      "username": "youkeceshi",
+      "password": "Qwer4321",
+      "rolesId": "4",
+      "key": 1568184147339,
+      "intro": "<p>test</p>\n",
+      "rightsId": "4",
+      "zaishoku": 1,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 7
+    },
+    {
+      "name": "youkeceshi",
+      "username": "youkeceshi2",
+      "password": "Qwer4321",
+      "rolesId": "4",
+      "key": 1662019860273,
+      "rightsId": "4",
+      "intro": "<p></p>",
+      "zaishoku": 0,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 8
+    },
+    {
+      "name": "youkeceshi33",
+      "username": "youkeceshi33",
+      "password": "Qwer4321",
+      "rolesId": "4",
+      "key": 1662020083495,
+      "intro": "<p></p>",
+      "rightsId": "4",
+      "zaishoku": 0,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 9
+    },
+    {
+      "name": "youkece",
+      "username": "youkeceshi4",
+      "password": "youkeceshi33",
+      "rolesId": "3",
+      "key": 1662117488413,
+      "intro": "<p></p>",
+      "rightsId": "3",
+      "zaishoku": 1,
+      "avatar": "https://joeschmoe.io/api/v1/random",
+      "showed": [
+        "/right/page",
+        "/inStock/pricing",
+        "/todo",
+        "/todo/doctor",
+        "/todo/assistant",
+        "/todo/reserve",
+        "/archives",
+        "/archives/cats",
+        "/archives/records",
+        "/user/add",
+        "/user/edit",
+        "/right",
+        "/inStock",
+        "/inStock/list",
+        "/user",
+        "/user/list",
+        "/right/role"
+      ],
+      "id": 10
     }
   ],
   "cats": [
@@ -479,17 +929,17 @@
       "nickname": "猫咪1",
       "catOwner": "客人1",
       "phoneNumber": "13787654321",
-      "birthday": 1609414122000,
-      "key": 1609494122000,
+      "birthday": 1627801929623,
+      "key": 1661238739582,
       "vaccine": [
-        1640966461000,
+        1646064061000,
         1643644861000,
-        1646064061000
+        1640966461000
       ],
       "vermifuge": [
-        1640966461000,
+        1646064061000,
         1643644861000,
-        1646064061000
+        1640966461000
       ],
       "sex": 1,
       "sterilize": 1
@@ -499,8 +949,8 @@
       "nickname": "猫咪2",
       "catOwner": "客人1",
       "phoneNumber": "13787654321",
-      "birthday": 1609404122000,
-      "key": 1609493122000,
+      "birthday": 1502371531282,
+      "key": 1661261153936,
       "vaccine": [
         1640964461000,
         1643642861000,
@@ -518,9 +968,9 @@
       "id": 3,
       "nickname": "猫咪3",
       "catOwner": "客人2",
-      "phoneNumber": "13787654322",
-      "birthday": 1609413122000,
-      "key": 1609493122000,
+      "phoneNumber": "13808080707",
+      "birthday": 1551770259161,
+      "key": 1661239068851,
       "vaccine": [
         1640966261000,
         1643644261000,
@@ -533,85 +983,708 @@
       ],
       "sex": 1,
       "sterilize": 1
+    },
+    {
+      "nickname": "茂茂",
+      "catOwner": "茂茂主人",
+      "phoneNumber": "15959959959",
+      "sex": 1,
+      "sterilize": 1,
+      "birthday": 1512134711706,
+      "vaccine": [
+        1661415993738,
+        1660638397303,
+        1659255998428,
+        1660724796238
+      ],
+      "vermifuge": [
+        1660292802423
+      ],
+      "key": 1661513852904,
+      "id": 4
+    },
+    {
+      "nickname": "点点",
+      "catOwner": "点点主人",
+      "phoneNumber": "18188181881",
+      "sex": 1,
+      "sterilize": 1,
+      "birthday": 1567689896834,
+      "vaccine": [
+        1659342585776,
+        1588840189477,
+        1654504194077,
+        1652776197108,
+        1648974599124,
+        1588580986693
+      ],
+      "vermifuge": [
+        1659342603341,
+        1656664204726,
+        1654072211592,
+        1651393807644,
+        1641025815308,
+        1633077019990
+      ],
+      "key": 1661261107193,
+      "id": 5
+    },
+    {
+      "nickname": "圈圈",
+      "catOwner": "圈圈主人",
+      "phoneNumber": "18182288338",
+      "sex": 1,
+      "sterilize": 0,
+      "birthday": 1452000276082,
+      "vaccine": [],
+      "vermifuge": [],
+      "key": 1661261093143,
+      "id": 6
     }
   ],
   "inStocks": [
     {
       "id": 1,
       "type": 0,
-      "key": "麻醉",
-      "consumed": 22,
-      "amount": 0,
-      "purchasePrice": 0,
-      "sellPrice": 70
+      "name": "呼吸麻醉",
+      "key": 1643644261100,
+      "consumed": 21,
+      "sellPrice": 170
     },
     {
       "id": 2,
       "type": 0,
-      "key": "绝育",
-      "consumed": 322,
-      "amount": 0,
-      "purchasePrice": 0,
+      "name": "绝育",
+      "key": 1643644261000,
+      "consumed": 24,
       "sellPrice": 600
     },
     {
       "id": 3,
       "type": 0,
-      "key": "洁牙",
+      "name": "洁牙",
+      "key": 1643644261022,
       "consumed": 42,
-      "amount": 0,
       "purchasePrice": 0,
       "sellPrice": 270
     },
     {
       "id": 4,
       "type": 1,
-      "key": "喵三多",
-      "consumed": 122,
-      "amount": 854,
-      "purchasePrice": 35,
-      "sellPrice": 170
+      "name": "妙三多",
+      "key": 1643644261010,
+      "brand": "Pfizer",
+      "consumed": 101,
+      "sellPrice": 175,
+      "amount": 0
     },
     {
       "id": 5,
       "type": 1,
-      "key": "大宠爱",
-      "consumed": 321,
-      "amount": 775,
-      "purchasePrice": 24,
-      "sellPrice": 72
+      "name": "海乐妙",
+      "key": 1643644261910,
+      "brand": "海正药品",
+      "consumed": 197,
+      "sellPrice": 69,
+      "amount": 3
+    },
+    {
+      "name": "爱沃克",
+      "key": 1643644221920,
+      "brand": "Bayer",
+      "sellPrice": 240,
+      "type": 1,
+      "consumed": 1,
+      "amount": 19,
+      "id": 6
+    },
+    {
+      "name": "大宠爱",
+      "key": 1643644221910,
+      "brand": "Zoetis",
+      "sellPrice": 267,
+      "type": 1,
+      "consumed": 1,
+      "amount": 19,
+      "id": 7
+    },
+    {
+      "key": 1660997086735,
+      "type": 0,
+      "name": "注射麻醉",
+      "consumed": 1,
+      "sellPrice": 120,
+      "id": 11
     }
   ],
   "records": [
     {
       "id": 1,
-      "catsId": 1,
-      "date": 1,
+      "catId": 1,
+      "date": 1661238739582,
       "staffId": 2,
       "weight": "2.5kg",
       "treatments": [
         {
-          "treatment": "麻醉",
+          "treatment": "呼吸麻醉",
+          "inStockId": 1,
           "useage": 1,
           "sellPrice": 170,
-          "result": "string"
+          "done": true
         },
         {
           "treatment": "大宠爱",
+          "inStockId": 7,
           "useage": 1,
           "sellPrice": 72,
-          "result": "string"
+          "done": true
         },
         {
           "treatment": "洁牙",
+          "inStockId": 3,
           "useage": 1,
           "sellPrice": 270,
-          "result": "string"
+          "done": true
         }
       ],
       "diagnosis": "<p>富文本转string、待补充</p>",
-      "reserve": 0,
+      "reserve": 1,
       "bill": 1
+    },
+    {
+      "catId": 2,
+      "date": 1661238739582,
+      "staffId": 1,
+      "weight": "3.4kg",
+      "treatments": [
+        {
+          "inStockId": 1,
+          "useage": 1,
+          "done": false
+        },
+        {
+          "inStockId": 2,
+          "useage": 1,
+          "done": false
+        }
+      ],
+      "diagnosis": "<p>呼吸麻醉22</p>\n",
+      "reserve": 1,
+      "bill": 0,
+      "id": 2
+    },
+    {
+      "catId": 2,
+      "date": 1661238739582,
+      "staffId": 2,
+      "weight": "未称重",
+      "treatments": [
+        {
+          "inStockId": 2,
+          "useage": 1
+        }
+      ],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 3
+    },
+    {
+      "catId": 4,
+      "date": 1661238739582,
+      "staffId": 1,
+      "weight": "3.7kg",
+      "treatments": [
+        {
+          "inStockId": 4,
+          "useage": 1,
+          "done": false
+        },
+        {
+          "inStockId": 5,
+          "useage": 1,
+          "done": false
+        },
+        {
+          "inStockId": 1,
+          "useage": 1,
+          "done": false
+        }
+      ],
+      "diagnosis": "<p>打一针疫苗</p>\n",
+      "reserve": 0,
+      "bill": 0,
+      "id": 4
+    },
+    {
+      "catId": 1,
+      "date": 1661417180682,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 1,
+      "bill": 0,
+      "id": 5
+    },
+    {
+      "catId": 2,
+      "date": 1661419667693,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [
+        {
+          "inStockId": 2,
+          "useage": 1,
+          "done": true
+        },
+        {
+          "inStockId": 11,
+          "useage": 4,
+          "done": true
+        },
+        {
+          "inStockId": 5,
+          "useage": 1,
+          "done": true
+        }
+      ],
+      "diagnosis": "<ul>\n<li>1</li>\n<li>2</li>\n<li>3</li>\n<li>4</li>\n<li>5</li>\n<li>6</li>\n<li>7</li>\n<li>8</li>\n<li>9</li>\n<li>0</li>\n</ul>\n",
+      "reserve": 1,
+      "bill": 2,
+      "id": 6,
+      "billList": [
+        {
+          "id": 2,
+          "key": 2,
+          "name": "绝育",
+          "sellPrice": 600,
+          "useage": 1
+        },
+        {
+          "id": 11,
+          "key": 11,
+          "name": "注射麻醉",
+          "sellPrice": 120,
+          "useage": 4
+        },
+        {
+          "id": 5,
+          "key": 5,
+          "name": "海乐妙",
+          "sellPrice": 69,
+          "useage": 1
+        }
+      ]
+    },
+    {
+      "catId": 5,
+      "date": 1661583337012,
+      "staffId": 1,
+      "weight": "2kg",
+      "treatments": [
+        {
+          "inStockId": 3,
+          "useage": 1,
+          "done": true
+        },
+        {
+          "inStockId": 1,
+          "useage": 1,
+          "done": true
+        }
+      ],
+      "diagnosis": "<ul>\n<li>1</li>\n<li>2</li>\n<li>3</li>\n<li>4</li>\n<li>5</li>\n<li>6</li>\n<li>7</li>\n<li>8</li>\n<li>9</li>\n<li>0</li>\n</ul>\n",
+      "reserve": 1,
+      "bill": 2,
+      "id": 7,
+      "billList": [
+        {
+          "id": 3,
+          "key": 3,
+          "name": "洁牙",
+          "sellPrice": 270,
+          "useage": 1
+        },
+        {
+          "id": 1,
+          "key": 1,
+          "name": "呼吸麻醉",
+          "sellPrice": 170,
+          "useage": 1
+        }
+      ]
+    },
+    {
+      "catId": 4,
+      "date": 1661592360979,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 8
+    },
+    {
+      "catId": 2,
+      "date": 1661821560000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 9
+    },
+    {
+      "catId": 5,
+      "date": 1661918760000,
+      "staffId": "1",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 10
+    },
+    {
+      "catId": 1,
+      "date": 1661997960000,
+      "staffId": "1",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 11
+    },
+    {
+      "catId": 3,
+      "date": 1662001560000,
+      "staffId": "2",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 15
+    },
+    {
+      "catId": 4,
+      "date": 1661918760000,
+      "staffId": "2",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 16
+    },
+    {
+      "catId": 2,
+      "date": 1661825160000,
+      "staffId": "4",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 17
+    },
+    {
+      "catId": 3,
+      "date": 1661918760000,
+      "staffId": "4",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 18
+    },
+    {
+      "catId": 6,
+      "date": 1661835960000,
+      "staffId": "5",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 19
+    },
+    {
+      "catId": 5,
+      "date": 1662433560000,
+      "staffId": "5",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 20
+    },
+    {
+      "catId": 6,
+      "date": 1661835960000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 21
+    },
+    {
+      "catId": 5,
+      "date": 1661933160000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 22
+    },
+    {
+      "catId": 2,
+      "date": 1661929560000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 23
+    },
+    {
+      "catId": 6,
+      "date": 1662008760000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 24
+    },
+    {
+      "catId": 5,
+      "date": 1662185160000,
+      "staffId": "2",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 26
+    },
+    {
+      "catId": 6,
+      "date": 1662167160000,
+      "staffId": "2",
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 27
+    },
+    {
+      "catId": 1,
+      "date": 1661990760000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 30
+    },
+    {
+      "catId": 3,
+      "date": 1661990760000,
+      "staffId": 5,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 31
+    },
+    {
+      "catId": 3,
+      "date": 1662177960000,
+      "staffId": 5,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 32
+    },
+    {
+      "catId": 3,
+      "date": 1662437160000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 33
+    },
+    {
+      "catId": 3,
+      "date": 1662336360000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 36
+    },
+    {
+      "catId": 3,
+      "date": 1662343560000,
+      "staffId": 4,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 37
+    },
+    {
+      "catId": 3,
+      "date": 1662257160000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 38
+    },
+    {
+      "catId": 1,
+      "date": 1662167160000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 39
+    },
+    {
+      "catId": 3,
+      "date": 1662516360000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 40
+    },
+    {
+      "catId": 3,
+      "date": 1662613560000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 41
+    },
+    {
+      "catId": 2,
+      "date": 1662357960000,
+      "staffId": 1,
+      "weight": "未称重",
+      "treatments": [],
+      "diagnosis": "<p></p>",
+      "reserve": 0,
+      "bill": 0,
+      "id": 42
+    }
+  ],
+  "inbound": [
+    {
+      "id": 1,
+      "key": 1646062061020,
+      "amount": 25,
+      "batchNumber": "20210901",
+      "staff": "张佳佳",
+      "purchasePrice": 35,
+      "inStockId": 4
+    },
+    {
+      "id": 2,
+      "key": 1646062061020,
+      "amount": 100,
+      "batchNumber": "20190701",
+      "staff": "张佳佳",
+      "purchasePrice": 24,
+      "inStockId": 5
+    },
+    {
+      "amount": 20,
+      "batchNumber": "20220306",
+      "purchasePrice": 110,
+      "key": 1660907709815,
+      "staff": "张佳佳",
+      "inStockId": 6,
+      "id": 3
+    },
+    {
+      "amount": 20,
+      "batchNumber": "20220816",
+      "purchasePrice": 140,
+      "key": 1660907768048,
+      "staff": "张佳佳",
+      "inStockId": 7,
+      "id": 4
+    },
+    {
+      "amount": 100,
+      "batchNumber": "20200501",
+      "purchasePrice": 24,
+      "key": 1660907994327,
+      "staff": "王豆豆",
+      "inStockId": 5,
+      "id": 5
+    },
+    {
+      "amount": 25,
+      "batchNumber": "20220601",
+      "purchasePrice": 46,
+      "key": 1660908173795,
+      "staff": "王豆豆",
+      "inStockId": 4,
+      "id": 6
+    },
+    {
+      "amount": 25,
+      "batchNumber": "20220601",
+      "purchasePrice": 46,
+      "key": 1660915178324,
+      "staff": "张佳佳",
+      "inStockId": 4,
+      "id": 7
+    },
+    {
+      "amount": 26,
+      "batchNumber": "20220601",
+      "purchasePrice": 46,
+      "key": 1660915201326,
+      "staff": "张佳佳",
+      "inStockId": 4,
+      "id": 8
     }
   ]
 }

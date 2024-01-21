@@ -44,7 +44,9 @@ const routeList = { // 需要拿token进行权限判断的页面 // 路由映射
 export default function RouterList() {
   const [routerList, setRouterList] = useState([])
   useEffect(() => {
-    axios.get('http://localhost:7890/rights?id=1').then(res => {
+    // axios.get('http://localhost:7890/rights?id=1').then(res => {
+      axios.get('http://localhost:7890/staff?_expand=rights&id=1').then(res => { // for ./views/Backend/RightPage/index.jsx: rightsId
+      // console.log("1",JSON.stringify(res.data[0]))
       localStorage.setItem('token', JSON.stringify(res.data[0])) // 初始测试时设定管理员token
     })
   }, [])
@@ -52,7 +54,7 @@ export default function RouterList() {
   // console.log("token", token)
   useEffect(() => { // 获取权限数组
     // if (token !== null) { // 临时参考
-    const token = JSON.parse(localStorage.getItem('token'))
+    const token = JSON.parse(localStorage.getItem('token')).rights
     // console.log("token", token)
     // const token = JSON.parse(token) // 临时参考
     let arr = []
@@ -68,6 +70,7 @@ export default function RouterList() {
     setRouterList(arr)
     // } // 临时参考
   }, [])
+  // console.log(JSON.parse(localStorage.getItem('token')))
   return (
     [ // []
       { // {}

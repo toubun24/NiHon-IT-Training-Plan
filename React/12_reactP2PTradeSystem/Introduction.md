@@ -2,7 +2,7 @@
 
 ## 流程图示
 
-![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/RNC001.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/PTS001.png)
 
 https://boardmix.cn/app/editor/CLiOhhrJwqZpWQFh5-o4LQ
 
@@ -19,23 +19,30 @@ https://boardmix.cn/app/editor/CLiOhhrJwqZpWQFh5-o4LQ
 * **板块分类功能**：用户可以从多个板块中只选择自己感兴趣的板块进行加载
 
 ## 项目实现
-基于前述项目目标分析，计划制作3个页面，包括注册登录页面（用户可注册，管理员账号无法新注册），用户页面和管理员页面，具体侧边栏如下
+基于前述项目目标分析，计划制作3个页面，包括注册登录页面（用户可注册，管理员账号无法新注册），用户页面和管理员页面，具体顶部栏与侧边栏分配如下
 * 注册登录页面
 * 用户页面
-  * 主页
-  * 新的委托
-    * 发布委托
-    * 搜索委托
-  * 当前委托
+  * 推荐搜索页
+  * 发布商品页
+  * 个人主页
     * 已发布
-    * 进行中
-    * 待确认
-  * 历史委托
-    * 待评价
-    * 已完成
-  * 设置
-    * 板块偏好
-    * 主页信息
+      * 发布中
+      * 草稿箱
+      * 已下架
+    * 已卖出
+      * 全部
+      * 待付款
+      * 待发货
+      * 待收货
+      * 待评价
+      * 退款中
+    * 已买到
+      * 全部
+      * 待付款
+      * 待发货
+      * 待收货
+      * 待评价
+      * 退款中
 * 管理员页面
   * 用户管理
     * 用户权限

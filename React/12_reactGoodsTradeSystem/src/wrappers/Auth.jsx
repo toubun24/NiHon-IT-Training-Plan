@@ -12,9 +12,9 @@ const Auth = (props) => { // props: any in TS
     // rights.checked.push('/') // 加一个斜杠
     if (localStorage.getItem('token')) { // 有token则遵循../index.jsx跳转到home
     // if (tokenContent) {
-        if(rights.checked.includes(location.pathname)) { // checked.includes: 确保目标地址被包含在权限列表中
+        // if(rights.checked.includes(location.pathname)) { // checked.includes: 确保目标地址被包含在权限列表中
             return <div>{props.children}</div>;
-        }
+        // }
         return <Redirect to="/404" />;
     }
     return <Redirect to="/login" />;

@@ -25,10 +25,11 @@
 * **2023.01.27 土曜日:**
   * 参加婚礼
 
-* **2023.01.28 日曜日:** 3h20min
+* **2023.01.28 日曜日:** 3h55min
   * 参加婚礼
-  * reactGTS-注册登录页面 20:35-20:50 21:25-22:20 22:30-23:40 23:45-00:35
+  * reactGTS-注册登录页面 20:35-20:50 21:25-22:20 22:30-23:40 23:45-00:35 01:25-2:00
   * 整理报告 00:35-00:45
+  * reactGTS-基本布局 2:00
 
 ## 学习笔记
 ### MySQL介绍
@@ -200,3 +201,23 @@ Unhandled Rejection (Error): Username already exist
   109 | }
 ```
 * 参考链接：[antd-rule](https://ant-design.antgroup.com/components/form-cn#rule)
+* 暂时换了种写法先用着，实际项目中这个重复的判定和写入服务器新数据之间的时间差可能也很要命，应该有专门的写法，之后再问问
+```JavaScript
+const onFinish = (values) => { // 提交表单且数据验证成功后回调事件
+    // console.log('Received values of form: ', values); // {username: '123', password: '123', confirm: '123', agreement: true}
+    axios.get(`http://localhost:5000/users?username=${values.username}`).then(res => {
+      if (res.data.length !== 0) {
+        message.info('用户名重复！')
+      } else {
+        axios.post('http://localhost:5000/users', {
+          "username": values.username,
+          "state": 0, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
+          "password": values.password,
+        }).then(res => {
+          history.push('/login') // / // , { isRegisterValue: true }
+          message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
+        })
+      }
+    })
+  };
+```

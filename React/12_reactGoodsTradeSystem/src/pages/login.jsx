@@ -2,10 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Checkbox, Form, Input } from 'antd';
 import './login.less'
+import axios from 'axios';
+import { useHistory } from 'umi';
 
 const Login = () => {
+  const history = useHistory();
   const onFinish = (values) => {
-    console.log('Received values of form: ', values);
+    // console.log('Received values of form: ', values);
+    axios.get(`http://localhost:5000/users?username=${values.username}&password=${values.password}`).then(
+      res => {
+        // console.log(res)
+        if (res.data.length === 0) {
+          message.error('登录失败')
+        } else if (res.data.state === 3) {
+          message.error('账号已封禁')
+        } else {
+          localStorage.setItem('token', JSON.stringify(res.data[0]))
+          history.push('/home')
+        }
+      }
+    )
   };
   return (
     <div>

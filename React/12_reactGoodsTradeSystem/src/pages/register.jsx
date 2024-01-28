@@ -6,7 +6,6 @@ import {
   message,
 } from 'antd';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
 import { useHistory } from 'umi';
 
 const formItemLayout = {
@@ -45,13 +44,19 @@ const Register = () => {
   const history = useHistory();
   const onFinish = (values) => { // 提交表单且数据验证成功后回调事件
     // console.log('Received values of form: ', values); // {username: '123', password: '123', confirm: '123', agreement: true}
-    axios.post('http://localhost:5000/users', {
-      "username": values.username,
-      "state": 0, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
-      "password": values.password,
-    }).then(res => {
-      history.push('/login') // / // , { isRegisterValue: true }
-      message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
+    axios.get(`http://localhost:5000/users?username=${values.username}`).then(res => {
+      if (res.data.length !== 0) {
+        message.info('用户名重复！')
+      } else {
+        axios.post('http://localhost:5000/users', {
+          "username": values.username,
+          "state": 0, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
+          "password": values.password,
+        }).then(res => {
+          history.push('/login') // / // , { isRegisterValue: true }
+          message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
+        })
+      }
     })
   };
 

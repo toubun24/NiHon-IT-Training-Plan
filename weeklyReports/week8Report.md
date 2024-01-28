@@ -21,13 +21,13 @@
 
 * **2023.01.26 金曜日:** 
   * 漫展orz
-  * reactGTS-注册登录页面 
 
 * **2023.01.27 土曜日:** 
-
+  * 参加婚礼
 
 * **2023.01.28 日曜日:** 
-
+  * 参加婚礼
+  * reactGTS-注册登录页面 20:35-20:50 21:25-22:20 22:30-23:40 23:45-00:35
 
 ## 学习笔记
 ### MySQL介绍
@@ -153,3 +153,49 @@ const [isRegister, setIsRegister] = useState(false)
 setIsRegister(isRegisterValue)
 ```
 * 解决：不能把`setIsRegister()`直接写在组件体内，写进`useEffect()`或其他函数中即可
+
+### AntD <Form.Item> validator无法实现重名校验且警告"Warning: `callback` is deprecated. Please return a promise instead."和"Uncaught (in promise) Error: Username already exist"
+* 源码部分
+```JavaScript
+<Form.Item
+  name="username"
+  label="Username"
+  tooltip="What do you want others to call you?"
+  rules={[
+    {
+      required: true,
+      message: 'Please input your nickname!',
+      whitespace: true,
+      validateTrigger: 'onBlur', // onSubmit
+      validator:
+        (value) => {
+          axios.get(`http://localhost:5000/users?username=${value}`).then(res => {
+            if (res.data.length !== 0) { 
+              return Promise.resolve()
+            }
+            return Promise.reject(new Error('Username already exist'))
+          })
+        }
+    }
+  ]}
+>
+  <Input />
+</Form.Item>
+```
+* 报错信息为
+```
+Warning: `callback` is deprecated. Please return a promise instead.
+```
+```
+Unhandled Rejection (Error): Username already exist
+(anonymous function)
+./src/pages/register.jsx:106
+  103 |         if (res.data.length !== 0) {
+  104 |           return Promise.resolve()
+  105 |         }
+> 106 |         return Promise.reject(new Error('Username already exist'))
+      | ^  107 |       })
+  108 |     }
+  109 | }
+```
+* 参考链接：[antd-rule](https://ant-design.antgroup.com/components/form-cn#rule)

@@ -54,10 +54,7 @@ const Register = () => {
       message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
     })
   };
-  const sameNameCheck=(value)=>{ // https://ant-design.antgroup.com/components/form-cn#formitem
-    console.log(value)
-    // axios.get(`http://localhost:5000/users?username=${}`)
-  }
+
   return (
     <div>
       <Form
@@ -79,10 +76,23 @@ const Register = () => {
               required: true,
               message: 'Please input your nickname!',
               whitespace: true,
-            },
+              /*
+              validateTrigger: 'onBlur', // onSubmit
+              validator:
+                (value) => {
+                  axios.get(`http://localhost:5000/users?username=${value}`).then(res => {
+                    if (res.data.length !== 0) {
+                      return Promise.resolve()
+                    }
+                    return Promise.reject(new Error('Username already exist'))
+                  })
+                }
+                */
+            }
           ]}
         >
-          <Input onBlur={sameNameCheck({getFieldValue})}/>
+          <Input // form.getFieldValue(): 从form.item取值
+          />
         </Form.Item>
 
         <Form.Item
@@ -144,7 +154,7 @@ const Register = () => {
           <Button type="primary" htmlType="submit">
             Register
           </Button>
-          <Button style={{marginLeft:"3vh"}} onClick={()=>history.push('/login')}>
+          <Button style={{ marginLeft: "3vh" }} onClick={() => history.push('/login')}>
             Back
           </Button>
         </Form.Item>

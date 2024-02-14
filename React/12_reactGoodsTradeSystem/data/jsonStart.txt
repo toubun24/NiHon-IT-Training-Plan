@@ -1,7 +1,0 @@
-G:
-cd G:\NiHon-IT-Training-Plan\React\12_reactGoodsTradeSystem
-json-server db.json --port 5000
-
-{
-  "users": []
-}

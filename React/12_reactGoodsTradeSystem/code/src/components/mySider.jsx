@@ -1,39 +1,37 @@
-import React, { useState } from 'react';
-import { AppstoreOutlined, MailOutlined, SettingOutlined } from '@ant-design/icons';
+import React, { useState, useEffect } from 'react';
+import { CloudUploadOutlined, AuditOutlined, FormOutlined, DeleteOutlined, MoneyCollectOutlined, CarryOutOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
-function getItem(label, key, icon, children, type) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-    type,
-  };
-}
-const items = [
-  getItem('Navigation One', 'sub1', <MailOutlined />, [
-    getItem('Option 1', '1'),
-    getItem('Option 2', '2'),
-    getItem('Option 3', '3'),
-    getItem('Option 4', '4'),
-  ]),
-  getItem('Navigation Two', 'sub2', <AppstoreOutlined />, [
-    getItem('Option 5', '5'),
-    getItem('Option 6', '6'),
-    getItem('Submenu', 'sub3', null, [getItem('Option 7', '7'), getItem('Option 8', '8')]),
-  ]),
-  getItem('Navigation Three', 'sub4', <SettingOutlined />, [
-    getItem('Option 9', '9'),
-    getItem('Option 10', '10'),
-    getItem('Option 11', '11'),
-    getItem('Option 12', '12'),
-  ]),
-];
+import axios from 'axios';
+import { useHistory, useLocation } from 'umi';
 
 // submenu keys of first level
 const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
-const App = () => {
-  const [openKeys, setOpenKeys] = useState(['sub1']);
+const iconList = {
+  '/published': <CloudUploadOutlined />,
+  '/published/publishing': <AuditOutlined />,
+  '/published/draft': <FormOutlined />,
+  '/published/removed': <DeleteOutlined />,
+  '/sold': <MoneyCollectOutlined />,
+  '/bought': <CarryOutOutlined />,
+}
+
+const MySider = () => {
+  const [openKeys, setOpenKeys] = useState(['sub1'])
+  const [menuList, setMenuList] = useState([])
+  const [userState, setUserState] = useState()
+  const history = useHistory()
+  const location = useLocation()
+  useEffect(
+    () => {
+      axios.get('http://localhost:5000/rights?_embed=children').then(
+        response => {
+          setMenuList(response.data)
+        }
+      )
+      setUserState(JSON.parse(localStorage.getItem('token')).state)
+    }, []
+  )
+  // const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);
     if (latestOpenKey && rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
@@ -41,17 +39,39 @@ const App = () => {
     } else {
       setOpenKeys(latestOpenKey ? [latestOpenKey] : []);
     }
-  };
+  }
+  const getItem = (menuList) => {
+    return menuList.map(item => {
+      // console.log(userState, item.visible, item.visible.includes(userState))
+      // if (item.children && item.children.length > 0) {
+      if (item.children && item.children.length > 0 && item.visible.includes(userState)) {
+        return {
+          key: item.key,
+          label: item.title, // label => title
+          children: getItem(item.children), // .map is not a function => .children
+          icon: iconList[item.key], // icon // []
+        }
+      }
+      // return {
+      return item.visible.includes(userState) && {
+        key: item.key,
+        label: item.title, // label => title
+        icon: iconList[item.key], // icon // []
+      }
+    })
+  }
   return (
     <Menu
       mode="inline"
-      openKeys={openKeys}
+      // openKeys={openKeys}
       onOpenChange={onOpenChange}
-      style={{
-        width: 256,
-      }}
-      items={items}
+      // style={{ width: 256, }}
+      // items={items}
+      items={getItem(menuList)}
+      selectedKeys={[location.pathname]}
+      defaultOpenKeys={['/' + location.pathname.split('/')[1]]}
+      onClick={({ key }) => { history.push(key) }}
     />
   );
 };
-export default App;
+export default MySider;

@@ -33,47 +33,45 @@ const Login = () => {
         }}
         onFinish={onFinish}
       >
+        <div className="logi-title">用户登录</div>
         <Form.Item
           name="username"
           rules={[
             {
               required: true,
-              message: 'Please input your Username!',
+              message: '请输入用户名!',
             },
           ]}
         >
-          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+          <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="用户名" />
         </Form.Item>
         <Form.Item
           name="password"
           rules={[
             {
               required: true,
-              message: 'Please input your Password!',
+              message: '请输入密码!',
             },
           ]}
         >
           <Input
             prefix={<LockOutlined className="site-form-item-icon" />}
             type="password"
-            placeholder="Password"
+            placeholder="密码"
           />
         </Form.Item>
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
-            <Checkbox>Remember me</Checkbox>
+            <Checkbox>记住账号</Checkbox>
           </Form.Item>
-
-          <a className="login-form-forgot" href="">
-            Forgot password
-          </a>
+          {/* <a className="login-form-forgot" href="">忘记密码</a> */}
         </Form.Item>
 
         <Form.Item>
           <Button type="primary" htmlType="submit" className="login-form-button">
-            Log in
+            登录
           </Button>
-          Or <a href={'/register'}>register now!</a>
+          或 <a href={'/register'}>现在注册</a>
         </Form.Item>
       </Form>
     </div>

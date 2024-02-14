@@ -15,7 +15,7 @@ const Auth = (props) => { // props: any in TS
         // if(rights.checked.includes(location.pathname)) { // checked.includes: 确保目标地址被包含在权限列表中
             return <div>{props.children}</div>;
         // }
-        return <Redirect to="/404" />;
+        // return <Redirect to="/404" />;
     }
     return <Redirect to="/login" />;
 };

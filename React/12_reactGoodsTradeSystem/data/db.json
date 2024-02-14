@@ -1,10 +1,239 @@
 {
   "users": [
     {
+      "username": "admin",
+      "state": 6,
+      "password": "123",
+      "id": 1
+    },
+    {
+      "username": "manager",
+      "state": 5,
+      "password": "123",
+      "id": 2
+    },
+    {
       "username": "toubun",
       "state": 0,
       "password": "123",
+      "id": 3
+    }
+  ],
+  "rights": [
+    {
+      "title": "已发布",
+      "key": "/published",
+      "visible": [0,1,2,3],
       "id": 1
+    },
+    {
+      "title": "已卖出",
+      "key": "/sold",
+      "visible": [0,1,2,3],
+      "id": 2
+    },
+    {
+      "title": "已买到",
+      "key": "/bought",
+      "visible": [0,1,2,3],
+      "id": 3
+    },
+    {
+      "title": "用户管理",
+      "key": "/user-manage",
+      "visible": [5,6],
+      "id": 4
+    },
+    {
+      "title": "申诉管理",
+      "key": "/argue-manage",
+      "visible": [5,6],
+      "id": 5
+    },
+    {
+      "title": "超级管理",
+      "key": "/admin-manage",
+      "visible": [6],
+      "id": 6
+    }
+  ],
+  "children": [
+    {
+      "title": "发布中",
+      "key": "/published/publishing",
+      "id": 1,
+      "rightId": 1,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "title": "草稿箱",
+      "key": "/published/draft",
+      "id": 2,
+      "rightId": 1,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "title": "已下架",
+      "key": "/published/removed",
+      "id": 3,
+      "rightId": 1,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 4,
+      "title": "全部",
+      "key": "/sold/all",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 5,
+      "title": "待付款",
+      "key": "/sold/unpay",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 6,
+      "title": "待发货",
+      "key": "/sold/undelivery",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 7,
+      "title": "待收货",
+      "key": "/sold/unsign",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 8,
+      "title": "待评价",
+      "key": "/sold/uncomment",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 9,
+      "title": "退款中",
+      "key": "/sold/refunding",
+      "rightId": 2,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 10,
+      "title": "全部",
+      "key": "/bought/all",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 11,
+      "title": "待付款",
+      "key": "/bought/unpay",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 12,
+      "title": "待发货",
+      "key": "/bought/undelivery",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 13,
+      "title": "待收货",
+      "key": "/bought/unsign",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 14,
+      "title": "待评价",
+      "key": "/bought/uncomment",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 15,
+      "title": "退款中",
+      "key": "/bought/refunding",
+      "rightId": 3,
+      "grade": 2,
+      "visible": [0,1,2,3]
+    },
+    {
+      "id": 16,
+      "title": "用户权限",
+      "key": "/bought/uncomment",
+      "rightId": 4,
+      "grade": 2,
+      "visible": [5,6]
+    },
+    {
+      "id": 17,
+      "title": "发布审核",
+      "key": "/bought/refunding",
+      "rightId": 4,
+      "grade": 2,
+      "visible": [5,6]
+    },
+    {
+      "id": 18,
+      "title": "待处理",
+      "key": "/bought/uncomment",
+      "rightId": 5,
+      "grade": 2,
+      "visible": [5,6]
+    },
+    {
+      "id": 19,
+      "title": "已完成",
+      "key": "/bought/refunding",
+      "rightId": 5,
+      "grade": 2,
+      "visible": [5,6]
+    },
+    {
+      "id": 20,
+      "title": "板块管理",
+      "key": "/bought/uncomment",
+      "rightId": 6,
+      "grade": 2,
+      "visible": [6]
+    }
+  ],
+  "headers": [
+    {
+      "title": "推荐搜索",
+      "key": "/search",
+      "id": 1
+    },
+    {
+      "title": "发布商品",
+      "key": "/publish",
+      "id": 2
+    },
+    {
+      "title": "个人主页",
+      "key": "/homepage",
+      "id": 3
     }
   ]
 }

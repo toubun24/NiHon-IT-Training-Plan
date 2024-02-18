@@ -28,7 +28,8 @@ const MySider = () => {
           setMenuList(response.data)
         }
       )
-      setUserState(JSON.parse(localStorage.getItem('token')).state)
+      const tokenContent = localStorage.getItem('token')
+      tokenContent == '' ? setUserState(''):setUserState(JSON.parse(tokenContent).state)
     }, []
   )
   // const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse

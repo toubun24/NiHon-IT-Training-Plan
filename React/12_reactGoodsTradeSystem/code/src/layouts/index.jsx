@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Button, theme, Menu } from 'antd';
+import { Layout, Button, theme, Avatar, Dropdown } from 'antd';
 import MySider from '../components/mySider';
 import './index.less';
 import MyHeader from '../components/myHeader';
+import MyAvatar from './../components/myAvatar';
 
 const { Header, Sider, Content } = Layout;
 
@@ -15,6 +16,12 @@ const App = (props) => { // 插槽props
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
+  if (
+    props.location.pathname === '/login' || // 登录界面不出现该layout
+    props.location.pathname === '/login/'
+    ) {
+    return <div>{props.children}</div> // 离开后台界面回到登录页面
+  }
   return (
     <Layout>
       <Sider
@@ -45,7 +52,8 @@ const App = (props) => { // 插槽props
               height: 64,
             }}
           />
-         <MyHeader/>
+          <MyHeader />
+          <MyAvatar />
         </Header>
         <Content
           style={{

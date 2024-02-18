@@ -18,7 +18,7 @@ const Login = () => {
           message.error('账号已封禁')
         } else {
           localStorage.setItem('token', JSON.stringify(res.data[0]))
-          history.push('/home')
+          history.push('/search')
         }
       }
     )

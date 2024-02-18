@@ -4,19 +4,22 @@
       "username": "admin",
       "state": 6,
       "password": "123",
-      "id": 1
+      "id": 1,
+      "balance": 100
     },
     {
       "username": "manager",
       "state": 5,
       "password": "123",
-      "id": 2
+      "id": 2,
+      "balance": 100
     },
     {
       "username": "toubun",
       "state": 0,
       "password": "123",
-      "id": 3
+      "id": 3,
+      "balance": 100
     }
   ],
   "rights": [

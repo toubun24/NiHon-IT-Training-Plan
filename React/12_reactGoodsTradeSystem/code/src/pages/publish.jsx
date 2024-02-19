@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Input, Space, Select, Cascader, Button, Form, notification, message } from 'antd';
+import { Input, Space, Select, Cascader, Button, Form, notification, message, Upload } from 'antd';
 const { TextArea } = Input;
 import { cityArray } from '../components/cityData';
 import axios from 'axios';
 import { useHistory } from 'umi';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const Publish = () => {
   const [selectedValue, setSelectedValue] = useState(true) // 是否允许修改邮费部分
@@ -12,6 +13,8 @@ const Publish = () => {
   const history = useHistory()
   const [api] = notification.useNotification() // antd notification
   const [finishState, setFinishState] = useState()
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
 
   const selected = (value) => { // value = zishe / baoyou / ziti
     if (value === "zishe") {
@@ -21,8 +24,10 @@ const Publish = () => {
     }
   };
   const onFinish = (values) => {
-    console.log(myContent)
-    console.log('Success:', values)
+    // console.log(myContent)
+    // console.log('Success:', values)
+    // console.log(values.tupian.file.name)
+    // console.log(values.tupian[0].name)
     if (values.yuanjia < 0 || values.shoujia <= 0 || values.fahuo.fangshi === "zishe" && values.fahuo.youfei <= 0) {
       message.error('请输入正确的价格')
       return
@@ -36,7 +41,8 @@ const Publish = () => {
         "shoujia": values.shoujia,
         "dizhi": values.dizhi,
         "fahuofangshi": values.fahuo.fangshi,
-        "youfei": values.fahuo.youfei
+        "youfei": values.fahuo.youfei,
+        "tupian": values.tupian[0].name // values.tupian.file.name
       }).then(res => {
         history.push(finishState === 0 ? '/published/draft' : '/published/publishing') // /
         api.info({ // antd notification
@@ -51,6 +57,61 @@ const Publish = () => {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
+  const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
+  const handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: 'none',
+      }}
+      type="button"
+    >
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+  const normFile = (e) => {  //如果是typescript, 那么参数写成 e: any
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   return (
     <Form
       name="basic"
@@ -164,6 +225,41 @@ const Publish = () => {
         ]}
       >
         <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
+      </Form.Item>
+
+      <Form.Item
+        label="商品图片"
+        name="tupian"
+        rules={[
+          {
+            required: true,
+            message: '请上传商品图片',
+          },
+        ]}
+        valuePropName="fileList"
+        getValueFromEvent={normFile}
+      >
+        <Upload
+        name="avatar"
+        listType="picture-card"
+        className="avatar-uploader"
+        showUploadList={false}
+        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        beforeUpload={beforeUpload}
+        onChange={handleChange}
+      >
+        {imageUrl ? (
+          <img
+            src={imageUrl}
+            alt="avatar"
+            style={{
+              width: '100%',
+            }}
+          />
+        ) : (
+          uploadButton
+        )}
+      </Upload>
       </Form.Item>
 
       <Form.Item

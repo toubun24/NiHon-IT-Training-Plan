@@ -467,6 +467,63 @@
         "和平区"
       ],
       "id": 8
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708363157730,
+      "introduction": "123",
+      "yuanjia": 0,
+      "shoujia": "123",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "id": 9
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708363584645,
+      "introduction": "123",
+      "yuanjia": 0,
+      "shoujia": "123",
+      "dizhi": [
+        "天津市",
+        "市辖区",
+        "和平区"
+      ],
+      "id": 10
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708363657850,
+      "introduction": "123",
+      "yuanjia": 0,
+      "shoujia": "123",
+      "dizhi": [
+        "山西省",
+        "长治市",
+        "襄垣县"
+      ],
+      "id": 11
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708364635448,
+      "introduction": "123",
+      "yuanjia": 0,
+      "shoujia": "321",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "tupian": "14ecf93b6b41bcda.jpg",
+      "id": 12
     }
   ]
 }

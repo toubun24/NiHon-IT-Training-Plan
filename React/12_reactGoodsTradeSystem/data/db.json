@@ -26,37 +26,60 @@
     {
       "title": "已发布",
       "key": "/published",
-      "visible": [0,1,2,3],
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ],
       "id": 1
     },
     {
       "title": "已卖出",
       "key": "/sold",
-      "visible": [0,1,2,3],
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ],
       "id": 2
     },
     {
       "title": "已买到",
       "key": "/bought",
-      "visible": [0,1,2,3],
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ],
       "id": 3
     },
     {
       "title": "用户管理",
       "key": "/user-manage",
-      "visible": [5,6],
+      "visible": [
+        5,
+        6
+      ],
       "id": 4
     },
     {
       "title": "申诉管理",
       "key": "/argue-manage",
-      "visible": [5,6],
+      "visible": [
+        5,
+        6
+      ],
       "id": 5
     },
     {
       "title": "超级管理",
       "key": "/admin-manage",
-      "visible": [6],
+      "visible": [
+        6
+      ],
       "id": 6
     }
   ],
@@ -67,7 +90,12 @@
       "id": 1,
       "rightId": 1,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "title": "草稿箱",
@@ -75,7 +103,12 @@
       "id": 2,
       "rightId": 1,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "title": "已下架",
@@ -83,7 +116,12 @@
       "id": 3,
       "rightId": 1,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 4,
@@ -91,7 +129,12 @@
       "key": "/sold/all",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 5,
@@ -99,7 +142,12 @@
       "key": "/sold/unpay",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 6,
@@ -107,7 +155,12 @@
       "key": "/sold/undelivery",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 7,
@@ -115,7 +168,12 @@
       "key": "/sold/unsign",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 8,
@@ -123,7 +181,12 @@
       "key": "/sold/uncomment",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 9,
@@ -131,7 +194,12 @@
       "key": "/sold/refunding",
       "rightId": 2,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 10,
@@ -139,7 +207,12 @@
       "key": "/bought/all",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 11,
@@ -147,7 +220,12 @@
       "key": "/bought/unpay",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 12,
@@ -155,7 +233,12 @@
       "key": "/bought/undelivery",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 13,
@@ -163,7 +246,12 @@
       "key": "/bought/unsign",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 14,
@@ -171,7 +259,12 @@
       "key": "/bought/uncomment",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 15,
@@ -179,7 +272,12 @@
       "key": "/bought/refunding",
       "rightId": 3,
       "grade": 2,
-      "visible": [0,1,2,3]
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     },
     {
       "id": 16,
@@ -187,7 +285,10 @@
       "key": "/bought/uncomment",
       "rightId": 4,
       "grade": 2,
-      "visible": [5,6]
+      "visible": [
+        5,
+        6
+      ]
     },
     {
       "id": 17,
@@ -195,7 +296,10 @@
       "key": "/bought/refunding",
       "rightId": 4,
       "grade": 2,
-      "visible": [5,6]
+      "visible": [
+        5,
+        6
+      ]
     },
     {
       "id": 18,
@@ -203,7 +307,10 @@
       "key": "/bought/uncomment",
       "rightId": 5,
       "grade": 2,
-      "visible": [5,6]
+      "visible": [
+        5,
+        6
+      ]
     },
     {
       "id": 19,
@@ -211,7 +318,10 @@
       "key": "/bought/refunding",
       "rightId": 5,
       "grade": 2,
-      "visible": [5,6]
+      "visible": [
+        5,
+        6
+      ]
     },
     {
       "id": 20,
@@ -219,7 +329,9 @@
       "key": "/bought/uncomment",
       "rightId": 6,
       "grade": 2,
-      "visible": [6]
+      "visible": [
+        6
+      ]
     }
   ],
   "headers": [
@@ -237,6 +349,124 @@
       "title": "个人主页",
       "key": "/homepage",
       "id": 3
+    }
+  ],
+  "goods": [
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708360925303,
+      "introduction": "123dsd",
+      "yuanjia": "321",
+      "shoujia": "123",
+      "dizhi": [
+        "天津市",
+        "市辖区",
+        "河西区"
+      ],
+      "id": 1
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708361111006,
+      "introduction": "213dqw",
+      "yuanjia": "-1",
+      "shoujia": "-01.2",
+      "dizhi": [
+        "河北省",
+        "秦皇岛市",
+        "北戴河区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "-0432",
+      "id": 2
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708361367140,
+      "introduction": "123",
+      "yuanjia": "-1",
+      "shoujia": "123",
+      "dizhi": [
+        "天津市",
+        "市辖区",
+        "和平区"
+      ],
+      "id": 3
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708361391220,
+      "introduction": "123",
+      "yuanjia": "-0",
+      "shoujia": 0,
+      "dizhi": [
+        "天津市",
+        "市辖区",
+        "和平区"
+      ],
+      "id": 4
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708361408428,
+      "introduction": "123",
+      "yuanjia": 0,
+      "shoujia": 0,
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "id": 5
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708361495608,
+      "introduction": "123",
+      "yuanjia": "123",
+      "shoujia": "123",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "012",
+      "id": 6
+    },
+    {
+      "sellerId": 3,
+      "state": 1,
+      "publishTime": 1708362071299,
+      "introduction": "123",
+      "yuanjia": "-0",
+      "shoujia": "1",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "id": 7
+    },
+    {
+      "sellerId": 3,
+      "state": 0,
+      "publishTime": 1708362175276,
+      "introduction": "123",
+      "yuanjia": "123",
+      "shoujia": "123",
+      "dizhi": [
+        "天津市",
+        "市辖区",
+        "和平区"
+      ],
+      "id": 8
     }
   ]
 }

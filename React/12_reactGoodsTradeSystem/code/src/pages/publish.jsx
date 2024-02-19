@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { Input, Space, Select, Cascader, Button, Form } from 'antd';
+import { Input, Space, Select, Cascader, Button, Form, notification, message } from 'antd';
 const { TextArea } = Input;
 import { cityArray } from '../components/cityData';
+import axios from 'axios';
+import { useHistory } from 'umi';
 
 const Publish = () => {
   const [selectedValue, setSelectedValue] = useState(true) // 是否允许修改邮费部分
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
+  const history = useHistory()
+  const [api] = notification.useNotification() // antd notification
+  const [finishState, setFinishState] = useState()
+
   const selected = (value) => { // value = zishe / baoyou / ziti
     if (value === "zishe") {
       setSelectedValue(false)
@@ -14,14 +20,33 @@ const Publish = () => {
       setSelectedValue(true)
     }
   };
-  const publishGoods = () => {
-    console.log(myContent)
-  }
-  const saveDraft = () => {
-
-  }
   const onFinish = (values) => {
-    console.log('Success:', values);
+    console.log(myContent)
+    console.log('Success:', values)
+    if (values.yuanjia < 0 || values.shoujia <= 0 || values.fahuo.fangshi === "zishe" && values.fahuo.youfei <= 0) {
+      message.error('请输入正确的价格')
+      return
+    } else {
+      axios.post('http://localhost:5000/goods', {
+        "sellerId": myContent.id,
+        "state": finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4修改待审核，5卖家已下架
+        "publishTime": Date.now(),
+        "introduction": values.jianjie,
+        "yuanjia": values.yuanjia,
+        "shoujia": values.shoujia,
+        "dizhi": values.dizhi,
+        "fahuofangshi": values.fahuo.fangshi,
+        "youfei": values.fahuo.youfei
+      }).then(res => {
+        history.push(finishState === 0 ? '/published/draft' : '/published/publishing') // /
+        api.info({ // antd notification
+          message: `通知`,
+          description:
+            `请到${finishState === 0 ? '草稿箱' : '发布页'}查看`,
+          placement: 'buttomRight',
+        });
+      })
+    }
   };
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -39,7 +64,7 @@ const Publish = () => {
         maxWidth: 600,
       }}
       initialValues={{
-        fahuo: "baoyou",
+        fangshi: "baoyou",
         youfei: 0,
         yuanjia: 0,
         shoujia: 0
@@ -55,14 +80,14 @@ const Publish = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: '请输入商品描述',
           },
         ]}
       >
         <TextArea
           placeholder="请输入商品描述"
           showCount
-          required
+          // required
           maxLength={500}
           autoSize={{
             minRows: 4,
@@ -77,50 +102,44 @@ const Publish = () => {
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: '请选择地址',
           },
         ]}
       >
-        <Cascader style={{ width: 200, }} options={cityArray} placeholder="Please select" />
+        <Cascader style={{ width: 200, }} options={cityArray} />
       </Form.Item>
 
       <Form.Item label="发货方式">
         <Space.Compact>
           <Form.Item
-            name={['fahuo', 'youfei']}
+            name={['fahuo', 'fangshi']} // fahuo
             noStyle
           >
             <Select
-          style={{
-            width: 80,
-          }}
-          onChange={selected}
-          defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
-          options={[
-            {
-              value: 'zishe',
-              label: '自设',
-            },
-            {
-              value: 'baoyou',
-              label: '包邮',
-            },
-            {
-              value: 'ziti',
-              label: '自提',
-            },
-          ]}
-        />
+              style={{
+                width: 80,
+              }}
+              onChange={selected}
+              defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
+              options={[
+                {
+                  value: 'zishe',
+                  label: '自设',
+                },
+                {
+                  value: 'baoyou',
+                  label: '包邮',
+                },
+                {
+                  value: 'ziti',
+                  label: '自提',
+                },
+              ]}
+            />
           </Form.Item>
           <Form.Item
-            name={['address', 'street']}
+            name={['fahuo', 'youfei']} // fahuo
             noStyle
-            rules={[
-              {
-                required: true,
-                message: 'Street is required',
-              },
-            ]}
           >
             <Input style={{ width: '50%' }} prefix="¥" suffix="RMB" type="number" disabled={selectedValue} />
           </Form.Item>
@@ -154,8 +173,8 @@ const Publish = () => {
         }}
       >
         <Space>
-          <Button type="primary" htmlType="submit">发布</Button>
-          <Button onClick={saveDraft}>存草稿</Button>
+          <Button type="primary" htmlType="submit" onClick={() => setFinishState(1)}>发布</Button>
+          <Button htmlType="submit" onClick={() => setFinishState(0)}>存草稿</Button>
         </Space>
       </Form.Item>
 

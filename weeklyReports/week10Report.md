@@ -2,17 +2,16 @@
 
 ## 学习内容及时长
 
-* **2024.02.12 月曜日:** 1h55min
+* **2024.02.19 月曜日:** 1h55min
   * reactGTS-发布页 23:55-01:50
 
-* **2023.02.13 火曜日:** 
-  * reactGTS-发布中 
+* **2023.02.21 水曜日:** 4h10min
+  * reactGTS-发布中 19:45-20:40 21:25-22:40 23:20-01:20
 
-* **2023.02.14 水曜日:** 
-
-* **2023.02.15 木曜日:** 
-
-* **2023.02.18 日曜日:** 
+* **2023.02.22 木曜日:** 
+* **2023.02.23 金曜日:** 
+* **2023.02.24 土曜日:** 
+* **2023.02.25 日曜日:** 
 
 ## 遇见问题
 ### reactGTS-publish页面 Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
@@ -54,7 +53,7 @@
   </Upload>
 </Form.Item>
 ```
-* 尝试了https://www.cnblogs.com/Carmena/p/14648112.html提供的方法
+* 尝试了[https://www.cnblogs.com/Carmena/p/14648112.html]提供的方法
 ```JavaScript
 const normFile = (e) => {  //如果是typescript, 那么参数写成 e: any
   console.log('Upload event:', e);
@@ -70,7 +69,7 @@ const normFile = (e) => {  //如果是typescript, 那么参数写成 e: any
 >
 ```
 但报错依然存在
-* 参考https://cloud.tencent.com/developer/article/2041899，在前面的基础上还需要做补充
+* 参考[https://cloud.tencent.com/developer/article/2041899]，在前面的基础上还需要做补充
 ```JavaScript
 <Form.Item
   // ...

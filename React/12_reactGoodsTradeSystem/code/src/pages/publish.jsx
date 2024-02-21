@@ -11,7 +11,7 @@ const Publish = () => {
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
   const history = useHistory()
-  const [api] = notification.useNotification() // antd notification
+  // const [api] = notification.useNotification() // antd notification
   const [finishState, setFinishState] = useState()
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
@@ -42,14 +42,25 @@ const Publish = () => {
         "dizhi": values.dizhi,
         "fahuofangshi": values.fahuo.fangshi,
         "youfei": values.fahuo.youfei,
-        "tupian": values.tupian[0].name // values.tupian.file.name
+        "tupian": values.tupian[0].name, // values.tupian.file.name
+        "editTime": Date.now(),
       }).then(res => {
         history.push(finishState === 0 ? '/published/draft' : '/published/publishing') // /
+        /* // Warning: [antd: Notification] You are calling notice in render which will break in React 18 concurrent mode. Please trigger in effect instead.
         api.info({ // antd notification
           message: `通知`,
           description:
             `请到${finishState === 0 ? '草稿箱' : '发布页'}查看`,
           placement: 'buttomRight',
+        });
+        */
+        notification.open({
+          message: '通知',
+          description:
+            `请到${finishState === 0 ? '草稿箱' : '发布页'}查看`,
+          // onClick: () => { console.log('Notification Clicked!'); },
+          duration: 2,
+          placement: "bottomRight"
         });
       })
     }
@@ -240,26 +251,26 @@ const Publish = () => {
         getValueFromEvent={normFile}
       >
         <Upload
-        name="avatar"
-        listType="picture-card"
-        className="avatar-uploader"
-        showUploadList={false}
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-        beforeUpload={beforeUpload}
-        onChange={handleChange}
-      >
-        {imageUrl ? (
-          <img
-            src={imageUrl}
-            alt="avatar"
-            style={{
-              width: '100%',
-            }}
-          />
-        ) : (
-          uploadButton
-        )}
-      </Upload>
+          name="avatar"
+          listType="picture-card"
+          className="avatar-uploader"
+          showUploadList={false}
+          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+          beforeUpload={beforeUpload}
+          onChange={handleChange}
+        >
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt="avatar"
+              style={{
+                width: '100%',
+              }}
+            />
+          ) : (
+            uploadButton
+          )}
+        </Upload>
       </Form.Item>
 
       <Form.Item

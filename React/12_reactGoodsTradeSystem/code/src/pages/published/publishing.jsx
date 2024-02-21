@@ -1,63 +1,119 @@
-import { LikeOutlined, MessageOutlined, StarOutlined } from '@ant-design/icons';
-import React from 'react';
-import { Avatar, List, Space } from 'antd';
-const data = Array.from({
-  length: 23,
-}).map((_, i) => ({
-  href: 'https://ant.design',
-  title: `ant design part ${i}`,
-  avatar: `https://api.dicebear.com/7.x/miniavs/svg?seed=${i}`,
-  description:
-    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-  content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}));
-const IconText = ({ icon, text }) => (
-  <Space>
-    {React.createElement(icon)}
-    {text}
-  </Space>
-);
-const Publishing = () => (
-  <List
-    itemLayout="vertical"
-    size="large"
-    pagination={{
-      onChange: (page) => {
-        console.log(page);
-      },
-      pageSize: 3,
-    }}
-    dataSource={data}
-    footer={
-      <div>
-        <b>ant design</b> footer part
-      </div>
-    }
-    renderItem={(item) => (
-      <List.Item
-        key={item.title}
-        actions={[
-          <IconText icon={StarOutlined} text="156" key="list-vertical-star-o" />,
-          <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o" />,
-          <IconText icon={MessageOutlined} text="2" key="list-vertical-message" />,
-        ]}
-        extra={
-          <img
-            width={272}
-            alt="logo"
-            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-          />
-        }
-      >
-        <List.Item.Meta
-          avatar={<Avatar src={item.avatar} />}
-          title={<a href={item.href}>{item.title}</a>}
-          description={item.description}
-        />
-        {item.content}
-      </List.Item>
-    )}
-  />
-);
+import React, { useEffect, useState } from 'react';
+import { Avatar, Space, List, Skeleton, Tag, Modal,notification } from 'antd';
+import axios from 'axios';
+import { EyeOutlined } from '@ant-design/icons';
+import moment from 'moment'; // 时间戳格式化
+import { useHistory } from 'umi';
+
+const colorList = [
+  "-", // 0 for nothing
+  "volcano", // 1 for 待审核
+  "green", // 2 for 发布中
+  "red", // 3 for 审核未通过
+  "-", // 4 for 已下架
+]
+const stateList = [
+  "-", // 0 for nothing
+  "待审核", // 1 for 待审核
+  "发布中", // 2 for 发布中
+  "审核未通过", // 3 for 审核未通过
+  "-", // 4 for 已下架
+]
+
+const Publishing = () => {
+  const [listData, setListData] = useState([]);
+  const tokenContent = localStorage.getItem('token')
+  const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent).id // JSON.parse
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const history = useHistory()
+  const [clickId, setClickId] = useState();
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/goods?sellerId=3&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
+      res => {
+        // const tmpData = res.data
+        // const tmpData2 = [...tmpData].sort((a, b) => b.id - a.id); // 倒序
+        // setListData(tmpData2)
+        setListData(res.data)
+      }
+    )
+  }, []);
+  const showModal = (itemId) => {
+    setClickId(itemId)
+    setIsModalOpen(true);
+  };
+  const handleOk = () => {
+    setListData(listData.filter(data => data.id !== clickId)) // 页面不再显示
+    axios.patch(`http://localhost:5000/goods/${clickId}`, {
+      "state": 4
+    }).then(res => {
+      notification.open({
+        message: '通知',
+        description:
+          `请到【已下架】查看下架商品`,
+        // onClick: () => { console.log('Notification Clicked!'); },
+        duration: 2,
+        placement: "bottomRight"
+      });
+    })
+    setIsModalOpen(false);
+  };
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  const goodsModify=(itemId)=>{
+
+    history.push(`/goods/modify/${itemId}`)
+  }
+  const goodsDetail=(itemId)=>{
+
+    history.push(`/goods/detail/${itemId}`)
+  }
+
+  return (
+    <List
+      className="demo-loadmore-list"
+      itemLayout="horizontal"
+      dataSource={listData}
+      pagination={{ // 分页
+        // onChange: (page) => { console.log(page); },
+        pageSize: 6,
+      }}
+      // loading
+      renderItem={(item) => (
+        <List.Item
+          actions={[<a onClick={()=>{goodsModify(item.id)}}>修改</a>, <a style={{ color: "red" }} onClick={()=>{showModal(item.id)}}>删除</a>]}
+        >
+          <Modal title="是否删除商品？" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+            <p>商品下架后，进行中和已完成的订单不受影响；下架的商品将在【已下架】中继续保留7天</p>
+          </Modal>
+          <Skeleton avatar title={false} loading={item.loading} active>
+            <List.Item.Meta
+              avatar={<Avatar shape="square" size={96} src={require(`@/images/${item.tupian}`)} />}
+              title={<a onClick={()=>goodsDetail(item.id)}>{item.introduction}</a>}
+              description={
+                <>
+                  <div style={{ color: "red" }}>¥ {item.shoujia}</div>
+                  <br />
+                  <Space style={{ fontSize: 12 }}>
+                    <div>
+                      <EyeOutlined /> 123
+                    </div>
+                    <div>
+                      发布时间:{item.publishTime ? moment(item.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}
+                    </div>
+                    <div>
+                      最近修改:{item.editTime ? moment(item.editTime).format('YY/MM/DD HH:mm:ss') : "-"}
+                    </div>
+                  </Space>
+                </>
+              }
+            />
+            <div><Tag color={colorList[item.state]}>{stateList[item.state]}</Tag></div>
+          </Skeleton>
+        </List.Item>
+      )}
+    />
+  );
+};
 export default Publishing;

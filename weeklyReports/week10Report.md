@@ -1,4 +1,4 @@
-# Week 9 Report
+# Week 10 Report
 
 ## 学习内容及时长
 
@@ -9,9 +9,9 @@
   * reactGTS-发布中 19:45-20:40 21:25-22:40 23:20-01:20
   * 上传备份UoE代码作业与整理合并Github仓库 01:20-03:45
 
-* **2023.02.22 木曜日:** 3h50min
+* **2023.02.22 木曜日:** 4h
   * reactGTS-推荐搜索页 21:10-21:40 21:55-22:30
-  * reactGTS-商品详情页 23:20-02:05
+  * reactGTS-商品详情页 23:20-02:15
 
 * **2023.02.23 金曜日:** 
 * **2023.02.24 土曜日:** 
@@ -138,9 +138,36 @@ const Goods = () => {
 }
 export default Goods
 ```
-其中注释部分就是有问题的地方。我们首先全部注释掉可能出现问题的地方，然后无论怎么刷新网页都能正常显示如下
+还附带链接`http://localhost:5000/goods/18?_expand=user`下的数据格式
+```
+{
+  "userId": 3,
+  "state": 1,
+  "publishTime": 1708524807903,
+  "introduction": "【99新】asdakjdshasdasda",
+  "yuanjia": "555",
+  "shoujia": "222",
+  "dizhi": [
+    "青海省",
+    "海东市",
+    "民和回族土族自治县"
+  ],
+  "fahuofangshi": "zishe",
+  "youfei": "123",
+  "tupian": "ec739b3639b8329c.png",
+  "id": 18,
+  "user": {
+    "username": "toubun",
+    "state": 0,
+    "password": "123",
+    "id": 3,
+    "balance": 100
+  }
+}
+```
+其中代码的注释部分就是有问题的地方。我们首先全部注释掉可能出现问题的地方，然后无论怎么刷新网页都能正常显示如下
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301530282.png)
 然后我们取消掉其中一个涉及问题的调用的注释，保存代码，可以正常运行显示（看左下角的控制台输出，应该是缓存什么的，导致数据还保存在里面着
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301534259.png)
-然后刷新网页，这次重新获取数据还没获取到就渲染然后报错了（但axios应该是有promise的异步呀，应该是获取完数据才做后续渲染的，还是说有什么要点我可能遗漏了或者哪里理解有偏差orz）
+然后刷新网页，这次重新获取数据还没获取到就渲染然后报错了（但axios应该是有promise的异步呀，应该是获取完数据才做后续渲染的，还是说有什么要点我可能遗漏了或者哪里理解有偏差orz）(关于图片显示的代码，我在其他页面是可以正常运行使用过的，所以应该不是代码写法语法什么的问题，而还是跟数据还缺失就开始渲染有关)
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301535512.png)

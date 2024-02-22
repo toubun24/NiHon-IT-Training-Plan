@@ -171,3 +171,7 @@ export default Goods
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301534259.png)
 然后刷新网页，这次重新获取数据还没获取到就渲染然后报错了（但axios应该是有promise的异步呀，应该是获取完数据才做后续渲染的，还是说有什么要点我可能遗漏了或者哪里理解有偏差orz）(关于图片显示的代码，我在其他页面是可以正常运行使用过的，所以应该不是代码写法语法什么的问题，而还是跟数据还缺失就开始渲染有关)
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301535512.png)
+而且下面没截到图的部分还带有黄色警告提示
+```
+WebSocket connection to 'ws://localhost:8000/dev-server/102/jck1yqwf/websocket' failed: WebSocket is closed before the connection is established.
+```

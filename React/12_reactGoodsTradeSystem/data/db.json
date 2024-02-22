@@ -353,7 +353,7 @@
   ],
   "goods": [
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 1,
       "publishTime": 1708364635448,
       "introduction": "123",
@@ -368,7 +368,7 @@
       "id": 12
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 4,
       "publishTime": 1708516196031,
       "introduction": "123",
@@ -383,7 +383,7 @@
       "id": 13
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 4,
       "publishTime": 1708516637811,
       "introduction": "123",
@@ -398,7 +398,7 @@
       "id": 14
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 1,
       "publishTime": 1708516775649,
       "introduction": "123",
@@ -413,7 +413,7 @@
       "id": 15
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 1,
       "publishTime": 1708516893580,
       "introduction": "123",
@@ -428,7 +428,7 @@
       "id": 16
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 4,
       "publishTime": 1708516917203,
       "introduction": "123",
@@ -443,7 +443,7 @@
       "id": 17
     },
     {
-      "sellerId": 3,
+      "userId": 3,
       "state": 1,
       "publishTime": 1708524807903,
       "introduction": "【99新】asdakjdshasdasda",

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Space, List, Skeleton, Tag, Modal,notification } from 'antd';
+import { Avatar, Space, List, Skeleton, Tag, Modal, notification } from 'antd';
 import axios from 'axios';
 import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
@@ -29,7 +29,7 @@ const Publishing = () => {
   const [clickId, setClickId] = useState();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/goods?sellerId=3&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
+    axios.get(`http://localhost:5000/goods?sellerId=${myContent}&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
       res => {
         // const tmpData = res.data
         // const tmpData2 = [...tmpData].sort((a, b) => b.id - a.id); // 倒序
@@ -61,11 +61,11 @@ const Publishing = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
-  const goodsModify=(itemId)=>{
+  const goodsModify = (itemId) => {
 
     history.push(`/goods/modify/${itemId}`)
   }
-  const goodsDetail=(itemId)=>{
+  const goodsDetail = (itemId) => {
 
     history.push(`/goods/detail/${itemId}`)
   }
@@ -82,15 +82,15 @@ const Publishing = () => {
       // loading
       renderItem={(item) => (
         <List.Item
-          actions={[<a onClick={()=>{goodsModify(item.id)}}>修改</a>, <a style={{ color: "red" }} onClick={()=>{showModal(item.id)}}>删除</a>]}
+          actions={[<a onClick={() => { goodsModify(item.id) }}>修改</a>, <a style={{ color: "red" }} onClick={() => { showModal(item.id) }}>删除</a>]}
         >
           <Modal title="是否删除商品？" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <p>商品下架后，进行中和已完成的订单不受影响；下架的商品将在【已下架】中继续保留7天</p>
           </Modal>
           <Skeleton avatar title={false} loading={item.loading} active>
             <List.Item.Meta
-              avatar={<Avatar shape="square" size={96} src={require(`@/images/${item.tupian}`)} />}
-              title={<a onClick={()=>goodsDetail(item.id)}>{item.introduction}</a>}
+              avatar={<Avatar shape="square" size={96} src={require(`@/images/goods/${item.tupian}`)} />} // src require @/
+              title={<a onClick={() => goodsDetail(item.id)}>{item.introduction}</a>}
               description={
                 <>
                   <div style={{ color: "red" }}>¥ {item.shoujia}</div>

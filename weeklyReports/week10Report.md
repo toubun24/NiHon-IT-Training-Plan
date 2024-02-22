@@ -5,10 +5,14 @@
 * **2024.02.19 月曜日:** 1h55min
   * reactGTS-发布页 23:55-01:50
 
-* **2023.02.21 水曜日:** 4h10min
+* **2023.02.21 水曜日:** 6h35min
   * reactGTS-发布中 19:45-20:40 21:25-22:40 23:20-01:20
+  * 上传备份UoE代码作业与整理合并Github仓库 01:20-03:45
 
-* **2023.02.22 木曜日:** 
+* **2023.02.22 木曜日:** 3h50min
+  * reactGTS-推荐搜索页 21:10-21:40 21:55-22:30
+  * reactGTS-商品详情页 23:20-02:05
+
 * **2023.02.23 金曜日:** 
 * **2023.02.24 土曜日:** 
 * **2023.02.25 日曜日:** 
@@ -85,3 +89,58 @@ axios.post('http://localhost:5000/goods', {
 })
 ```
 随后问题解决
+
+### 商品详情页axios.get取不到数据，直接URL打开json显示数据正常 devScripts.js:226 WebSocket connection to 'ws://localhost:8000/dev-server/340/s4cc0pcq/websocket' failed: WebSocket is closed before the connection is established.
+* 而且是突然开始这样的，之前都一切正常，商品详情页未完善时也能显示出单张图片和商品详情之类的，而且回到publishing页中各商品信息也能正常取回并显示，将`http://localhost:5000/goods/18?_expand=user`代入也能正常取回数据
+* 在`[id]`商品详情页，只取数据+输出一行没问题，然后把组件慢慢加回去，结果显示又都是正常的了我晕，然后一刷新又坏了
+* 从无内容到仅保留一条`{detailData.introduction}`文本标签展示，一直刷新都没问题；只要保留了其他的组件标签，刷新就会出事
+* 换名字也没用，不是名称冲突的问题
+* 经过测试，问题根源出在`{detailData.user.username}`和`src={require(``@/images/goods/${detailData.tupian}``)}`两句的调用上
+* 确定要请求外援了，于是做了个最小测试样例
+```JavaScript
+import React, { useState, useEffect } from 'react';
+import { Avatar, Flex, Image, Space } from 'antd';
+import { useParams } from 'umi';
+import axios from 'axios';
+
+const Goods = () => {
+  const params = useParams()
+  const [detailData, setDetailData] = useState([]);
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/goods/${params.id}?_expand=user`).then(
+      res => {
+        setDetailData(res.data)
+      }
+    )
+  }, [])
+  console.log(`http://localhost:5000/goods/${params.id}?_expand=user`, detailData)
+  return (
+    <div>
+      {
+        detailData.user.username // TypeError: Cannot read properties of undefined (reading 'username')
+      }
+      {
+        //detailData.user.id // TypeError: Cannot read properties of undefined (reading 'id')
+      }
+      <Image
+        width={200}
+        // src={require(`@/images/goods/${detailData.tupian}`)} // Error: Cannot find module './undefined'
+      />
+      <br />
+      introduction{detailData.introduction}
+      <br />
+      shoujia{detailData.shoujia}
+      <br />
+      id{detailData.id}
+    </div>
+  )
+}
+export default Goods
+```
+其中注释部分就是有问题的地方。我们首先全部注释掉可能出现问题的地方，然后无论怎么刷新网页都能正常显示如下
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301530282.png)
+然后我们取消掉其中一个涉及问题的调用的注释，保存代码，可以正常运行显示（看左下角的控制台输出，应该是缓存什么的，导致数据还保存在里面着
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301534259.png)
+然后刷新网页，这次重新获取数据还没获取到就渲染然后报错了（但axios应该是有promise的异步呀，应该是获取完数据才做后续渲染的，还是说有什么要点我可能遗漏了或者哪里理解有偏差orz）
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/DesktopScreenshot2024022301535512.png)

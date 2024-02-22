@@ -4,17 +4,6 @@ import { Menu } from 'antd';
 import axios from 'axios';
 import { useHistory, useLocation } from 'umi';
 
-// submenu keys of first level
-const rootSubmenuKeys = ['sub1', 'sub2', 'sub4'];
-const iconList = {
-  '/published': <CloudUploadOutlined />,
-  '/published/publishing': <AuditOutlined />,
-  '/published/draft': <FormOutlined />,
-  '/published/removed': <DeleteOutlined />,
-  '/sold': <MoneyCollectOutlined />,
-  '/bought': <CarryOutOutlined />,
-}
-
 const MyHeader = () => {
   const [menuList, setMenuList] = useState([])
   const [userState, setUserState] = useState()

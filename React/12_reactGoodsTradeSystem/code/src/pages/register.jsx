@@ -4,9 +4,15 @@ import {
   Form,
   Input,
   message,
+  Cascader,
+  Upload,
+  Row,
 } from 'antd';
 import axios from 'axios';
 import { useHistory } from 'umi';
+import { cityArray } from '../components/cityData';
+import { useState } from 'react';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 
 const formItemLayout = {
   labelCol: {
@@ -42,16 +48,24 @@ const tailFormItemLayout = {
 const Register = () => {
   const [form] = Form.useForm();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState();
+
   const onFinish = (values) => { // 提交表单且数据验证成功后回调事件
     // console.log('Received values of form: ', values); // {username: '123', password: '123', confirm: '123', agreement: true}
     axios.get(`http://localhost:5000/users?username=${values.username}`).then(res => {
       if (res.data.length !== 0) {
         message.info('用户名重复！')
       } else {
+        // console.log(values.touxiang)
         axios.post('http://localhost:5000/users', {
           "username": values.username,
           "state": 0, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
           "password": values.password,
+          "starList": [],
+          "location": values.location ? values.location : '',
+          "avatar": values.touxiang ? values.touxiang[0].name : '',
+          "balance": 0
         }).then(res => {
           history.push('/login') // / // , { isRegisterValue: true }
           message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
@@ -59,9 +73,63 @@ const Register = () => {
       }
     })
   };
+  const getBase64 = (img, callback) => {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  };
+  const beforeUpload = (file) => {
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
+    if (!isJpgOrPng) {
+      message.error('You can only upload JPG/PNG file!');
+    }
+    const isLt2M = file.size / 1024 / 1024 < 2;
+    if (!isLt2M) {
+      message.error('Image must smaller than 2MB!');
+    }
+    return isJpgOrPng && isLt2M;
+  };
+  const handleChange = (info) => {
+    if (info.file.status === 'uploading') {
+      setLoading(true);
+      return;
+    }
+    if (info.file.status === 'done') {
+      // Get this url from response in real world.
+      getBase64(info.file.originFileObj, (url) => {
+        setLoading(false);
+        setImageUrl(url);
+      });
+    }
+  };
+  const uploadButton = (
+    <button
+      style={{
+        border: 0,
+        background: 'none',
+      }}
+      type="button"
+    >
+      {loading ? <LoadingOutlined /> : <PlusOutlined />}
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </button>
+  );
+  const normFile = (e) => {  //如果是typescript, 那么参数写成 e: any
+    console.log('Upload event:', e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
 
   return (
-    <div>
+    <Row type="flex" justify="center" align="middle" style={{ minHeight: '100vh' }}>
       <Form
         {...formItemLayout}
         form={form}
@@ -74,7 +142,7 @@ const Register = () => {
       >
         <Form.Item
           name="username"
-          label="Username"
+          label="用户名"
           tooltip="What do you want others to call you?"
           rules={[
             {
@@ -97,12 +165,13 @@ const Register = () => {
           ]}
         >
           <Input // form.getFieldValue(): 从form.item取值
+            style={{ width: 300, }}
           />
         </Form.Item>
 
         <Form.Item
           name="password"
-          label="Password"
+          label="新密码"
           rules={[
             {
               required: true,
@@ -111,12 +180,12 @@ const Register = () => {
           ]}
           hasFeedback
         >
-          <Input.Password />
+          <Input.Password style={{ width: 300, }} />
         </Form.Item>
 
         <Form.Item
           name="confirm"
-          label="Confirm Password"
+          label="确认密码"
           dependencies={['password']}
           hasFeedback // 用于给输入框添加反馈图标
           rules={[
@@ -135,8 +204,44 @@ const Register = () => {
             }),
           ]}
         >
-          <Input.Password visibilityToggle={false} />
+          <Input.Password style={{ width: 300, }} visibilityToggle={false} />
           {/* {...} */}
+        </Form.Item>
+
+        <Form.Item
+          label="常用地址"
+          name="location"
+        >
+          <Cascader style={{ width: 200, }} options={cityArray} />
+        </Form.Item>
+
+        <Form.Item
+          label="上传头像"
+          name="touxiang"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="avatar"
+                style={{
+                  width: '100%',
+                }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
         </Form.Item>
 
         <Form.Item
@@ -164,7 +269,7 @@ const Register = () => {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Row>
   );
 };
 export default Register;

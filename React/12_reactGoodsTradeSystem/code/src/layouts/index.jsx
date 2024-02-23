@@ -18,7 +18,9 @@ const App = (props) => { // 插槽props
   } = theme.useToken();
   if (
     props.location.pathname === '/login' || // 登录界面不出现该layout
-    props.location.pathname === '/login/'
+    props.location.pathname === '/login/' ||
+    props.location.pathname === '/register' || // 注册界面不出现该layout
+    props.location.pathname === '/register/'
   ) {
     return <div>{props.children}</div> // 离开后台界面回到登录页面
   }

@@ -15,7 +15,7 @@ export default function myAvatar() {
       label: (
         <a onClick={() => {
           history.push('/homepage')
-          
+
         }}>
           当前余额: {information.balance}
         </a>
@@ -43,16 +43,19 @@ export default function myAvatar() {
       placement="bottomRight"
     >
       <div style={{ float: 'right' }}>
-        <Avatar
-          style={{
-            backgroundColor: '#fadb14',
-            verticalAlign: 'middle',
-          }}
-          size="large"
-          gap={1}
-        >
-          {information.username}
-        </Avatar>
+        {
+          information.avatar ? <Avatar src={<img src={require(`@/images/avatars/${information.avatar}`)} alt="avatar" />} /> : <Avatar
+            style={{
+              backgroundColor: '#fadb14',
+              verticalAlign: 'middle',
+            }}
+            size="large"
+            gap={1}
+          >
+            {information.username}
+          </Avatar>
+        }
+        <span style={{marginLeft:'5px'}}>{information.username}</span>
       </div>
     </Dropdown>
   )

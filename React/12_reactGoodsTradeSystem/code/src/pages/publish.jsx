@@ -44,6 +44,7 @@ const Publish = () => {
         "youfei": values.fahuo.youfei,
         "tupian": values.tupian[0].name, // values.tupian.file.name
         "editTime": Date.now(),
+        "starList": [],
       }).then(res => {
         history.push(finishState === 0 ? '/published/draft' : '/published/publishing') // /
         /* // Warning: [antd: Notification] You are calling notice in render which will break in React 18 concurrent mode. Please trigger in effect instead.
@@ -139,7 +140,8 @@ const Publish = () => {
         fangshi: "baoyou",
         youfei: 0,
         yuanjia: 0,
-        shoujia: 0
+        shoujia: 0,
+        dizhi: myContent.location ? myContent.location : []
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}

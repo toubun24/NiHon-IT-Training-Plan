@@ -20,6 +20,19 @@
       "password": "123",
       "id": 3,
       "balance": 100
+    },
+    {
+      "username": "toubun2",
+      "state": 0,
+      "password": "123",
+      "starList": [],
+      "location": [
+        "四川省",
+        "成都市",
+        "双流区"
+      ],
+      "avatar": "3919909539520250412.jpg",
+      "id": 4
     }
   ],
   "rights": [

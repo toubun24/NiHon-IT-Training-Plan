@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import { useHistory } from 'umi'; // history
 
-export default function myAvatar() {
+const MyAvatar = () => {
   const history = useHistory(); // history
   const [information, setInformation] = useState([]);
   useEffect(() => {
@@ -55,8 +55,9 @@ export default function myAvatar() {
             {information.username}
           </Avatar>
         }
-        <span style={{marginLeft:'5px'}}>{information.username}</span>
+        <span style={{ marginLeft: '5px',fontWeight: 'bold' }}>{information.username}</span>
       </div>
     </Dropdown>
   )
 }
+export default MyAvatar

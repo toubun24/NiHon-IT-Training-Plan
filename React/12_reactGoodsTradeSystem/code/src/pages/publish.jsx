@@ -33,15 +33,15 @@ const Publish = () => {
       return
     } else {
       axios.post('http://localhost:5000/goods', {
-        "sellerId": myContent.id,
+        "userId": myContent.id,
         "state": finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4修改待审核，5卖家已下架
         "publishTime": Date.now(),
         "introduction": values.jianjie,
         "yuanjia": values.yuanjia,
         "shoujia": values.shoujia,
         "dizhi": values.dizhi,
-        "fahuofangshi": values.fahuo.fangshi,
-        "youfei": values.fahuo.youfei,
+        "fahuofangshi": values.fahuo.fangshi?values.fahuo.fangshi:'baoyou',
+        "youfei": values.fahuo.fangshi==='zishe'?values.fahuo.youfei:0,
         "tupian": values.tupian[0].name, // values.tupian.file.name
         "editTime": Date.now(),
         "starList": [],
@@ -56,7 +56,7 @@ const Publish = () => {
         });
         */
         notification.open({
-          message: '通知',
+          message: `${finishState === 0 ? '暂存' : '发布'}成功`,
           description:
             `请到${finishState === 0 ? '草稿箱' : '发布页'}查看`,
           // onClick: () => { console.log('Notification Clicked!'); },

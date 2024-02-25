@@ -65,7 +65,8 @@ const Register = () => {
           "starList": [],
           "location": values.location ? values.location : '',
           "avatar": values.touxiang ? values.touxiang[0].name : '',
-          "balance": 0
+          "balance": 0,
+          "followList":[]
         }).then(res => {
           history.push('/login') // / // , { isRegisterValue: true }
           message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic

@@ -29,7 +29,7 @@ const Publishing = () => {
   const [clickId, setClickId] = useState();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/goods?sellerId=${myContent}&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
+    axios.get(`http://localhost:5000/goods?userId=${myContent}&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
       res => {
         // const tmpData = res.data
         // const tmpData2 = [...tmpData].sort((a, b) => b.id - a.id); // 倒序

@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Avatar, Button, Flex, Image, Space } from 'antd';
+import { Button, Flex, Image } from 'antd';
 import { useParams } from 'umi'; // useParams
 import axios from 'axios';
-import { EnvironmentOutlined, StarOutlined, CommentOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined } from '@ant-design/icons';
+import OtherAvatar from '../../../components/otherAvatar';
+import { useHistory } from 'umi';
 
 const fahuofangshiList = {
   "zishe": "邮费: ¥",
@@ -16,6 +18,11 @@ const Goods = () => {
   const [detailData, setDetailData] = useState({}); // 商品详情信息 // {}
   const [userData, setUserData] = useState({}); // 卖家详情信息 // {}
   const [dizhiData, setDizhiData] = useState([]); // 地址信息 // []
+  // const [isStar, setIsStar] = useState();
+  const [starData, setStarData] = useState([]);
+  const [followData, setFollowData] = useState([]);
+  const history = useHistory()
+
   useEffect(() => {
     const tokenContent = localStorage.getItem('token')
     tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
@@ -24,25 +31,66 @@ const Goods = () => {
         setDetailData(res.data) // goods/${params.id}不需要[0]，goods/id=${params.id}需要[0]
         setUserData(res.data.user)
         setDizhiData(res.data.dizhi)
+        setStarData(res.data.user.starList)
+        setFollowData(res.data.user.followList)
+        // setIsStar(starData.includes(params.id)) // 后面组件直接跳过state调用了 // console.log(starData, isStar, starData.includes(params.id)) // ['19'] undefined true // ['19'] false true
       }
     )
   }, [])
+  const addStar = () => {
+    // setIsStar(starData.includes(`${params.id}`))
+    /*
+    isStar ? axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [] }) : // starList已收藏
+      starData ? axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [...starData, params.id] }) : // starList非空但未收藏
+        axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [params.id] }) // starList为空且未收藏
+        */
+    if (starData.includes(params.id) === true) {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [...starData.filter(data => data !== params.id)] }).then(
+        res => setStarData(res.data.starList) // setIsStar(false)
+      )
+    } else if (starData.length > 0) {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [...starData, params.id] }).then(
+        res => setStarData(res.data.starList) // setIsStar(true)
+
+      )
+    } else {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [params.id] }).then(
+        res => setStarData(res.data.starList) // setIsStar(true)
+      )
+    }
+  }
+  const wannaBuy = () => {
+    console.log("wannaBuy")
+  }
+  const follow = () => {
+    if (followData.includes(userData.id) === true) {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [...followData.filter(data => data !== userData.id)] }).then(
+        res => setFollowData(res.data.followList)
+      )
+    } else if (followData.length > 0) {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [...followData, userData.id] }).then(
+        res => setFollowData(res.data.followList)
+      )
+    } else {
+      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [userData.id] }).then(
+        res => setFollowData(res.data.followList)
+      )
+    }
+  }
+  const modify = () => {
+    history.push(`/goods/modify/${params.id}`)
+  }
   // console.log(`http://localhost:5000/goods/${params.id}?_expand=user`, detailData)
+
   return ( // detailData.user.username // TypeError: Cannot read properties of undefined (reading 'username')
     <div>
       <Flex style={{ position: "fixed", right: "5%" }}>
-        <Avatar
-          style={{
-            backgroundColor: '#fadb14',
-            verticalAlign: 'middle',
-            marginRight: '10px' // 右边距
-          }}
-          size="large"
-          gap={1}
-        >
-          {information.username}
-
-        </Avatar>
+        <div style={{
+          verticalAlign: 'middle',
+          marginRight: '10px' // 右边距
+        }}>
+          {userData.id && <OtherAvatar userId={userData.id} />}
+        </div>
         <div style={{ marginRight: '10px' }}>
           <div style={{ fontWeight: 'bold' }}>{userData.username}</div>
           <div style={{ fontSize: '10px', marginTop: '5px' }}>
@@ -52,14 +100,21 @@ const Goods = () => {
             </span>
           </div>
         </div>
-        <Button>关注</Button>
+        {
+          userData.id === information.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
+            followData.includes(userData.id) ? <Button style={{ marginTop: "2px" }} onClick={() => follow()}>已关注</Button> : // [].includes没关系的不会报错
+              <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
+        }
       </Flex>
+      <br />
+      <br />
       <div style={{}}>
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
         <span style={{ fontSize: '12px', fontWeight: 'bold' }}>{" "}{fahuofangshiList[detailData.fahuofangshi]}{detailData.fahuofangshi === "zishe" ? detailData.youfei : ""}</span>
       </div>
-
+      <div>
+      </div>
       <br />
       <div>
         <Image
@@ -77,14 +132,18 @@ const Goods = () => {
       <div style={{
         textAlign: 'right' // 水平向右对齐
       }}>
-        <Button style={{ marginRight: '5px' }}>
-          <StarOutlined />
-          <span>收藏</span>
-        </Button>
-        <Button type="primary" style={{ marginRight: '1.8%' }}>
-          <CommentOutlined />
-          我想要
-        </Button>
+        {
+          userData.id === information.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
+        }
+        {
+          userData.id === information.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
+            starData.includes(params.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
+              <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>
+        }
+        {
+          userData.id === information.id ? <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />} disabled>我想要</Button> :
+            <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>
+        }
       </div>
     </div>
   )

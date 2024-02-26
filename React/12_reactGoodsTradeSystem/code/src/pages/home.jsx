@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Button, Input, Space, Tabs } from 'antd';
 import axios from 'axios';
 import { BarsOutlined, HeartFilled, FireFilled, HourglassFilled } from '@ant-design/icons';
+import MyList from '../components/myList';
 
 const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
@@ -11,26 +12,43 @@ const labelList = [
   "最新发布"
 ]
 
-const Home = () => (
-  <div>
-    <Search style={{ width: "88%" }} placeholder="input search text" onSearch={onSearch} enterButton />
-    <Button style={{ float: "right", width: "10%" }}><BarsOutlined /> 分类</Button>
-    <Tabs
-      style={{ display: "flex" }}
-      defaultActiveKey="1"
-      centered
-      items={[HeartFilled, FireFilled, HourglassFilled].map((Icon, i) => {
-        const id = String(i + 1);
-        return {
-          label: labelList[id - 1],
-          key: id,
-          children: `Content of Tab Pane ${id}`,
-          icon: <Icon />
-        };
-      })}
-    />
-  </div>
+const Home = () => {
+  const [goodsData, setGoodsData] = useState([]);
+  useEffect(() => {
+    axios.get(`http://localhost:5000/goods?_expand=user`).then(
+      res => {
+        setGoodsData(res.data)
+      }
+    )
+  }, []);
+  const handlerInput = (event) => {
+    const newlist = goodsData.introduction.filter(item => { // filter查询
+      return item.toUpperCase().includes(event.target.value.toUpperCase()) // includes
+      // || item.toUpperCase().includes(event.target.value.toUpperCase())
+    })
+    setGoodsData(newlist)
+  }
+  //console.log(goodsData)
 
-
-);
+  return (
+    <div>
+      <Search style={{ width: "88%" }} placeholder="input search text" onSearch={onSearch} enterButton onInput={() => handlerInput()} />
+      <Button style={{ float: "right", width: "10%" }}><BarsOutlined /> 分类</Button>
+      <Tabs
+        style={{ display: "flex" }}
+        defaultActiveKey="1"
+        centered
+        items={[HeartFilled, FireFilled, HourglassFilled].map((Icon, i) => {
+          const id = String(i + 1);
+          return {
+            label: labelList[id - 1],
+            key: id,
+            children: <div><MyList data={goodsData?goodsData:[]} tabId={id}/></div>,
+            icon: <Icon />
+          };
+        })}
+      />
+      </div>
+  )
+}
 export default Home;

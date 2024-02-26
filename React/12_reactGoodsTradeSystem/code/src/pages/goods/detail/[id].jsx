@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Flex, Image } from 'antd';
+import { Button, Flex, Image,Spin } from 'antd';
 import { useParams } from 'umi'; // useParams
 import axios from 'axios';
 import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined } from '@ant-design/icons';
@@ -81,7 +81,7 @@ const Goods = () => {
     history.push(`/goods/modify/${params.id}`)
   }
   // console.log(`http://localhost:5000/goods/${params.id}?_expand=user`, detailData)
-
+  console.log(detailData)
   return ( // detailData.user.username // TypeError: Cannot read properties of undefined (reading 'username')
     <div>
       <Flex style={{ position: "fixed", right: "5%" }}>
@@ -89,10 +89,19 @@ const Goods = () => {
           verticalAlign: 'middle',
           marginRight: '10px' // 右边距
         }}>
-          {userData.id && <OtherAvatar userId={userData.id} />}
+          {detailData.userId}
+          <OtherAvatar userIdInfo={detailData.userId?detailData.userId:-1}/>
+          {detailData?<OtherAvatar userIdInfo={detailData.userId}/>:<></>}
+          {!detailData.haveData?<OtherAvatar userIdInfo={detailData.userId}/>:"loading"//haveData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          }
+          <OtherAvatar userIdInfo={userData.id?userData.id:-1}/>
+          {detailData?<OtherAvatar userIdInfo={userData.id}/>:<></>}
+          {!detailData.haveData?"loading":<OtherAvatar userIdInfo={userData.id}/>//haveData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          }
+          {userData.id}
         </div>
         <div style={{ marginRight: '10px' }}>
-          <div style={{ fontWeight: 'bold' }}>{userData.username}</div>
+          <div style={{ fontWeight: 'bold' }}>{userData?userData.username:""}</div>
           <div style={{ fontSize: '10px', marginTop: '5px' }}>
             <EnvironmentOutlined />
             <span>

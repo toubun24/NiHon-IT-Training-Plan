@@ -355,17 +355,35 @@
     {
       "title": "推荐搜索",
       "key": "/home",
-      "id": 1
+      "id": 1,
+      "visible": [
+        0,
+        1,
+        2,
+        3,
+        5,
+        6
+      ]
     },
     {
       "title": "发布商品",
       "key": "/publish",
-      "id": 2
+      "id": 2,
+      "visible": [
+        0,
+        1
+      ]
     },
     {
       "title": "个人主页",
       "key": "/homepage",
-      "id": 3
+      "id": 3,
+      "visible": [
+        0,
+        1,
+        2,
+        3
+      ]
     }
   ],
   "goods": [

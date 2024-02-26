@@ -34,7 +34,7 @@ const Publish = () => {
     } else {
       axios.post('http://localhost:5000/goods', {
         "userId": myContent.id,
-        "state": finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4修改待审核，5卖家已下架
+        "state": finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
         "publishTime": Date.now(),
         "introduction": values.jianjie,
         "yuanjia": values.yuanjia,

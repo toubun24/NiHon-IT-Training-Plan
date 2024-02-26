@@ -299,7 +299,7 @@
     {
       "id": 16,
       "title": "用户权限",
-      "key": "/bought/uncomment",
+      "key": "/user-manage/right-manage",
       "rightId": 4,
       "grade": 2,
       "visible": [
@@ -310,7 +310,7 @@
     {
       "id": 17,
       "title": "发布审核",
-      "key": "/bought/refunding",
+      "key": "/user-manage/publish-manage",
       "rightId": 4,
       "grade": 2,
       "visible": [
@@ -321,7 +321,7 @@
     {
       "id": 18,
       "title": "待处理",
-      "key": "/bought/uncomment",
+      "key": "/argue-manage/unfinish",
       "rightId": 5,
       "grade": 2,
       "visible": [
@@ -332,7 +332,7 @@
     {
       "id": 19,
       "title": "已完成",
-      "key": "/bought/refunding",
+      "key": "/argue-manage/finished",
       "rightId": 5,
       "grade": 2,
       "visible": [
@@ -343,7 +343,7 @@
     {
       "id": 20,
       "title": "板块管理",
-      "key": "/bought/uncomment",
+      "key": "/admin-manage/tag-manage",
       "rightId": 6,
       "grade": 2,
       "visible": [
@@ -371,7 +371,7 @@
   "goods": [
     {
       "userId": 3,
-      "state": 1,
+      "state": 2,
       "publishTime": 1708364635448,
       "introduction": "123",
       "yuanjia": 0,
@@ -416,7 +416,7 @@
     },
     {
       "userId": 3,
-      "state": 1,
+      "state": 2,
       "publishTime": 1708516775649,
       "introduction": "123",
       "yuanjia": 0,
@@ -431,7 +431,7 @@
     },
     {
       "userId": 3,
-      "state": 1,
+      "state": 2,
       "publishTime": 1708516893580,
       "introduction": "123",
       "yuanjia": 0,
@@ -461,7 +461,7 @@
     },
     {
       "userId": 3,
-      "state": 1,
+      "state": 3,
       "publishTime": 1708524807903,
       "introduction": "【99新】asdakjdshasdasda",
       "yuanjia": "555",
@@ -478,7 +478,7 @@
     },
     {
       "userId": 4,
-      "state": 1,
+      "state": 3,
       "publishTime": 1708854379312,
       "introduction": "【99新】神牛V1闪光灯 123不哈是的吧都是噶已送达斯卡哈28而已29呃2",
       "yuanjia": "1300",
@@ -497,7 +497,7 @@
     },
     {
       "userId": 4,
-      "state": 1,
+      "state": 2,
       "publishTime": 1708862350922,
       "introduction": "444444444444444444444",
       "yuanjia": "321",
@@ -514,7 +514,7 @@
     },
     {
       "userId": 4,
-      "state": 1,
+      "state": 3,
       "publishTime": 1708880724016,
       "introduction": "kasjdbasfhakf12499g12414712gr1ord12rd1f2w",
       "yuanjia": "321",
@@ -533,7 +533,7 @@
     },
     {
       "userId": 4,
-      "state": 1,
+      "state": 2,
       "publishTime": 1708880737990,
       "introduction": "jbfssfb213f23f23f23f32f23f23f13f3f1f1f3f31",
       "yuanjia": "1",

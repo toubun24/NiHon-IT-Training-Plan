@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CloudUploadOutlined, AuditOutlined, FormOutlined, DeleteOutlined, MoneyCollectOutlined, CarryOutOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, AuditOutlined, FormOutlined, DeleteOutlined, MoneyCollectOutlined, CarryOutOutlined, UserOutlined, CustomerServiceOutlined, CrownOutlined } from '@ant-design/icons';
 import { Menu } from 'antd';
 import axios from 'axios';
 import { useHistory, useLocation } from 'umi';
@@ -13,6 +13,9 @@ const iconList = {
   '/published/removed': <DeleteOutlined />,
   '/sold': <MoneyCollectOutlined />,
   '/bought': <CarryOutOutlined />,
+  '/user-manage': <UserOutlined />,
+  '/argue-manage': <CustomerServiceOutlined />,
+  '/admin-manage': <CrownOutlined />,
 }
 
 const MySider = () => {

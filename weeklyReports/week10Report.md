@@ -208,4 +208,5 @@ const [detailData, setDetailData] = useState({}); // 注意这里是对象所以
 { detailData && detailData.length !== 0 && detailData.map(item => return (<div>item.user.username</div>))}
 ```
 * https://blog.csdn.net/qq_43506776/article/details/109897423
-* 
+* 调用子组件时`{userData.id>=0&&<OtherAvatar userIdInfo={userData.id}/>}`
+* https://blog.csdn.net/sevenStar_1/article/details/122866721

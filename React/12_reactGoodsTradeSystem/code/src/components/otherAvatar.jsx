@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Spin } from 'antd';
 import axios from 'axios';
+import {UserOutlined}from '@ant-design/icons';
 
 const OtherAvatar = ({ userIdInfo, size = "" }) => { // {}否则得到{userIdInfo: 3}
-  console.log("get", userIdInfo)
+  // console.log("get", userIdInfo)
   const [userData, setUserData] = useState({});
   useEffect(() => {
-    console.log("if", userIdInfo)
+    // console.log("if", userIdInfo)
     axios.get(`http://localhost:5000/users/${userIdInfo}`).then(
       res => {
         setUserData(res.data)

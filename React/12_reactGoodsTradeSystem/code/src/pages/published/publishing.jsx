@@ -97,7 +97,7 @@ const Publishing = () => {
                   <br />
                   <Space style={{ fontSize: 12 }}>
                     <div>
-                      <EyeOutlined /> 123
+                      <EyeOutlined /> {item.view}
                     </div>
                     <div>
                       发布时间:{item.publishTime ? moment(item.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}

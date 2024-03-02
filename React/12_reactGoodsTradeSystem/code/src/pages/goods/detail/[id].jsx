@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Flex, Image,Spin } from 'antd';
+import { Button, Flex, Image, Tag } from 'antd';
 import { useParams } from 'umi'; // useParams
 import axios from 'axios';
 import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined } from '@ant-design/icons';
 import OtherAvatar from '../../../components/otherAvatar';
 import { useHistory } from 'umi';
+import MyBack from '../../../components/myBack';
 
 const fahuofangshiList = {
   "zishe": "邮费: ¥",
@@ -22,20 +23,43 @@ const Goods = () => {
   const [starData, setStarData] = useState([]);
   const [followData, setFollowData] = useState([]);
   const history = useHistory()
+  const [tagData, setTagData] = useState([]);
+  const [tags, setTags] = useState([]);
 
-  useEffect(() => {
+  useEffect(async () => {
     const tokenContent = localStorage.getItem('token')
     tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
-    axios.get(`http://localhost:5000/goods/${params.id}?_expand=user`).then( // http://localhost:5000/goods?id={params.id}&_expand=user
-      res => {
-        setDetailData(res.data) // goods/${params.id}不需要[0]，goods/id=${params.id}需要[0]
-        setUserData(res.data.user)
-        setDizhiData(res.data.dizhi)
-        setStarData(res.data.user.starList)
-        setFollowData(res.data.user.followList)
-        // setIsStar(starData.includes(params.id)) // 后面组件直接跳过state调用了 // console.log(starData, isStar, starData.includes(params.id)) // ['19'] undefined true // ['19'] false true
-      }
-    )
+    const res = await axios.get(`http://localhost:5000/goods/${params.id}?_expand=user`) // http://localhost:5000/goods?id={params.id}&_expand=user
+    setDetailData(res.data) // goods/${params.id}不需要[0]，goods/id=${params.id}需要[0]
+    setUserData(res.data.user)
+    setDizhiData(res.data.dizhi)
+    setStarData(res.data.user.starList)
+    setFollowData(res.data.user.followList)
+    setTagData(res.data.tagList)
+    const tagIdData = res.data.tagList
+    // console.log("tagIdData", tagIdData[0], tagIdData[1], tagIdData[2])
+    // setIsStar(starData.includes(params.id)) // 后面组件直接跳过state调用了 // console.log(starData, isStar, starData.includes(params.id)) // ['19'] undefined true // ['19'] false true
+    // return res.data // res.view
+    await axios.patch(`http://localhost:5000/goods/${params.id}`, { view: res.data.view + 1 }) // 每次访问或刷新则浏览量+1
+    // console.log(tagIdData);
+    const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
+    axios.all(requests).then(axios.spread((...responses) => { // axios.all // axios.spread // 和这一层可能也有关
+      // console.log(responses["data"]) // 怎么一次性取完最好
+      // console.log(responses);
+      const tmp = responses.map(response => {
+        // const tmp = tags
+        // tmp.push(response.data.tagName)
+        // const tmp = [tags, response.data.tagName]
+        // console.log([response.data["tagName"]])
+        // setTags(tmp) // [...tags,response.data.tagName]???
+        // console.log(response.data.tagName,tmp)
+        return response.data.tagName // return
+        // console.log(response.data.tagName)
+      })
+      // console.log("tags",tags);
+      // console.log(tmp);
+      setTags(tmp)
+    }))
   }, [])
   const addStar = () => {
     // setIsStar(starData.includes(`${params.id}`))
@@ -80,28 +104,26 @@ const Goods = () => {
   const modify = () => {
     history.push(`/goods/modify/${params.id}`)
   }
+  const ClickTag =(index)=>{
+    // console.log(tagData[index])
+    history.push(`/goods/tag/${tagData[index]}`)
+  }
   // console.log(`http://localhost:5000/goods/${params.id}?_expand=user`, detailData)
-  console.log(detailData)
+  // console.log(detailData)
+
+
   return ( // detailData.user.username // TypeError: Cannot read properties of undefined (reading 'username')
     <div>
       <Flex style={{ position: "fixed", right: "5%" }}>
         <div style={{
           verticalAlign: 'middle',
-          marginRight: '10px' // 右边距
+          marginRight: '10px', // 右边距
+          marginTop: '4px'
         }}>
-          {detailData.userId}
-          <OtherAvatar userIdInfo={detailData.userId?detailData.userId:-1}/>
-          {detailData?<OtherAvatar userIdInfo={detailData.userId}/>:<></>}
-          {!detailData.haveData?<OtherAvatar userIdInfo={detailData.userId}/>:"loading"//haveData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          }
-          <OtherAvatar userIdInfo={userData.id?userData.id:-1}/>
-          {detailData?<OtherAvatar userIdInfo={userData.id}/>:<></>}
-          {!detailData.haveData?"loading":<OtherAvatar userIdInfo={userData.id}/>//haveData!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-          }
-          {userData.id}
+          {userData.id >= 0 && <OtherAvatar userIdInfo={userData.id} />}
         </div>
         <div style={{ marginRight: '10px' }}>
-          <div style={{ fontWeight: 'bold' }}>{userData?userData.username:""}</div>
+          <div style={{ fontWeight: 'bold' }}>{userData ? userData.username : ""}</div>
           <div style={{ fontSize: '10px', marginTop: '5px' }}>
             <EnvironmentOutlined />
             <span>
@@ -115,15 +137,45 @@ const Goods = () => {
               <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
         }
       </Flex>
-      <br />
-      <br />
+      <MyBack/>
+      <br/>
       <div style={{}}>
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
         <span style={{ fontSize: '12px', fontWeight: 'bold' }}>{" "}{fahuofangshiList[detailData.fahuofangshi]}{detailData.fahuofangshi === "zishe" ? detailData.youfei : ""}</span>
+        <span style={{ fontSize: '12px' }}>{" 浏览量:"}{detailData.view}</span>
+        <div>
+          {
+            tags && tags.length > 0 && tags.map((tag, index) => {
+              const isLongTag = tag.length > 20;
+              const tagElem = (
+                <Tag
+                  key={tag}
+                  style={{
+                    userSelect: 'none',
+                    cursor: "pointer"
+                  }}
+                  color="gold"
+                  onClick={()=>ClickTag(index)}
+                >
+                  <span>
+                    {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                  </span>
+                </Tag>
+              );
+              return isLongTag ? (
+                <Tooltip title={tag} key={tag}>
+                  {tagElem}
+                </Tooltip>
+              ) : (
+                tagElem
+              );
+            }
+            )
+          }
+        </div>
       </div>
-      <div>
-      </div>
+
       <br />
       <div>
         <Image

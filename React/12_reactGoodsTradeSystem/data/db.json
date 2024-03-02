@@ -388,190 +388,36 @@
   ],
   "goods": [
     {
-      "userId": 3,
-      "state": 2,
-      "publishTime": 1708364635448,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "321",
-      "dizhi": [
-        "北京市",
-        "市辖区",
-        "东城区"
-      ],
-      "tupian": "14ecf93b6b41bcda.jpg",
-      "id": 12
-    },
-    {
-      "userId": 3,
-      "state": 4,
-      "publishTime": 1708516196031,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "123",
-      "dizhi": [
-        "北京市",
-        "市辖区",
-        "东城区"
-      ],
-      "tupian": "622e7c981ad96096.png",
-      "id": 13
-    },
-    {
-      "userId": 3,
-      "state": 4,
-      "publishTime": 1708516637811,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "123",
-      "dizhi": [
-        "北京市",
-        "市辖区",
-        "东城区"
-      ],
-      "tupian": "622e7c981ad96096.png",
-      "id": 14
-    },
-    {
-      "userId": 3,
-      "state": 2,
-      "publishTime": 1708516775649,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "123",
-      "dizhi": [
-        "北京市",
-        "市辖区",
-        "西城区"
-      ],
-      "tupian": "14ecf93b6b41bcda.jpg",
-      "id": 15
-    },
-    {
-      "userId": 3,
-      "state": 2,
-      "publishTime": 1708516893580,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "123",
-      "dizhi": [
-        "天津市",
-        "市辖区",
-        "和平区"
-      ],
-      "tupian": "036033a8cfd69253.jpg",
-      "id": 16
-    },
-    {
-      "userId": 3,
-      "state": 4,
-      "publishTime": 1708516917203,
-      "introduction": "123",
-      "yuanjia": 0,
-      "shoujia": "123",
-      "dizhi": [
-        "北京市",
-        "市辖区",
-        "西城区"
-      ],
-      "tupian": "622e7c981ad96096.png",
-      "id": 17
-    },
-    {
-      "userId": 3,
-      "state": 3,
-      "publishTime": 1708524807903,
-      "introduction": "【99新】asdakjdshasdasda",
-      "yuanjia": "555",
-      "shoujia": "222",
-      "dizhi": [
-        "青海省",
-        "海东市",
-        "民和回族土族自治县"
-      ],
-      "fahuofangshi": "zishe",
-      "youfei": "123",
-      "tupian": "ec739b3639b8329c.png",
-      "id": 18
-    },
-    {
       "userId": 4,
-      "state": 3,
-      "publishTime": 1708854379312,
-      "introduction": "【99新】神牛V1闪光灯 123不哈是的吧都是噶已送达斯卡哈28而已29呃2",
-      "yuanjia": "1300",
-      "shoujia": "1000",
-      "dizhi": [
-        "四川省",
-        "成都市",
-        "双流区"
-      ],
-      "fahuofangshi": "zishe",
-      "youfei": "10",
-      "tupian": "036033a8cfd69253.jpg",
-      "editTime": 1708854379312,
-      "starList": [],
-      "id": 19
-    },
-    {
-      "userId": 4,
-      "state": 2,
-      "publishTime": 1708862350922,
-      "introduction": "444444444444444444444",
-      "yuanjia": "321",
+      "state": 1,
+      "publishTime": 1709221413462,
+      "introduction": "123321",
+      "yuanjia": 0,
       "shoujia": "123",
       "dizhi": [
         "四川省",
         "成都市",
         "双流区"
       ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
       "tupian": "622e7c981ad96096.png",
-      "editTime": 1708862350922,
+      "editTime": 1709221413462,
       "starList": [],
-      "id": 20
-    },
-    {
-      "userId": 4,
-      "state": 3,
-      "publishTime": 1708880724016,
-      "introduction": "kasjdbasfhakf12499g12414712gr1ord12rd1f2w",
-      "yuanjia": "321",
-      "shoujia": "123",
-      "dizhi": [
-        "四川省",
-        "成都市",
-        "双流区"
+      "view": 151,
+      "tagList": [
+        1,
+        2,
+        24
       ],
-      "fahuofangshi": "zishe",
-      "youfei": "10",
-      "tupian": "14ecf93b6b41bcda.jpg",
-      "editTime": 1708880724016,
-      "starList": [],
-      "id": 21
-    },
-    {
-      "userId": 4,
-      "state": 2,
-      "publishTime": 1708880737990,
-      "introduction": "jbfssfb213f23f23f23f32f23f23f13f3f1f1f3f31",
-      "yuanjia": "1",
-      "shoujia": "1",
-      "dizhi": [
-        "四川省",
-        "成都市",
-        "双流区"
-      ],
-      "tupian": "14ecf93b6b41bcda.jpg",
-      "editTime": 1708880737990,
-      "starList": [],
-      "id": 22
+      "id": 49
     },
     {
       "userId": 4,
       "state": 1,
-      "publishTime": 1708881005851,
-      "introduction": "123131231313123",
-      "yuanjia": "2",
+      "publishTime": 1709373188487,
+      "introduction": "123321",
+      "yuanjia": 0,
       "shoujia": "1",
       "dizhi": [
         "四川省",
@@ -580,10 +426,166 @@
       ],
       "fahuofangshi": "baoyou",
       "youfei": 0,
-      "tupian": "5fee386254dd2ebc.png",
-      "editTime": 1708881005851,
+      "tupian": "3f394200fb1e8423.jpg",
+      "editTime": 1709373188487,
       "starList": [],
+      "view": 8,
+      "tagList": [
+        1,
+        2,
+        25
+      ],
+      "id": 50
+    },
+    {
+      "userId": 4,
+      "state": 1,
+      "publishTime": 1709373210832,
+      "introduction": "333333",
+      "yuanjia": 0,
+      "shoujia": "321",
+      "dizhi": [
+        "四川省",
+        "成都市",
+        "双流区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "5e6d2d1e8dddbd6c.jpg",
+      "editTime": 1709373210832,
+      "starList": [],
+      "view": 2,
+      "tagList": [
+        3
+      ],
+      "id": 51
+    }
+  ],
+  "tags": [
+    {
+      "tagName": "123",
+      "tagNum": 24,
+      "id": 1
+    },
+    {
+      "tagName": "电脑",
+      "tagNum": 24,
+      "id": 2
+    },
+    {
+      "tagName": "321",
+      "tagNum": 2,
+      "id": 3
+    },
+    {
+      "tagName": "手机",
+      "tagNum": 0,
+      "id": 4
+    },
+    {
+      "tagName": "平板",
+      "tagNum": 0,
+      "id": 5
+    },
+    {
+      "tagName": "相机",
+      "tagNum": 0,
+      "id": 6
+    },
+    {
+      "tagName": "鼠标",
+      "tagNum": 0,
+      "id": 7
+    },
+    {
+      "tagName": "",
+      "tagNum": 1,
+      "id": 8
+    },
+    {
+      "tagName": "手办",
+      "tagNum": 1,
+      "id": 9
+    },
+    {
+      "tagName": "键盘",
+      "tagNum": 1,
+      "id": 10
+    },
+    {
+      "tagName": "手柄",
+      "tagNum": 1,
+      "id": 11
+    },
+    {
+      "tagName": "耳机",
+      "tagNum": 1,
+      "id": 12
+    },
+    {
+      "tagName": "屏幕",
+      "tagNum": 1,
+      "id": 13
+    },
+    {
+      "tagName": "音响",
+      "tagNum": 1,
+      "id": 14
+    },
+    {
+      "tagName": "支架",
+      "tagNum": 1,
+      "id": 15
+    },
+    {
+      "tagName": "插头",
+      "tagNum": 1,
+      "id": 16
+    },
+    {
+      "tagName": "挂件",
+      "tagNum": 1,
+      "id": 17
+    },
+    {
+      "tagName": "1234",
+      "tagNum": 1,
+      "id": 18
+    },
+    {
+      "tagName": "外设",
+      "tagNum": 1,
+      "id": 19
+    },
+    {
+      "tagName": "键帽",
+      "tagNum": 1,
+      "id": 20
+    },
+    {
+      "tagName": "surface",
+      "tagNum": 2,
+      "id": 21
+    },
+    {
+      "tagName": "333",
+      "tagNum": 1,
+      "id": 22
+    },
+    {
+      "tagName": "444",
+      "tagNum": 2,
       "id": 23
+    },
+    {
+      "tagName": "CF",
+      "tagNum": 1,
+      "id": 24
+    },
+    {
+      "tagName": "嘻嘻",
+      "tagNum": 1,
+      "id": 25
     }
   ]
 }

@@ -67,7 +67,9 @@ const Register = () => {
           "avatar": values.touxiang ? values.touxiang[0].name : '',
           "balance": 0,
           "followList": [],
+          "followerList": [],
           "historyList": [], // 最近浏览，最长为10条
+          "registerTime": Date.now()
         }).then(res => {
           history.push('/login') // / // , { isRegisterValue: true }
           message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic

@@ -15,7 +15,7 @@ const fahuofangshiList = {
 
 const Goods = () => {
   const params = useParams() // 返回一个对象,其中包含URL参数和它们的值
-  const [information, setInformation] = useState([]);
+  // const [information, setInformation] = useState([]);
   const [detailData, setDetailData] = useState({}); // 商品详情信息 // {}
   const [userData, setUserData] = useState({}); // 卖家详情信息 // {}
   const [dizhiData, setDizhiData] = useState([]); // 地址信息 // []
@@ -25,10 +25,12 @@ const Goods = () => {
   const history = useHistory()
   const [tagData, setTagData] = useState([]);
   const [tags, setTags] = useState([]);
+  const tokenContent = localStorage.getItem('token')
+  const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
 
   useEffect(async () => {
-    const tokenContent = localStorage.getItem('token')
-    tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
+    // const tokenContent = localStorage.getItem('token')
+    // tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
     const res = await axios.get(`http://localhost:5000/goods/${params.id}?_expand=user`) // http://localhost:5000/goods?id={params.id}&_expand=user
     setDetailData(res.data) // goods/${params.id}不需要[0]，goods/id=${params.id}需要[0]
     setUserData(res.data.user)
@@ -67,20 +69,26 @@ const Goods = () => {
     isStar ? axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [] }) : // starList已收藏
       starData ? axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [...starData, params.id] }) : // starList非空但未收藏
         axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [params.id] }) // starList为空且未收藏
-        */
+    */
+console.log("starData",starData)
     if (starData.includes(params.id) === true) {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [...starData.filter(data => data !== params.id)] }).then(
-        res => setStarData(res.data.starList) // setIsStar(false)
-      )
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData.filter(data => data !== params.id)] }).then(
+        res => {setStarData(res.data.starList)
+          console.log("1",res.data.starList)} // setIsStar(false)
+              )
+      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [...starData.filter(data => data !== myContent.id)] })
     } else if (starData.length > 0) {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [...starData, params.id] }).then(
-        res => setStarData(res.data.starList) // setIsStar(true)
-
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData, params.id] }).then(
+        res => {setStarData(res.data.starList)
+          console.log("2",res.data.starList)} // setIsStar(true)
       )
+      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [...starData, myContent.id] })
     } else {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { starList: [params.id] }).then(
-        res => setStarData(res.data.starList) // setIsStar(true)
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [params.id] }).then(
+        res => {setStarData(res.data.starList)
+          console.log("3",res.data.starList)} // setIsStar(true)
       )
+      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [myContent.id] })
     }
   }
   const wannaBuy = () => {
@@ -88,17 +96,20 @@ const Goods = () => {
   }
   const follow = () => {
     if (followData.includes(userData.id) === true) {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [...followData.filter(data => data !== userData.id)] }).then(
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData.filter(data => data !== userData.id)] }).then(
         res => setFollowData(res.data.followList)
       )
+      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followData.filter(data => data !== myContent.id)] })
     } else if (followData.length > 0) {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [...followData, userData.id] }).then(
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData, userData.id] }).then(
         res => setFollowData(res.data.followList)
       )
+      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followData, myContent.id] })
     } else {
-      axios.patch(`http://localhost:5000/users/${information.id}`, { followList: [userData.id] }).then(
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [userData.id] }).then(
         res => setFollowData(res.data.followList)
       )
+      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [myContent.id] })
     }
   }
   const modify = () => {
@@ -132,7 +143,7 @@ const Goods = () => {
           </div>
         </div>
         {
-          userData.id === information.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
+          userData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
             followData.includes(userData.id) ? <Button style={{ marginTop: "2px" }} onClick={() => follow()}>已关注</Button> : // [].includes没关系的不会报错
               <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
         }
@@ -194,15 +205,16 @@ const Goods = () => {
         textAlign: 'right' // 水平向右对齐
       }}>
         {
-          userData.id === information.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
+          userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
         }
         {
-          userData.id === information.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
+          userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
             starData.includes(params.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
               <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>
         }
+        {starData}{params.id}
         {
-          userData.id === information.id ? <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />} disabled>我想要</Button> :
+          userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />} disabled>我想要</Button> :
             <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>
         }
       </div>

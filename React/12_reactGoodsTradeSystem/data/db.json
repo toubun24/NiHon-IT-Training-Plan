@@ -25,10 +25,7 @@
       "username": "toubun2",
       "state": 0,
       "password": "123",
-      "starList": [
-        "20",
-        "19"
-      ],
+      "starList": [],
       "location": [
         "四川省",
         "成都市",
@@ -37,7 +34,29 @@
       "avatar": "3919909539520250412.jpg",
       "id": 4,
       "followList": [],
-      "balance": 337
+      "followerList": [
+        4
+      ],
+      "balance": 354,
+      "registerTime": 1709221413462
+    },
+    {
+      "username": "toubun3",
+      "state": 0,
+      "password": "123",
+      "starList": [],
+      "location": [
+        "上海市",
+        "市辖区",
+        "徐汇区"
+      ],
+      "avatar": "8181052043224923779.jpg",
+      "balance": 0,
+      "followList": [],
+      "followerList": [],
+      "historyList": [],
+      "registerTime": 1709473946569,
+      "id": 5
     }
   ],
   "rights": [
@@ -404,8 +423,10 @@
       "youfei": 0,
       "tupian": "622e7c981ad96096.png",
       "editTime": 1709221413462,
-      "starList": [],
-      "view": 153,
+      "starList": [
+        "49"
+      ],
+      "view": 168,
       "tagList": [
         1,
         2,
@@ -429,8 +450,10 @@
       "youfei": 0,
       "tupian": "3f394200fb1e8423.jpg",
       "editTime": 1709373188487,
-      "starList": [],
-      "view": 11,
+      "starList": [
+        5
+      ],
+      "view": 19,
       "tagList": [
         1,
         2,
@@ -454,8 +477,10 @@
       "youfei": 0,
       "tupian": "5e6d2d1e8dddbd6c.jpg",
       "editTime": 1709373210832,
-      "starList": [],
-      "view": 4,
+      "starList": [
+        5
+      ],
+      "view": 6,
       "tagList": [
         3
       ],

@@ -26,7 +26,8 @@
 
 * **2023.03.03 日曜日:** 
   * reactGTS-推荐搜索页 11:10-11:35
-  * reactGTS-个人主页 11:35-12:40
+  * reactGTS-个人主页 11:35-12:40 16:50-18:45 21:10-22:10
+  * reactGTS-商品详情页 
 
 ## 内容拓展
 
@@ -129,5 +130,84 @@ const onFinish = async (values) => { // async
   });
 }
 ```
-### QRCode组件丢失 Failed to compile: Module not found: Can't resolve 'antd/es/q-r-code' in 'G:\NiHon-IT-Training-Plan\React\12_reactGoodsTradeSystem\code\src\components'
+### 【已解决】QRCode组件丢失 Failed to compile: Module not found: Can't resolve 'antd/es/q-r-code' in 'G:\NiHon-IT-Training-Plan\React\12_reactGoodsTradeSystem\code\src\components'
 * 和之前丢失theme的情况很像，所以稍微查了下没有合适解答之后就直接去找到文件夹位置，发现有个`antd/es/qr-code`文件夹，于是将其修改为`antd/es/q-r-code`即可
+
+### 【已解决】主页展示注册天数 Warning: Received NaN for the `children` attribute. If this is expected, cast the value to a string
+```JavaScript
+const items = [
+  // ...
+  {
+    key: '3',
+    label: '注册天数',
+    children: (<div>{Math.floor(((new Date().setHours(0, 0, 0, 0))-(new Date(information.registerTime).setHours(0, 0, 0, 0))) / (1000 * 60 * 60 * 24))}</div>),
+  },
+  // ...
+];
+```
+其实这一段计算我一开始是写在useEffect里的
+```JavaScript
+const [information, setInformation] = useState([]);
+const [viewData, setViewData] = useState([]); // 总浏览量
+const [dayData,setDayData] = useState() // 注册天数
+useEffect(() => {
+    const tokenContent = localStorage.getItem('token')
+    tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
+    //console.log(tokenContent);
+    axios.get(`http://localhost:5000/goods?userId=${information.id}`).then(
+      res => {
+        setGoodsData(res.data)
+        const totalViews = res.data.reduce((accumulator, currentObject) => {
+          return accumulator + currentObject.view; // 对view项求和
+        }, 0)
+        setViewData(totalViews)
+      }
+    )
+    // 下面的部分!
+    const nowTime = new Date()
+    const nowDay=nowTime.setHours(0, 0, 0, 0)
+    const registerTime=new Date(information.registerTime)
+    const registerDay=registerTime.setHours(0, 0, 0, 0)
+    const differenceInDays=Math.floor((nowDay-registerDay) / (1000 * 60 * 60 * 24))
+    console.log(differenceInDays)
+    setDayData(differenceInDays)
+  }, [])
+```
+* 后来想到，不该把token视作state来放进useEffect随意调用修改，而应只将其作为获取基本信息的方式放到开头的const部分即可，因此调整代码后成功实现
+```JavaScript
+const [viewData, setViewData] = useState([]); // 总浏览量
+const [dayData, setDayData] = useState() // 注册天数
+const tokenContent = localStorage.getItem('token')
+const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
+  useEffect(() => {
+    // const tokenContent = localStorage.getItem('token')
+    // tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
+    // console.log(tokenContent);
+    // console.log(myContent)
+    axios.get(`http://localhost:5000/goods?userId=${myContent.id}`).then( // 按发布时间降序 // desc // state_ne
+      res => {
+        setGoodsData(res.data)
+        const totalViews = res.data.reduce((accumulator, currentObject) => {
+          return accumulator + currentObject.view; // 对view项求和
+        }, 0)
+        setViewData(totalViews)
+      }
+    )
+    const nowTime = new Date()
+    const nowDay = nowTime.setHours(0, 0, 0, 0)
+    const registerTime = new Date(myContent.registerTime)
+    const registerDay = registerTime.setHours(0, 0, 0, 0)
+    const differenceInDays = Math.floor((nowDay - registerDay) / (1000 * 60 * 60 * 24))
+    // console.log(differenceInDays)
+    setDayData(differenceInDays)
+  }, [])
+  const items = [
+  // ...
+  {
+    key: '3',
+    label: '注册天数',
+    children: dayData
+  },
+  // ...
+];
+```

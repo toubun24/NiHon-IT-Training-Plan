@@ -1,14 +1,30 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Card, List, Skeleton, Space } from 'antd';
 import { useHistory } from 'umi';
 import OtherAvatar from './otherAvatar';
 import moment from 'moment'; // 时间戳格式化
+import { EyeOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
-const MyList = ({ data, tabId }) => { // {data}
+const MyList = ({ data }) => { // {data} //, tabId
+  // const [displayData,setDisplayData]=useState([])
+  // const [tabsId,setTabsId]=useState()
+  // useEffect(()=>{
+    // setTabsId(tabId)
+    /*
+    setDisplayData(data)
+    if(tabsId===1){
+      console.log(data)
+      setDisplayData(data)
+    }else if(tabsId===2){
+      setDisplayData([...data].sort((a, b) => b.view - a.view))
+    }else{
+      setDisplayData([...data].sort((a, b) => b.publishTime - a.publishTime))
+    }*/
+  // }, []);
   const history = useHistory()
-  // console.log(data)
+  // console.log(tabsId)
   return (
     <>
       <List
@@ -21,7 +37,7 @@ const MyList = ({ data, tabId }) => { // {data}
           xl: 7, // >=1200px 展示的列数
           xxl: 10, // >=1600px 展示的列数
         }}
-        dataSource={data ? data : []}
+        dataSource={data} // data ? data : [] // displayData?displayData:[]
         pagination={{ position: 'bottom', align: 'center', pageSize: 20 }}
         renderItem={(item) => ( // data=>item
           <List.Item>
@@ -41,14 +57,13 @@ const MyList = ({ data, tabId }) => { // {data}
                     <div>
                       <span style={{ color: 'red', marginRight: "4px" }}>¥{item.shoujia}</span>
                       <span style={{ textDecoration: 'line-through', fontSize: '10px', marginRight: "15px" }}>{"¥"}{item.yuanjia}</span>
-                      <span style={{ fontSize: '10px',float:'right',marginTop:'5.5px' }}>{item.editTime ? moment(item.editTime).format('YY/MM/DD') : "-"}</span>
+                      <span style={{ fontSize: '10px', float: 'right', marginTop: '5.5px' }}>{item.editTime ? moment(item.editTime).format('YY/MM/DD') : "-"}</span>
+                      <span style={{ fontSize: '10px', float: 'right', marginTop: '5.5px',marginLeft:"30px" }}><EyeOutlined />{item.view}</span>
                       <br />
                       <Space size={5}>
                         <OtherAvatar userIdInfo={item.userId} size={"small"} />
                         <div style={{ textAlign: 'right', width: "10px", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.user.username}</div>
                       </Space>
-
-
                     </div>
                   }
                 />

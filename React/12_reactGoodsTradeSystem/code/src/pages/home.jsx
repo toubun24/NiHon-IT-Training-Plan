@@ -17,7 +17,8 @@ const Home = () => {
   useEffect(() => {
     axios.get(`http://localhost:5000/goods?_expand=user`).then(
       res => {
-        setGoodsData(res.data)
+        const tmpData=res.data
+        setGoodsData([tmpData,[...tmpData].sort((a, b) => b.view - a.view),[...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
       }
     )
   }, []);
@@ -43,7 +44,7 @@ const Home = () => {
           return {
             label: labelList[id - 1],
             key: id,
-            children: <div><MyList data={goodsData?goodsData:[]} tabId={id}/></div>,
+            children: <div><MyList data={goodsData[i]}/></div>,
             icon: <Icon />
           };
         })}

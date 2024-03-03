@@ -134,9 +134,9 @@ const Publish = () => {
     // setTagList([...tagList,tagValue])
     // console.log("2",tagList)
 
-    console.log(tagValue, tagValue.split('#'))
+    // console.log(tagValue, tagValue.split('#'))
     const uniqueArr = Array.from(new Set(tagValue.split('#')))
-    console.log(uniqueArr)
+    // console.log(uniqueArr)
   }
 
   return (

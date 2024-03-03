@@ -26,7 +26,7 @@
 
 * **2023.03.03 日曜日:** 
   * reactGTS-推荐搜索页 11:10-11:35
-  * reactGTS-个人主页 11:35-
+  * reactGTS-个人主页 11:35-12:40
 
 ## 内容拓展
 
@@ -129,3 +129,5 @@ const onFinish = async (values) => { // async
   });
 }
 ```
+### QRCode组件丢失 Failed to compile: Module not found: Can't resolve 'antd/es/q-r-code' in 'G:\NiHon-IT-Training-Plan\React\12_reactGoodsTradeSystem\code\src\components'
+* 和之前丢失theme的情况很像，所以稍微查了下没有合适解答之后就直接去找到文件夹位置，发现有个`antd/es/qr-code`文件夹，于是将其修改为`antd/es/q-r-code`即可

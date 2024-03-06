@@ -21,6 +21,7 @@ const Goods = () => {
   const [dizhiData, setDizhiData] = useState([]); // 地址信息 // []
   // const [isStar, setIsStar] = useState();
   const [starData, setStarData] = useState([]);
+  const [starData2, setStarData2] = useState([]);
   const [followData, setFollowData] = useState([]);
   const history = useHistory()
   const [tagData, setTagData] = useState([]);
@@ -35,10 +36,11 @@ const Goods = () => {
     setDetailData(res.data) // goods/${params.id}不需要[0]，goods/id=${params.id}需要[0]
     setUserData(res.data.user)
     setDizhiData(res.data.dizhi)
-    setStarData(res.data.user.starList)
+    setStarData(res.data.starList)
     setFollowData(res.data.user.followList)
     setTagData(res.data.tagList)
     const tagIdData = res.data.tagList
+    console.log(res.data.starList)
     // console.log("tagIdData", tagIdData[0], tagIdData[1], tagIdData[2])
     // setIsStar(starData.includes(params.id)) // 后面组件直接跳过state调用了 // console.log(starData, isStar, starData.includes(params.id)) // ['19'] undefined true // ['19'] false true
     // return res.data // res.view
@@ -62,7 +64,10 @@ const Goods = () => {
       // console.log(tmp);
       setTags(tmp)
     }))
+    const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
+    setStarData2(res2.data.starList)
   }, [])
+
   const addStar = () => {
     // setIsStar(starData.includes(`${params.id}`))
     /*
@@ -70,25 +75,17 @@ const Goods = () => {
       starData ? axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [...starData, params.id] }) : // starList非空但未收藏
         axios.patch(`http://localhost:5000/users/${userData.id}`, { starList: [params.id] }) // starList为空且未收藏
     */
-console.log("starData",starData)
-    if (starData.includes(params.id) === true) {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData.filter(data => data !== params.id)] }).then(
-        res => {setStarData(res.data.starList)
-          console.log("1",res.data.starList)} // setIsStar(false)
-              )
-      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [...starData.filter(data => data !== myContent.id)] })
-    } else if (starData.length > 0) {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData, params.id] }).then(
-        res => {setStarData(res.data.starList)
-          console.log("2",res.data.starList)} // setIsStar(true)
-      )
+    // console.log("starData", starData, myContent.id,starData.includes(myContent.id) ? "true" : "false")
+    if (starData.includes(myContent.id) === true) {
+      setStarData(starData.filter(data => data !== myContent.id))
+      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: starData.filter(data => data !== myContent.id) })
+      setStarData2(starData2.filter(data => data !== params.id))
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: starData2.filter(data => data !== params.id) })
+    } else { // [...[],XXX] is ok // } else if (starData.length > 0) {
+      setStarData([...starData, myContent.id])
       axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [...starData, myContent.id] })
-    } else {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [params.id] }).then(
-        res => {setStarData(res.data.starList)
-          console.log("3",res.data.starList)} // setIsStar(true)
-      )
-      axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [myContent.id] })
+      setStarData2([...starData2, params.id])
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData2, params.id] })
     }
   }
   const wannaBuy = () => {
@@ -115,7 +112,7 @@ console.log("starData",starData)
   const modify = () => {
     history.push(`/goods/modify/${params.id}`)
   }
-  const ClickTag =(index)=>{
+  const ClickTag = (index) => {
     // console.log(tagData[index])
     history.push(`/goods/tag/${tagData[index]}`)
   }
@@ -148,8 +145,8 @@ console.log("starData",starData)
               <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
         }
       </Flex>
-      <MyBack/>
-      <br/>
+      <MyBack />
+      <br />
       <div style={{}}>
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
@@ -167,7 +164,7 @@ console.log("starData",starData)
                     cursor: "pointer"
                   }}
                   color="gold"
-                  onClick={()=>ClickTag(index)}
+                  onClick={() => ClickTag(index)}
                 >
                   <span>
                     {isLongTag ? `${tag.slice(0, 20)}...` : tag}
@@ -209,10 +206,9 @@ console.log("starData",starData)
         }
         {
           userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
-            starData.includes(params.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
+            starData.includes(myContent.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
               <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>
         }
-        {starData}{params.id}
         {
           userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />} disabled>我想要</Button> :
             <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>

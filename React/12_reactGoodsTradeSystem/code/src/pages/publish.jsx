@@ -35,10 +35,10 @@ const Publish = () => {
     const uniqueTag = Array.from(new Set(values.biaoqian.split('#'))) // 唯一化tagSet
     for (let item of uniqueTag) {
       const res = await axios.get(`http://localhost:5000/tags?tagName=${item}`)
-      if (res.data && res.data.length > 0) {
+      if (res.data && res.data.length > 0 && item !== "") { // !== ""
         await axios.patch(`http://localhost:5000/tags/${res.data[0].id}`, { tagNum: res.data[0].tagNum + 1 })  // /num // res.data.
         tagIdList.push(res.data[0].id)
-      } else {
+      } else if (item !== "") { // !== ""
         await axios.post('http://localhost:5000/tags', { "tagName": item, "tagNum": 1, }) // 新tag // 0=>1
         const res2 = await axios.get(`http://localhost:5000/tags?tagName=${item}`)
         tagIdList.push(res2.data[0].id)

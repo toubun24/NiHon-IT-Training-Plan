@@ -1,13 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { Avatar, Dropdown } from 'antd';
 import { useHistory } from 'umi'; // history
+import axios from 'axios';
 
 const MyAvatar = () => {
   const history = useHistory(); // history
-  const [information, setInformation] = useState([]);
+  // const [information, setInformation] = useState([]);
+  const tokenContent = localStorage.getItem('token');
+  const { id } = tokenContent == '' ? { id: '' } : JSON.parse(tokenContent)
+  const [userData, setUserData] = useState([]);
   useEffect(() => {
-    const tokenContent = localStorage.getItem('token')
-    tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
+    // const tokenContent = localStorage.getItem('token')
+    // tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
+    axios.get(`http://localhost:5000/users/${id}`).then( // 按发布时间降序 // desc // state_ne
+    res => {
+      setUserData(res.data)
+    }
+  )
   }, [])
   const items = [
     {
@@ -17,7 +26,7 @@ const MyAvatar = () => {
           history.push('/homepage')
 
         }}>
-          当前余额: {information.balance}
+          当前余额: {userData.balance}
         </a>
       ),
     },
@@ -44,7 +53,7 @@ const MyAvatar = () => {
     >
       <div style={{ float: 'right' }}>
         {
-          information.avatar ? <Avatar src={<img src={require(`@/images/avatars/${information.avatar}`)} alt="avatar" />} /> : <Avatar
+          userData.avatar ? <Avatar src={<img src={require(`@/images/avatars/${userData.avatar}`)} alt="avatar" />} /> : <Avatar
             style={{
               backgroundColor: '#fadb14',
               verticalAlign: 'middle',
@@ -52,10 +61,10 @@ const MyAvatar = () => {
             size="large"
             gap={1}
           >
-            {information.username}
+            {userData.username}
           </Avatar>
         }
-        <span style={{ marginLeft: '5px',fontWeight: 'bold' }}>{information.username}</span>
+        <span style={{ marginLeft: '5px',fontWeight: 'bold' }}>{userData.username}</span>
       </div>
     </Dropdown>
   )

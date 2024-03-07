@@ -255,6 +255,12 @@ const Publish = () => {
       <Form.Item
         label="原价"
         name="yuanjia"
+        rules={[
+          {
+            pattern: /^(?!0\d)\d+(\.\d*)?$/,
+            message: '金额格式不合规范'
+          }
+        ]}
       >
         <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
       </Form.Item>
@@ -267,6 +273,10 @@ const Publish = () => {
             required: true,
             message: '请输入售价!',
           },
+          {
+            pattern: /^(?!0\d)\d+(\.\d*)?$/,
+            message: '金额格式不合规范'
+          }
         ]}
       >
         <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />

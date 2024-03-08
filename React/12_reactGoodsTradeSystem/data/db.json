@@ -116,7 +116,8 @@
       "starList": [
         "55",
         "61",
-        "60"
+        "60",
+        "62"
       ],
       "location": [
         "山西省",
@@ -791,7 +792,7 @@
       "starList": [
         8
       ],
-      "view": 6,
+      "view": 9,
       "tagList": [
         1,
         28,
@@ -824,12 +825,38 @@
       ],
       "num": 1,
       "id": 61
+    },
+    {
+      "userId": 7,
+      "state": 1,
+      "publishTime": 1709918847631,
+      "introduction": "存货商品3",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "河北省",
+        "秦皇岛市",
+        "山海关区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "b11e8de29678ebbd.jpg",
+      "editTime": 1709918847631,
+      "starList": [
+        8
+      ],
+      "view": 1,
+      "tagList": [
+        1
+      ],
+      "num": 3,
+      "id": 62
     }
   ],
   "tags": [
     {
       "tagName": "123",
-      "tagNum": 41,
+      "tagNum": 42,
       "id": 1
     },
     {
@@ -977,40 +1004,6 @@
     {
       "buyerId": 8,
       "sellerId": 7,
-      "price": "202",
-      "state": 0,
-      "num": "2",
-      "orderTime": 1709902806424,
-      "editTime": 1709902806424,
-      "note": "发2个",
-      "dizhi1": [
-        "山西省",
-        "阳泉市",
-        "矿区"
-      ],
-      "dizhi2": "111号",
-      "id": 1
-    },
-    {
-      "buyerId": 8,
-      "sellerId": 7,
-      "price": "202",
-      "state": 0,
-      "num": "3",
-      "orderTime": 1709906033750,
-      "editTime": 1709906033750,
-      "note": "这里是备注",
-      "dizhi1": [
-        "山西省",
-        "阳泉市",
-        "矿区"
-      ],
-      "dizhi2": "101号",
-      "id": 2
-    },
-    {
-      "buyerId": 8,
-      "sellerId": 7,
       "goodId": "61",
       "price": "202",
       "state": 0,
@@ -1058,6 +1051,24 @@
       ],
       "dizhi2": "222222",
       "id": 5
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "goodId": "62",
+      "price": 4,
+      "state": 0,
+      "num": "2",
+      "orderTime": 1709918885153,
+      "editTime": 1709918885153,
+      "note": "123",
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "123",
+      "id": 6
     }
   ]
 }

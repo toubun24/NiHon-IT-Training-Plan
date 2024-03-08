@@ -38,7 +38,7 @@ const Modify = () => {
       // setTags(tmp)
     }))
     // console.log("tmp",tmpTags)
-    let { introduction, dizhi, fahuofangshi, youfei, yuanjia, shoujia } = res.data // 解构出所需数据
+    let { introduction, dizhi, fahuofangshi, youfei, yuanjia, shoujia, num } = res.data // 解构出所需数据
     formRef.current.setFieldsValue({ // 预填充默表单认值
       jianjie: introduction,
       biaoqian: `#${tmpTags.join("#")}`, // 每个tag前都添加#
@@ -48,7 +48,8 @@ const Modify = () => {
         youfei: youfei // 将youfei赋值给youfei
       },
       yuanjia: yuanjia,
-      shoujia: shoujia
+      shoujia: shoujia,
+      num: num
     })
   }, [])
   const selected = (value) => { // value = zishe / baoyou / ziti
@@ -59,7 +60,7 @@ const Modify = () => {
     }
   };
   const onFinish = async (values) => { // async
-    console.log(values)
+    // console.log(values)
     const tagIdList = []
     if (values.yuanjia < 0 || values.shoujia <= 0 || values.fahuo.fangshi === "zishe" && values.fahuo.youfei <= 0) {
       message.error('请输入正确的价格')
@@ -78,7 +79,7 @@ const Modify = () => {
         // console.log(`http://localhost:5000/tags?tagName=${item}`, tagIdList, res2.data[0].id)
       }
     }
-        await axios.patch(`http://localhost:5000/goods/${params.id}`, {
+    await axios.patch(`http://localhost:5000/goods/${params.id}`, {
       userId: myContent.id,
       state: finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
       // publishTime: GoodsData.publishTime, // 不变
@@ -88,13 +89,14 @@ const Modify = () => {
       dizhi: values.dizhi,
       fahuofangshi: values.fahuo.fangshi ? values.fahuo.fangshi : 'baoyou',
       youfei: values.fahuo.fangshi === 'zishe' ? values.fahuo.youfei : 0,
-      tupian: values.tupian?values.tupian[0].name:GoodsData.tupian, // values.tupian.file.name
+      tupian: values.tupian ? values.tupian[0].name : GoodsData.tupian, // values.tupian.file.name
       editTime: Date.now(),
       // starList: GoodsData.starList,
       // view: 0,
-      tagList: tagIdList
+      tagList: tagIdList,
+      num: values.num
     })
-        // console.log("final2", tagIdList)
+    // console.log("final2", tagIdList)
     history.push(finishState === 0 ? '/published/draft' : '/published/publishing')
     notification.open({
       message: `${finishState === 0 ? '暂存' : '发布'}成功`,
@@ -316,6 +318,19 @@ const Modify = () => {
         ]}
       >
         <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
+      </Form.Item>
+
+      <Form.Item
+        label="存货数量"
+        name="num"
+        rules={[
+          {
+            pattern: /^[1-9]\d*$/,
+            message: '数量格式不合规范'
+          }
+        ]}
+      >
+        <Input style={{ width: '80px' }} type="number" />
       </Form.Item>
 
       <Form.Item

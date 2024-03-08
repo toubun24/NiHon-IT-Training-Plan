@@ -6,6 +6,7 @@ import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined } from
 import OtherAvatar from '../../../components/otherAvatar';
 import { useHistory } from 'umi';
 import MyBack from '../../../components/myBack';
+import moment from 'moment'; // 时间戳格式化
 
 const fahuofangshiList = {
   "zishe": "邮费: ¥",
@@ -91,7 +92,7 @@ const Goods = () => {
     }
   }
   const wannaBuy = () => {
-    console.log("wannaBuy")
+    history.push(`/goods/order/${params.id}`)
   }
   const follow = () => {
     // followerData 卖家粉丝
@@ -152,7 +153,11 @@ const Goods = () => {
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
         <span style={{ fontSize: '12px', fontWeight: 'bold' }}>{" "}{fahuofangshiList[detailData.fahuofangshi]}{detailData.fahuofangshi === "zishe" ? detailData.youfei : ""}</span>
+        <span style={{ fontSize: '12px' }}>{" 存货数量:"}{detailData.num}</span>
+        <span style={{ fontSize: '12px' }}>{" 收藏量:"}{starData.length}</span>
         <span style={{ fontSize: '12px' }}>{" 浏览量:"}{detailData.view}</span>
+        <span style={{ fontSize: '12px',marginLeft:'10px' }}>{" "}发布时间:{detailData.publishTime ? moment(detailData.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
+        <span style={{ fontSize: '12px' }}>{" "}最近修改:{detailData.editTime&&detailData.editTime!==detailData.publishTime ? moment(detailData.editTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
         <div>
           {
             tags && tags.length > 0 && tags.map((tag, index) => {

@@ -59,7 +59,8 @@ const Publish = () => {
       "editTime": Date.now(),
       "starList": [],
       "view": 0,
-      "tagList": tagIdList
+      "tagList": tagIdList,
+      "num":values.num
     })
     // console.log("final2", tagIdList)
     history.push(finishState === 0 ? '/published/draft' : '/published/publishing')
@@ -152,11 +153,14 @@ const Publish = () => {
         maxWidth: 600,
       }}
       initialValues={{
-        fangshi: "baoyou",
+        fahuo: {
+          fangshi: "baoyou" // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
+        },
         youfei: 0,
         yuanjia: 0,
         shoujia: 0,
-        dizhi: myContent.location ? myContent.location : []
+        dizhi: myContent.location ? myContent.location : [],
+        num: 1,
       }}
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
@@ -226,7 +230,7 @@ const Publish = () => {
                 width: 80,
               }}
               onChange={selected}
-              defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
+              // defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
               options={[
                 {
                   value: 'zishe',
@@ -280,6 +284,19 @@ const Publish = () => {
         ]}
       >
         <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
+      </Form.Item>
+
+      <Form.Item
+        label="存货数量"
+        name="num"
+        rules={[
+          {
+            pattern: /^[1-9]\d*$/,
+            message: '数量格式不合规范'
+          }
+        ]}
+      >
+        <Input style={{ width: '80px' }} type="number" />
       </Form.Item>
 
       <Form.Item

@@ -17,6 +17,8 @@
 
 * **2023.03.08 金曜日:** 
   * reactGTS-商品详情页 16:30-16:40
+  * reactGTS-商品下单页 16:40-18:00 19:20-19:55 20:55-22:00
+  * reactGTS-已买到-全部 
 
 * **2023.03.09 土曜日:** 
 
@@ -119,3 +121,17 @@ console.log(regex.test("."));           // false，仅包含小数点
 console.log(regex.test("123."));        // true，整数部分后只有小数点（如果允许的话）  
 console.log(regex.test("0."));          // true，以0开头，仅包含小数点（如果允许的话）
 ```
+### 【已解决】AntD Form initialValues使用state赋值时无法显示初始值
+* 参考文心一言：在您的示例中，`initialValues` 是在组件的渲染过程中定义的，而 `locationData` 是在 `useEffect` 钩子中异步获取的，因此 `initialValues` 可能会在 `locationData` 更新之前就已经被设置了。由于 `useEffect` 内部的 `await` 调用是异步的，`initialValues` 会使用 `locationData` 的初始值（一个空数组），而不是从服务器获取的值。为了解决这个问题，您可以在 `useEffect` 钩子中更新 `initialValues`。然而，由于 `initialValues` 是一个属性，它通常应该在组件的构造函数中或在函数组件的外部定义，并且一旦定义就不能更改。因此，您不能直接更新 `initialValues`。一个可行的解决方案是，在 `useEffect` 钩子中设置状态，然后在组件渲染时根据这个状态来设置表单的值。对于 `Form` 组件，您可以使用 `setFieldsValue` 方法来设置字段的值。在示例中，`useEffect` 钩子在组件挂载后执行，获取 `locationData`，并使用 `form.setFieldsValue` 方法来设置表单字段的值。注意，`form` 是通过 `Form.useForm()` 钩子获取的，并且 `useEffect` 钩子依赖 `form` 和 `myContent.id`，这意味着当 `myContent.id` 变化时，`useEffect` 会重新运行以获取新的位置数据。这样，您就可以确保在组件渲染时，表单字段的值已经被正确地设置为从服务器获取的位置数据了。
+* 总结来说，就是如果初始值来自axios.get后的set的state，那么就采用`form.setFieldsValue`的写法
+```JavaScript
+useEffect(async () => {
+  const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
+  form.setFieldsValue({  
+    shouhuo: {  
+      dizhi: res2.data.location, // 直接使用从服务器获取的位置数据  
+    },  
+  });  
+}, [])
+```
+而只有初始值是组件里本身写好的（比如0啊什么的默认字段）那么才能用`initialValues`

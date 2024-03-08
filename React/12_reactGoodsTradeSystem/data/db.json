@@ -89,7 +89,8 @@
       "starList": [
         6,
         "51",
-        "49"
+        "49",
+        "59"
       ],
       "location": [
         "河北省",
@@ -101,7 +102,9 @@
       "followList": [
         8
       ],
-      "followerList": [],
+      "followerList": [
+        8
+      ],
       "historyList": [],
       "registerTime": 1709643311268,
       "id": 7
@@ -111,7 +114,9 @@
       "state": 0,
       "password": "123",
       "starList": [
-        "55"
+        "55",
+        "61",
+        "60"
       ],
       "location": [
         "山西省",
@@ -122,7 +127,8 @@
       "balance": 45,
       "followList": [
         "55",
-        "55"
+        "55",
+        7
       ],
       "followerList": [
         7
@@ -756,24 +762,79 @@
       "youfei": 0,
       "tupian": "622e7c981ad96096.png",
       "editTime": 1709822162106,
-      "starList": [],
-      "view": 1,
+      "starList": [
+        7
+      ],
+      "view": 13,
       "tagList": [
         1,
         2
       ],
       "id": 59
+    },
+    {
+      "userId": 7,
+      "state": 1,
+      "publishTime": 1709897349747,
+      "introduction": "库存商品",
+      "yuanjia": 0,
+      "shoujia": "200",
+      "dizhi": [
+        "河北省",
+        "秦皇岛市",
+        "山海关区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "12",
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1709897349747,
+      "starList": [
+        8
+      ],
+      "view": 6,
+      "tagList": [
+        1,
+        28,
+        2
+      ],
+      "id": 60
+    },
+    {
+      "userId": 7,
+      "state": 1,
+      "publishTime": 1709897589142,
+      "introduction": "存货商品2",
+      "yuanjia": 0,
+      "shoujia": "20",
+      "dizhi": [
+        "河北省",
+        "秦皇岛市",
+        "山海关区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "2",
+      "tupian": "036033a8cfd69253.jpg",
+      "editTime": 1709897794785,
+      "starList": [
+        8
+      ],
+      "view": 13,
+      "tagList": [
+        29
+      ],
+      "num": 1,
+      "id": 61
     }
   ],
   "tags": [
     {
       "tagName": "123",
-      "tagNum": 40,
+      "tagNum": 41,
       "id": 1
     },
     {
       "tagName": "电脑",
-      "tagNum": 42,
+      "tagNum": 43,
       "id": 2
     },
     {
@@ -900,6 +961,103 @@
       "tagName": "机箱",
       "tagNum": 10,
       "id": 27
+    },
+    {
+      "tagName": "库存",
+      "tagNum": 1,
+      "id": 28
+    },
+    {
+      "tagName": "存货",
+      "tagNum": 2,
+      "id": 29
+    }
+  ],
+  "trades": [
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "price": "202",
+      "state": 0,
+      "num": "2",
+      "orderTime": 1709902806424,
+      "editTime": 1709902806424,
+      "note": "发2个",
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "111号",
+      "id": 1
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "price": "202",
+      "state": 0,
+      "num": "3",
+      "orderTime": 1709906033750,
+      "editTime": 1709906033750,
+      "note": "这里是备注",
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "101号",
+      "id": 2
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "goodId": "61",
+      "price": "202",
+      "state": 0,
+      "num": 1,
+      "orderTime": 1709906413637,
+      "editTime": 1709906413637,
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "123",
+      "id": 3
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "goodId": "61",
+      "price": "202",
+      "state": 0,
+      "num": 1,
+      "orderTime": 1709906450338,
+      "editTime": 1709906450338,
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "333",
+      "id": 4
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 7,
+      "goodId": "61",
+      "price": "402",
+      "state": 0,
+      "num": "2",
+      "orderTime": 1709906490858,
+      "editTime": 1709906490858,
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "222222",
+      "id": 5
     }
   ]
 }

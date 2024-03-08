@@ -81,7 +81,7 @@ const Modify = () => {
         await axios.patch(`http://localhost:5000/goods/${params.id}`, {
       userId: myContent.id,
       state: finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
-      publishTime: Date.now(),
+      // publishTime: GoodsData.publishTime, // 不变
       introduction: values.jianjie,
       yuanjia: values.yuanjia,
       shoujia: values.shoujia,
@@ -90,8 +90,8 @@ const Modify = () => {
       youfei: values.fahuo.fangshi === 'zishe' ? values.fahuo.youfei : 0,
       tupian: values.tupian?values.tupian[0].name:GoodsData.tupian, // values.tupian.file.name
       editTime: Date.now(),
-      starList: [],
-      view: 0,
+      // starList: GoodsData.starList,
+      // view: 0,
       tagList: tagIdList
     })
         // console.log("final2", tagIdList)

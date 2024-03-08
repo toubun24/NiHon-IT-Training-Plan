@@ -45,7 +45,8 @@ const Publishing = () => {
   const handleOk = () => {
     setListData(listData.filter(data => data.id !== clickId)) // 页面不再显示
     axios.patch(`http://localhost:5000/goods/${clickId}`, {
-      "state": 4
+      state: 4,
+      editTime: Date.now()
     }).then(res => {
       notification.open({
         message: '通知',

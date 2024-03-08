@@ -22,6 +22,7 @@ const Goods = () => {
   // const [isStar, setIsStar] = useState();
   const [starData, setStarData] = useState([]);
   const [starData2, setStarData2] = useState([]);
+  const [followerData, setFollowerData] = useState([]);
   const [followData, setFollowData] = useState([]);
   const history = useHistory()
   const [tagData, setTagData] = useState([]);
@@ -37,10 +38,10 @@ const Goods = () => {
     setUserData(res.data.user)
     setDizhiData(res.data.dizhi)
     setStarData(res.data.starList)
-    setFollowData(res.data.user.followList)
+    setFollowerData(res.data.user.followerList)
     setTagData(res.data.tagList)
     const tagIdData = res.data.tagList
-    console.log(res.data.starList)
+    // console.log(res.data.starList)
     // console.log("tagIdData", tagIdData[0], tagIdData[1], tagIdData[2])
     // setIsStar(starData.includes(params.id)) // 后面组件直接跳过state调用了 // console.log(starData, isStar, starData.includes(params.id)) // ['19'] undefined true // ['19'] false true
     // return res.data // res.view
@@ -66,6 +67,7 @@ const Goods = () => {
     }))
     const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
     setStarData2(res2.data.starList)
+    setFollowData(res2.data.followList)
   }, [])
 
   const addStar = () => {
@@ -92,21 +94,20 @@ const Goods = () => {
     console.log("wannaBuy")
   }
   const follow = () => {
-    if (followData.includes(userData.id) === true) {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData.filter(data => data !== userData.id)] }).then(
-        res => setFollowData(res.data.followList)
-      )
-      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followData.filter(data => data !== myContent.id)] })
-    } else if (followData.length > 0) {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData, userData.id] }).then(
-        res => setFollowData(res.data.followList)
-      )
-      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followData, myContent.id] })
-    } else {
-      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [userData.id] }).then(
-        res => setFollowData(res.data.followList)
-      )
-      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [myContent.id] })
+    // followerData 卖家粉丝
+    // followData 买家关注
+    // userData.id 卖家id
+    // myContent.id 买家id
+    if (followerData.includes(myContent.id) === true) {
+      setFollowerData(followerData.filter(data => data !== myContent.id))
+      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: followerData.filter(data => data !== myContent.id) })
+      setFollowData(followData.filter(data => data !== userData.id))
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: followData.filter(data => data !== userData.id) })
+    } else { // [...[],XXX] is ok // } else if (starData.length > 0) {
+      setFollowerData([...followerData, myContent.id])
+      axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followerData, myContent.id] })
+      setFollowData([...followData, userData.id])
+      axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData, userData.id] })
     }
   }
   const modify = () => {

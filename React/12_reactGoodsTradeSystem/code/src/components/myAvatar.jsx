@@ -50,8 +50,8 @@ const MyAvatar = () => {
         items,
       }}
       placement="bottomRight"
-    >
-      <div style={{ float: 'right' }}>
+          >
+      <div style={{ float: 'right', cursor: 'pointer' }} onClick={()=>history.push('/homepage')}>
         {
           userData.avatar ? <Avatar src={<img src={require(`@/images/avatars/${userData.avatar}`)} alt="avatar" />} /> : <Avatar
             style={{

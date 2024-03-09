@@ -133,7 +133,7 @@ const Goods = () => {
           {userData.id >= 0 && <OtherAvatar userIdInfo={userData.id} />}
         </div>
         <div style={{ marginRight: '10px' }}>
-          <div style={{ fontWeight: 'bold' }}>{userData ? userData.username : ""}</div>
+          <div style={{ fontWeight: 'bold',cursor:'pointer' }} onClick={()=>history.push(`/homepages/${userData.id}`)}>{userData ? userData.username : ""}</div>
           <div style={{ fontSize: '10px', marginTop: '5px' }}>
             <EnvironmentOutlined />
             <span>

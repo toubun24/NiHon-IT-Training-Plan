@@ -153,11 +153,10 @@ const Goods = () => {
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
         <span style={{ fontSize: '12px', fontWeight: 'bold' }}>{" "}{fahuofangshiList[detailData.fahuofangshi]}{detailData.fahuofangshi === "zishe" ? detailData.youfei : ""}</span>
-        <span style={{ fontSize: '12px' }}>{" 存货数量:"}{detailData.num}</span>
-        <span style={{ fontSize: '12px' }}>{" 收藏量:"}{starData.length}</span>
+                <span style={{ fontSize: '12px' }}>{" 收藏量:"}{starData.length}</span>
         <span style={{ fontSize: '12px' }}>{" 浏览量:"}{detailData.view}</span>
-        <span style={{ fontSize: '12px',marginLeft:'10px' }}>{" "}发布时间:{detailData.publishTime ? moment(detailData.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
-        <span style={{ fontSize: '12px' }}>{" "}最近修改:{detailData.editTime&&detailData.editTime!==detailData.publishTime ? moment(detailData.editTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
+        <span style={{ fontSize: '12px', marginLeft: '10px' }}>{" "}发布时间:{detailData.publishTime ? moment(detailData.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
+        <span style={{ fontSize: '12px' }}>{" "}最近修改:{detailData.editTime && detailData.editTime !== detailData.publishTime ? moment(detailData.editTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
         <div>
           {
             tags && tags.length > 0 && tags.map((tag, index) => {
@@ -207,6 +206,7 @@ const Goods = () => {
       <div style={{
         textAlign: 'right' // 水平向右对齐
       }}>
+        <span style={{ fontSize: '14px',marginRight: '5px' }}>{"存货数量:"}<span style={{ fontSize: '16px' }}>{detailData.num}</span></span>
         {
           userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
         }
@@ -216,8 +216,9 @@ const Goods = () => {
               <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>
         }
         {
-          userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />} disabled>我想要</Button> :
-            <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>
+          detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
+            userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>我想要</Button> :
+              <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>
         }
       </div>
     </div>

@@ -31,6 +31,14 @@ const handleList = [
   "查看进度", // 4 for 退款中
   "-", // 5 for 已取消
 ]
+const cancelList = [
+  "取消订单", // 0 for 已下单待付款
+  "退款", // 1 for 已付款待发货
+  "退款", // 2 for 待收货
+  "申诉", // 3 for 待评价
+  "取消退款", // 4 for 退款中
+  "-", // 5 for 已取消
+]
 
 const BoughtAll = () => {
   const [listData, setListData] = useState([]);
@@ -49,7 +57,10 @@ const BoughtAll = () => {
     // const res2 = await axios.get(`http://localhost:5000/goods/?buyerId=${params.id}&_sort=editTime&_order=desc`) // 按时间降序 // desc // state_ne
     // setTradeData(res2.data)
     // console.log("0",res.data)
-    const requests = tradesData && tradesData.map(item => { console.log("item", item); return axios.get(`http://localhost:5000/goods/${item.goodId}`) });
+    const requests = tradesData && tradesData.map(item => {
+      // console.log("item", item)
+      return axios.get(`http://localhost:5000/goods/${item.goodId}`)
+    });
     axios.all(requests).then(axios.spread((...responses) => { // axios.all // axios.spread // 和这一层可能也有关
       const goodsData = responses.map(response => {
         // console.log("!",response.data)
@@ -66,10 +77,6 @@ const BoughtAll = () => {
       }))
     }))
   }, []);
-  const showModal = (itemId) => {
-    setClickId(itemId)
-    setIsModalOpen(true);
-  };
   const handleOk = () => {
     setListData(listData.filter(data => data.id !== clickId)) // 页面不再显示
     axios.patch(`http://localhost:5000/goods/${clickId}`, {
@@ -93,8 +100,11 @@ const BoughtAll = () => {
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
     history.push(`/goods/modify/${itemId}`)
   }
+  const handleTrade2 = (itemId, itemState) => {
+    setClickId(itemId)
+    setIsModalOpen(true);
+  };
   const tradeDetail = (itemId) => {
-
     history.push(`/orders/${itemId}`)
   }
 
@@ -111,25 +121,25 @@ const BoughtAll = () => {
         // loading
         renderItem={(item) => (
           <List.Item
-            actions={[<a onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>, <a style={{ color: "red" }} onClick={() => { showModal(item.good.id) }}>删除</a>]}
+            actions={[<a onClick={() => history.push(`/snapshots/${item.id}`)}>查看快照</a>, <a onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>, <a style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a>]}
           >
             <Modal title="是否删除商品？" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
               <p>商品下架后，进行中和已完成的订单不受影响；下架的商品将在【已下架】中继续保留7天</p>
             </Modal>
             <Skeleton avatar title={false} loading={item.good.loading} active>
               <List.Item.Meta
-                avatar={<Avatar shape="square" size={96} src={require(`@/images/goods/${item.good.tupian}`)} />} // src require @/
-                title={<a onClick={() => tradeDetail(item.id)}>{item.good.introduction}</a>}
+                avatar={<Avatar shape="square" size={96} src={require(`@/images/goods/${item.good.tupian}`)} onClick={() => history.push(`/goods/detail/${item.goodId}`)} style={{ cursor: 'pointer' }} />} // src require @/
+                title={<a onClick={() => tradeDetail(item.id)}>订单详情-{item.good.introduction}</a>}
                 description={
                   <>
                     <div style={{ color: "red" }}>¥ {item.price}</div>
                     <br />
                     <Space style={{ fontSize: 12 }}>
                       <div>
-                        下单时间:{item.good.publishTime ? moment(item.orderTime).format('YY/MM/DD HH:mm:ss') : "-"}
+                        下单时间:{moment(item.orderTime).format('YY/MM/DD HH:mm:ss')}
                       </div>
                       <div>
-                        最近修改:{item.good.editTime ? moment(item.editTime).format('YY/MM/DD HH:mm:ss') : "-"}
+                        快照时间:{item.editTime && item.editTime !== item.orderTime ? moment(item.editTime).format('YY/MM/DD HH:mm:ss') : "-"}
                       </div>
                     </Space>
                   </>

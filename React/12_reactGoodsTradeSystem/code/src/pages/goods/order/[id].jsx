@@ -27,7 +27,7 @@ const Order = () => {
       },
       // num:1
     });
-    setTotalPrice(numValue*res.data.shoujia + res.data.youfei) // 初始值
+    setTotalPrice(numValue * res.data.shoujia + res.data.youfei) // 初始值
   }, [])
   const onFinish = async (values) => { // async
     await axios.post('http://localhost:5000/trades', {
@@ -42,9 +42,22 @@ const Order = () => {
       "note": values.beizhu,
       "dizhi1": values.shouhuo.dizhi1,
       "dizhi2": values.shouhuo.dizhi2,
+      // 快照内容
+      "publishTime": GoodsData.publishTime,
+      "introduction": GoodsData.introduction,
+      "yuanjia": GoodsData.yuanjia,
+      "shoujia": GoodsData.shoujia,
+      "dizhi": GoodsData.dizhi,
+      "fahuofangshi": GoodsData.fahuofangshi,
+      "youfei": GoodsData.youfei,
+      "tupian": GoodsData.tupian, // values.tupian.file.name
+      "editTime": GoodsData.editTime,
+      "tagList": GoodsData.tagList,
     })
+    // console.log("GoodsData.num",GoodsData.num,"values.num",values.num,GoodsData.num == values.num)
     await axios.patch(`http://localhost:5000/goods/${params.id}`, {
-      num: GoodsData.num-values.num
+      num: GoodsData.num - values.num,
+      state: GoodsData.num == values.num ? 5 : GoodsData.state // 5已售罄 // ===时判定为false所以改为==就行了，可能是原格式不完全相同
     })
     // console.log("final2", tagIdList)
     history.push('/bought/all')
@@ -88,7 +101,7 @@ const Order = () => {
         initialValues={{
           num: 1,
         }}
-        // onValuesChange={handleNumChange}
+      // onValuesChange={handleNumChange}
       >
 
         <Form.Item

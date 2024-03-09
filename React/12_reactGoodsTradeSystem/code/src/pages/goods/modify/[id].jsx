@@ -81,7 +81,7 @@ const Modify = () => {
     }
     await axios.patch(`http://localhost:5000/goods/${params.id}`, {
       userId: myContent.id,
-      state: finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
+      state: finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架 // 5已售罄
       // publishTime: GoodsData.publishTime, // 不变
       introduction: values.jianjie,
       yuanjia: values.yuanjia,

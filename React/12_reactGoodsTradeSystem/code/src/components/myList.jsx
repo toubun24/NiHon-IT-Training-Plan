@@ -11,17 +11,17 @@ const MyList = ({ data }) => { // {data} //, tabId
   // const [displayData,setDisplayData]=useState([])
   // const [tabsId,setTabsId]=useState()
   // useEffect(()=>{
-    // setTabsId(tabId)
-    /*
+  // setTabsId(tabId)
+  /*
+  setDisplayData(data)
+  if(tabsId===1){
+    console.log(data)
     setDisplayData(data)
-    if(tabsId===1){
-      console.log(data)
-      setDisplayData(data)
-    }else if(tabsId===2){
-      setDisplayData([...data].sort((a, b) => b.view - a.view))
-    }else{
-      setDisplayData([...data].sort((a, b) => b.publishTime - a.publishTime))
-    }*/
+  }else if(tabsId===2){
+    setDisplayData([...data].sort((a, b) => b.view - a.view))
+  }else{
+    setDisplayData([...data].sort((a, b) => b.publishTime - a.publishTime))
+  }*/
   // }, []);
   const history = useHistory()
   // console.log(tabsId)
@@ -55,15 +55,24 @@ const MyList = ({ data }) => { // {data} //, tabId
                   title={<span style={{ fontSize: "14px" }}>{item.introduction}</span>} // 换行 whiteSpace:"pre-wrap"
                   description={
                     <div>
-                      <span style={{ color: 'red', marginRight: "4px" }}>¥{item.shoujia}</span>
-                      <span style={{ textDecoration: 'line-through', fontSize: '10px', marginRight: "15px" }}>{"¥"}{item.yuanjia}</span>
-                      <span style={{ fontSize: '10px', float: 'right', marginTop: '5.5px' }}>{item.editTime ? moment(item.editTime).format('YY/MM/DD') : "-"}</span>
-                      <span style={{ fontSize: '10px', float: 'right', marginTop: '5.5px',marginLeft:"30px" }}><EyeOutlined />{item.view}</span>
-                      <br />
-                      <Space size={5}>
-                        <OtherAvatar userIdInfo={item.userId} size={"small"} />
-                        <div style={{ textAlign: 'right', width: "10px", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{item.user.username}</div>
-                      </Space>
+                      <div>
+                        <span style={{ color: 'red', marginRight: "4px" }}>¥{item.shoujia}</span>
+                        {item.yuanjia !== 0 && <span style={{ textDecoration: 'line-through', fontSize: '10px', marginRight: "15px" }}>{"¥"}{item.yuanjia}</span>}
+                        <span style={{ fontSize: '10px', float: 'right', marginTop: '5.5px' }}>{item.editTime ? moment(item.editTime).format('YY/MM/DD') : "-"}</span>
+                      </div>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <Space size={5} style={{ flex: 1, overflow: 'hidden' }}>
+                          <OtherAvatar userIdInfo={item.userId} size={"small"} />
+                          <span style={{ textAlign: 'right', textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+                            <span style={{ maxWidth: '30px', textAlign: 'right', textOverflow: "ellipsis", whiteSpace: "nowrap", overflow: 'hidden' }}>
+                              {item.user.username}
+                            </span>
+                          </span>
+                        </Space>
+                        <span style={{ fontSize: '10px', marginTop: '5.5px' }}>
+                          <EyeOutlined /> {item.view}
+                        </span>
+                      </div>
                     </div>
                   }
                 />

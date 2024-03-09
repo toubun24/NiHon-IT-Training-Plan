@@ -132,11 +132,34 @@
         7
       ],
       "followerList": [
-        7
+        7,
+        9
       ],
       "historyList": [],
       "registerTime": 1709711927378,
       "id": 8
+    },
+    {
+      "username": "toubun77",
+      "state": 0,
+      "password": "123",
+      "starList": [
+        "63"
+      ],
+      "location": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "avatar": "8181052043224923779.jpg",
+      "balance": 0,
+      "followList": [
+        8
+      ],
+      "followerList": [],
+      "historyList": [],
+      "registerTime": 1709972220013,
+      "id": 9
     }
   ],
   "rights": [
@@ -508,7 +531,7 @@
         7,
         8
       ],
-      "view": 178,
+      "view": 179,
       "tagList": [
         1,
         2,
@@ -851,12 +874,39 @@
       ],
       "num": 3,
       "id": 62
+    },
+    {
+      "userId": 8,
+      "state": 5,
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1709975470102,
+      "starList": [
+        9
+      ],
+      "view": 22,
+      "tagList": [
+        1,
+        30
+      ],
+      "num": 0,
+      "id": 63
     }
   ],
   "tags": [
     {
       "tagName": "123",
-      "tagNum": 42,
+      "tagNum": 45,
       "id": 1
     },
     {
@@ -998,6 +1048,11 @@
       "tagName": "存货",
       "tagNum": 2,
       "id": 29
+    },
+    {
+      "tagName": "售罄",
+      "tagNum": 3,
+      "id": 30
     }
   ],
   "trades": [
@@ -1069,6 +1124,176 @@
       ],
       "dizhi2": "123",
       "id": 6
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "63",
+      "price": "51",
+      "state": 0,
+      "num": 1,
+      "orderTime": 1709972408892,
+      "editTime": 1709971800408,
+      "note": "1",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "1",
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "tagList": [
+        1,
+        30
+      ],
+      "id": 7
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "63",
+      "price": "101",
+      "state": 0,
+      "num": "2",
+      "orderTime": 1709972639799,
+      "editTime": 1709971800408,
+      "note": "2",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "2",
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "tagList": [
+        1,
+        30
+      ],
+      "id": 8
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "63",
+      "price": "51",
+      "state": 0,
+      "num": 1,
+      "orderTime": 1709974636326,
+      "editTime": 1709974506651,
+      "note": "1",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "1",
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "tagList": [
+        1,
+        30
+      ],
+      "id": 9
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "63",
+      "price": "101",
+      "state": 0,
+      "num": "2",
+      "orderTime": 1709975341167,
+      "editTime": 1709974506651,
+      "note": "1",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "1",
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "tagList": [
+        1,
+        30
+      ],
+      "id": 10
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "63",
+      "price": "51",
+      "state": 0,
+      "num": 1,
+      "orderTime": 1709975481912,
+      "editTime": 1709975470102,
+      "note": "1",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "1",
+      "publishTime": 1709971800408,
+      "introduction": "售罄测试",
+      "yuanjia": 0,
+      "shoujia": "5",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": "1",
+      "tupian": "622e7c981ad96096.png",
+      "tagList": [
+        1,
+        30
+      ],
+      "id": 11
     }
   ]
 }

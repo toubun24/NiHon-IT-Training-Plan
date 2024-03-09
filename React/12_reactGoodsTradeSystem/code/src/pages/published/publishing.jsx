@@ -11,6 +11,7 @@ const colorList = [
   "green", // 2 for 发布中
   "red", // 3 for 审核未通过
   "-", // 4 for 已下架
+  "purple", // 5 for 已售罄
 ]
 const stateList = [
   "-", // 0 for nothing
@@ -18,6 +19,7 @@ const stateList = [
   "发布中", // 2 for 发布中
   "未通过", // 3 for 审核未通过
   "-", // 4 for 已下架
+  "已售罄", // 5 for 已售罄
 ]
 
 const Publishing = () => {

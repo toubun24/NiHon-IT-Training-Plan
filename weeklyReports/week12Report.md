@@ -24,8 +24,8 @@
   * reactGTS-已买到-全部 15:35-17:15
   * reactGTS-订单详情页 20:15-21:15
   * reactGTS-用户主页展示 21:15-21:50
-  * reactGTS-商品快照页 
-  * reactGTS-商品收藏页 
+  * reactGTS-商品快照页 22:45-23:25
+  * reactGTS-商品收藏页 23:25-23:30
 
 * **2023.03.10 日曜日:** 
 
@@ -175,3 +175,39 @@ useEffect(async () => {
   </span>
 </div>
 ```
+### 【已解决】react antd form: 要求输入框中数字变化时实时计算出新的结果并输出到屏幕上，但屏幕上输出的值总是慢了一步
+* 原代码
+```jsx
+const handleNumChange = (e) => { // e // onChange写在Input里
+  // console.log("1",changedValues)
+  const value = e.target.value // e.target.value
+  setNumValue(value)
+  console.log("change",Number(numValue),Number(GoodsData.shoujia),Number(GoodsData.youfei))
+  setTotalPrice(Number(numValue) * Number(GoodsData.shoujia) + Number(GoodsData.youfei)); // Number
+}
+```
+```jsx
+<Form.Item
+  label="总金额">
+  <div style={{ color: 'red' }}>¥{
+    totalPrice // form.getFieldValue('name')引用表单值
+  } <span style={{ color: 'black' }}>(含邮费<span style={{ color: 'red' }}>{GoodsData.youfei}</span>元)</span></div>
+</Form.Item>
+```
+* 根据文心一言：
+在React中，当你使用状态钩子（如`useState`）来更新状态时，更新并不会立即反映到组件的渲染中，因为React的更新是异步的。所以，当你调用`setNumValue(value)`后，`numValue`可能还没更新，你就立即使用了它来计算`totalPrice`，这会导致你看到的`totalPrice`总是慢了一步。
+为了在状态更新后立即进行计算，你可以使用`useEffect`钩子来监听`numValue`的变化，并在其变化时更新`totalPrice`。此外，你不需要在`handleNumChange`函数中直接计算`totalPrice`，只需要更新`numValue`即可。
+以下是一个修改后的代码示例：
+```jsx
+  // 处理数字变化的函数
+  const handleNumChange = (e) => {
+    const value = e.target.value;
+    setNumValue(Number(value)); // 转换为数字后设置状态
+  };
+  // 当numValue变化时，计算totalPrice
+  useEffect(() => {
+    setTotalPrice(numValue * shoujia + youfei);
+  }, [numValue, shoujia, youfei]); // 依赖项列表中包括numValue和其他相关变量
+```
+在这个示例中，我移除了`handleNumChange`中的`setTotalPrice`调用，并将其替换为`useEffect`钩子。当`numValue`变化时，`useEffect`会重新运行，并且根据新的`numValue`来计算`totalPrice`。这样，你就能确保每次`numValue`更新时，`totalPrice`都会得到正确的计算。
+请注意，`useEffect`的依赖项列表应该包含所有在计算`totalPrice`时需要用到的变量，以确保当这些变量变化时，`useEffect`能够重新运行。在这个例子中，除了`numValue`之外，我还包括了`shoujia`和`youfei`，因为如果商品的价格或邮费变化了，总价格也应该相应地更新。

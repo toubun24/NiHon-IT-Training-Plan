@@ -27,7 +27,7 @@ const Order = () => {
       },
       // num:1
     });
-    setTotalPrice(numValue * res.data.shoujia + res.data.youfei) // 初始值
+    setTotalPrice(Number(numValue) * Number(res.data.shoujia) + Number(res.data.youfei)) // 初始值 // Number
   }, [])
   const onFinish = async (values) => { // async
     await axios.post('http://localhost:5000/trades', {
@@ -51,7 +51,7 @@ const Order = () => {
       "fahuofangshi": GoodsData.fahuofangshi,
       "youfei": GoodsData.youfei,
       "tupian": GoodsData.tupian, // values.tupian.file.name
-      "editTime2": GoodsData.editTime,
+      "finalEditTime": GoodsData.editTime,
       "tagList": GoodsData.tagList,
     })
     // console.log("GoodsData.num",GoodsData.num,"values.num",values.num,GoodsData.num == values.num)
@@ -76,9 +76,14 @@ const Order = () => {
   const handleNumChange = (e) => { // e // onChange写在Input里
     // console.log("1",changedValues)
     const value = e.target.value // e.target.value
-    setNumValue(value)
-    setTotalPrice(value * GoodsData.shoujia + GoodsData.youfei);
+    setNumValue(Number(value))
+    // setNumValue(value)
+    // console.log("change",Number(numValue),Number(GoodsData.shoujia),Number(GoodsData.youfei))
+    // setTotalPrice(Number(numValue) * Number(GoodsData.shoujia) + Number(GoodsData.youfei)); // Number
   }
+  useEffect(() => {
+    setTotalPrice(numValue * Number(GoodsData.shoujia) + Number(GoodsData.youfei));
+  }, [numValue, GoodsData.shoujia, GoodsData.youfei]);
 
   return (
     <div>

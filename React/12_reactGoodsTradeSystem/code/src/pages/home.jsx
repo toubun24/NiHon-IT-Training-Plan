@@ -7,20 +7,18 @@ import MyList from '../components/myList';
 const { Search } = Input;
 const onSearch = (value, _e, info) => console.log(info?.source, value);
 const labelList = [
-  "猜你喜欢",
+  "商品收藏",
   "热门商品",
   "最新发布"
 ]
 
 const Home = () => {
   const [goodsData, setGoodsData] = useState([]);
-  useEffect(() => {
-    axios.get(`http://localhost:5000/goods?_expand=user`).then(
-      res => {
-        const tmpData=res.data
-        setGoodsData([tmpData,[...tmpData].sort((a, b) => b.view - a.view),[...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
-      }
-    )
+  useEffect(async () => {
+    const res = await axios.get(`http://localhost:5000/goods?_expand=user`)
+    const tmpData = res.data
+    setGoodsData([tmpData, [...tmpData].sort((a, b) => b.view - a.view), [...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
+
   }, []);
   const handlerInput = (event) => {
     const newlist = goodsData.introduction.filter(item => { // filter查询
@@ -44,12 +42,12 @@ const Home = () => {
           return {
             label: labelList[id - 1],
             key: id,
-            children: <div><MyList data={goodsData[i]}/></div>,
+            children: <div><MyList data={goodsData[i]} /></div>,
             icon: <Icon />
           };
         })}
       />
-      </div>
+    </div>
   )
 }
 export default Home;

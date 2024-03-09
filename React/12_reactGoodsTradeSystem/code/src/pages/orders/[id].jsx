@@ -124,8 +124,7 @@ const Orders = () => {
     {
       key: '8',
       label: '快照时间',
-      span: 2,
-      children: moment(tradeData.editTime2).format('YY/MM/DD HH:mm:ss'),
+      children: moment(tradeData.finalEditTime).format('YY/MM/DD HH:mm:ss'),
     },
     {
       key: '9',
@@ -151,7 +150,7 @@ const Orders = () => {
       key: '13',
       label: '备注',
       span: 4,
-      children: tradeData.note,
+      children: tradeData.note?tradeData.note:"-",
     },
 
   ];

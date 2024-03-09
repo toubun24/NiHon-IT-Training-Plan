@@ -49,19 +49,19 @@ const Homepages = () => {
       }
     )
     axios.get(`http://localhost:5000/users/${params.id}`).then( // 按发布时间降序 // desc // state_ne
-    res => {
-      setUserData(res.data)
-      setBalanceData(res.data.balance)
-      setFollowData(res.data.followerList.length)
-      const nowTime = new Date()
-    const nowDay = nowTime.setHours(0, 0, 0, 0)
-    const registerTime = new Date(res.data.registerTime) // res.data.registerTime
-    const registerDay = registerTime.setHours(0, 0, 0, 0)
-    const differenceInDays = Math.floor((nowDay - registerDay) / (1000 * 60 * 60 * 24))
-    // console.log("differenceInDays",differenceInDays)
-    setDayData(differenceInDays)
-    }
-  )
+      res => {
+        setUserData(res.data)
+        setBalanceData(res.data.balance)
+        setFollowData(res.data.followerList.length)
+        const nowTime = new Date()
+        const nowDay = nowTime.setHours(0, 0, 0, 0)
+        const registerTime = new Date(res.data.registerTime) // res.data.registerTime
+        const registerDay = registerTime.setHours(0, 0, 0, 0)
+        const differenceInDays = Math.floor((nowDay - registerDay) / (1000 * 60 * 60 * 24))
+        // console.log("differenceInDays",differenceInDays)
+        setDayData(differenceInDays)
+      }
+    )
   }, [])
   const showModal = () => {
     setIsModalOpen(true);

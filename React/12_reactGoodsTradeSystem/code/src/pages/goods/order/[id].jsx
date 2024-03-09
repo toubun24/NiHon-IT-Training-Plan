@@ -51,7 +51,7 @@ const Order = () => {
       "fahuofangshi": GoodsData.fahuofangshi,
       "youfei": GoodsData.youfei,
       "tupian": GoodsData.tupian, // values.tupian.file.name
-      "editTime": GoodsData.editTime,
+      "editTime2": GoodsData.editTime,
       "tagList": GoodsData.tagList,
     })
     // console.log("GoodsData.num",GoodsData.num,"values.num",values.num,GoodsData.num == values.num)

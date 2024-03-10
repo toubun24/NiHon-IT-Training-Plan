@@ -125,7 +125,7 @@
         "矿区"
       ],
       "avatar": "download - Copy.jpg",
-      "balance": 130,
+      "balance": 50,
       "followList": [
         "55",
         "55",
@@ -137,7 +137,7 @@
       ],
       "historyList": [],
       "registerTime": 1709711927378,
-      "earn": 230,
+      "earn": 150,
       "id": 8
     },
     {
@@ -158,7 +158,7 @@
         "东城区"
       ],
       "avatar": "8181052043224923779.jpg",
-      "balance": 80,
+      "balance": 170,
       "followList": [
         8
       ],
@@ -1009,11 +1009,11 @@
       "starList": [
         9
       ],
-      "view": 7,
+      "view": 9,
       "tagList": [
         1
       ],
-      "num": 86,
+      "num": 82,
       "id": 66
     }
   ],
@@ -1616,7 +1616,7 @@
       "sellerId": 8,
       "goodId": "66",
       "price": 35,
-      "state": 1,
+      "state": 3,
       "num": "3",
       "orderTime": 1710080205622,
       "editTime": 1710080205622,
@@ -1642,14 +1642,15 @@
       "tagList": [
         1
       ],
-      "id": 18
+      "id": 18,
+      "kuaidi": "123123123"
     },
     {
       "buyerId": 9,
       "sellerId": 8,
       "goodId": "66",
       "price": 35,
-      "state": 0,
+      "state": 6,
       "num": "3",
       "orderTime": 1710080211161,
       "editTime": 1710080211161,
@@ -1675,7 +1676,79 @@
       "tagList": [
         1
       ],
-      "id": 19
+      "id": 19,
+      "dot": true
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "66",
+      "price": 25,
+      "state": 1,
+      "num": "2",
+      "orderTime": 1710086534983,
+      "editTime": 1710086534983,
+      "note": "1",
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "1",
+      "kuaidi": "",
+      "publishTime": 1710079516031,
+      "introduction": "邮费测试2",
+      "yuanjia": 0,
+      "shoujia": "10",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": 5,
+      "tupian": "b11e8de29678ebbd.jpg",
+      "finalEditTime": 1710079516031,
+      "tagList": [
+        1
+      ],
+      "id": 20,
+      "dot": true
+    },
+    {
+      "buyerId": 9,
+      "sellerId": 8,
+      "goodId": "66",
+      "price": 25,
+      "state": 1,
+      "num": "2",
+      "orderTime": 1710088951693,
+      "editTime": 1710088951693,
+      "dizhi1": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "dizhi2": "2",
+      "kuaidi": "",
+      "dot": false,
+      "publishTime": 1710079516031,
+      "introduction": "邮费测试2",
+      "yuanjia": 0,
+      "shoujia": "10",
+      "dizhi": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "fahuofangshi": "zishe",
+      "youfei": 5,
+      "tupian": "b11e8de29678ebbd.jpg",
+      "finalEditTime": 1710079516031,
+      "tagList": [
+        1
+      ],
+      "id": 21
     }
   ]
 }

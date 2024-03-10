@@ -38,7 +38,7 @@ const handleList = [
 const cancelList = [
   "取消订单", // 0 for 已下单待付款
   "退款", // 1 for 已付款待发货
-  "退款", // 2 for 待收货
+  "查询物流", // 2 for 待收货
   "申诉", // 3 for 待评价
   "取消退款", // 4 for 退款中
   "-", // 5 for 已取消
@@ -59,6 +59,7 @@ const BoughtAll = () => {
   const [isModalOpen1, setIsModalOpen1] = useState(allClosedStatus);
   const [isModalOpen2, setIsModalOpen2] = useState(allClosedStatus);
   const [myBalance, setMyBalance] = useState();
+  const [myKuaidi, setMyKuaidi] = useState();
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/trades/?buyerId=${myContent}&_sort=editTime&_order=desc`) // 按时间降序 // desc // state_ne
@@ -123,6 +124,7 @@ const BoughtAll = () => {
         balance: myBalance - displayPrice
       })
       const tradeInfo = mergedData.find(obj => obj.id === handlingId)
+      // console.log(mergedData.find(obj => obj.id === handlingId))
       const res = await axios.get(`http://localhost:5000/users/${tradeInfo.sellerId}`)
       const earnMoney = displayPrice - Number(tradeInfo.youfei) // 邮费不算赚到的
       await axios.patch(`http://localhost:5000/users/${tradeInfo.sellerId}`, {
@@ -173,15 +175,22 @@ const BoughtAll = () => {
     });
     setIsModalOpen2(allClosedStatus);
   };
+  const handleOk11 = async () => {
+    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+      dot: true
+    })
+    message.info('已催卖家发货')
+    setIsModalOpen1(allClosedStatus);
+  };
   const handleOk12 = async () => {
-    console.log("myBalance",myBalance,"displayPrice",displayPrice)
+    // console.log("myBalance",myBalance,"displayPrice",displayPrice)
     await axios.patch(`http://localhost:5000/users/${myContent}`, {
       balance: myBalance + displayPrice
     })
     const tradeInfo = mergedData.find(obj => obj.id === handlingId)
     const res = await axios.get(`http://localhost:5000/users/${tradeInfo.sellerId}`)
     const earnMoney = displayPrice - Number(tradeInfo.youfei) // 邮费不算赚到的
-    console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
+    // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
     await axios.patch(`http://localhost:5000/users/${tradeInfo.sellerId}`, {
       balance: res.data.balance - earnMoney,
       earn: res.data.earn - earnMoney
@@ -204,6 +213,25 @@ const BoughtAll = () => {
       placement: "bottomRight"
     });
     setIsModalOpen2(allClosedStatus);
+  };
+  const handleOk21 = async () => {
+    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+      state: 3
+    })
+    setMergedData(mergedData.map(obj => {
+      if (obj.id === handlingId) {
+        return { ...obj, state: 3 };
+      }
+      return obj;
+    }));
+    notification.open({
+      message: '通知',
+      description:
+        `请到【待评价】查看已收货商品`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen1(allClosedStatus);
   };
   const handleCancel = () => {
     setIsModalOpen1(allClosedStatus);
@@ -228,8 +256,20 @@ const BoughtAll = () => {
           <List.Item
             actions={[
               <a className="fixed-width-action" onClick={() => history.push(`/snapshots/${item.id}`)}>查看快照</a>,
-              item.state !== 5 ? <a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a> : <span className="fixed-width-action">-</span>,
-              item.state !== 5 ? <a className="fixed-width-action" style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a> : <span className="fixed-width-action">-</span>
+              item.state !== 5 && item.state !== 6 ?
+                <a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>
+                :
+                <span className="fixed-width-action">-</span>,
+              item.state === 2 ?
+                <a className="fixed-width-action" onClick={() => {
+                  setMyKuaidi(mergedData.find(obj => obj.id === item.id).kuaidi)
+                  handleTrade2(item.id, item.state)
+                }}>{cancelList[item.state]}</a>
+                :
+                item.state !== 5 && item.state !== 6 ?
+                  <a className="fixed-width-action" style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a>
+                  :
+                  <span className="fixed-width-action">-</span>
             ]}
           >
             <Modal // 01 付款
@@ -254,6 +294,17 @@ const BoughtAll = () => {
             >
               <p>是否确认取消订单</p>
             </Modal>
+            <Modal // 11 催发货
+              title="催发货"
+              open={isModalOpen1[1]}
+              closeIcon={false}
+              footer={[ // footer
+                <Button key='back' onClick={handleCancel}>返回</Button>,
+                <Button key='ok' type="primary" onClick={handleOk11}>我是吉吉国王，速速发货</Button>,
+              ]}
+            >
+              <p>是否催促卖家尽快发货</p>
+            </Modal>
             <Modal // 12 退款
               title="申请退款"
               open={isModalOpen2[1]}
@@ -264,6 +315,28 @@ const BoughtAll = () => {
               ]}
             >
               <p>是否确认退款</p>
+            </Modal>
+            <Modal // 21 确认收货
+              title="确认收货"
+              open={isModalOpen1[2]}
+              closeIcon={false}
+              footer={[ // footer
+                <Button key='back' onClick={handleCancel}>返回</Button>,
+                <Button key='ok' type="primary" onClick={handleOk21}>确认收货</Button>,
+              ]}
+            >
+              <p>确认收货前请仔细检查商品状态</p>
+            </Modal>
+            <Modal // 22 查询物流
+              title="查询物流"
+              open={isModalOpen2[2]}
+              closeIcon={false}
+              footer={[ // footer
+                <Button key='back' onClick={handleCancel}>返回</Button>,
+                <Button key='ok' type="primary" onClick={handleCancel}>确认</Button>,
+              ]}
+            >
+              <p>物流单号：{myKuaidi}</p>
             </Modal>
             <Skeleton avatar title={false} loading={item.good.loading} active>
               <List.Item.Meta

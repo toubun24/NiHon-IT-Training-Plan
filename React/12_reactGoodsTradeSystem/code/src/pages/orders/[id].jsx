@@ -148,11 +148,33 @@ const Orders = () => {
     },
     {
       key: '13',
+      label: '快递单号',
+      span: 3,
+      children: tradeData.kuaidi?tradeData.kuaidi:"-",
+    },
+    {
+      key: '14',
+      label: '发货提醒',
+      children: tradeData.dot===true?"是":"否",
+    },
+    {
+      key: '15',
       label: '备注',
       span: 4,
       children: tradeData.note?tradeData.note:"-",
     },
-
+    {
+      key: '16',
+      label: '买方评价',
+      span: 4,
+      children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
+    },
+    {
+      key: '17',
+      label: '卖方评价',
+      span: 4,
+      children: tradeData.commentBySeller?tradeData.commentBySeller:"-",
+    },
   ];
 
   return (

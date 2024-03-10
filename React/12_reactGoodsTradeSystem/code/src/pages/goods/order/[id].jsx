@@ -42,6 +42,10 @@ const Order = () => {
       "note": values.beizhu,
       "dizhi1": values.shouhuo.dizhi1,
       "dizhi2": values.shouhuo.dizhi2,
+      "kuaidi": "",
+      "dot": false, // 提醒发货状态
+      "commentBySeller": "",
+      "commentByBuyer": "",
       // 快照内容
       "publishTime": GoodsData.publishTime,
       "introduction": GoodsData.introduction,

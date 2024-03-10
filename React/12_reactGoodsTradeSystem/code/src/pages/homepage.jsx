@@ -86,7 +86,7 @@ const Homepage = () => {
   const handleOk = async () => {
     try {
       const values = await form.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
-      console.log('Form values:', values);
+      // console.log('Form values:', values);
       // console.log(information);
       await axios.patch(`http://localhost:5000/users/${myContent.id}`, { balance: balanceData + values.recharge })
       setBalanceData(balanceData + values.recharge)

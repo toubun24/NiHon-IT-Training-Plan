@@ -14,10 +14,18 @@ const labelList = [
 
 const Home = () => {
   const [goodsData, setGoodsData] = useState([]);
+  const tokenContent = localStorage.getItem('token')
+  const myContentId = tokenContent == '' ? { myContentId: '' } : JSON.parse(tokenContent).id // JSON.parse
+
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/goods?_expand=user`)
     const tmpData = res.data
-    setGoodsData([tmpData, [...tmpData].sort((a, b) => b.view - a.view), [...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
+    const sortedData = tmpData.filter(item => item.starList.includes(myContentId)).sort((a, b) => {
+      const lastA = a.starList[a.starList.length - 1];
+      const lastB = b.starList[b.starList.length - 1];
+      return lastB - lastA; // 倒序排序
+    })
+    setGoodsData([sortedData, [...tmpData].sort((a, b) => b.view - a.view), [...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
 
   }, []);
   const handlerInput = (event) => {
@@ -35,7 +43,7 @@ const Home = () => {
       <Button style={{ float: "right", width: "10%" }}><BarsOutlined /> 分类</Button>
       <Tabs
         style={{ display: "flex" }}
-        defaultActiveKey="1"
+        defaultActiveKey="2" // 热门商品
         centered
         items={[HeartFilled, FireFilled, HourglassFilled].map((Icon, i) => {
           const id = String(i + 1);

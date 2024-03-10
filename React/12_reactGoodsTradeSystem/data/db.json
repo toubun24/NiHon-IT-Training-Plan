@@ -144,7 +144,10 @@
       "state": 0,
       "password": "123",
       "starList": [
-        "63"
+        "63",
+        "57",
+        "56",
+        "62"
       ],
       "location": [
         "北京市",
@@ -712,8 +715,10 @@
       "youfei": "123",
       "tupian": "622e7c981ad96096.png",
       "editTime": 1709812397553,
-      "starList": [],
-      "view": 2,
+      "starList": [
+        9
+      ],
+      "view": 3,
       "tagList": [
         1,
         2,
@@ -737,8 +742,10 @@
       "youfei": "123",
       "tupian": "fd6d036607dd9d04.jpg",
       "editTime": 1709818656779,
-      "starList": [],
-      "view": 0,
+      "starList": [
+        9
+      ],
+      "view": 4,
       "tagList": [
         1,
         2,
@@ -789,7 +796,7 @@
       "starList": [
         7
       ],
-      "view": 13,
+      "view": 14,
       "tagList": [
         1,
         2
@@ -866,9 +873,10 @@
       "tupian": "b11e8de29678ebbd.jpg",
       "editTime": 1709918847631,
       "starList": [
-        8
+        8,
+        9
       ],
-      "view": 1,
+      "view": 3,
       "tagList": [
         1
       ],
@@ -894,7 +902,7 @@
       "starList": [
         9
       ],
-      "view": 38,
+      "view": 39,
       "tagList": [
         1,
         30

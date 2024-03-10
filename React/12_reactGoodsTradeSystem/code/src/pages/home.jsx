@@ -26,7 +26,6 @@ const Home = () => {
       return lastB - lastA; // 倒序排序
     })
     setGoodsData([sortedData, [...tmpData].sort((a, b) => b.view - a.view), [...tmpData].sort((a, b) => b.publishTime - a.publishTime)]) // 对应后面的<MyList data={goodsData[i]}/>
-
   }, []);
   const handlerInput = (event) => {
     const newlist = goodsData.introduction.filter(item => { // filter查询

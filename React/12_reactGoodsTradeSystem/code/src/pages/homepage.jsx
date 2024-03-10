@@ -26,6 +26,7 @@ const Homepage = () => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
   const [userData, setUserData] = useState([]);
+  const [earnData, setEarnData] = useState()
 
   useEffect(() => {
     // const tokenContent = localStorage.getItem('token')
@@ -56,6 +57,7 @@ const Homepage = () => {
       res => {
         setUserData(res.data)
         setBalanceData(res.data.balance)
+        setEarnData(res.data.earn)
         setFollowData(res.data.followerList.length)
       }
     )
@@ -220,7 +222,7 @@ const Homepage = () => {
     <div>
       <Row gutter={24}>
         <Col span={4}>
-          <Statistic title="累计收益" value={0} precision={2} />
+          <Statistic title="累计收益" value={earnData} precision={2} />
           <Statistic title="账户余额" value={balanceData} precision={2} />
           <Button
             style={{

@@ -125,7 +125,7 @@
         "矿区"
       ],
       "avatar": "download - Copy.jpg",
-      "balance": 45,
+      "balance": null,
       "followList": [
         "55",
         "55",
@@ -137,6 +137,7 @@
       ],
       "historyList": [],
       "registerTime": 1709711927378,
+      "earn": null,
       "id": 8
     },
     {
@@ -162,6 +163,7 @@
       "followerList": [],
       "historyList": [],
       "registerTime": 1709972220013,
+      "earn": 0,
       "id": 9
     }
   ],
@@ -885,7 +887,7 @@
     },
     {
       "userId": 8,
-      "state": 5,
+      "state": 1,
       "publishTime": 1709971800408,
       "introduction": "售罄测试",
       "yuanjia": 0,
@@ -902,7 +904,7 @@
       "starList": [
         9
       ],
-      "view": 39,
+      "view": 40,
       "tagList": [
         1,
         30
@@ -1344,7 +1346,7 @@
       "sellerId": 8,
       "goodId": "63",
       "price": 100,
-      "state": 0,
+      "state": 1,
       "num": "1",
       "orderTime": 1709997861934,
       "editTime": 1709997861934,

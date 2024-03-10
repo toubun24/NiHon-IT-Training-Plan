@@ -54,7 +54,7 @@ const Publish = () => {
       "shoujia": values.shoujia,
       "dizhi": values.dizhi,
       "fahuofangshi": values.fahuo.fangshi ? values.fahuo.fangshi : 'baoyou',
-      "youfei": values.fahuo.fangshi === 'zishe' ? values.fahuo.youfei : 0,
+      "youfei": values.fahuo.fangshi === 'zishe' ? Number(values.fahuo.youfei) : 0,
       "tupian": values.tupian[0].name, // values.tupian.file.name
       "editTime": Date.now(),
       "starList": [],

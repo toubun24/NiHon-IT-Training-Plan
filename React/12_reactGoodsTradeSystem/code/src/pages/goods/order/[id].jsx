@@ -114,7 +114,7 @@ const Order = () => {
           name="beizhu"
         >
           <TextArea
-            placeholder="请输入商品描述"
+            placeholder="请输入备注信息"
             showCount
             // required
             maxLength={500}

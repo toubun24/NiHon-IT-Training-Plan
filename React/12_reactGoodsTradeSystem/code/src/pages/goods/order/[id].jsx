@@ -46,6 +46,7 @@ const Order = () => {
       "dot": false, // 提醒发货状态
       "commentBySeller": "",
       "commentByBuyer": "",
+      "argue": 0, // 申诉状态，0无申诉，1申诉中，2卖方同意退货，3卖方驳回后等待管理员仲裁，4管理员支持买方退货，5管理员支持卖方驳回申诉
       // 快照内容
       "publishTime": GoodsData.publishTime,
       "introduction": GoodsData.introduction,

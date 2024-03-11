@@ -10,22 +10,44 @@ const colorList = [
   "cyan", // 1 for 已付款待发货
   "volcano", // 2 for 待收货
   "green", // 3 for 待评价
-  "red", // 4 for 退款中
+  "red", // 4 for 申诉中
   "gray", // 5 for 已取消
+  "geekblue", // 6 for 已退款
+  "lime", // 7 for 已完成
 ]
 const stateList = [
   "待付款", // 0 for 已下单待付款
   "待发货", // 1 for 已付款待发货
   "待收货", // 2 for 待收货
   "待评价", // 3 for 待评价
-  "退款中", // 4 for 退款中
+  "申诉中", // 4 for 申诉中
   "已取消", // 5 for 已取消
+  "已退货", // 6 for 已退款
+  "已完成", // 7 for 已完成
 ]
 const fahuofangshiList = {
   "zishe": "邮费: ¥",
   "baoyou": "包邮",
   "ziti": "仅限自提"
 }
+const argueList = [ // // 申诉状态，0无申诉，1申诉中，2卖方同意退货，3卖方驳回后等待管理员仲裁，4管理员支持买方退货，5管理员支持卖方驳回申诉
+  "无申诉", // 0 for 无申诉
+  "退货申诉中", // 1 for 申诉中
+  "卖方同意退货", // 2 for 卖方同意退货
+  "驳回等待仲裁", // 3 for 卖方驳回后等待管理员仲裁
+  "仲裁支持退货", // 4 for 管理员支持买方退货
+  "仲裁驳回申诉", // 5 for 管理员支持卖方驳回申诉
+  "申诉已撤销", // 6 for 申诉已撤销
+]
+const argueColorList = [
+  "gray", // 0 for 无申诉
+  "geekblue", // 1 for 申诉中
+  "cyan", // 2 for 卖方同意退货
+  "volcano", // 3 for 卖方驳回后等待管理员仲裁
+  "green", // 4 for 管理员支持买方退货
+  "red", // 5 for 管理员支持卖方驳回申诉
+  "gray", // 6 for 申诉已撤销
+]
 
 const Orders = () => {
   const params = useParams() // 返回一个对象,其中包含URL参数和它们的值
@@ -149,7 +171,7 @@ const Orders = () => {
     {
       key: '13',
       label: '快递单号',
-      span: 3,
+      span: 2,
       children: tradeData.kuaidi?tradeData.kuaidi:"-",
     },
     {
@@ -159,18 +181,23 @@ const Orders = () => {
     },
     {
       key: '15',
+      label: '申诉状态',
+      children: <Tag color={argueColorList[tradeData.argue]}>{argueList[tradeData.argue]}</Tag>,
+    },
+    {
+      key: '16',
       label: '备注',
       span: 4,
       children: tradeData.note?tradeData.note:"-",
     },
     {
-      key: '16',
+      key: '17',
       label: '买方评价',
       span: 4,
       children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
     },
     {
-      key: '17',
+      key: '18',
       label: '卖方评价',
       span: 4,
       children: tradeData.commentBySeller?tradeData.commentBySeller:"-",

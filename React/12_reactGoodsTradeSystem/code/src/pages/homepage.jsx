@@ -4,6 +4,7 @@ import axios from 'axios';
 import { EyeOutlined, StarOutlined, TeamOutlined } from '@ant-design/icons';
 import { cityArray } from '../components/cityData';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import MyBack from '../components/myBack';
 
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
@@ -220,6 +221,8 @@ const Homepage = () => {
 
   return (
     <div>
+      <div><MyBack/></div>
+      <br/>
       <Row gutter={24}>
         <Col span={4}>
           <Statistic title="累计收益" value={earnData} precision={2} />

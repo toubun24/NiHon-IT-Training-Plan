@@ -6,6 +6,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useParams } from 'umi';
 import { cityArray } from './../../components/cityData';
 import OtherAvatar from '../../components/otherAvatar';
+import MyBack from './../../components/myBack';
 
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
@@ -221,6 +222,8 @@ const Homepages = () => {
 
   return (
     <div>
+      <div><MyBack/></div>
+      <br/>
       <Row gutter={24}>
         {params.id == myContent.id ? // ==
           <Col span={4}>

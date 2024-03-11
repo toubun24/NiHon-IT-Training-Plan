@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Avatar, Space, List, Skeleton, Tag, Modal, notification, Button, message, Input, Form } from 'antd';
+import { Avatar, Space, List, Skeleton, Tag, Modal, notification, Button, message, Input, Form, Badge } from 'antd';
 import axios from 'axios';
 import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
@@ -15,27 +15,30 @@ const colorList = [
   "green", // 3 for 待评价
   "red", // 4 for 退款中
   "gray", // 5 for 已取消
-  "geekblue" // 6 for 已退款
+  "geekblue", // 6 for 已退款
+  "lime", // 7 for 已完成
 ]
 const stateList = [
   "待付款", // 0 for 已下单待付款
   "待发货", // 1 for 已付款待发货
   "待收货", // 2 for 待收货
   "待评价", // 3 for 待评价
-  "退款中", // 4 for 退款中
+  "退货中", // 4 for 退款中
   "已取消", // 5 for 已取消
-  "已退款", // 6 for 已退款
+  "已退货", // 6 for 已退款
+  "已完成", // 7 for 已完成
 ]
 const handleList = [
   "-", // 0 for 已下单待付款
   "快递单号", // 1 for 已付款待发货
   "-", // 2 for 待收货
   "去评价", // 3 for 待评价
-  "退款处理", // 4 for 退款中
+  "申诉处理", // 4 for 退款中
   "-", // 5 for 已取消
   "-", // 6 for 已退款
+  "去评价", // 7 for 已完成
 ]
-const allClosedStatus = [false, false, false, false, false]
+const allClosedStatus = [false, false, false, false, false, false, false, false]
 
 const SoldAll = () => {
   const [listData, setListData] = useState([]);
@@ -50,6 +53,7 @@ const SoldAll = () => {
   const [isModalOpen1, setIsModalOpen1] = useState(allClosedStatus);
   const [myBalance, setMyBalance] = useState();
   const [form] = Form.useForm();
+  const [commentForm] = Form.useForm();
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/trades/?sellerId=${myContent}&_sort=editTime&_order=desc`) // 按时间降序 // desc // state_ne
@@ -73,6 +77,8 @@ const SoldAll = () => {
     setMyBalance(res2.data.balance)
   }, []);
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
+    form.resetFields() // 每次打开后重新初始化form内容
+    commentForm.resetFields() // 每次打开后重新初始化form内容
     setHandlingId(itemId)
     setDisplayPrice(mergedData.find(obj => obj.id === itemId).price)
     setIsModalOpen1(prevState => {
@@ -111,6 +117,86 @@ const SoldAll = () => {
       console.error('Validate Failed:', error);
     }
   };
+  const handleOk37 = async () => {
+    try {
+      const values = await commentForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
+      // console.log('Form values:', values);
+      await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+        commentBySeller: values.comment
+      })
+      setMergedData(mergedData.map(obj => {
+        if (obj.id === handlingId) {
+          return { ...obj, commentBySeller: values.comment };
+        }
+        return obj;
+      }));
+      notification.open({
+        message: '通知',
+        description:
+          `已完成互评`,
+        duration: 2,
+        placement: "bottomRight"
+      });
+      setIsModalOpen1(allClosedStatus);
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
+  };
+  const handleOk41 = async () => {
+    const tradeInfo = mergedData.find(obj => obj.id === handlingId)
+    await axios.patch(`http://localhost:5000/users/${tradeInfo.buyerId}`, {
+      balance: myBalance + displayPrice
+    })
+    const res = await axios.get(`http://localhost:5000/users/${myContent}`)
+    const earnMoney = displayPrice - Number(tradeInfo.youfei) // 邮费不算赚到的
+    // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
+    await axios.patch(`http://localhost:5000/users/${myContent}`, {
+      balance: res.data.balance - earnMoney,
+      earn: res.data.earn - earnMoney
+    })
+    console.log("res.data.num", res.data.num, "tradeInfo.num", tradeInfo.num)
+    await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
+      num: res.data.num + tradeInfo.num // 库存归还
+    })
+    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+      state: 6,
+      argue: 2
+    })
+    setMyBalance(myBalance - earnMoney)
+    setMergedData(mergedData.map(obj => {
+      if (obj.id === handlingId) {
+        return { ...obj, state: 6, argue: 2 };
+      }
+      return obj;
+    }));
+    notification.open({
+      message: '通知',
+      description:
+        `请到【已取消】查看已退货订单`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen1(allClosedStatus);
+  };
+  const handleOk42 = async () => {
+    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+      argue: 3
+    })
+    setMergedData(mergedData.map(obj => {
+      if (obj.id === handlingId) {
+        return { ...obj, argue: 3 };
+      }
+      return obj;
+    }));
+    notification.open({
+      message: '通知',
+      description:
+        `请到【申诉中】查看相关订单`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen1(allClosedStatus);
+  };
   const handleCancel = () => {
     setIsModalOpen1(allClosedStatus);
   };
@@ -133,10 +219,16 @@ const SoldAll = () => {
           <List.Item
             actions={[
               <a className="fixed-width-action" onClick={() => history.push(`/snapshots/${item.id}`)}>查看快照</a>,
-              item.state === 1 || item.state === 3 || item.state === 4 ?
-                <a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>
+              item.state === 1 && item.dot === true ?
+                <Badge dot><a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a></Badge>
                 :
-                <span className="fixed-width-action">-</span>,
+                (item.state === 3 || item.state === 7) && item.commentBySeller === "" ?
+                  <a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>
+                  :
+                  item.state === 1 || (item.state === 4 && item.argue !== 3) ?
+                    <a className="fixed-width-action" onClick={() => { handleTrade(item.id, item.state) }}>{handleList[item.state]}</a>
+                    :
+                    <span className="fixed-width-action">-</span>,
             ]}
           >
             <Modal // 1 填写快递单号
@@ -151,12 +243,58 @@ const SoldAll = () => {
               <p>请尽快发货并填写快递单号：</p>
               <Form
                 form={form}
-                initialValues={{ recharge: 1 }}
+              // initialValues={{ kuaidi: "" }}
               >
-                <Form.Item name="kuaidi">
+                <Form.Item
+                  name="kuaidi"
+                  rules={[
+                    {
+                      required: true,
+                      message: '内容不能为空',
+                    },
+                  ]}
+                >
                   <Input />
                 </Form.Item>
               </Form>
+            </Modal>
+            <Modal // 3 评价
+              title="发表评价"
+              open={isModalOpen1[3] || isModalOpen1[7]}
+              closeIcon={false}
+              footer={[ // footer
+                <Button key='back' onClick={handleCancel}>取消</Button>,
+                <Button key='submit' type="primary" onClick={handleOk37}>发布评价</Button>,
+              ]}
+            >
+              <p>请填写交易评价：</p>
+              <Form
+                form={commentForm}
+              >
+                <Form.Item
+                  name="comment"
+                  rules={[
+                    {
+                      required: true,
+                      message: '内容不能为空',
+                    },
+                  ]}
+                >
+                  <Input />
+                </Form.Item>
+              </Form>
+            </Modal>
+            <Modal // 4 申诉处理
+              title="申诉处理"
+              open={isModalOpen1[4]}
+              closeIcon={false}
+              footer={[ // footer
+                <Button key='back' onClick={handleCancel}>返回</Button>,
+                <Button key='ok' type="primary" onClick={handleOk41}>同意退货</Button>,
+                <Button key='reject' type="primary" onClick={handleOk42}>拒绝退货，申请仲裁</Button>,
+              ]}
+            >
+              <p>是否确认退款</p>
             </Modal>
             <Skeleton avatar title={false} loading={item.good.loading} active>
               <List.Item.Meta

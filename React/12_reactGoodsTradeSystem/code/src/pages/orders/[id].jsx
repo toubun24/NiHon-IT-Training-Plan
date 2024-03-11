@@ -171,7 +171,6 @@ const Orders = () => {
     {
       key: '13',
       label: '快递单号',
-      span: 2,
       children: tradeData.kuaidi?tradeData.kuaidi:"-",
     },
     {
@@ -181,25 +180,31 @@ const Orders = () => {
     },
     {
       key: '15',
+      label: '备注',
+      span: 2,
+      children: tradeData.note?tradeData.note:"-",
+    },
+    {
+      key: '16',
       label: '申诉状态',
       children: <Tag color={argueColorList[tradeData.argue]}>{argueList[tradeData.argue]}</Tag>,
     },
     {
-      key: '16',
-      label: '备注',
-      span: 4,
-      children: tradeData.note?tradeData.note:"-",
-    },
-    {
       key: '17',
-      label: '买方评价',
-      span: 4,
-      children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
+      label: '申诉理由',
+      span: 3,
+      children: tradeData.argueReason?tradeData.argueReason:"-",
     },
     {
       key: '18',
+      label: '买方评价',
+      span: 2,
+      children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
+    },
+    {
+      key: '19',
       label: '卖方评价',
-      span: 4,
+      span: 2,
       children: tradeData.commentBySeller?tradeData.commentBySeller:"-",
     },
   ];

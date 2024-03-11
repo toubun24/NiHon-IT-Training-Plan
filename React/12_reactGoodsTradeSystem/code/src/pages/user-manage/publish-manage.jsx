@@ -94,7 +94,7 @@ const PublishManage = () => {
 
 
   return (
-    <Table columns={columns} dataSource={goodsData} pagination={{ pageSize: 5 }} />
+    <Table columns={columns} rowKey="id" dataSource={goodsData} pagination={{ pageSize: 5 }} />
   )
 };
 export default PublishManage;

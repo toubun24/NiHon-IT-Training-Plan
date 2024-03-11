@@ -51,7 +51,7 @@ const SoldAll = () => {
   const [handlingId, setHandlingId] = useState();
   const [displayPrice, setDisplayPrice] = useState();
   const [isModalOpen1, setIsModalOpen1] = useState(allClosedStatus);
-  const [myBalance, setMyBalance] = useState();
+  // const [myBalance, setMyBalance] = useState();
   const [form] = Form.useForm();
   const [commentForm] = Form.useForm();
 
@@ -74,7 +74,7 @@ const SoldAll = () => {
       }))
     }))
     const res2 = await axios.get(`http://localhost:5000/users/${myContent}`)
-    setMyBalance(res2.data.balance)
+    // setMyBalance(res2.data.balance)
   }, []);
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
     form.resetFields() // 每次打开后重新初始化form内容
@@ -144,25 +144,26 @@ const SoldAll = () => {
   };
   const handleOk41 = async () => {
     const tradeInfo = mergedData.find(obj => obj.id === handlingId)
+    const res0 = await axios.get(`http://localhost:5000/users/${tradeInfo.buyerId}`)
+    const earnMoney = displayPrice - Number(tradeInfo.youfei) // 邮费不算赚到的
     await axios.patch(`http://localhost:5000/users/${tradeInfo.buyerId}`, {
-      balance: myBalance + displayPrice
+      balance: res0.data.balance + earnMoney // 邮费不再归还
     })
     const res = await axios.get(`http://localhost:5000/users/${myContent}`)
-    const earnMoney = displayPrice - Number(tradeInfo.youfei) // 邮费不算赚到的
-    // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
+        // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
     await axios.patch(`http://localhost:5000/users/${myContent}`, {
       balance: res.data.balance - earnMoney,
       earn: res.data.earn - earnMoney
     })
-    console.log("res.data.num", res.data.num, "tradeInfo.num", tradeInfo.num)
+    const res2 = await axios.get(`http://localhost:5000/goods/${tradeInfo.goodId}`)
+    console.log("res2.data.num", res2.data.num, "tradeInfo.num", tradeInfo.num)
     await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
-      num: res.data.num + tradeInfo.num // 库存归还
+      num: Number(res2.data.num) + Number(tradeInfo.num) // 库存归还
     })
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
       state: 6,
       argue: 2
     })
-    setMyBalance(myBalance - earnMoney)
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {
         return { ...obj, state: 6, argue: 2 };

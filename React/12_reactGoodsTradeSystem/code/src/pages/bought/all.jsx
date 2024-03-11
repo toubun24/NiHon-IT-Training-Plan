@@ -49,7 +49,7 @@ const cancelList = [
   "退货申诉", // 7 for 已完成
 ]
 const allClosedStatus = [false, false, false, false, false, false, false, false]
-const argueList = [ // // 申诉状态，0无申诉，1申诉中，2卖方同意退货，3卖方驳回后等待管理员仲裁，4管理员支持买方退货，5管理员支持卖方驳回申诉，6申诉已撤销
+const argueList = [ // 申诉状态，0无申诉，1申诉中，2卖方同意退货，3卖方驳回后等待管理员仲裁，4管理员支持买方退货，5管理员支持卖方驳回申诉，6申诉已撤销
   "无申诉", // 0 for 无申诉
   "退货申诉中", // 1 for 申诉中
   "卖方同意退货", // 2 for 卖方同意退货
@@ -117,7 +117,7 @@ const BoughtAll = () => {
   }, []);
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
     commentForm.resetFields() // 每次打开后重新初始化form内容
-        setHandlingId(itemId)
+    setHandlingId(itemId)
     setDisplayPrice(mergedData.find(obj => obj.id === itemId).price)
     setMyArgue(mergedData.find(obj => obj.id === itemId).argue)
     setIsModalOpen1(prevState => {
@@ -223,8 +223,10 @@ const BoughtAll = () => {
       balance: res.data.balance - earnMoney,
       earn: res.data.earn - earnMoney
     })
+    const res2 = await axios.get(`http://localhost:5000/goods/${tradeInfo.goodId}`)
+    console.log("res2.data.num", res2.data.num, "tradeInfo.num", tradeInfo.num)
     await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
-      num: res.data.num + tradeInfo.num // 库存归还
+      num: Number(res2.data.num) + Number(tradeInfo.num) // 库存归还
     })
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
       state: 6
@@ -294,7 +296,8 @@ const BoughtAll = () => {
       const values = await argueForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
         state: 4,
-        argue: 1
+        argue: 1,
+        argueReason: values.argue
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -367,10 +370,13 @@ const BoughtAll = () => {
                   handleTrade2(item.id, item.state)
                 }}>{cancelList[item.state]}</a>
                 :
-                item.state !== 5 && item.state !== 6 ?
-                  <a className="fixed-width-action" style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a>
+                item.state === 7 && item.argue === 5 ? // 管理员支持卖方驳回申诉，无法再次进行申诉
+                  <a className="fixed-width-action" style={{ textDecoration: 'line-through',color:'black' }} onClick={() => { message.info('申诉仲裁已完成，请于订单详情页查看') }}>{cancelList[item.state]}</a>
                   :
-                  <span className="fixed-width-action">-</span>
+                  item.state !== 5 && item.state !== 6 ?
+                    <a className="fixed-width-action" style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a>
+                    :
+                    <span className="fixed-width-action">-</span>
             ]}
           >
             <Modal // 01 付款
@@ -453,13 +459,13 @@ const BoughtAll = () => {
                 form={commentForm}
               >
                 <Form.Item
-                name="comment"
-                rules={[
-                  {
-                    required: true,
-                    message: '内容不能为空',
-                  },
-                ]}
+                  name="comment"
+                  rules={[
+                    {
+                      required: true,
+                      message: '内容不能为空',
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>
@@ -467,7 +473,7 @@ const BoughtAll = () => {
             </Modal>
             <Modal // 32 申诉
               title="订单申诉"
-              open={isModalOpen2[3]||isModalOpen2[7]}
+              open={isModalOpen2[3] || isModalOpen2[7]}
               closeIcon={false}
               footer={[ // footer
                 <Button key='back' onClick={handleCancel}>取消</Button>,
@@ -479,13 +485,13 @@ const BoughtAll = () => {
                 form={argueForm}
               >
                 <Form.Item
-                name="argue"
-                rules={[
-                  {
-                    required: true,
-                    message: '内容不能为空',
-                  },
-                ]}
+                  name="argue"
+                  rules={[
+                    {
+                      required: true,
+                      message: '内容不能为空',
+                    },
+                  ]}
                 >
                   <Input />
                 </Form.Item>

@@ -15,7 +15,7 @@ const Removed = () => {
   // const [dayData, setDayData] = useState() // 删除天数
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/goods?userId=${myContent}&_sort=editTime&_order=desc&state=4`).then( // 按发布时间降序 // desc // state_ne
+    axios.get(`http://localhost:5000/goods?userId=${myContent}&_sort=editTime&_order=desc&state_gte=4&state_lte=6&state_ne=5`).then( // 按发布时间降序 // desc // state_ne // _gte _lte
       res => {
         // const tmpData = res.data
         // const tmpData2 = [...tmpData].sort((a, b) => b.id - a.id); // 倒序
@@ -78,7 +78,14 @@ const Removed = () => {
       // loading
       renderItem={(item) => (
         <List.Item
-          actions={[<a onClick={() => { goodsBack(item.id) }}>恢复</a>, <a style={{ color: "red" }} onClick={() => { showModal(item.id) }}>彻底除外</a>]}
+          actions={[
+          item.state===6?
+          <span style={{ textDecoration: 'line-through',color:'black' }}>恢复</span>
+          :
+          <a onClick={() => { goodsBack(item.id) }}>恢复</a>
+          ,
+          <a style={{ color: "red" }} onClick={() => { showModal(item.id) }}>彻底除外</a>
+        ]}
         >
           <Modal title="是否彻底删除商品？" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
             <p>商品下架后，进行中和已完成的订单不受影响；下架的商品将在【已下架】中继续保留7天</p>

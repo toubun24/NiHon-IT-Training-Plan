@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Flex, Image, Tag } from 'antd';
+import { Button, Flex, Image, Tag, Modal, Radio, Space, Form, notification } from 'antd';
 import { useParams } from 'umi'; // useParams
 import axios from 'axios';
-import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined } from '@ant-design/icons';
+import { EnvironmentOutlined, StarOutlined, CommentOutlined, EditOutlined, ScissorOutlined, DeleteOutlined } from '@ant-design/icons';
 import OtherAvatar from '../../../components/otherAvatar';
 import { useHistory } from 'umi';
 import MyBack from '../../../components/myBack';
@@ -30,6 +30,11 @@ const Goods = () => {
   const [tags, setTags] = useState([]);
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent) // JSON.parse
+  const [isModalOpen1, setIsModalOpen1] = useState(false);
+  const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [isModalOpen3, setIsModalOpen3] = useState(false);
+  const [value, setValue] = useState(1);
+  const [form] = Form.useForm();
 
   useEffect(async () => {
     // const tokenContent = localStorage.getItem('token')
@@ -120,7 +125,51 @@ const Goods = () => {
   }
   // console.log(`http://localhost:5000/goods/${params.id}?_expand=user`, detailData)
   // console.log(detailData)
-
+  const handleOk1 = async () => { // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
+    await axios.patch(`http://localhost:5000/users/${userData.id}`, {
+      state: value,
+    })
+    notification.open({
+      message: '通知',
+      description:
+        `用户权限已调整`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen1(false)
+  }
+  const onChange = (e) => {
+    // console.log('radio checked', e.target.value);
+    setValue(e.target.value);
+  };
+  const handleOk2 = async () => { // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架，5售罄，6强制下架
+    await axios.patch(`http://localhost:5000/goods/${params.id}`, {
+      state: 0,
+    })
+    notification.open({
+      message: '通知',
+      description:
+        `商品已打回草稿箱`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen2(false)
+    history.push(`/home`)
+  }
+  const handleOk3 = async () => { // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架，5售罄，6强制下架
+    await axios.patch(`http://localhost:5000/goods/${params.id}`, {
+      state: 6,
+    })
+    notification.open({
+      message: '通知',
+      description:
+        `商品已被下架`,
+      duration: 2,
+      placement: "bottomRight"
+    });
+    setIsModalOpen3(false)
+    history.push(`/home`)
+  }
 
   return ( // detailData.user.username // TypeError: Cannot read properties of undefined (reading 'username')
     <div>
@@ -133,7 +182,7 @@ const Goods = () => {
           {userData.id >= 0 && <OtherAvatar userIdInfo={userData.id} />}
         </div>
         <div style={{ marginRight: '10px' }}>
-          <div style={{ fontWeight: 'bold',cursor:'pointer' }} onClick={()=>history.push(`/homepages/${userData.id}`)}>{userData ? userData.username : ""}</div>
+          <div style={{ fontWeight: 'bold', cursor: 'pointer' }} onClick={() => history.push(`/homepages/${userData.id}`)}>{userData ? userData.username : ""}</div>
           <div style={{ fontSize: '10px', marginTop: '5px' }}>
             <EnvironmentOutlined />
             <span>
@@ -142,9 +191,11 @@ const Goods = () => {
           </div>
         </div>
         {
-          userData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
+          myContent.state !== 5 && myContent.state !== 6 ? (userData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
             followData.includes(userData.id) ? <Button style={{ marginTop: "2px" }} onClick={() => follow()}>已关注</Button> : // [].includes没关系的不会报错
-              <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
+              <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>)
+            :
+            <Button style={{ marginTop: "2px" }} onClick={() => setIsModalOpen1(true)} type='primary'>权限</Button> // 管理员操作
         }
       </Flex>
       <MyBack />
@@ -153,7 +204,7 @@ const Goods = () => {
         <span style={{ color: 'red', fontSize: '24px', fontWeight: 'bold' }}>{"¥"}{detailData.shoujia}{" "}</span>
         <span style={{ textDecoration: 'line-through', fontSize: '12px' }}>{"¥"}{detailData.yuanjia}</span>
         <span style={{ fontSize: '12px', fontWeight: 'bold' }}>{" "}{fahuofangshiList[detailData.fahuofangshi]}{detailData.fahuofangshi === "zishe" ? detailData.youfei : ""}</span>
-                <span style={{ fontSize: '12px' }}>{" 收藏量:"}{starData.length}</span>
+        <span style={{ fontSize: '12px' }}>{" 收藏量:"}{starData.length}</span>
         <span style={{ fontSize: '12px' }}>{" 浏览量:"}{detailData.view}</span>
         <span style={{ fontSize: '12px', marginLeft: '10px' }}>{" "}发布时间:{detailData.publishTime ? moment(detailData.publishTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
         <span style={{ fontSize: '12px' }}>{" "}最近修改:{detailData.editTime && detailData.editTime !== detailData.publishTime ? moment(detailData.editTime).format('YY/MM/DD HH:mm:ss') : "-"}</span>
@@ -206,21 +257,80 @@ const Goods = () => {
       <div style={{
         textAlign: 'right' // 水平向右对齐
       }}>
-        <span style={{ fontSize: '14px',marginRight: '5px' }}>{"存货数量:"}<span style={{ fontSize: '16px' }}>{detailData.num}</span></span>
+        <span style={{ fontSize: '14px', marginRight: '5px' }}>{"存货数量:"}<span style={{ fontSize: '16px' }}>{detailData.num}</span></span>
         {
           userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
         }
         {
-          userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
+          myContent.state !== 5 && myContent.state !== 6 ? (userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
             starData.includes(myContent.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
-              <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>
+              <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>)
+            :
+            <Button type="primary" style={{ marginRight: '5px' }} onClick={() => setIsModalOpen2(true)} icon={<ScissorOutlined />}>违规修改</Button> // 管理员操作
         }
         {
-          detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
+          myContent.state !== 5 && myContent.state !== 6 ? (detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
             userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>我想要</Button> :
-              <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>
+              <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>)
+            :
+            <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => setIsModalOpen3(true)} icon={<DeleteOutlined />}>直接下架</Button> // 管理员操作
         }
       </div>
+      <Modal // 1
+        title="用户权限管理"
+        open={isModalOpen1}
+        closeIcon={false}
+        footer={[ // footer
+          <Button key='back' onClick={() => setIsModalOpen1(false)}>取消</Button>,
+          <Button key='submit' type="primary" onClick={handleOk1}>确认调整</Button>,
+        ]}
+      >
+        <p>请选择调整后的用户权限状态：</p>
+        <Form
+          form={form}
+        >
+          <Form.Item
+            name="userManage"
+            rules={[
+              {
+                required: true,
+                message: '内容不能为空',
+              },
+            ]}
+          >
+            <Radio.Group onChange={onChange} value={value}>
+              <Space direction="vertical">
+                <Radio value={0}>正常</Radio>
+                <Radio value={1}>禁购</Radio>
+                <Radio value={2}>禁售</Radio>
+                <Radio value={3}>封禁</Radio>
+              </Space>
+            </Radio.Group>
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal // 2
+        title="违规修改"
+        open={isModalOpen2}
+        closeIcon={false}
+        footer={[ // footer
+          <Button key='back' onClick={()=>isModalOpen2(false)}>返回</Button>,
+          <Button key='ok' type="primary" onClick={handleOk2}>确认</Button>,
+        ]}
+      >
+        <p>是否确认将商品打回至用户草稿箱</p>
+      </Modal>
+      <Modal // 2
+        title="违规修改"
+        open={isModalOpen3}
+        closeIcon={false}
+        footer={[ // footer
+          <Button key='back' onClick={()=>isModalOpen3(false)}>返回</Button>,
+          <Button key='ok' type="primary" onClick={handleOk3}>确认</Button>,
+        ]}
+      >
+        <p>是否确认将商品直接下架</p>
+      </Modal>
     </div>
   )
 }

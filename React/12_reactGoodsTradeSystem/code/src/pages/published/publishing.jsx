@@ -5,7 +5,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
 import { useHistory } from 'umi';
 
-const colorList = [
+const colorList = [ // 6 强制下架
   "-", // 0 for nothing
   "volcano", // 1 for 待审核
   "green", // 2 for 发布中
@@ -13,7 +13,7 @@ const colorList = [
   "-", // 4 for 已下架
   "purple", // 5 for 已售罄
 ]
-const stateList = [
+const stateList = [ // 6 强制下架
   "-", // 0 for nothing
   "待审核", // 1 for 待审核
   "发布中", // 2 for 发布中
@@ -31,7 +31,7 @@ const Publishing = () => {
   const [clickId, setClickId] = useState();
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/goods?userId=${myContent}&_sort=publishTime&_order=desc&state_ne=0&state_ne=4`).then( // 按发布时间降序 // desc // state_ne
+    axios.get(`http://localhost:5000/goods?userId=${myContent}&_sort=publishTime&_order=desc&state_ne=0&state_ne=4&state_ne=6`).then( // 按发布时间降序 // desc // state_ne
       res => {
         // const tmpData = res.data
         // const tmpData2 = [...tmpData].sort((a, b) => b.id - a.id); // 倒序

@@ -5,14 +5,18 @@
       "state": 6,
       "password": "123",
       "id": 1,
-      "balance": 100
+      "starList": [],
+      "location": [],
+      "followList": []
     },
     {
       "username": "manager",
       "state": 5,
       "password": "123",
       "id": 2,
-      "balance": 100
+      "starList": [],
+      "location": [],
+      "followList": []
     },
     {
       "username": "toubun",
@@ -751,7 +755,7 @@
       "starList": [
         8
       ],
-      "view": 35,
+      "view": 38,
       "tagList": [
         4
       ],
@@ -960,7 +964,7 @@
       "starList": [
         9
       ],
-      "view": 43,
+      "view": 44,
       "tagList": [
         1,
         30
@@ -1090,19 +1094,115 @@
       "starList": [
         9
       ],
-      "view": 15,
+      "view": 38,
       "tagList": [
         1,
         32
       ],
       "num": 99,
       "id": 68
+    },
+    {
+      "userId": 9,
+      "state": 0,
+      "publishTime": 1710240354652,
+      "introduction": "打回草稿测试",
+      "yuanjia": 0,
+      "shoujia": "1",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "14ecf93b6b41bcda.jpg",
+      "editTime": 1710240354652,
+      "starList": [],
+      "view": 2,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 69
+    },
+    {
+      "userId": 9,
+      "state": 4,
+      "publishTime": 1710240381623,
+      "introduction": "下架测试",
+      "yuanjia": 0,
+      "shoujia": "1",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710240381623,
+      "starList": [],
+      "view": 2,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 70
+    },
+    {
+      "userId": 9,
+      "state": 4,
+      "publishTime": 1710240427888,
+      "introduction": "自己下架测试",
+      "yuanjia": 0,
+      "shoujia": "12",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "036033a8cfd69253.jpg",
+      "editTime": 1710240456445,
+      "starList": [],
+      "view": 1,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 71
+    },
+    {
+      "userId": 9,
+      "state": 5,
+      "publishTime": 1710241728924,
+      "introduction": "彻底下架测试",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "b11e8de29678ebbd.jpg",
+      "editTime": 1710241728924,
+      "starList": [],
+      "view": 1,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 72
     }
   ],
   "tags": [
     {
       "tagName": "123",
-      "tagNum": 52,
+      "tagNum": 53,
       "id": 1
     },
     {
@@ -1257,7 +1357,7 @@
     },
     {
       "tagName": "测试",
-      "tagNum": 1,
+      "tagNum": 5,
       "id": 32
     }
   ],
@@ -1370,7 +1470,7 @@
       "sellerId": 8,
       "goodId": "63",
       "price": "101",
-      "state": 0,
+      "state": 1,
       "num": "2",
       "orderTime": 1709972639799,
       "editTime": 1709971800408,

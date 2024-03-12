@@ -1,126 +1,130 @@
-import React, { useState } from 'react';  
-import { Table, Dropdown, Menu, Select } from 'antd';  
-import { DownOutlined } from '@ant-design/icons';  
-  
-const { Option } = Select;  
-  
-const dataSource = [  
-  {  
-    key: '1',  
-    name: 'Item 1',  
-    state: 1,  
-  },  
-  {  
-    key: '2',  
-    name: 'Item 2',  
-    state: 2,  
-  },  
-  {  
-    key: '3',  
-    name: 'Item 3',  
-    state: 1,  
-  },  
-  {  
-    key: '4',  
-    name: 'Item 4',  
-    state: 3,  
-  },  
-  // ...更多数据  
-];  
-  
-const columns = [  
-  {  
-    title: 'Name',  
-    dataIndex: 'name',  
-    key: 'name',  
-  },  
-  // ...其他列  
-];  
-  
-const RightManage = () => {  
-  const [selectedValue, setSelectedValue] = useState('all'); // 默认显示全部  
-  
-  const handleSelectChange = (value) => {  
-    setSelectedValue(value);  
-    // 这里可以添加逻辑来根据选择的值过滤表格数据  
-  };  
-  
-  const filteredDataSource = () => {  
-    if (selectedValue === 'all') {  
-      return dataSource;  
-    }  
-    return dataSource.filter((item) => item.state === parseInt(selectedValue, 10));  
-  };  
-  
-  const menuItems = (  
-    <Menu>  
-      <Menu.Item key="all" onClick={() => setSelectedValue('all')}>  
-        全部  
-      </Menu.Item>  
-      <Menu.Item key="1" onClick={() => setSelectedValue('1')}>  
-        1  
-      </Menu.Item>  
-      <Menu.Item key="2" onClick={() => setSelectedValue('2')}>  
-        2  
-      </Menu.Item>  
-      <Menu.Item key="3" onClick={() => setSelectedValue('3')}>  
-        3  
-      </Menu.Item>  
-    </Menu>  
-  );  
-  const items = [
+import React, { useEffect, useState } from 'react';
+import { Table, Select, Tag } from 'antd';
+import axios from 'axios';
+import OtherAvatar from '../../components/otherAvatar';
+import moment from 'moment'; // 时间戳格式化
+
+const { Option } = Select;
+
+const stateList = ['正常', '禁购中', '禁售中', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
+const stateList2 = ['正常', '禁购', '禁售', '封禁']
+const colorList = ['green', 'orange', 'orange', 'red', 'gray']
+
+const rightManage = () => {
+  const [selectedState, setSelectedState] = useState('all');
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(async () => {
+    const res = await axios.get(`http://localhost:5000/users?state_lte=4`) // 不包含管理员
+    setDataSource(res.data)
+    setFilteredDataSource(res.data)
+  }, [])
+
+  const handleStateChange = (value) => {
+    setSelectedState(value);
+    if (value === 'all') {
+      setFilteredDataSource(dataSource);
+      console.log(dataSource)
+    } else {
+      setFilteredDataSource(dataSource.filter((item) => { return item.state == value })); // return // ==
+      console.log(dataSource.filter((item) => { return item.state == value }))
+    }
+  };
+
+  const columns = [
     {
-      key: '1',
-      label: (
-        <a key="all" onClick={() => setSelectedValue('all')}>  
-        全部  
-      </a>  
-      ),
+      title: '头像',
+      dataIndex: 'avatar',
+      key: 'avatar',
+      render: (_, { id }) => (
+        <OtherAvatar userIdInfo={id} />
+      )
     },
     {
-      key: '2',
-      label: (
-        <a key="all" onClick={() => setSelectedValue('1')}>  
-        1 
-      </a>  
-      ),
+      title: '用户名',
+      dataIndex: 'username',
+      key: 'username',
+      render: (_, { id,username }) => (
+        <a href={`/homepages/${id}`}>{username}</a>
+      )
     },
     {
-      key: '3',
-      label: (
-        <a key="all" onClick={() => setSelectedValue('2')}>  
-        2  
-      </a>  
-      ),
+      title: '用户状态',
+      dataIndex: 'state',
+      key: 'state',
+      render: (_, { state }) => (
+        <Tag color={colorList[state]}>
+          {stateList[state]}
+        </Tag>
+      )
     },
     {
-      key: '4',
-      label: (
-        <a key="all" onClick={() => setSelectedValue('3')}>  
-        3 
-      </a>  
+      title: '地址',
+      dataIndex: 'location',
+      key: 'location',
+      render: (_, { location }) => ( // 空格分隔
+        <div>
+          {location&&location.join(" ")}
+        </div>
+      )
+    },
+    {
+      title: '余额',
+      dataIndex: 'balance',
+      key: 'balance',
+    },
+    {
+      title: '注册时间',
+      dataIndex: 'registerTime',
+      key: 'registerTime',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.registerTime - b.registerTime,
+      render: (_, { registerTime }) => (
+        <div>
+          {moment(registerTime).format('YY/MM/DD HH:mm:ss')}
+        </div>
+      )
+    },
+    {
+      title: '权限操作',
+      dataIndex: 'state',
+      key: 'action',
+      render: (_, { state }) => (
+        <Select
+          value={stateList2[state]}
+          style={{ width: 100 }}
+          onChange={() => { }}
+        >
+          <Option value="0">{stateList2[0]}</Option>
+          <Option value="1">{stateList2[1]}</Option>
+          <Option value="2">{stateList2[2]}</Option>
+          <Option value="3">{stateList2[3]}</Option>
+        </Select>
       ),
     },
   ];
-  
-  return (  
-    <div>  
-      <Dropdown menu={{items}} >  
-        <Select  
-          defaultValue="all"  
-          style={{ width: 120 }}  
-          onChange={handleSelectChange}  
-          dropdownRender={(menu) => menu}  
-        >  
-          <Option value="all">全部</Option>  
-          <Option value="1">1</Option>  
-          <Option value="2">2</Option>  
-          <Option value="3">3</Option>  
-        </Select>  
-      </Dropdown>  
-      <Table dataSource={filteredDataSource()} columns={columns} />  
-    </div>  
-  );  
-};  
-  
-export default RightManage;
+
+  return (
+    <div>
+      <Select
+        value={selectedState}
+        style={{ width: 100, float: "right" }}
+        onChange={handleStateChange}
+      >
+        <Option value="all">全部</Option>
+        <Option value="0">正常</Option>
+        <Option value="1">禁购中</Option>
+        <Option value="2">禁售中</Option>
+        <Option value="3">封禁中</Option>
+      </Select>
+      <Table dataSource={filteredDataSource} columns={columns} />
+    </div>
+  );
+};
+
+export default rightManage;
+
+// 用户名排序
+// 头像未更新
+// 权限操作更改

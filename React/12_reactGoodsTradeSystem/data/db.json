@@ -23,7 +23,8 @@
       "state": 0,
       "password": "123",
       "id": 3,
-      "balance": 100
+      "balance": 100,
+      "registerTime": 1700221413462
     },
     {
       "username": "toubun2",
@@ -88,7 +89,7 @@
     },
     {
       "username": "toubun5",
-      "state": 0,
+      "state": 2,
       "password": "123",
       "starList": [
         6,
@@ -911,7 +912,7 @@
       "starList": [
         8
       ],
-      "view": 13,
+      "view": 14,
       "tagList": [
         29
       ],

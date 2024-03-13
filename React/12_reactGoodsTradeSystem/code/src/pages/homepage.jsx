@@ -227,7 +227,8 @@ const Homepage = () => {
         <Col span={4}>
           <Statistic title="累计收益" value={earnData} precision={2} />
           <Statistic title="账户余额" value={balanceData} precision={2} />
-          <Button
+          {
+            Number(userData.state)!==3?<Button
             style={{
               marginTop: 16,
             }}
@@ -235,10 +236,21 @@ const Homepage = () => {
             onClick={showModal}
           >
             充值
-          </Button>
+          </Button>:
+          <Button
+          style={{
+            marginTop: 16,
+          }}
+          type="primary"
+          onClick={showModal}
+          disabled
+        >
+          充值
+        </Button>
+          }
         </Col>
         <Col span={20}>
-          <Descriptions title="账户详情" items={items} extra={<Button type="primary" onClick={showModal2}>Edit</Button>} />
+          <Descriptions title="账户详情" items={items} extra={Number(userData.state)!==3?<Button type="primary" onClick={showModal2}>修改信息</Button>:<Button type="primary" onClick={showModal2} disabled>修改信息</Button>} />
         </Col>
       </Row>
 

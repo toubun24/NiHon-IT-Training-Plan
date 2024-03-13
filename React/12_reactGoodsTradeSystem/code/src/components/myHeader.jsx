@@ -8,17 +8,21 @@ const MyHeader = () => {
   const [menuList, setMenuList] = useState([])
   const [userState, setUserState] = useState({})
   const history = useHistory()
-  useEffect(
-    () => {
-      axios.get('http://localhost:5000/headers').then(
-        response => {
-          setMenuList(response.data)
-        }
-      )
-      const tokenContent = localStorage.getItem('token')
-      tokenContent == '' ? setUserState('') : setUserState(JSON.parse(tokenContent).state)
-    }, []
-  )
+  const tokenContent = localStorage.getItem('token')
+  const myContentId = tokenContent == '' ? { myContentId: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/headers').then(
+      response => {
+        setMenuList(response.data)
+      }
+    )
+    axios.get(`http://localhost:5000/users/${myContentId}`).then(
+      response => {
+        setUserState(Number(response.data.state)) // Number
+      }
+    )
+  }, [])
   // const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse
   const getItem = (menuList) => {
     return menuList.map(item => {

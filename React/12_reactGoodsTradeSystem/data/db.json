@@ -82,14 +82,16 @@
       "followList": [
         5
       ],
-      "followerList": [],
+      "followerList": [
+        9
+      ],
       "historyList": [],
       "registerTime": 1709642228301,
       "id": 6
     },
     {
       "username": "toubun5",
-      "state": 2,
+      "state": 3,
       "password": "123",
       "starList": [
         6,
@@ -167,7 +169,8 @@
       "avatar": "8181052043224923779.jpg",
       "balance": 230,
       "followList": [
-        8
+        8,
+        6
       ],
       "followerList": [],
       "historyList": [],
@@ -547,9 +550,7 @@
       "id": 1,
       "visible": [
         0,
-        1,
         2,
-        3,
         5,
         6
       ]
@@ -625,7 +626,7 @@
         6,
         7
       ],
-      "view": 23,
+      "view": 24,
       "tagList": [
         1,
         2,
@@ -756,7 +757,7 @@
       "starList": [
         8
       ],
-      "view": 38,
+      "view": 39,
       "tagList": [
         4
       ],
@@ -965,7 +966,7 @@
       "starList": [
         9
       ],
-      "view": 44,
+      "view": 45,
       "tagList": [
         1,
         30

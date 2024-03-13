@@ -48,7 +48,7 @@ const rightManage = () => {
   const handleRightChange = async (value, rowId) => {
     // console.log(value, rowId)
     await axios.patch(`http://localhost:5000/users/${rowId}`, {
-      "state": value
+      "state": Number(value) // Number
     })
     setDataSource(dataSource.map(obj => {
       if (obj.id === rowId) {

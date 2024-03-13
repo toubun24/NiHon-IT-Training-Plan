@@ -24,17 +24,21 @@ const MySider = () => {
   const [userState, setUserState] = useState()
   const history = useHistory()
   const location = useLocation()
-  useEffect(
-    () => {
-      axios.get('http://localhost:5000/rights?_embed=children').then(
-        response => {
-          setMenuList(response.data)
-        }
-      )
-      const tokenContent = localStorage.getItem('token')
-      tokenContent == '' ? setUserState(''):setUserState(JSON.parse(tokenContent).state)
-    }, []
-  )
+  const tokenContent = localStorage.getItem('token')
+  const myContentId = tokenContent == '' ? { myContentId: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/rights?_embed=children').then(
+      response => {
+        setMenuList(response.data)
+      }
+    )
+    axios.get(`http://localhost:5000/users/${myContentId}`).then(
+      response => {
+        setUserState(Number(response.data.state)) // Number
+      }
+    )
+  }, [])
   // const { role: { rights } } = tokenContent == '' ? { role: { rights: '' } } : JSON.parse(tokenContent) // JSON.parse
   const onOpenChange = (keys) => {
     const latestOpenKey = keys.find((key) => openKeys.indexOf(key) === -1);

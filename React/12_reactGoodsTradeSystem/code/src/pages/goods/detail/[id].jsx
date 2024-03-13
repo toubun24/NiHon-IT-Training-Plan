@@ -269,9 +269,10 @@ const Goods = () => {
             <Button type="primary" style={{ marginRight: '5px' }} onClick={() => setIsModalOpen2(true)} icon={<ScissorOutlined />}>违规修改</Button> // 管理员操作
         }
         {
-          myContent.state !== 5 && myContent.state !== 6 ? (detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
-            userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>我想要</Button> :
-              <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>)
+          myContent.state !== 5 && myContent.state !== 6 ? (myContent.state == 1 || myContent.state == 3 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>禁购中</Button> :
+            detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
+              userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>我想要</Button> :
+                <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>)
             :
             <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => setIsModalOpen3(true)} icon={<DeleteOutlined />}>直接下架</Button> // 管理员操作
         }
@@ -314,7 +315,7 @@ const Goods = () => {
         open={isModalOpen2}
         closeIcon={false}
         footer={[ // footer
-          <Button key='back' onClick={()=>isModalOpen2(false)}>返回</Button>,
+          <Button key='back' onClick={() => isModalOpen2(false)}>返回</Button>,
           <Button key='ok' type="primary" onClick={handleOk2}>确认</Button>,
         ]}
       >
@@ -325,7 +326,7 @@ const Goods = () => {
         open={isModalOpen3}
         closeIcon={false}
         footer={[ // footer
-          <Button key='back' onClick={()=>isModalOpen3(false)}>返回</Button>,
+          <Button key='back' onClick={() => isModalOpen3(false)}>返回</Button>,
           <Button key='ok' type="primary" onClick={handleOk3}>确认</Button>,
         ]}
       >

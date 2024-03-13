@@ -3058,7 +3058,7 @@
       "sellerId": 8,
       "goodId": "68",
       "price": 5,
-      "state": 3,
+      "state": 4,
       "num": "2",
       "orderTime": 1710169525178,
       "editTime": 1710169525178,
@@ -3072,7 +3072,7 @@
       "dot": false,
       "commentBySeller": "",
       "commentByBuyer": "",
-      "argue": 0,
+      "argue": 1,
       "publishTime": 1710169443482,
       "introduction": "申诉测试注意库存和账户余额",
       "yuanjia": 0,
@@ -3090,7 +3090,8 @@
         1,
         32
       ],
-      "id": 49
+      "id": 49,
+      "argueReason": "123"
     },
     {
       "buyerId": 9,

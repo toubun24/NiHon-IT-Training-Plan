@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Select, Tag } from 'antd';
+import { Table, Select, Tag, Input, message } from 'antd';
 import axios from 'axios';
 import OtherAvatar from '../../components/otherAvatar';
 import moment from 'moment'; // 时间戳格式化
@@ -12,25 +12,64 @@ const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
 const rightManage = () => {
   const [selectedState, setSelectedState] = useState('all');
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [dataSource, setDataSource] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [finalDataSource, setFinalDataSource] = useState([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/users?state_lte=4`) // 不包含管理员
     setDataSource(res.data)
     setFilteredDataSource(res.data)
+    setFinalDataSource(res.data)
   }, [])
 
   const handleStateChange = (value) => {
     setSelectedState(value);
     if (value === 'all') {
       setFilteredDataSource(dataSource);
-      console.log(dataSource)
+      setFinalDataSource(dataSource.filter((item) => item.username.toLowerCase().includes(searchText.toLowerCase())))
+      // console.log(dataSource)
     } else {
-      setFilteredDataSource(dataSource.filter((item) => { return item.state == value })); // return // ==
-      console.log(dataSource.filter((item) => { return item.state == value }))
+      const tmpData = dataSource.filter((item) => { return item.state == value })
+      setFilteredDataSource(tmpData); // return // ==
+      // console.log(dataSource.filter((item) => { return item.state == value }))
+      setFinalDataSource(tmpData.filter((item) => item.username.toLowerCase().includes(searchText.toLowerCase())));
     }
   };
+  const handleSearch = (e) => {
+    const { value } = e.target;
+    setSearchText(value);
+    const newData = filteredDataSource.filter((item) =>
+      item.username.toLowerCase().includes(value.toLowerCase())
+    );
+    setFinalDataSource(newData);
+  };
+  const handleRightChange = async (value, rowId) => {
+    // console.log(value, rowId)
+    await axios.patch(`http://localhost:5000/users/${rowId}`, {
+      "state": value
+    })
+    setDataSource(dataSource.map(obj => {
+      if (obj.id === rowId) {
+        return { ...obj, state: value };
+      }
+      return obj;
+    }));
+    setFilteredDataSource(filteredDataSource.map(obj => {
+      if (obj.id === rowId) {
+        return { ...obj, state: value };
+      }
+      return obj;
+    }));
+    setFinalDataSource(finalDataSource.map(obj => {
+      if (obj.id === rowId) {
+        return { ...obj, state: value };
+      }
+      return obj;
+    }));
+    message.info('用户权限已修改');
+  }
 
   const columns = [
     {
@@ -45,7 +84,7 @@ const rightManage = () => {
       title: '用户名',
       dataIndex: 'username',
       key: 'username',
-      render: (_, { id,username }) => (
+      render: (_, { id, username }) => (
         <a href={`/homepages/${id}`}>{username}</a>
       )
     },
@@ -65,7 +104,7 @@ const rightManage = () => {
       key: 'location',
       render: (_, { location }) => ( // 空格分隔
         <div>
-          {location&&location.join(" ")}
+          {location && location.join(" ")}
         </div>
       )
     },
@@ -90,11 +129,11 @@ const rightManage = () => {
       title: '权限操作',
       dataIndex: 'state',
       key: 'action',
-      render: (_, { state }) => (
+      render: (_, { state, id }) => (
         <Select
           value={stateList2[state]}
           style={{ width: 100 }}
-          onChange={() => { }}
+          onChange={(value) => handleRightChange(value, id)} // (value) =>
         >
           <Option value="0">{stateList2[0]}</Option>
           <Option value="1">{stateList2[1]}</Option>
@@ -107,9 +146,15 @@ const rightManage = () => {
 
   return (
     <div>
+      <Input
+        placeholder="输入用户名进行搜索"
+        style={{ width: 200, float: "left", margin: "5px" }}
+        // enterButton={false}
+        onChange={handleSearch}
+      />
       <Select
         value={selectedState}
-        style={{ width: 100, float: "right" }}
+        style={{ width: 100, float: "right", margin: "5px" }}
         onChange={handleStateChange}
       >
         <Option value="all">全部</Option>
@@ -118,7 +163,7 @@ const rightManage = () => {
         <Option value="2">禁售中</Option>
         <Option value="3">封禁中</Option>
       </Select>
-      <Table dataSource={filteredDataSource} columns={columns} />
+      <Table dataSource={finalDataSource} columns={columns} rowKey="id" />
     </div>
   );
 };

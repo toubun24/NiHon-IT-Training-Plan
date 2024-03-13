@@ -77,8 +77,12 @@ const SoldAll = () => {
     // setMyBalance(res2.data.balance)
   }, []);
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
-    form.resetFields() // 每次打开后重新初始化form内容
-    commentForm.resetFields() // 每次打开后重新初始化form内容
+    if (itemState === 1) {
+      form.resetFields() // 每次打开后重新初始化form内容
+    }
+    if (itemState === 3 || itemState === 7) {
+      commentForm.resetFields() // 每次打开后重新初始化form内容
+    }
     setHandlingId(itemId)
     setDisplayPrice(mergedData.find(obj => obj.id === itemId).price)
     setIsModalOpen1(prevState => {
@@ -150,7 +154,7 @@ const SoldAll = () => {
       balance: res0.data.balance + earnMoney // 邮费不再归还
     })
     const res = await axios.get(`http://localhost:5000/users/${myContent}`)
-        // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
+    // console.log("res.data.balance",res.data.balance,"res.data.earn",res.data.earn,"displayPrice",displayPrice,"Number(tradeInfo.youfei)",Number(tradeInfo.youfei),"earnMoney",earnMoney)
     await axios.patch(`http://localhost:5000/users/${myContent}`, {
       balance: res.data.balance - earnMoney,
       earn: res.data.earn - earnMoney

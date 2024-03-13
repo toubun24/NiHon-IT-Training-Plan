@@ -116,7 +116,9 @@ const BoughtAll = () => {
     setMyBalance(res2.data.balance)
   }, []);
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
-    commentForm.resetFields() // 每次打开后重新初始化form内容
+    if (itemState === 3) {
+      commentForm.resetFields() // 每次打开后重新初始化form内容
+    }
     setHandlingId(itemId)
     setDisplayPrice(mergedData.find(obj => obj.id === itemId).price)
     setMyArgue(mergedData.find(obj => obj.id === itemId).argue)
@@ -131,7 +133,9 @@ const BoughtAll = () => {
     })
   }
   const handleTrade2 = (itemId, itemState) => {
-    argueForm.resetFields() // 每次打开后重新初始化form内容
+    if (itemState === 3 || itemState === 7) {
+      argueForm.resetFields() // 每次打开后重新初始化form内容
+    }
     setHandlingId(itemId)
     setIsModalOpen2(prevState => {
       // 使用map方法创建一个新的数组，并在对应id的位置将值设置为true
@@ -371,7 +375,7 @@ const BoughtAll = () => {
                 }}>{cancelList[item.state]}</a>
                 :
                 item.state === 7 && item.argue === 5 ? // 管理员支持卖方驳回申诉，无法再次进行申诉
-                  <a className="fixed-width-action" style={{ textDecoration: 'line-through',color:'black' }} onClick={() => { message.info('申诉仲裁已完成，请于订单详情页查看') }}>{cancelList[item.state]}</a>
+                  <a className="fixed-width-action" style={{ textDecoration: 'line-through', color: 'black' }} onClick={() => { message.info('申诉仲裁已完成，请于订单详情页查看') }}>{cancelList[item.state]}</a>
                   :
                   item.state !== 5 && item.state !== 6 ?
                     <a className="fixed-width-action" style={{ color: "red" }} onClick={() => { handleTrade2(item.id, item.state) }}>{cancelList[item.state]}</a>

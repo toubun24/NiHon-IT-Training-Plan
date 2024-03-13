@@ -18,7 +18,7 @@ const Home = () => {
   const myContentId = tokenContent == '' ? { myContentId: '' } : JSON.parse(tokenContent).id // JSON.parse
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/goods?_expand=user`)
+    const res = await axios.get(`http://localhost:5000/goods?_expand=user&state=2`)
     const tmpData = res.data
     const sortedData = tmpData.filter(item => item.starList.includes(myContentId)).sort((a, b) => {
       const lastA = a.starList[a.starList.length - 1];

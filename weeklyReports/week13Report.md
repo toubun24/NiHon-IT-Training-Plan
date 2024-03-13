@@ -14,7 +14,8 @@
 * **2023.03.13 水曜日:** 
   * reactGTS-用户管理 16:30-17:20
   * reactGTS-用户权限作用实装 17:20-18:10
-  * reactGTS-商品发布权限作用实装 
+  * reactGTS-商品发布权限作用实装 19:45-20:05
+  * reactGTS-已买到/已卖出-其他 20:05
 
 * **2023.03.14 木曜日:** 
 
@@ -35,7 +36,29 @@
 `form.current?.resetFields();` 这种写法通常是在您使用 `useRef` 钩子来引用一个组件实例时使用的。在 React 中，`useRef` 钩子用于访问 DOM 节点或存储可变值，它并不会返回组件的实例方法，而是返回一个可变的 ref 对象。
 如果您尝试使用 `form.current?.resetFields();` 并且它不起作用，那可能是因为 `form` 这个 ref 并没有正确地引用到 `Form` 组件的实例，或者 `Form` 组件并没有提供 `resetFields` 这个方法。
 既然您已经通过 `form.resetFields()` 实现了表单重置，那么就没必要使用 `form.current?.resetFields();` 这种写法了。
-### React AntD Modal中使用Form 在卖方的【已卖出】-点击【申诉处理】后控制台警告: Warning: Instance created by `useForm` is not connected to any Form element. Forget to pass `form` prop?
+### 【已解决】React AntD Modal中使用Form 在卖方的【已卖出】-点击【申诉处理】后控制台警告: Warning: Instance created by `useForm` is not connected to any Form element. Forget to pass `form` prop?
+* `form.resetFields()`对全部action都做了初始化，但其实只需要对涉及了form的特定state的action打开modal前进行初始化即可
+```jsx
+const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
+    if (itemState === 1) {
+      form.resetFields() // 每次打开后重新初始化form内容
+    }
+    if (itemState === 3 || itemState === 7) {
+      commentForm.resetFields() // 每次打开后重新初始化form内容
+    }
+    setHandlingId(itemId)
+    setDisplayPrice(mergedData.find(obj => obj.id === itemId).price)
+    setIsModalOpen1(prevState => {
+      // 使用map方法创建一个新的数组，并在对应id的位置将值设置为true
+      return prevState.map((isOpen, index) => {
+        if (index === itemState) {
+          return true; // 如果当前索引等于id，返回true
+        }
+        return isOpen; // 否则返回原值
+      })
+    })
+  }
+```
 ### 【已解决】React AntD Table: Warning: Each child in a list should have a unique "key" prop.
 * 给前面的子项加`key`加了个遍也没用，连包含的`Button`都给加了也不行，最后发现是指每个数据行(row)的key
 ```jsx

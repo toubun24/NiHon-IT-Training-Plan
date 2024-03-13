@@ -7,7 +7,7 @@ import { EyeOutlined } from '@ant-design/icons';
 
 const { Meta } = Card;
 
-const MyList = ({ data }) => { // {data} //, tabId
+const MyList = ({ data, pageSizeInfo }) => { // {data} //, tabId
   // const [displayData,setDisplayData]=useState([])
   // const [tabsId,setTabsId]=useState()
   // useEffect(()=>{
@@ -38,7 +38,7 @@ const MyList = ({ data }) => { // {data} //, tabId
           xxl: 10, // >=1600px 展示的列数
         }}
         dataSource={data} // data ? data : [] // displayData?displayData:[]
-        pagination={{ position: 'bottom', align: 'center', pageSize: 20 }}
+        pagination={{ position: 'bottom', align: 'center', pageSize: pageSizeInfo?pageSizeInfo:20 }}
         renderItem={(item) => ( // data=>item
           <List.Item>
             <Card

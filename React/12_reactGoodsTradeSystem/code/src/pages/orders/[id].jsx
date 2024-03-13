@@ -197,12 +197,24 @@ const Orders = () => {
     },
     {
       key: '18',
+      label: '卖方驳回理由',
+      span: 2,
+      children: tradeData.argueReply1?tradeData.argueReply1:"-",
+    },
+    {
+      key: '19',
+      label: '管理仲裁理由',
+      span: 2,
+      children: tradeData.argueReply2?tradeData.argueReply2:"-",
+    },
+    {
+      key: '20',
       label: '买方评价',
       span: 2,
       children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
     },
     {
-      key: '19',
+      key: '21',
       label: '卖方评价',
       span: 2,
       children: tradeData.commentBySeller?tradeData.commentBySeller:"-",

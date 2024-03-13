@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Table, Tag, Image, Button, message, Modal } from 'antd';
+import { Space, Table, Tag, Image, Button, message, Modal, Form,Input } from 'antd';
 import axios from 'axios';
 import moment from 'moment'; // 时间戳格式化
 
@@ -13,6 +13,8 @@ const Unfinish = () => {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [handlingId, setHandlingId] = useState();
+  const [form1] = Form.useForm();
+  const [form2] = Form.useForm();
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&state=4&argue=3`) // 按发布时间降序 // desc // state_ne
@@ -26,39 +28,53 @@ const Unfinish = () => {
     check1or2 === 1 ? setIsModalOpen1(true) : setIsModalOpen2(true)
   }
   const handleOk1 = async () => {
-    const tradeInfo = tradesData.find(obj => obj.id === handlingId)
-    const res0 = await axios.get(`http://localhost:5000/users/${tradeInfo.buyerId}`)
-    const earnMoney = tradeInfo.price - Number(tradeInfo.youfei) // 邮费不算赚到的
-    await axios.patch(`http://localhost:5000/users/${tradeInfo.buyerId}`, {
-      balance: res0.data.balance + earnMoney // 邮费不再归还
-    })
-    const res = await axios.get(`http://localhost:5000/users/${tradeInfo.sellerId}`)
-    await axios.patch(`http://localhost:5000/users/${tradeInfo.sellerId}`, {
-      balance: res.data.balance - earnMoney,
-      earn: res.data.earn - earnMoney
-    })
-    const res2 = await axios.get(`http://localhost:5000/goods/${tradeInfo.goodId}`)
-    // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    console.log("res2.data.num", res2.data.num, "tradeInfo.num", tradeInfo.num)
-    await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
-      num: Number(res2.data.num) + Number(tradeInfo.num) // 库存归还
-    })
-    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      state: 6,
-      argue: 4
-    })
-    setTradesData(tradesData.filter(data => data.id !== handlingId))
-    message.info('仲裁完成，支持退货');
-    setIsModalOpen1(false);
+    try {
+      const values = await form1.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
+      const tradeInfo = tradesData.find(obj => obj.id === handlingId)
+      const res0 = await axios.get(`http://localhost:5000/users/${tradeInfo.buyerId}`)
+      const earnMoney = tradeInfo.price - Number(tradeInfo.youfei) // 邮费不算赚到的
+      await axios.patch(`http://localhost:5000/users/${tradeInfo.buyerId}`, {
+        balance: res0.data.balance + earnMoney // 邮费不再归还
+      })
+      const res = await axios.get(`http://localhost:5000/users/${tradeInfo.sellerId}`)
+      await axios.patch(`http://localhost:5000/users/${tradeInfo.sellerId}`, {
+        balance: res.data.balance - earnMoney,
+        earn: res.data.earn - earnMoney
+      })
+      const res2 = await axios.get(`http://localhost:5000/goods/${tradeInfo.goodId}`)
+      // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+      console.log("res2.data.num", res2.data.num, "tradeInfo.num", tradeInfo.num)
+      await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
+        num: Number(res2.data.num) + Number(tradeInfo.num) // 库存归还
+      })
+      await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+        state: 6,
+        argue: 4,
+        argueReply2: values.reply1,
+        editTime: Date.now(),
+      })
+      setTradesData(tradesData.filter(data => data.id !== handlingId))
+      message.info('仲裁完成，支持退货');
+      setIsModalOpen1(false);
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
   };
   const handleOk2 = async () => {
-    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      state: 7,
-      argue: 5
-    })
-    setTradesData(tradesData.filter(data => data.id !== handlingId))
-    message.info('仲裁完成，驳回申诉');
-    setIsModalOpen2(false);
+    try {
+      const values = await form2.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
+      await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+        state: 7,
+        argue: 5,
+        argueReply2: values.reply2,
+        editTime: Date.now(),
+      })
+      setTradesData(tradesData.filter(data => data.id !== handlingId))
+      message.info('仲裁完成，驳回申诉');
+      setIsModalOpen2(false);
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen1(false);
@@ -170,6 +186,21 @@ const Unfinish = () => {
         ]}
       >
         <p>是否确认支持买方的退货申诉</p>
+        <Form
+          form={form1}
+        >
+          <Form.Item
+            name="reply1"
+            rules={[
+              {
+                required: true,
+                message: '内容不能为空',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
       </Modal>
       <Modal // 2 驳回申请
         title="驳回申请"
@@ -181,6 +212,21 @@ const Unfinish = () => {
         ]}
       >
         <p>是否确认驳回买方的退货申诉</p>
+        <Form
+          form={form2}
+        >
+          <Form.Item
+            name="reply2"
+            rules={[
+              {
+                required: true,
+                message: '内容不能为空',
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   )

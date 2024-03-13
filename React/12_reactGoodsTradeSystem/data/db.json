@@ -132,7 +132,7 @@
         "矿区"
       ],
       "avatar": "download - Copy.jpg",
-      "balance": 206,
+      "balance": 205,
       "followList": [
         "55",
         "55",
@@ -144,7 +144,7 @@
       ],
       "historyList": [],
       "registerTime": 1709711927378,
-      "earn": 108,
+      "earn": 107,
       "id": 8
     },
     {
@@ -167,7 +167,7 @@
         "东城区"
       ],
       "avatar": "8181052043224923779.jpg",
-      "balance": 232,
+      "balance": 233,
       "followList": [
         8,
         6
@@ -1074,7 +1074,7 @@
         31,
         1
       ],
-      "num": "100",
+      "num": 101,
       "id": 67
     },
     {
@@ -2466,7 +2466,7 @@
       "sellerId": 8,
       "goodId": "67",
       "price": 1,
-      "state": 7,
+      "state": 6,
       "num": 1,
       "orderTime": 1710127180428,
       "editTime": 1710127180428,
@@ -2481,7 +2481,7 @@
       "dot": false,
       "commentBySeller": "评价",
       "commentByBuyer": "评价1",
-      "argue": 0,
+      "argue": 4,
       "publishTime": 1710127081945,
       "introduction": "申诉测试",
       "yuanjia": 0,
@@ -2499,7 +2499,10 @@
         31,
         1
       ],
-      "id": 34
+      "id": 34,
+      "argueReason": "123",
+      "argueReply1": "jujueliyou",
+      "argueReply2": "1支持"
     },
     {
       "buyerId": 9,
@@ -2546,7 +2549,7 @@
       "sellerId": 8,
       "goodId": "67",
       "price": 2,
-      "state": 3,
+      "state": 4,
       "num": "2",
       "orderTime": 1710155105976,
       "editTime": 1710155105976,
@@ -2561,7 +2564,7 @@
       "dot": false,
       "commentBySeller": "",
       "commentByBuyer": "",
-      "argue": 0,
+      "argue": 1,
       "publishTime": 1710127081945,
       "introduction": "申诉测试",
       "yuanjia": 0,
@@ -2579,7 +2582,8 @@
         31,
         1
       ],
-      "id": 36
+      "id": 36,
+      "argueReason": "123"
     },
     {
       "buyerId": 9,
@@ -2721,7 +2725,7 @@
       "dot": false,
       "commentBySeller": "也好",
       "commentByBuyer": "好",
-      "argue": 6,
+      "argue": 5,
       "publishTime": 1710127081945,
       "introduction": "申诉测试",
       "yuanjia": 0,
@@ -2739,7 +2743,9 @@
         31,
         1
       ],
-      "id": 40
+      "id": 40,
+      "argueReason": "123",
+      "argueReply2": "2反对"
     },
     {
       "buyerId": 9,
@@ -3072,7 +3078,7 @@
       "dot": false,
       "commentBySeller": "",
       "commentByBuyer": "",
-      "argue": 1,
+      "argue": 3,
       "publishTime": 1710169443482,
       "introduction": "申诉测试注意库存和账户余额",
       "yuanjia": 0,

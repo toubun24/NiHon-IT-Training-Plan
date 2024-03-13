@@ -164,7 +164,8 @@ const BoughtAll = () => {
         earn: res.data.earn + earnMoney
       })
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-        state: 1
+        state: 1,
+        editTime: Date.now(),
       })
       setMyBalance(myBalance - displayPrice)
       setMergedData(mergedData.map(obj => {
@@ -190,7 +191,8 @@ const BoughtAll = () => {
       num: res.data.num + tradeInfo.num // 库存归还
     })
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      state: 5
+      state: 5,
+      editTime: Date.now(),
     })
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {
@@ -209,7 +211,8 @@ const BoughtAll = () => {
   };
   const handleOk11 = async () => {
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      dot: true
+      dot: true,
+      editTime: Date.now(),
     })
     message.info('已催卖家发货')
     setIsModalOpen1(allClosedStatus);
@@ -233,7 +236,8 @@ const BoughtAll = () => {
       num: Number(res2.data.num) + Number(tradeInfo.num) // 库存归还
     })
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      state: 6
+      state: 6,
+      editTime: Date.now(),
     })
     setMyBalance(myBalance + displayPrice)
     setMergedData(mergedData.map(obj => {
@@ -253,7 +257,8 @@ const BoughtAll = () => {
   };
   const handleOk21 = async () => {
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      state: 3
+      state: 3,
+      editTime: Date.now(),
     })
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {
@@ -275,7 +280,8 @@ const BoughtAll = () => {
       const values = await commentForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
         state: 7,
-        commentByBuyer: values.comment
+        commentByBuyer: values.comment,
+        editTime: Date.now(),
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -301,7 +307,8 @@ const BoughtAll = () => {
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
         state: 4,
         argue: 1,
-        argueReason: values.argue
+        argueReason: values.argue,
+        editTime: Date.now(),
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -324,7 +331,8 @@ const BoughtAll = () => {
   const handleOk42 = async () => {
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
       state: 7,
-      argue: 6
+      argue: 6,
+      editTime: Date.now(),
     })
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {

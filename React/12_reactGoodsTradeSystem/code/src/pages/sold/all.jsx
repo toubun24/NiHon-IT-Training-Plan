@@ -54,6 +54,7 @@ const SoldAll = () => {
   // const [myBalance, setMyBalance] = useState();
   const [form] = Form.useForm();
   const [commentForm] = Form.useForm();
+  const [argueForm] = Form.useForm();
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/trades/?sellerId=${myContent}&_sort=editTime&_order=desc`) // 按时间降序 // desc // state_ne
@@ -101,7 +102,8 @@ const SoldAll = () => {
       // console.log('Form values:', values);
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
         state: 2,
-        kuaidi: values.kuaidi
+        kuaidi: values.kuaidi,
+        editTime: Date.now(),
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -126,7 +128,8 @@ const SoldAll = () => {
       const values = await commentForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
       // console.log('Form values:', values);
       await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-        commentBySeller: values.comment
+        commentBySeller: values.comment,
+        editTime: Date.now(),
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -166,7 +169,8 @@ const SoldAll = () => {
     })
     await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
       state: 6,
-      argue: 2
+      argue: 2,
+      editTime: Date.now(),
     })
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {
@@ -184,23 +188,31 @@ const SoldAll = () => {
     setIsModalOpen1(allClosedStatus);
   };
   const handleOk42 = async () => {
-    await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
-      argue: 3
-    })
-    setMergedData(mergedData.map(obj => {
-      if (obj.id === handlingId) {
-        return { ...obj, argue: 3 };
-      }
-      return obj;
-    }));
-    notification.open({
-      message: '通知',
-      description:
-        `请到【申诉中】查看相关订单`,
-      duration: 2,
-      placement: "bottomRight"
-    });
-    setIsModalOpen1(allClosedStatus);
+    try {
+      const values = await argueForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
+      // console.log('Form values:', values);
+      await axios.patch(`http://localhost:5000/trades/${handlingId}`, {
+        argue: 3,
+        argueReply1: values.argue,
+        editTime: Date.now(),
+      })
+      setMergedData(mergedData.map(obj => {
+        if (obj.id === handlingId) {
+          return { ...obj, argue: 3 };
+        }
+        return obj;
+      }));
+      notification.open({
+        message: '通知',
+        description:
+          `请到【申诉中】查看相关订单`,
+        duration: 2,
+        placement: "bottomRight"
+      });
+      setIsModalOpen1(allClosedStatus);
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
   };
   const handleCancel = () => {
     setIsModalOpen1(allClosedStatus);
@@ -299,7 +311,16 @@ const SoldAll = () => {
                 <Button key='reject' type="primary" onClick={handleOk42}>拒绝退货，申请仲裁</Button>,
               ]}
             >
-              <p>是否确认退款</p>
+              <p>是否确认退款（如果认为是买方责任，不予退换，则建议在下方填写理由并申请仲裁）</p>
+              <Form
+                form={argueForm}
+              >
+                <Form.Item
+                  name="argue"
+                >
+                  <Input />
+                </Form.Item>
+              </Form>
             </Modal>
             <Skeleton avatar title={false} loading={item.good.loading} active>
               <List.Item.Meta

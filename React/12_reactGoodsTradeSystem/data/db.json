@@ -582,6 +582,16 @@
       "visible": [
         6
       ]
+    },
+    {
+      "id": 25,
+      "title": "标签管理",
+      "key": "/admin-manage/tag-manage",
+      "rightId": 6,
+      "grade": 2,
+      "visible": [
+        6
+      ]
     }
   ],
   "headers": [
@@ -1485,23 +1495,52 @@
       "num": 0,
       "auditor": "计件测试管理员",
       "id": 82
+    },
+    {
+      "userId": 9,
+      "state": 1,
+      "publishTime": 1710604981663,
+      "introduction": "标签管理测试",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710604981663,
+      "starList": [],
+      "view": 14,
+      "tagList": [
+        1,
+        2
+      ],
+      "num": 1,
+      "auditor": "",
+      "id": 83
     }
   ],
   "tags": [
     {
       "tagName": "123",
-      "tagNum": 53,
-      "id": 1
+      "tagNum": 54,
+      "id": 1,
+      "state": 1
     },
     {
       "tagName": "电脑",
-      "tagNum": 43,
-      "id": 2
+      "tagNum": 44,
+      "id": 2,
+      "state": 0
     },
     {
       "tagName": "321",
       "tagNum": 2,
-      "id": 3
+      "id": 3,
+      "state": 1
     },
     {
       "tagName": "手机",
@@ -1621,7 +1660,8 @@
     {
       "tagName": "机箱",
       "tagNum": 10,
-      "id": 27
+      "id": 27,
+      "state": 0
     },
     {
       "tagName": "库存",
@@ -1646,7 +1686,8 @@
     {
       "tagName": "测试",
       "tagNum": 16,
-      "id": 32
+      "id": 32,
+      "state": 0
     }
   ],
   "trades": [

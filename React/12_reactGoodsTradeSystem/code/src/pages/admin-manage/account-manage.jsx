@@ -28,7 +28,7 @@ const formItemLayout = {
   },
 };
 
-const rightManage = () => {
+const accountManage = () => {
   const [selectedState, setSelectedState] = useState('all');
   const [dataSource, setDataSource] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -232,7 +232,7 @@ const rightManage = () => {
   );
 };
 
-export default rightManage;
+export default accountManage;
 
 // 用户名排序
 // 头像未更新

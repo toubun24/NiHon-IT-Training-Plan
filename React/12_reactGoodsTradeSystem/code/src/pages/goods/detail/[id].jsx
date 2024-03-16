@@ -63,13 +63,16 @@ const Goods = () => {
         // const tmp = [tags, response.data.tagName]
         // console.log([response.data["tagName"]])
         // setTags(tmp) // [...tags,response.data.tagName]???
-        // console.log(response.data.tagName,tmp)
-        return response.data.tagName // return
+        // console.log(response.data)
+        if (response.data.state !== 1)
+          return response.data.tagName // return
+        else
+          return ""
         // console.log(response.data.tagName)
       })
       // console.log("tags",tags);
-      // console.log(tmp);
-      setTags(tmp)
+      // console.log(tmp.filter(tag => tag.tagName !== ""));
+      setTags(tmp.filter(tag => tag.tagName !== ""))
     }))
     const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
     setStarData2(res2.data.starList)
@@ -213,7 +216,7 @@ const Goods = () => {
             tags && tags.length > 0 && tags.map((tag, index) => {
               const isLongTag = tag.length > 20;
               const tagElem = (
-                <Tag
+                tag && <Tag // 空名不被渲染
                   key={tag}
                   style={{
                     userSelect: 'none',

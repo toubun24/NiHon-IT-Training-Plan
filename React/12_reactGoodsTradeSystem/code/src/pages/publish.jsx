@@ -60,7 +60,8 @@ const Publish = () => {
       "starList": [],
       "view": 0,
       "tagList": tagIdList,
-      "num":values.num
+      "num":values.num,
+      "auditor":''
     })
     // console.log("final2", tagIdList)
     history.push(finishState === 0 ? '/published/draft' : '/published/publishing')

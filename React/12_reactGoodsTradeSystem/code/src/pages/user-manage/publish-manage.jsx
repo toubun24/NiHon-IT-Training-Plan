@@ -8,6 +8,10 @@ const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
 const PublishManage = () => {
   const [goodsData, setGoodsData] = useState([]);
+  const tokenContent = localStorage.getItem('token')
+  const myId = tokenContent == '' ? { myId: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
+  const myName = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).username // JSON.parse // .id
+
   useEffect(() => {
     axios.get(`http://localhost:5000/goods?_expand=user&_sort=modifyTime&_order=desc&state=1`).then( // 按发布时间降序 // desc // state_ne
       res => {
@@ -15,21 +19,31 @@ const PublishManage = () => {
       }
     )
   }, []);
-  const checkPass = (itemId) => {
-    axios.patch(`http://localhost:5000/goods/${itemId}`, { // post => patch 仅更新 // /${params.id}
-      "state": 2 // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
-    }).then(res => {
-      setGoodsData(goodsData.filter(data => data.id !== itemId))
-      message.info('审核通过');
+  const checkPass = async (itemId) => {
+    await axios.patch(`http://localhost:5000/goods/${itemId}`, { // post => patch 仅更新 // /${params.id}
+      "state": 2, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
+      "auditor": myName
     })
+    const res = await axios.get(`http://localhost:5000/users/${myId}`)
+    await axios.patch(`http://localhost:5000/users/${myId}`, {
+      auditNum: res.data.auditNum + 1,
+    })
+    setGoodsData(goodsData.filter(data => data.id !== itemId))
+    message.info('审核通过');
+
   }
-  const checkNotPass = (itemId) => {
-    axios.patch(`http://localhost:5000/goods/${itemId}`, { // post => patch 仅更新 // /${params.id}
-      "state": 3 // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
-    }).then(res => {
-      setGoodsData(goodsData.filter(data => data.id !== itemId))
-      message.info('审核不通过');
+  const checkNotPass = async (itemId) => {
+    await axios.patch(`http://localhost:5000/goods/${itemId}`, { // post => patch 仅更新 // /${params.id}
+      "state": 3, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
+      "auditor": myName
     })
+    const res = await axios.get(`http://localhost:5000/users/${myId}`)
+    await axios.patch(`http://localhost:5000/users/${myId}`, {
+      auditNum: res.data.auditNum + 1,
+    })
+    setGoodsData(goodsData.filter(data => data.id !== itemId))
+    message.info('审核不通过');
+
   }
 
   const columns = [

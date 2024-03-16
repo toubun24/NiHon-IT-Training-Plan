@@ -108,35 +108,35 @@ const Orders = () => {
       key: '6',
       label: '商品标签',
       children: <div>
-      {
-        tags && tags.length > 0 && tags.map((tag, index) => {
-          const isLongTag = tag.length > 20;
-          const tagElem = (
-            <Tag
-              key={tag}
-              style={{
-                userSelect: 'none',
-                cursor: "pointer"
-              }}
-              color="gray"
-              onClick={() => ClickTag(index)}
-            >
-              <span>
-                {isLongTag ? `${tag.slice(0, 20)}...` : tag}
-              </span>
-            </Tag>
-          );
-          return isLongTag ? (
-            <Tooltip title={tag} key={tag}>
-              {tagElem}
-            </Tooltip>
-          ) : (
-            tagElem
-          );
+        {
+          tags && tags.length > 0 && tags.map((tag, index) => {
+            const isLongTag = tag.length > 20;
+            const tagElem = (
+              <Tag
+                key={tag}
+                style={{
+                  userSelect: 'none',
+                  cursor: "pointer"
+                }}
+                color="gray"
+                onClick={() => ClickTag(index)}
+              >
+                <span>
+                  {isLongTag ? `${tag.slice(0, 20)}...` : tag}
+                </span>
+              </Tag>
+            );
+            return isLongTag ? (
+              <Tooltip title={tag} key={tag}>
+                {tagElem}
+              </Tooltip>
+            ) : (
+              tagElem
+            );
+          }
+          )
         }
-        )
-      }
-    </div>,
+      </div>,
     },
     {
       key: '7',
@@ -161,28 +161,28 @@ const Orders = () => {
     {
       key: '11',
       label: '发货地址',
-      children: tradeData.dizhi?tradeData.dizhi.join(" "):"-",
+      children: tradeData.dizhi ? tradeData.dizhi.join(" ") : "-",
     },
     {
       key: '12',
       label: '收货地址',
-      children: tradeData.dizhi1&&<div>{tradeData.dizhi1.join(" ")+ ' ' + tradeData.dizhi2}</div>,
+      children: tradeData.dizhi1 && <div>{tradeData.dizhi1.join(" ") + ' ' + tradeData.dizhi2}</div>,
     },
     {
       key: '13',
       label: '快递单号',
-      children: tradeData.kuaidi?tradeData.kuaidi:"-",
+      children: tradeData.kuaidi ? tradeData.kuaidi : "-",
     },
     {
       key: '14',
       label: '发货提醒',
-      children: tradeData.dot===true?"是":"否",
+      children: tradeData.dot === true ? "是" : "否",
     },
     {
       key: '15',
       label: '备注',
       span: 2,
-      children: tradeData.note?tradeData.note:"-",
+      children: tradeData.note ? tradeData.note : "-",
     },
     {
       key: '16',
@@ -191,39 +191,44 @@ const Orders = () => {
     },
     {
       key: '17',
-      label: '申诉理由',
-      span: 3,
-      children: tradeData.argueReason?tradeData.argueReason:"-",
+      label: '仲裁员',
+      children: tradeData.auditor ? tradeData.auditor : "-",
     },
     {
       key: '18',
-      label: '卖方驳回理由',
+      label: '申诉理由',
       span: 2,
-      children: tradeData.argueReply1?tradeData.argueReply1:"-",
+      children: tradeData.argueReason ? tradeData.argueReason : "-",
     },
     {
       key: '19',
-      label: '管理仲裁理由',
+      label: '卖方驳回理由',
       span: 2,
-      children: tradeData.argueReply2?tradeData.argueReply2:"-",
+      children: tradeData.argueReply1 ? tradeData.argueReply1 : "-",
     },
     {
       key: '20',
-      label: '买方评价',
+      label: '管理仲裁理由',
       span: 2,
-      children: tradeData.commentByBuyer?tradeData.commentByBuyer:"-",
+      children: tradeData.argueReply2 ? tradeData.argueReply2 : "-",
     },
     {
       key: '21',
+      label: '买方评价',
+      span: 2,
+      children: tradeData.commentByBuyer ? tradeData.commentByBuyer : "-",
+    },
+    {
+      key: '22',
       label: '卖方评价',
       span: 2,
-      children: tradeData.commentBySeller?tradeData.commentBySeller:"-",
+      children: tradeData.commentBySeller ? tradeData.commentBySeller : "-",
     },
   ];
 
   return (
     <div>
-      <Descriptions title={<div><MyBack/>订单详情</div>} layout="vertical" bordered items={items} column={4} />
+      <Descriptions title={<div><MyBack />订单详情</div>} layout="vertical" bordered items={items} column={4} />
     </div>
   )
 };

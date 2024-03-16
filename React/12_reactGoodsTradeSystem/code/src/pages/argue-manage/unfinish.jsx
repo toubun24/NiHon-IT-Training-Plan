@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Space, Table, Tag, Image, Button, message, Modal, Form,Input } from 'antd';
+import { Space, Table, Tag, Image, Button, message, Modal, Form, Input } from 'antd';
 import axios from 'axios';
 import moment from 'moment'; // 时间戳格式化
 
@@ -15,6 +15,9 @@ const Unfinish = () => {
   const [handlingId, setHandlingId] = useState();
   const [form1] = Form.useForm();
   const [form2] = Form.useForm();
+  const tokenContent = localStorage.getItem('token')
+  const myId = tokenContent == '' ? { myId: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
+  const myName = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).username // JSON.parse // .id
 
   useEffect(async () => {
     const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&state=4&argue=3`) // 按发布时间降序 // desc // state_ne
@@ -52,6 +55,11 @@ const Unfinish = () => {
         argue: 4,
         argueReply2: values.reply1,
         editTime: Date.now(),
+        auditor: myName
+      })
+      const res3 = await axios.get(`http://localhost:5000/users/${myId}`)
+      await axios.patch(`http://localhost:5000/users/${myId}`, {
+        argueNum: res3.data.argueNum + 1,
       })
       setTradesData(tradesData.filter(data => data.id !== handlingId))
       message.info('仲裁完成，支持退货');
@@ -68,6 +76,11 @@ const Unfinish = () => {
         argue: 5,
         argueReply2: values.reply2,
         editTime: Date.now(),
+        auditor: myName
+      })
+      const res3 = await axios.get(`http://localhost:5000/users/${myId}`)
+      await axios.patch(`http://localhost:5000/users/${myId}`, {
+        argueNum: res3.data.argueNum + 1,
       })
       setTradesData(tradesData.filter(data => data.id !== handlingId))
       message.info('仲裁完成，驳回申诉');
@@ -146,6 +159,8 @@ const Unfinish = () => {
       title: '最近修改',
       key: 'modify',
       dataIndex: 'editTime',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.editTime - b.editTime,
       render: (title) => { // 预览页面 // item
         return <span>{title ? moment(title).format('YY/MM/DD HH:mm:ss') : "-"}</span>
       }

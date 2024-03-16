@@ -50,6 +50,7 @@ const Order = () => {
       "argueReason": "",
       "argueReply1": "",
       "argueReply2": "",
+      "auditor": "",
       // 快照内容
       "publishTime": GoodsData.publishTime,
       "introduction": GoodsData.introduction,

@@ -11,7 +11,7 @@
     },
     {
       "username": "manager",
-      "state": 5,
+      "state": 7,
       "password": "123",
       "id": 2,
       "starList": [],
@@ -132,7 +132,7 @@
         "矿区"
       ],
       "avatar": "download - Copy.jpg",
-      "balance": 205,
+      "balance": 203,
       "followList": [
         "55",
         "55",
@@ -167,7 +167,7 @@
         "东城区"
       ],
       "avatar": "8181052043224923779.jpg",
-      "balance": 233,
+      "balance": 235,
       "followList": [
         8,
         6
@@ -175,8 +175,49 @@
       "followerList": [],
       "historyList": [],
       "registerTime": 1709972220013,
-      "earn": 2,
+      "earn": 4,
       "id": 9
+    },
+    {
+      "username": "manager2",
+      "state": 5,
+      "password": "321",
+      "argueNum": 0,
+      "registerTime": 1710583823616,
+      "id": 10
+    },
+    {
+      "username": "manager3",
+      "state": 5,
+      "password": "321",
+      "argueNum": 0,
+      "registerTime": 1710583975403,
+      "id": 11
+    },
+    {
+      "username": "管理员4",
+      "state": 5,
+      "password": "321",
+      "argueNum": 0,
+      "registerTime": 1710585384604,
+      "id": 12
+    },
+    {
+      "username": "manager4",
+      "state": 5,
+      "password": "321",
+      "argueNum": 0,
+      "registerTime": 1710585467329,
+      "id": 13
+    },
+    {
+      "username": "计件测试管理员",
+      "state": 5,
+      "password": "321",
+      "argueNum": 2,
+      "auditNum": 7,
+      "registerTime": 1710586894879,
+      "id": 14
     }
   ],
   "rights": [
@@ -534,8 +575,8 @@
     },
     {
       "id": 24,
-      "title": "板块管理",
-      "key": "/admin-manage/tag-manage",
+      "title": "账号管理",
+      "key": "/admin-manage/account-manage",
       "rightId": 6,
       "grade": 2,
       "visible": [
@@ -1247,6 +1288,203 @@
       ],
       "num": 1,
       "id": 74
+    },
+    {
+      "userId": 9,
+      "state": 2,
+      "publishTime": 1710586386489,
+      "introduction": "发布审查测试1",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710586386489,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 75
+    },
+    {
+      "userId": 9,
+      "state": 3,
+      "publishTime": 1710586404135,
+      "introduction": "发布审查测试2",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710586404135,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 76
+    },
+    {
+      "userId": 9,
+      "state": 2,
+      "publishTime": 1710587229155,
+      "introduction": "发布审核记名测试",
+      "yuanjia": 0,
+      "shoujia": "3",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710587229155,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 77
+    },
+    {
+      "userId": 9,
+      "state": 2,
+      "publishTime": 1710587420728,
+      "introduction": "发布审核记名测试2",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710587420728,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "id": 78,
+      "publishAuditor": "计件测试管理员"
+    },
+    {
+      "userId": 9,
+      "state": 2,
+      "publishTime": 1710588793670,
+      "introduction": "发布测试-通过-审查员",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710588793670,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "auditor": "计件测试管理员",
+      "id": 79
+    },
+    {
+      "userId": 9,
+      "state": 3,
+      "publishTime": 1710588809298,
+      "introduction": "发布测试-不通过-审查员",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710588809298,
+      "starList": [],
+      "view": 0,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "auditor": "计件测试管理员",
+      "id": 80
+    },
+    {
+      "userId": 9,
+      "state": 5,
+      "publishTime": 1710588831640,
+      "introduction": "申诉测试-支持退货-审查员",
+      "yuanjia": 0,
+      "shoujia": "1",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710588831640,
+      "starList": [],
+      "view": 1,
+      "tagList": [
+        32
+      ],
+      "num": 1,
+      "auditor": "计件测试管理员",
+      "id": 81
+    },
+    {
+      "userId": 9,
+      "state": 5,
+      "publishTime": 1710588843558,
+      "introduction": "申诉测试-不支持退货-审查员",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "editTime": 1710588843558,
+      "starList": [],
+      "view": 1,
+      "tagList": [
+        32
+      ],
+      "num": 0,
+      "auditor": "计件测试管理员",
+      "id": 82
     }
   ],
   "tags": [
@@ -1407,7 +1645,7 @@
     },
     {
       "tagName": "测试",
-      "tagNum": 8,
+      "tagNum": 16,
       "id": 32
     }
   ],
@@ -3373,6 +3611,90 @@
         32
       ],
       "id": 56
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 9,
+      "goodId": "82",
+      "price": 2,
+      "state": 7,
+      "num": 1,
+      "orderTime": 1710588937742,
+      "editTime": 1710589644728,
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "1",
+      "kuaidi": "123",
+      "dot": false,
+      "commentBySeller": "",
+      "commentByBuyer": "",
+      "argue": 5,
+      "argueReason": "321",
+      "argueReply1": "",
+      "argueReply2": "321",
+      "auditor": "计件测试管理员",
+      "publishTime": 1710588843558,
+      "introduction": "申诉测试-不支持退货-审查员",
+      "yuanjia": 0,
+      "shoujia": "2",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "finalEditTime": 1710588843558,
+      "tagList": [
+        32
+      ],
+      "id": 57
+    },
+    {
+      "buyerId": 8,
+      "sellerId": 9,
+      "goodId": "81",
+      "price": 1,
+      "state": 6,
+      "num": 1,
+      "orderTime": 1710588948610,
+      "editTime": 1710589639613,
+      "dizhi1": [
+        "山西省",
+        "阳泉市",
+        "矿区"
+      ],
+      "dizhi2": "2",
+      "kuaidi": "321",
+      "dot": false,
+      "commentBySeller": "",
+      "commentByBuyer": "",
+      "argue": 4,
+      "argueReason": "123",
+      "argueReply1": "123",
+      "argueReply2": "1支持",
+      "auditor": "计件测试管理员",
+      "publishTime": 1710588831640,
+      "introduction": "申诉测试-支持退货-审查员",
+      "yuanjia": 0,
+      "shoujia": "1",
+      "dizhi": [
+        "北京市",
+        "市辖区",
+        "东城区"
+      ],
+      "fahuofangshi": "baoyou",
+      "youfei": 0,
+      "tupian": "622e7c981ad96096.png",
+      "finalEditTime": 1710588831640,
+      "tagList": [
+        32
+      ],
+      "id": 58
     }
   ]
 }

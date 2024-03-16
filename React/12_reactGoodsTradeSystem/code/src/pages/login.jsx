@@ -29,7 +29,9 @@ const Login = () => {
           history.push('/homepage')
         } else if (Number(res.data[0].state) === 4) { // res.data[0]
           message.error('账号已注销')
-        } else {
+        } else if (Number(res.data[0].state) === 7) { // res.data[0]
+          message.error('管理员权限已关闭')
+        }else {
           localStorage.setItem('token', JSON.stringify(res.data[0]))
           history.push('/home')
         }

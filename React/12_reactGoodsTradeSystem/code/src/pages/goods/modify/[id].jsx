@@ -6,6 +6,7 @@ import { useHistory } from 'umi';
 import { LoadingOutlined, PlusOutlined, CloseOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { useParams } from 'umi'; // useParams
 import { cityArray } from './../../../components/cityData';
+import MyBack from '../../../components/myBack';
 
 const Modify = () => {
   const [form] = Form.useForm();
@@ -175,206 +176,209 @@ const Modify = () => {
   }
 
   return (
-    <Form
-      name="basic"
-      labelCol={{
-        span: 8,
-      }}
-      wrapperCol={{
-        span: 16,
-      }}
-      style={{
-        maxWidth: 600,
-      }}
-      /*
-      initialValues={{
-        fangshi: "baoyou",
-        youfei: 0,
-        yuanjia: 0,
-        shoujia: 0,
-        dizhi: myContent.location ? myContent.location : []
-      }}
-      */
-      ref={formRef}
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      autoComplete="off"
-      form={form}
-    >
-
-      <Form.Item
-        label="简介"
-        name="jianjie"
-        rules={[
-          {
-            required: true,
-            message: '请输入商品描述',
-          },
-        ]}
-      >
-        <TextArea
-          placeholder="请输入商品描述"
-          showCount
-          // required
-          maxLength={500}
-          autoSize={{
-            minRows: 4,
-            maxRows: 4,
-          }}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label="标签"
-        name="biaoqian"
-        rules={[
-          {
-            required: true,
-            message: '请输入商品标签',
-          },
-        ]}
-      >
-        <Input
-          placeholder="#分隔"
-          onPressEnter={() => addTag()}
-        />
-      </Form.Item>
-
-      <Form.Item
-        label="地址"
-        name="dizhi"
-        rules={[
-          {
-            required: true,
-            message: '请选择地址',
-          },
-        ]}
-      >
-        <Cascader style={{ width: 200, }} options={cityArray} />
-      </Form.Item>
-
-      <Form.Item label="发货方式">
-        <Space.Compact>
-          <Form.Item
-            name={['fahuo', 'fangshi']} // fahuo
-            noStyle
-          >
-            <Select
-              style={{
-                width: 80,
-              }}
-              onChange={selected}
-              // defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
-              options={[
-                {
-                  value: 'zishe',
-                  label: '自设',
-                },
-                {
-                  value: 'baoyou',
-                  label: '包邮',
-                },
-                {
-                  value: 'ziti',
-                  label: '自提',
-                },
-              ]}
-            />
-          </Form.Item>
-          <Form.Item
-            name={['fahuo', 'youfei']} // fahuo
-            noStyle
-          >
-            <Input style={{ width: '50%' }} prefix="¥" suffix="RMB" type="number" disabled={selectedValue} />
-          </Form.Item>
-        </Space.Compact>
-      </Form.Item>
-
-      <Form.Item
-        label="原价"
-        name="yuanjia"
-        rules={[
-          {
-            pattern: /^(?!0\d)\d+(\.\d*)?$/,
-            message: '金额格式不合规范'
-          }
-        ]}
-      >
-        <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
-      </Form.Item>
-
-      <Form.Item
-        label="售价"
-        name="shoujia"
-        rules={[
-          {
-            required: true,
-            message: '请输入售价!',
-          },
-          {
-            pattern: /^(?!0\d)\d+(\.\d*)?$/,
-            message: '金额格式不合规范'
-          }
-        ]}
-      >
-        <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
-      </Form.Item>
-
-      <Form.Item
-        label="存货数量"
-        name="num"
-        rules={[
-          {
-            pattern: /^[1-9]\d*$/,
-            message: '数量格式不合规范'
-          }
-        ]}
-      >
-        <Input style={{ width: '80px' }} type="number" />
-      </Form.Item>
-
-      <Form.Item
-        label="修改图片"
-        name="tupian"
-        valuePropName="fileList"
-        getValueFromEvent={normFile}
-      >
-        <Upload
-          name="avatar"
-          listType="picture-card"
-          className="avatar-uploader"
-          showUploadList={false}
-          action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-          beforeUpload={beforeUpload}
-          onChange={handleChange}
-        >
-          {imageUrl ? (
-            <img
-              src={imageUrl}
-              alt="avatar"
-              style={{
-                width: '100%',
-              }}
-            />
-          ) : (
-            uploadButton
-          )}
-        </Upload>
-      </Form.Item>
-
-      <Form.Item
+    <div>
+      <MyBack />
+      <Form
+        name="basic"
+        labelCol={{
+          span: 8,
+        }}
         wrapperCol={{
-          offset: 8,
           span: 16,
         }}
+        style={{
+          maxWidth: 600,
+        }}
+        /*
+        initialValues={{
+          fangshi: "baoyou",
+          youfei: 0,
+          yuanjia: 0,
+          shoujia: 0,
+          dizhi: myContent.location ? myContent.location : []
+        }}
+        */
+        ref={formRef}
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        form={form}
       >
-        <Space>
-          <Button type="primary" htmlType="submit" onClick={() => setFinishState(1)}>发布</Button>
-          <Button htmlType="submit" onClick={() => setFinishState(0)}>存草稿</Button>
-        </Space>
-      </Form.Item>
 
-    </Form>
+        <Form.Item
+          label="简介"
+          name="jianjie"
+          rules={[
+            {
+              required: true,
+              message: '请输入商品描述',
+            },
+          ]}
+        >
+          <TextArea
+            placeholder="请输入商品描述"
+            showCount
+            // required
+            maxLength={500}
+            autoSize={{
+              minRows: 4,
+              maxRows: 4,
+            }}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="标签"
+          name="biaoqian"
+          rules={[
+            {
+              required: true,
+              message: '请输入商品标签',
+            },
+          ]}
+        >
+          <Input
+            placeholder="#分隔"
+            onPressEnter={() => addTag()}
+          />
+        </Form.Item>
+
+        <Form.Item
+          label="地址"
+          name="dizhi"
+          rules={[
+            {
+              required: true,
+              message: '请选择地址',
+            },
+          ]}
+        >
+          <Cascader style={{ width: 200, }} options={cityArray} />
+        </Form.Item>
+
+        <Form.Item label="发货方式">
+          <Space.Compact>
+            <Form.Item
+              name={['fahuo', 'fangshi']} // fahuo
+              noStyle
+            >
+              <Select
+                style={{
+                  width: 80,
+                }}
+                onChange={selected}
+                // defaultValue={"baoyou"} // Warning: [antd: Form.Item] `defaultValue` will not work on controlled Field. You should use `initialValues` of Form instead.
+                options={[
+                  {
+                    value: 'zishe',
+                    label: '自设',
+                  },
+                  {
+                    value: 'baoyou',
+                    label: '包邮',
+                  },
+                  {
+                    value: 'ziti',
+                    label: '自提',
+                  },
+                ]}
+              />
+            </Form.Item>
+            <Form.Item
+              name={['fahuo', 'youfei']} // fahuo
+              noStyle
+            >
+              <Input style={{ width: '50%' }} prefix="¥" suffix="RMB" type="number" disabled={selectedValue} />
+            </Form.Item>
+          </Space.Compact>
+        </Form.Item>
+
+        <Form.Item
+          label="原价"
+          name="yuanjia"
+          rules={[
+            {
+              pattern: /^(?!0\d)\d+(\.\d*)?$/,
+              message: '金额格式不合规范'
+            }
+          ]}
+        >
+          <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
+        </Form.Item>
+
+        <Form.Item
+          label="售价"
+          name="shoujia"
+          rules={[
+            {
+              required: true,
+              message: '请输入售价!',
+            },
+            {
+              pattern: /^(?!0\d)\d+(\.\d*)?$/,
+              message: '金额格式不合规范'
+            }
+          ]}
+        >
+          <Input style={{ width: '120px' }} prefix="¥" suffix="RMB" type="number" />
+        </Form.Item>
+
+        <Form.Item
+          label="存货数量"
+          name="num"
+          rules={[
+            {
+              pattern: /^[1-9]\d*$/,
+              message: '数量格式不合规范'
+            }
+          ]}
+        >
+          <Input style={{ width: '80px' }} type="number" />
+        </Form.Item>
+
+        <Form.Item
+          label="修改图片"
+          name="tupian"
+          valuePropName="fileList"
+          getValueFromEvent={normFile}
+        >
+          <Upload
+            name="avatar"
+            listType="picture-card"
+            className="avatar-uploader"
+            showUploadList={false}
+            action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+            beforeUpload={beforeUpload}
+            onChange={handleChange}
+          >
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt="avatar"
+                style={{
+                  width: '100%',
+                }}
+              />
+            ) : (
+              uploadButton
+            )}
+          </Upload>
+        </Form.Item>
+
+        <Form.Item
+          wrapperCol={{
+            offset: 8,
+            span: 16,
+          }}
+        >
+          <Space>
+            <Button type="primary" htmlType="submit" onClick={() => setFinishState(1)}>发布</Button>
+            <Button htmlType="submit" onClick={() => setFinishState(0)}>存草稿</Button>
+          </Space>
+        </Form.Item>
+
+      </Form>
+    </div>
   );
 };
 export default Modify;

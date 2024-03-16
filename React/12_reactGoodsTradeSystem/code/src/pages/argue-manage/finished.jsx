@@ -30,10 +30,18 @@ const Unfinish = () => {
   const [isModalOpen1, setIsModalOpen1] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [handlingId, setHandlingId] = useState();
+  const tokenContent = localStorage.getItem('token')
+  const myName = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).username // JSON.parse // .id
+  const myState = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).state // JSON.parse // .id
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&argue_ne=0&argue_ne=1&argue_ne=2&argue_ne=3&argue_ne=6`) // 按发布时间降序 // desc // state_ne // (argue=4|argue=5)不行
-    setTradesData(res.data)
+    if (myState === 6) {
+      const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&argue_ne=0&argue_ne=1&argue_ne=2&argue_ne=3&argue_ne=6`) // 按发布时间降序 // desc // state_ne // (argue=4|argue=5)不行
+      setTradesData(res.data)
+    } else {
+      const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&argue_ne=0&argue_ne=1&argue_ne=2&argue_ne=3&argue_ne=6&auditor=${myName}`) // 按发布时间降序 // desc // state_ne // (argue=4|argue=5)不行
+      setTradesData(res.data)
+    }
     const res2 = await axios.get(`http://localhost:5000/users`)
     setUsersData(res2.data)
   }, []);
@@ -43,9 +51,9 @@ const Unfinish = () => {
       title: '商品图片',
       key: 'tupian',
       dataIndex: 'tupian', // 就是title本身
-      render: (_,item) => {
+      render: (_, item) => {
         // console.log(item.tupian)
-        return item.tupian&&<Image width={64} src={require(`@/images/goods/${item.tupian}`)} />
+        return item.tupian && <Image width={64} src={require(`@/images/goods/${item.tupian}`)} />
       }
     },
     {
@@ -104,6 +112,8 @@ const Unfinish = () => {
       title: '最近修改',
       key: 'modify',
       dataIndex: 'editTime',
+      defaultSortOrder: 'descend',
+      sorter: (a, b) => a.editTime - b.editTime,
       render: (title) => { // 预览页面 // item
         return <span>{title ? moment(title).format('YY/MM/DD HH:mm:ss') : "-"}</span>
       }
@@ -112,7 +122,7 @@ const Unfinish = () => {
       title: '审核结果',
       key: 'action',
       render: (item) => ( // item.id
-      <Tag color={argueColorList[item.argue]}>{argueList[item.argue]}</Tag>
+        <Tag color={argueColorList[item.argue]}>{argueList[item.argue]}</Tag>
       ),
     },
   ];

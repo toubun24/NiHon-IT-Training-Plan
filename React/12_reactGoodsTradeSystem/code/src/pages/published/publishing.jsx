@@ -108,6 +108,9 @@ const Publishing = () => {
                     <div>
                       最近修改:{item.editTime ? moment(item.editTime).format('YY/MM/DD HH:mm:ss') : "-"}
                     </div>
+                    <div>
+                      审查员:{item.auditor ? item.auditor : "-"}
+                    </div>
                   </Space>
                 </>
               }

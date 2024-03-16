@@ -58,7 +58,7 @@ const Home = () => {
     <div>
       <div style={{ marginBottom: "15px" }}>
         <Search
-          placeholder="输入用户名进行搜索"
+          placeholder="输入内容以进行商品搜索"
           style={{ width: "85%" }}
           enterButton // ={false}
           onSearch={onSearch}

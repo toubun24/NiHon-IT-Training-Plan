@@ -7,7 +7,7 @@ import moment from 'moment'; // 时间戳格式化
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const Unfinish = () => {
+const Unfinish = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [tradesData, setTradesData] = useState([]);
   const [usersData, setUsersData] = useState([]);
   const [isModalOpen1, setIsModalOpen1] = useState(false);
@@ -126,7 +126,7 @@ const Unfinish = () => {
           userInfo && // userInfo &&
           <Space>
             <a href={`/homepages/${sellerId}`}>{userInfo.username}</a>
-            <Tag color={colorList[userInfo.state]}>{stateList[userInfo.state]}</Tag>
+            <Tag color={colorList[userInfo.stateId-1]}>{stateList[userInfo.stateId-1]}</Tag>
           </Space>
         )
       }
@@ -141,7 +141,7 @@ const Unfinish = () => {
           userInfo && // userInfo&&
           <Space>
             <a href={`/homepages/${buyerId}`}>{userInfo.username}</a>
-            <Tag color={colorList[userInfo.state]}>{stateList[userInfo.state]}</Tag>
+            <Tag color={colorList[userInfo.stateId-1]}>{stateList[userInfo.stateId-1]}</Tag>
           </Space>
         )
       }

@@ -3,7 +3,6 @@ import { Input, Space, Select, Cascader, Button, Form, notification, message, Up
 const { TextArea } = Input;
 import axios from 'axios';
 import { useHistory, useParams } from 'umi';
-import { LoadingOutlined, PlusOutlined, CloseOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { cityArray } from './../../../components/cityData';
 import MyBack from '../../../components/myBack';
 
@@ -215,4 +214,5 @@ const Order = () => {
     </div>
   );
 };
+Order.wrappers = ['@/wrappers/Auth']
 export default Order;

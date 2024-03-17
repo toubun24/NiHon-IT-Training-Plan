@@ -14,7 +14,7 @@ const fahuofangshiList = {
   "ziti": "仅限自提"
 }
 
-const Goods = () => {
+const Goods = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const params = useParams() // 返回一个对象,其中包含URL参数和它们的值
   // const [information, setInformation] = useState([]);
   const [detailData, setDetailData] = useState({}); // 商品详情信息 // {}
@@ -194,7 +194,7 @@ const Goods = () => {
           </div>
         </div>
         {
-          myContent.state !== 5 && myContent.state !== 6 ? (userData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
+          myContent.stateId !== 6 && myContent.stateId !== 7 ? (userData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
             followData.includes(userData.id) ? <Button style={{ marginTop: "2px" }} onClick={() => follow()}>已关注</Button> : // [].includes没关系的不会报错
               <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>)
             :
@@ -265,14 +265,14 @@ const Goods = () => {
           userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => modify()} icon={<EditOutlined />}>修改</Button> : <></>
         }
         {
-          myContent.state !== 5 && myContent.state !== 6 ? (userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
+          myContent.stateId !== 6 && myContent.stateId !== 7 ? (userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />} disabled>收藏</Button> :
             starData.includes(myContent.id) ? <Button style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>已收藏</Button> : // [].includes没关系的不会报错
               <Button type="primary" style={{ marginRight: '5px' }} onClick={() => addStar()} icon={<StarOutlined />}>收藏</Button>)
             :
             <Button type="primary" style={{ marginRight: '5px' }} onClick={() => setIsModalOpen2(true)} icon={<ScissorOutlined />}>违规修改</Button> // 管理员操作
         }
         {
-          myContent.state !== 5 && myContent.state !== 6 ? (myContent.state == 1 || myContent.state == 3 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>禁购中</Button> :
+          myContent.stateId !== 6 && myContent.stateId !== 7 ? (myContent.stateId == 2 || myContent.stateId == 4 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>禁购中</Button> :
             detailData.num === 0 ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>已售罄</Button> :
               userData.id === myContent.id ? <Button type="primary" style={{ marginRight: '1.8%' }} icon={<CommentOutlined />} disabled>我想要</Button> :
                 <Button type="primary" style={{ marginRight: '1.8%' }} onClick={() => wannaBuy()} icon={<CommentOutlined />}>我想要</Button>)
@@ -338,4 +338,5 @@ const Goods = () => {
     </div>
   )
 }
+Goods.wrappers = ['@/wrappers/Auth']
 export default Goods

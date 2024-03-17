@@ -45,7 +45,7 @@ const tailFormItemLayout = {
   },
 };
 
-const Register = () => {
+const Register = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [form] = Form.useForm();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
@@ -60,7 +60,7 @@ const Register = () => {
         // console.log(values.touxiang)
         axios.post('http://localhost:5000/users', {
           "username": values.username,
-          "state": 0, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
+          "stateId": 1, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned
           "password": values.password,
           "starList": [],
           "location": values.location ? values.location : '',

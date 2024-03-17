@@ -17,14 +17,14 @@ const fahuofangshiList = {
 const Goods = () => {
     const params = useParams() // 返回一个对象,其中包含URL参数和它们的值
     // const [information, setInformation] = useState([]);
-    const [detailData, setDetailData] = useState({}); // 商品详情信息 // {}
-    const [userData, setUserData] = useState({}); // 卖家详情信息 // {}
+    // const [detailData, setDetailData] = useState({}); // 商品详情信息 // {}
+    // const [userData, setUserData] = useState({}); // 卖家详情信息 // {} // sellerData
     const [dizhiData, setDizhiData] = useState([]); // 地址信息 // []
     // const [isStar, setIsStar] = useState();
-    const [starData, setStarData] = useState([]);
-    const [starData2, setStarData2] = useState([]);
-    const [followerData, setFollowerData] = useState([]);
-    const [followData, setFollowData] = useState([]);
+    // const [starData, setStarData] = useState([]);
+    // const [starData2, setStarData2] = useState([]);
+    // const [followerData, setFollowerData] = useState([]);
+    // const [followData, setFollowData] = useState([]);
     const history = useHistory()
     const [tagData, setTagData] = useState([]);
     const [tags, setTags] = useState([]);
@@ -37,6 +37,7 @@ const Goods = () => {
         const res = await axios.get(`http://localhost:5000/trades/${params.id}`)
         setTradeData(res.data)
         setDizhiData(res.data.dizhi)
+        setTagData(res.data.tagList)
         const tagIdData = res.data.tagList
         const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
         axios.all(requests).then(axios.spread((...responses) => {
@@ -49,42 +50,6 @@ const Goods = () => {
         setSellerData(res2.data)
     }, [])
 
-    const addStar = () => {
-        if (starData.includes(myContent.id) === true) {
-            setStarData(starData.filter(data => data !== myContent.id))
-            axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: starData.filter(data => data !== myContent.id) })
-            setStarData2(starData2.filter(data => data !== params.id))
-            axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: starData2.filter(data => data !== params.id) })
-        } else { // [...[],XXX] is ok // } else if (starData.length > 0) {
-            setStarData([...starData, myContent.id])
-            axios.patch(`http://localhost:5000/goods/${params.id}`, { starList: [...starData, myContent.id] })
-            setStarData2([...starData2, params.id])
-            axios.patch(`http://localhost:5000/users/${myContent.id}`, { starList: [...starData2, params.id] })
-        }
-    }
-    const wannaBuy = () => {
-        history.push(`/goods/order/${params.id}`)
-    }
-    const follow = () => {
-        // followerData 卖家粉丝
-        // followData 买家关注
-        // userData.id 卖家id
-        // myContent.id 买家id
-        if (followerData.includes(myContent.id) === true) {
-            setFollowerData(followerData.filter(data => data !== myContent.id))
-            axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: followerData.filter(data => data !== myContent.id) })
-            setFollowData(followData.filter(data => data !== userData.id))
-            axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: followData.filter(data => data !== userData.id) })
-        } else { // [...[],XXX] is ok // } else if (starData.length > 0) {
-            setFollowerData([...followerData, myContent.id])
-            axios.patch(`http://localhost:5000/users/${userData.id}`, { followerList: [...followerData, myContent.id] })
-            setFollowData([...followData, userData.id])
-            axios.patch(`http://localhost:5000/users/${myContent.id}`, { followList: [...followData, userData.id] })
-        }
-    }
-    const modify = () => {
-        history.push(`/goods/modify/${params.id}`)
-    }
     const ClickTag = (index) => {
         // console.log(tagData[index])
         history.push(`/goods/tag/${tagData[index]}`)
@@ -112,11 +77,6 @@ const Goods = () => {
                         </span>
                     </div>
                 </div>
-                {
-                    sellerData.id === myContent.id ? <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary' disabled>关注</Button> :
-                        followData.includes(sellerData.id) ? <Button style={{ marginTop: "2px" }} onClick={() => follow()}>已关注</Button> : // [].includes没关系的不会报错
-                            <Button style={{ marginTop: "2px" }} onClick={() => follow()} type='primary'>关注</Button>
-                }
             </Flex>
             <MyBack /><span style={{ fontSize: '20px', fontWeight: 'bold' }}>商品快照</span>
             <br />
@@ -175,4 +135,5 @@ const Goods = () => {
         </div>
     )
 }
+Goods.wrappers = ['@/wrappers/Auth']
 export default Goods

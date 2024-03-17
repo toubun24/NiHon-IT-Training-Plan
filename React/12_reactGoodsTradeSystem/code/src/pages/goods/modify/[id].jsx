@@ -381,4 +381,5 @@ const Modify = () => {
     </div>
   );
 };
+Modify.wrappers = ['@/wrappers/Auth']
 export default Modify;

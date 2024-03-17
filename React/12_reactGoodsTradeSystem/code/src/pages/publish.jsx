@@ -350,4 +350,5 @@ const Publish = () => {
     </Form>
   );
 };
+Publish.wrappers = ['@/wrappers/Auth']
 export default Publish;

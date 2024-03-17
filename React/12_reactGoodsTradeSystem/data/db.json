@@ -2,7 +2,7 @@
   "users": [
     {
       "username": "admin",
-      "state": 6,
+      "stateId": 7,
       "password": "123",
       "id": 1,
       "starList": [],
@@ -11,7 +11,7 @@
     },
     {
       "username": "manager",
-      "state": 7,
+      "stateId": 8,
       "password": "123",
       "id": 2,
       "starList": [],
@@ -20,7 +20,7 @@
     },
     {
       "username": "toubun",
-      "state": 0,
+      "stateId": 1,
       "password": "123",
       "id": 3,
       "balance": 100,
@@ -28,7 +28,7 @@
     },
     {
       "username": "toubun2",
-      "state": 0,
+      "stateId": 1,
       "password": "123",
       "starList": [],
       "location": [
@@ -47,7 +47,7 @@
     },
     {
       "username": "toubun3333",
-      "state": 0,
+      "stateId": 1,
       "password": "123",
       "starList": [],
       "location": [
@@ -67,7 +67,7 @@
     },
     {
       "username": "toubun4",
-      "state": 0,
+      "stateId": 2,
       "password": "123",
       "starList": [
         "51"
@@ -91,7 +91,7 @@
     },
     {
       "username": "toubun5",
-      "state": 3,
+      "stateId": 4,
       "password": "123",
       "starList": [
         6,
@@ -118,7 +118,7 @@
     },
     {
       "username": "toubun63",
-      "state": "2",
+      "stateId": 3,
       "password": "123",
       "starList": [
         "55",
@@ -138,10 +138,7 @@
         "55",
         7
       ],
-      "followerList": [
-        7,
-        9
-      ],
+      "followerList": [],
       "historyList": [],
       "registerTime": 1709711927378,
       "earn": 107,
@@ -149,7 +146,7 @@
     },
     {
       "username": "toubun77",
-      "state": 0,
+      "stateId": 1,
       "password": "123",
       "starList": [
         "63",
@@ -168,10 +165,7 @@
       ],
       "avatar": "8181052043224923779.jpg",
       "balance": 235,
-      "followList": [
-        8,
-        6
-      ],
+      "followList": [],
       "followerList": [],
       "historyList": [],
       "registerTime": 1709972220013,
@@ -180,7 +174,7 @@
     },
     {
       "username": "manager2",
-      "state": 5,
+      "stateId": 6,
       "password": "321",
       "argueNum": 0,
       "registerTime": 1710583823616,
@@ -188,7 +182,7 @@
     },
     {
       "username": "manager3",
-      "state": 5,
+      "stateId": 6,
       "password": "321",
       "argueNum": 0,
       "registerTime": 1710583975403,
@@ -196,7 +190,7 @@
     },
     {
       "username": "管理员4",
-      "state": 5,
+      "stateId": 6,
       "password": "321",
       "argueNum": 0,
       "registerTime": 1710585384604,
@@ -204,7 +198,7 @@
     },
     {
       "username": "manager4",
-      "state": 5,
+      "stateId": 6,
       "password": "321",
       "argueNum": 0,
       "registerTime": 1710585467329,
@@ -212,7 +206,7 @@
     },
     {
       "username": "计件测试管理员",
-      "state": 5,
+      "stateId": 6,
       "password": "321",
       "argueNum": 2,
       "auditNum": 7,
@@ -220,15 +214,248 @@
       "id": 14
     }
   ],
+  "states": [
+    {
+      "id": 1,
+      "rights": [
+        "/bought/all",
+        "/bought/cancelled",
+        "/bought/finished",
+        "/bought/refunding",
+        "/bought/uncomment",
+        "/bought/undelivery",
+        "/bought/unpay",
+        "/bought/unsign",
+        "/goods",
+        "/goods/detail",
+        "/goods/modify",
+        "/goods/order",
+        "/goods/tag",
+        "/goods/detail/:id",
+        "/goods/modify/:id",
+        "/goods/order/:id",
+        "/goods/tag/:id",
+        "/homepages",
+        "/homepages/:id",
+        "/orders",
+        "/orders/:id",
+        "/published/draft",
+        "/published/publishing",
+        "/published/removed",
+        "/snapshots",
+        "/snapshots/:id",
+        "/sold/all",
+        "/sold/cancelled",
+        "/sold/finished",
+        "/sold/refunding",
+        "/sold/uncomment",
+        "/sold/undelivery",
+        "/sold/unpay",
+        "/sold/unsign",
+        "/agreement",
+        "/home",
+        "/homepage",
+        "/login",
+        "/publish",
+        "/register",
+        "/404"
+      ]
+    },
+    {
+      "id": 2,
+      "rights": [
+        "/bought/all",
+        "/bought/cancelled",
+        "/bought/finished",
+        "/bought/refunding",
+        "/bought/uncomment",
+        "/bought/undelivery",
+        "/bought/unpay",
+        "/bought/unsign",
+        "/goods",
+        "/goods/detail",
+        "/goods/modify",
+        "/goods/detail/:id",
+        "/goods/modify/:id",
+        "/homepages",
+        "/homepages/:id",
+        "/orders",
+        "/orders/:id",
+        "/published/draft",
+        "/published/publishing",
+        "/published/removed",
+        "/snapshots",
+        "/snapshots/:id",
+        "/sold/all",
+        "/sold/cancelled",
+        "/sold/finished",
+        "/sold/refunding",
+        "/sold/uncomment",
+        "/sold/undelivery",
+        "/sold/unpay",
+        "/sold/unsign",
+        "/agreement",
+        "/homepage",
+        "/login",
+        "/publish",
+        "/register",
+        "/404"
+      ]
+    },
+    {
+      "id": 3,
+      "rights": [
+        "/bought/all",
+        "/bought/cancelled",
+        "/bought/finished",
+        "/bought/refunding",
+        "/bought/uncomment",
+        "/bought/undelivery",
+        "/bought/unpay",
+        "/bought/unsign",
+        "/goods",
+        "/goods/detail",
+        "/goods/modify",
+        "/goods/order",
+        "/goods/tag",
+        "/goods/detail/:id",
+        "/goods/modify/:id",
+        "/goods/order/:id",
+        "/goods/tag/:id",
+        "/homepages",
+        "/homepages/:id",
+        "/orders",
+        "/orders/:id",
+        "/published/draft",
+        "/published/publishing",
+        "/published/removed",
+        "/snapshots",
+        "/snapshots/:id",
+        "/sold/all",
+        "/sold/cancelled",
+        "/sold/finished",
+        "/sold/refunding",
+        "/sold/uncomment",
+        "/sold/undelivery",
+        "/sold/unpay",
+        "/sold/unsign",
+        "/agreement",
+        "/home",
+        "/homepage",
+        "/login",
+        "/register",
+        "/404"
+      ]
+    },
+    {
+      "id": 4,
+      "rights": [
+        "/bought/all",
+        "/bought/cancelled",
+        "/bought/finished",
+        "/bought/refunding",
+        "/bought/uncomment",
+        "/bought/undelivery",
+        "/bought/unpay",
+        "/bought/unsign",
+        "/goods",
+        "/goods/detail",
+        "/goods/detail/:id",
+        "/orders",
+        "/orders/:id",
+        "/published/draft",
+        "/published/publishing",
+        "/published/removed",
+        "/snapshots",
+        "/snapshots/:id",
+        "/sold/all",
+        "/sold/cancelled",
+        "/sold/finished",
+        "/sold/refunding",
+        "/sold/uncomment",
+        "/sold/undelivery",
+        "/sold/unpay",
+        "/sold/unsign",
+        "/agreement",
+        "/homepage",
+        "/login",
+        "/register",
+        "/404"
+      ]
+    },
+    {
+      "id": 5,
+      "rights": [
+        "/homepage",
+        "/login",
+        "/register",
+        "/404"
+      ]
+    },
+    {
+      "id": 6,
+      "rights": [
+        "/argue-manage/finished",
+        "/argue-manage/unfinish",
+        "/goods",
+        "/goods/detail",
+        "/goods/tag",
+        "/goods/detail/:id",
+        "/goods/tag/:id",
+        "/homepages",
+        "/homepages/:id",
+        "/orders",
+        "/orders/:id",
+        "/snapshots",
+        "/snapshots/:id",
+        "/user-manage/publish-manage",
+        "/user-manage/right-manage",
+        "/agreement",
+        "/home",
+        "/login",
+        "/404"
+      ]
+    },
+    {
+      "id": 7,
+      "rights": [
+        "/admin-manage/account-manage",
+        "/admin-manage/tag-manage",
+        "/argue-manage/finished",
+        "/argue-manage/unfinish",
+        "/goods",
+        "/goods/detail",
+        "/goods/tag",
+        "/goods/detail/:id",
+        "/goods/tag/:id",
+        "/homepages",
+        "/homepages/:id",
+        "/orders",
+        "/orders/:id",
+        "/snapshots",
+        "/snapshots/:id",
+        "/user-manage/publish-manage",
+        "/user-manage/right-manage",
+        "/agreement",
+        "/home",
+        "/login",
+        "/404"
+      ]
+    },
+    {
+      "id": 8,
+      "rights": []
+    }
+  ],
   "rights": [
     {
       "title": "已发布",
       "key": "/published",
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ],
       "id": 1
     },
@@ -236,10 +463,10 @@
       "title": "已卖出",
       "key": "/sold",
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ],
       "id": 2
     },
@@ -247,10 +474,10 @@
       "title": "已买到",
       "key": "/bought",
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ],
       "id": 3
     },
@@ -258,8 +485,8 @@
       "title": "用户管理",
       "key": "/user-manage",
       "visible": [
-        5,
-        6
+        6,
+        7
       ],
       "id": 4
     },
@@ -267,8 +494,8 @@
       "title": "申诉管理",
       "key": "/argue-manage",
       "visible": [
-        5,
-        6
+        6,
+        7
       ],
       "id": 5
     },
@@ -276,9 +503,9 @@
       "title": "超级管理",
       "key": "/admin-manage",
       "visible": [
-        6
+        7
       ],
-      "id": 6
+      "id": 7
     }
   ],
   "children": [
@@ -289,10 +516,10 @@
       "rightId": 1,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -302,10 +529,10 @@
       "rightId": 1,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -315,10 +542,10 @@
       "rightId": 1,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -328,10 +555,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -341,10 +568,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -354,10 +581,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -367,10 +594,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -380,10 +607,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -393,10 +620,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -406,10 +633,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -419,10 +646,10 @@
       "rightId": 2,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -432,10 +659,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -445,10 +672,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -458,10 +685,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -471,10 +698,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -484,10 +711,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -497,10 +724,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -510,10 +737,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -523,10 +750,10 @@
       "rightId": 3,
       "grade": 2,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     },
     {
@@ -536,8 +763,8 @@
       "rightId": 4,
       "grade": 2,
       "visible": [
-        5,
-        6
+        6,
+        7
       ]
     },
     {
@@ -547,8 +774,8 @@
       "rightId": 4,
       "grade": 2,
       "visible": [
-        5,
-        6
+        6,
+        7
       ]
     },
     {
@@ -558,8 +785,8 @@
       "rightId": 5,
       "grade": 2,
       "visible": [
-        5,
-        6
+        6,
+        7
       ]
     },
     {
@@ -569,8 +796,8 @@
       "rightId": 5,
       "grade": 2,
       "visible": [
-        5,
-        6
+        6,
+        7
       ]
     },
     {
@@ -580,7 +807,7 @@
       "rightId": 6,
       "grade": 2,
       "visible": [
-        6
+        7
       ]
     },
     {
@@ -590,7 +817,7 @@
       "rightId": 6,
       "grade": 2,
       "visible": [
-        6
+        7
       ]
     }
   ],
@@ -600,10 +827,10 @@
       "key": "/home",
       "id": 1,
       "visible": [
-        0,
-        2,
-        5,
-        6
+        1,
+        3,
+        6,
+        7
       ]
     },
     {
@@ -611,8 +838,8 @@
       "key": "/publish",
       "id": 2,
       "visible": [
-        0,
-        1
+        1,
+        2
       ]
     },
     {
@@ -620,10 +847,10 @@
       "key": "/homepage",
       "id": 3,
       "visible": [
-        0,
         1,
         2,
-        3
+        3,
+        4
       ]
     }
   ],
@@ -649,7 +876,7 @@
         7,
         8
       ],
-      "view": 179,
+      "view": 186,
       "tagList": [
         1,
         2,
@@ -677,7 +904,7 @@
         6,
         7
       ],
-      "view": 25,
+      "view": 27,
       "tagList": [
         1,
         2,
@@ -1017,7 +1244,7 @@
       "starList": [
         9
       ],
-      "view": 45,
+      "view": 46,
       "tagList": [
         1,
         30
@@ -1120,7 +1347,7 @@
       "starList": [
         9
       ],
-      "view": 19,
+      "view": 21,
       "tagList": [
         31,
         1
@@ -1413,7 +1640,7 @@
       "tupian": "622e7c981ad96096.png",
       "editTime": 1710588793670,
       "starList": [],
-      "view": 0,
+      "view": 12,
       "tagList": [
         32
       ],

@@ -9,7 +9,7 @@ import MyBack from '../components/myBack';
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const Homepage = () => {
+const Homepage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [text, setText] = useState('https://ant.design/');
@@ -28,7 +28,7 @@ const Homepage = () => {
   const [imageUrl, setImageUrl] = useState();
   const [userData, setUserData] = useState([]);
   const [earnData, setEarnData] = useState()
-
+ 
   useEffect(() => {
     // const tokenContent = localStorage.getItem('token')
     // tokenContent == '' ? setInformation('') : setInformation(JSON.parse(tokenContent))
@@ -188,7 +188,7 @@ const Homepage = () => {
       label: '用户名',
       children: (<Space>
         {userData.username}
-        <Tag color={colorList[userData.state]}>{stateList[userData.state]}</Tag>
+        <Tag color={colorList[userData.stateId-1]}>{stateList[userData.stateId-1]}</Tag>
       </Space>),
     },
     {
@@ -228,7 +228,7 @@ const Homepage = () => {
           <Statistic title="累计收益" value={earnData} precision={2} />
           <Statistic title="账户余额" value={balanceData} precision={2} />
           {
-            Number(userData.state)!==3?<Button
+            Number(userData.stateId)!==4?<Button
             style={{
               marginTop: 16,
             }}
@@ -250,7 +250,7 @@ const Homepage = () => {
           }
         </Col>
         <Col span={20}>
-          <Descriptions title="账户详情" items={items} extra={Number(userData.state)!==3?<Button type="primary" onClick={showModal2}>修改信息</Button>:<Button type="primary" onClick={showModal2} disabled>修改信息</Button>} />
+          <Descriptions title="账户详情" items={items} extra={Number(userData.stateId)!==3?<Button type="primary" onClick={showModal2}>修改信息</Button>:<Button type="primary" onClick={showModal2} disabled>修改信息</Button>} />
         </Col>
       </Row>
 
@@ -339,4 +339,5 @@ const Homepage = () => {
     </div>
   )
 };
+Homepage.wrappers = ['@/wrappers/Auth']
 export default Homepage;

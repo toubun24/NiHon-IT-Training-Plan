@@ -232,4 +232,5 @@ const Orders = () => {
     </div>
   )
 };
+Orders.wrappers = ['@/wrappers/Auth']
 export default Orders;

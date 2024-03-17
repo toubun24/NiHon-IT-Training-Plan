@@ -24,18 +24,15 @@ const argueColorList = [
   "gray", // 6 for 申诉已撤销
 ]
 
-const Unfinish = () => {
+const Unfinish = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [tradesData, setTradesData] = useState([]);
   const [usersData, setUsersData] = useState([]);
-  const [isModalOpen1, setIsModalOpen1] = useState(false);
-  const [isModalOpen2, setIsModalOpen2] = useState(false);
-  const [handlingId, setHandlingId] = useState();
   const tokenContent = localStorage.getItem('token')
   const myName = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).username // JSON.parse // .id
-  const myState = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).state // JSON.parse // .id
+  const myState = tokenContent == '' ? { myName: '' } : JSON.parse(tokenContent).stateId // JSON.parse // .id
 
   useEffect(async () => {
-    if (myState === 6) {
+    if (myState === 7) {
       const res = await axios.get(`http://localhost:5000/trades?_sort=modifyTime&_order=desc&argue_ne=0&argue_ne=1&argue_ne=2&argue_ne=3&argue_ne=6`) // 按发布时间降序 // desc // state_ne // (argue=4|argue=5)不行
       setTradesData(res.data)
     } else {
@@ -79,7 +76,7 @@ const Unfinish = () => {
           userInfo && // userInfo &&
           <Space>
             <a href={`/homepages/${sellerId}`}>{userInfo.username}</a>
-            <Tag color={colorList[userInfo.state]}>{stateList[userInfo.state]}</Tag>
+            <Tag color={colorList[userInfo.stateId-1]}>{stateList[userInfo.stateId-1]}</Tag>
           </Space>
         )
       }
@@ -94,7 +91,7 @@ const Unfinish = () => {
           userInfo && // userInfo&&
           <Space>
             <a href={`/homepages/${buyerId}`}>{userInfo.username}</a>
-            <Tag color={colorList[userInfo.state]}>{stateList[userInfo.state]}</Tag>
+            <Tag color={colorList[userInfo.stateId-1]}>{stateList[userInfo.stateId-1]}</Tag>
           </Space>
         )
       }

@@ -6,7 +6,7 @@ import moment from 'moment'; // 时间戳格式化
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const PublishManage = () => {
+const PublishManage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [goodsData, setGoodsData] = useState([]);
   const tokenContent = localStorage.getItem('token')
   const myId = tokenContent == '' ? { myId: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
@@ -61,7 +61,7 @@ const PublishManage = () => {
         return ( // 一格渲染多数据
           <Space>
             <a href={`/users/${item.id}`}>{item.username}</a>
-            <Tag color={colorList[item.state]}>{stateList[item.state]}</Tag>
+            <Tag color={colorList[item.stateId-1]}>{stateList[item.stateId-1]}</Tag>
           </Space>
         )
       }
@@ -100,9 +100,6 @@ const PublishManage = () => {
       ),
     },
     /*
-    
-
-
     */
   ];
 

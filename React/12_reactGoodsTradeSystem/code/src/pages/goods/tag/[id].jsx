@@ -41,4 +41,5 @@ const TagDisplay = () => {
     </div>
   )
 }
+TagDisplay.wrappers = ['@/wrappers/Auth']
 export default TagDisplay

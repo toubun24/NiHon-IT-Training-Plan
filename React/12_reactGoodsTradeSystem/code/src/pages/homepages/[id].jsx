@@ -11,7 +11,7 @@ import MyBack from './../../components/myBack';
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const Homepages = () => {
+const Homepages = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [text, setText] = useState('https://ant.design/');
@@ -189,7 +189,7 @@ const Homepages = () => {
       label: '用户名',
       children: (<Space>
         {userData.username}
-        <Tag color={colorList[userData.state]}>{stateList[userData.state]}</Tag>
+        <Tag color={colorList[userData.stateId-1]}>{stateList[userData.stateId-1]}</Tag>
       </Space>),
     },
     {

@@ -1,14 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Select, Tag, Input, message, Button, Modal, Form, Switch } from 'antd';
 import axios from 'axios';
-import OtherAvatar from '../../components/otherAvatar';
 import moment from 'moment'; // 时间戳格式化
 
-const { Option } = Select;
-
-const stateList = ['正常', '禁购中', '禁售中', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
-const stateList2 = ['正常', '禁购', '禁售', '封禁']
-const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -28,18 +22,13 @@ const formItemLayout = {
   },
 };
 
-const accountManage = () => {
-  const [selectedState, setSelectedState] = useState('all');
-  const [dataSource, setDataSource] = useState([]);
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [finalDataSource, setFinalDataSource] = useState([]);
-  const [searchText, setSearchText] = useState('');
+const accountManage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
   const [managerData, setManagerData] = useState([]);
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/users?state_gte=5`) // 不包含超级管理员的话http://localhost:5000/users?state_gte=5&state_ne=6
+    const res = await axios.get(`http://localhost:5000/users?stateId_gte=6`) // 不包含超级管理员的话http://localhost:5000/users?state_gte=5&state_ne=6
     setManagerData(res.data)
   }, [])
 
@@ -58,7 +47,7 @@ const accountManage = () => {
           const nowTime = Date.now()
           axios.post('http://localhost:5000/users', {
             "username": values.username,
-            "state": 5, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned // 7 for banned manager
+            "stateId": 6, // 0 for normal, 1 for sell banned, 2 for buy banned, 3 for user banned // 7 for banned manager
             "password": values.password,
             "argueNum": 0,
             "auditNum": 0,
@@ -66,7 +55,7 @@ const accountManage = () => {
           }).then(res => {
             message.info('注册成功！'); // 静态方法 // https://ant-design.antgroup.com/components/notification-cn#notification-demo-basic
           })
-          setManagerData([...managerData, { username: values.username, state: 5, argueNum: 0, registerTime: nowTime }])
+          setManagerData([...managerData, { username: values.username, stateId: 6, argueNum: 0, registerTime: nowTime }])
           setIsModalOpen(false)
           form.resetFields()
         }
@@ -78,11 +67,11 @@ const accountManage = () => {
   const onChange = async (handlingId, handlingState) => {
     // console.log(`switch to ${checked}`, id);
     await axios.patch(`http://localhost:5000/users/${handlingId}`, {
-      state: handlingState === 5 ? 7 : 5,
+      stateId: handlingState === 6 ? 8 : 6,
     })
     setManagerData(managerData.map(obj => {
       if (obj.id === handlingId) {
-        return { ...obj, state: handlingState === 5 ? 7 : 5 };
+        return { ...obj, stateId: handlingState === 6 ? 8 : 6 };
       }
       return obj;
     }));
@@ -127,10 +116,10 @@ const accountManage = () => {
     },
     {
       title: '权限操作',
-      dataIndex: 'state',
+      dataIndex: 'stateId',
       key: 'action',
-      render: (_, { state, id }) => (
-        state === 6 ? <Switch disabled={true} defaultChecked /> : <Switch checked={state === 5 ? true : false} onChange={() => onChange(id, state)} />
+      render: (_, { stateId, id }) => (
+        stateId === 7 ? <Switch disabled={true} defaultChecked /> : <Switch checked={stateId === 6 ? true : false} onChange={() => onChange(id, stateId)} />
       ),
     },
   ];

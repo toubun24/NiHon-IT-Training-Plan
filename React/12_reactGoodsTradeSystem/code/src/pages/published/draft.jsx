@@ -92,7 +92,7 @@ const Draft = () => {
                 </>
               }
             />
-                      </Skeleton>
+          </Skeleton>
         </List.Item>
       )}
     />

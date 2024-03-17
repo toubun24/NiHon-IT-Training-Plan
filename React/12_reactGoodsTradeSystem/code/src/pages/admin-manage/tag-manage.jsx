@@ -1,45 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { Table, Select, Tag, Input, message, Button, Modal, Form, Switch } from 'antd';
 import axios from 'axios';
-import OtherAvatar from '../../components/otherAvatar';
-import moment from 'moment'; // 时间戳格式化
-
-const { Option } = Select;
-
-const stateList = ['正常', '禁购中', '禁售中', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
-const stateList2 = ['正常', '禁购', '禁售', '封禁']
-const colorList = ['green', 'orange', 'orange', 'red', 'gray']
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 12,
-    },
-    sm: {
-      span: 6,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 12,
-    },
-    sm: {
-      span: 10,
-    },
-  },
-};
 
 const tagManage = () => {
-  const [selectedState, setSelectedState] = useState('all');
-  const [dataSource, setDataSource] = useState([]);
-  const [filteredDataSource, setFilteredDataSource] = useState([]);
-  const [finalDataSource, setFinalDataSource] = useState([]);
-  const [searchText, setSearchText] = useState('');
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [form] = Form.useForm();
   const [tagsData, setTagsData] = useState([]);
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/tags`) // 不包含超级管理员的话http://localhost:5000/users?state_gte=5&state_ne=6
+    const res = await axios.get(`http://localhost:5000/tags`)
     setTagsData(res.data.filter(tag => tag.tagName !== ""))
   }, [])
 

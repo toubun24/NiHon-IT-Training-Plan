@@ -3,18 +3,18 @@ import { Avatar, Dropdown } from 'antd';
 import { useHistory } from 'umi'; // history
 import axios from 'axios';
 
-const MyAvatar = () => {
+const MyAvatar = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const history = useHistory(); // history
   // const [information, setInformation] = useState([]);
   const tokenContent = localStorage.getItem('token');
-  const { id, state } = tokenContent == '' ? { id: '', state: '' } : JSON.parse(tokenContent)
+  const { id, stateId } = tokenContent == '' ? { id: '', stateId: '' } : JSON.parse(tokenContent)
   const [userData, setUserData] = useState([]);
   // const [items, setItems] = useState([]);
   const [myBalance, setMyBalance] = useState();
   const [myState, setItems] = useState([]);
 
   const getDropdownItems = () => { // 否则渲染不出余额
-    if (state !== 5 && state !== 6) {
+    if (stateId !== 6 && stateId !== 7) {
       return [
         {
           key: '1',
@@ -75,7 +75,7 @@ const MyAvatar = () => {
       menu={{ items }}
       placement="bottomRight"
     >
-      <div style={{ float: 'right', cursor: 'pointer' }} onClick={() => { state !== 5 && state !== 6 && history.push('/homepage') }}>
+      <div style={{ float: 'right', cursor: 'pointer' }} onClick={() => { stateId !== 6 && stateId !== 7 && history.push('/homepage') }}>
         {
           userData.avatar ? <Avatar src={<img src={require(`@/images/avatars/${userData.avatar}`)} alt="avatar" />} /> : <Avatar
             style={{

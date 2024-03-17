@@ -10,7 +10,7 @@ const stateList = ['正常', '禁购中', '禁售中', '封禁中', '已注销']
 const stateList2 = ['正常', '禁购', '禁售', '封禁']
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const rightManage = () => {
+const rightManage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [selectedState, setSelectedState] = useState('all');
   const [dataSource, setDataSource] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
@@ -18,7 +18,7 @@ const rightManage = () => {
   const [searchText, setSearchText] = useState('');
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/users?state_lte=4`) // 不包含管理员
+    const res = await axios.get(`http://localhost:5000/users?stateId_lte=5`) // 不包含管理员
     setDataSource(res.data)
     setFilteredDataSource(res.data)
     setFinalDataSource(res.data)
@@ -31,7 +31,7 @@ const rightManage = () => {
       setFinalDataSource(dataSource.filter((item) => item.username.toLowerCase().includes(searchText.toLowerCase())))
       // console.log(dataSource)
     } else {
-      const tmpData = dataSource.filter((item) => { return item.state == value })
+      const tmpData = dataSource.filter((item) => { return item.stateId == value })
       setFilteredDataSource(tmpData); // return // ==
       // console.log(dataSource.filter((item) => { return item.state == value }))
       setFinalDataSource(tmpData.filter((item) => item.username.toLowerCase().includes(searchText.toLowerCase())));
@@ -48,23 +48,23 @@ const rightManage = () => {
   const handleRightChange = async (value, rowId) => {
     // console.log(value, rowId)
     await axios.patch(`http://localhost:5000/users/${rowId}`, {
-      "state": Number(value) // Number
+      "stateId": Number(value) // Number
     })
     setDataSource(dataSource.map(obj => {
       if (obj.id === rowId) {
-        return { ...obj, state: value };
+        return { ...obj, stateId: value };
       }
       return obj;
     }));
     setFilteredDataSource(filteredDataSource.map(obj => {
       if (obj.id === rowId) {
-        return { ...obj, state: value };
+        return { ...obj, stateId: value };
       }
       return obj;
     }));
     setFinalDataSource(finalDataSource.map(obj => {
       if (obj.id === rowId) {
-        return { ...obj, state: value };
+        return { ...obj, stateId: value };
       }
       return obj;
     }));
@@ -90,11 +90,11 @@ const rightManage = () => {
     },
     {
       title: '用户状态',
-      dataIndex: 'state',
-      key: 'state',
-      render: (_, { state }) => (
-        <Tag color={colorList[state]}>
-          {stateList[state]}
+      dataIndex: 'stateId',
+      key: 'stateId',
+      render: (_, { stateId }) => (
+        <Tag color={colorList[stateId-1]}>
+          {stateList[stateId-1]}
         </Tag>
       )
     },
@@ -127,18 +127,18 @@ const rightManage = () => {
     },
     {
       title: '权限操作',
-      dataIndex: 'state',
+      dataIndex: 'stateId',
       key: 'action',
-      render: (_, { state, id }) => (
+      render: (_, { stateId, id }) => (
         <Select
-          value={stateList2[state]}
+          value={stateList2[stateId-1]}
           style={{ width: 100 }}
           onChange={(value) => handleRightChange(value, id)} // (value) =>
         >
-          <Option value="0">{stateList2[0]}</Option>
-          <Option value="1">{stateList2[1]}</Option>
-          <Option value="2">{stateList2[2]}</Option>
-          <Option value="3">{stateList2[3]}</Option>
+          <Option value="1">{stateList2[0]}</Option>
+          <Option value="2">{stateList2[1]}</Option>
+          <Option value="3">{stateList2[2]}</Option>
+          <Option value="4">{stateList2[3]}</Option>
         </Select>
       ),
     },
@@ -158,10 +158,10 @@ const rightManage = () => {
         onChange={handleStateChange}
       >
         <Option value="all">全部</Option>
-        <Option value="0">正常</Option>
-        <Option value="1">禁购中</Option>
-        <Option value="2">禁售中</Option>
-        <Option value="3">封禁中</Option>
+        <Option value="1">正常</Option>
+        <Option value="2">禁购中</Option>
+        <Option value="3">禁售中</Option>
+        <Option value="4">封禁中</Option>
       </Select>
       <Table dataSource={finalDataSource} columns={columns} rowKey="id" />
     </div>

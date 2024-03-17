@@ -4,7 +4,7 @@ import { Menu } from 'antd';
 import axios from 'axios';
 import { useHistory, useLocation } from 'umi';
 
-const MyHeader = () => {
+const MyHeader = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [menuList, setMenuList] = useState([])
   const [userState, setUserState] = useState({})
   const history = useHistory()
@@ -19,7 +19,7 @@ const MyHeader = () => {
     )
     axios.get(`http://localhost:5000/users/${myContentId}`).then(
       response => {
-        setUserState(Number(response.data.state)) // Number
+        setUserState(Number(response.data.stateId)) // Number
       }
     )
   }, [])

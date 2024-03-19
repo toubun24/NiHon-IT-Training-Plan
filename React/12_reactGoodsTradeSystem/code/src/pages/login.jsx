@@ -4,9 +4,16 @@ import { Button, Checkbox, Form, Input, message } from 'antd';
 import './login.less'
 import axios from 'axios';
 import { useHistory } from 'umi';
+import { connect } from 'umi';
 
-const Login = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
+const Login = ({ dispatch }) => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const history = useHistory();
+  const handleIncrement = (changedValue) => {
+    dispatch({
+      type: 'counter/increment',
+      payload: changedValue,
+    });
+  };
   const onFinish = (values) => {
     // console.log('Received values of form: ', values);
     axios.get(`http://localhost:5000/users?username=${values.username}&password=${values.password}&_expand=state`).then(
@@ -18,21 +25,25 @@ const Login = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管�
         } else if (Number(res.data[0].stateId) === 2) { // res.data[0]
           message.error('账号已禁购')
           localStorage.setItem('token', JSON.stringify(res.data[0]))
+          handleIncrement(res.data[0].balance)
           history.push('/homepage')
         } else if (Number(res.data[0].stateId) === 3) { // res.data[0]
           message.error('账号已禁售')
           localStorage.setItem('token', JSON.stringify(res.data[0]))
+          handleIncrement(res.data[0].balance)
           history.push('/home')
         } else if (Number(res.data[0].stateId) === 4) { // res.data[0]
           message.error('账号已封禁')
           localStorage.setItem('token', JSON.stringify(res.data[0]))
+          handleIncrement(res.data[0].balance)
           history.push('/homepage')
         } else if (Number(res.data[0].stateId) === 5) { // res.data[0]
           message.error('账号已注销')
         } else if (Number(res.data[0].stateId) === 8) { // res.data[0]
           message.error('管理员权限已关闭')
-        }else {
+        } else {
           localStorage.setItem('token', JSON.stringify(res.data[0]))
+          handleIncrement(res.data[0].balance)
           history.push('/home')
         }
       }
@@ -92,4 +103,10 @@ const Login = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管�
     </div>
   );
 };
-export default Login;
+function mapStateToProps({ counter }) {
+  return {
+    counter, // 引入counter模型的状态
+  };
+}
+// export default Login;
+export default connect(mapStateToProps)(Login);

@@ -5,11 +5,12 @@ import { EyeOutlined, StarOutlined, TeamOutlined } from '@ant-design/icons';
 import { cityArray } from '../components/cityData';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import MyBack from '../components/myBack';
+import { connect } from 'umi';
 
 const stateList = ['正常', '禁购', '禁售', '封禁中', '已注销'] // 0正常，1禁止购买，2禁止出售，3封禁中，4已注销
 const colorList = ['green', 'orange', 'orange', 'red', 'gray']
 
-const Homepage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
+const Homepage = ({ dispatch, counter }) => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管理 7超级管理 8禁用管理
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [text, setText] = useState('https://ant.design/');
@@ -91,6 +92,7 @@ const Homepage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6�
       // console.log(information);
       await axios.patch(`http://localhost:5000/users/${myContent.id}`, { balance: balanceData + values.recharge })
       setBalanceData(balanceData + values.recharge)
+      handleIncrement(values.recharge) // umi dva
       setIsModalOpen(false)
     } catch (error) {
       console.error('Validate Failed:', error);
@@ -180,6 +182,12 @@ const Homepage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6�
       return e;
     }
     return e && e.fileList;
+  };
+  const handleIncrement = (changedValue) => {
+    dispatch({
+      type: 'counter/increment',
+      payload: changedValue,
+    });
   };
 
   const items = [
@@ -340,4 +348,10 @@ const Homepage = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6�
   )
 };
 Homepage.wrappers = ['@/wrappers/Auth']
-export default Homepage;
+function mapStateToProps({ counter }) {
+  return {
+    counter, // 引入counter模型的状态
+  };
+}
+// export default Homepage;
+export default connect(mapStateToProps)(Homepage);

@@ -5,6 +5,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
 import { useHistory, useParams } from 'umi';
 import './myBoughtSold.less' // actions标签min-width
+import { connect } from 'umi';  
 
 // trade.state: 订单进度，0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
 
@@ -68,7 +69,7 @@ const argueColorList = [
   "gray", // 6 for 申诉已撤销
 ]
 
-const MyBought = ({ stateInfo }) => {
+const MyBought = ({ stateInfo, dispatch }) => {
   const [listData, setListData] = useState([]);
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
@@ -87,7 +88,7 @@ const MyBought = ({ stateInfo }) => {
   const [myArgue, setMyArgue] = useState();
 
   useEffect(async () => {
-    const res = Number(stateInfo)>=0 ? await axios.get(`http://localhost:5000/trades/?buyerId=${myContent}&_sort=editTime&_order=desc&state=${stateInfo}`) : // 按时间降序 // desc // state_ne // Number(stateInfo)>=0
+    const res = Number(stateInfo) >= 0 ? await axios.get(`http://localhost:5000/trades/?buyerId=${myContent}&_sort=editTime&_order=desc&state=${stateInfo}`) : // 按时间降序 // desc // state_ne // Number(stateInfo)>=0
       await axios.get(`http://localhost:5000/trades/?buyerId=${myContent}&_sort=editTime&_order=desc`)
     const tradesData = res.data
     // setTradesData(res.data)
@@ -116,6 +117,18 @@ const MyBought = ({ stateInfo }) => {
     const res2 = await axios.get(`http://localhost:5000/users/${myContent}`)
     setMyBalance(res2.data.balance)
   }, []);
+  const handleIncrement = (changedValue) => {
+    dispatch({
+      type: 'counter/increment',
+      payload: changedValue,
+    });
+  };
+  const handleDecrement = (changedValue) => {
+    dispatch({
+      type: 'counter/decrement',
+      payload: changedValue,
+    });
+  };
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
     if (itemState === 3) {
       commentForm.resetFields() // 每次打开后重新初始化form内容
@@ -169,6 +182,7 @@ const MyBought = ({ stateInfo }) => {
         editTime: Date.now(),
       })
       setMyBalance(myBalance - displayPrice)
+      handleDecrement(displayPrice)
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
           return { ...obj, state: 1 };
@@ -241,6 +255,7 @@ const MyBought = ({ stateInfo }) => {
       editTime: Date.now(),
     })
     setMyBalance(myBalance + displayPrice)
+    handleIncrement(displayPrice)
     setMergedData(mergedData.map(obj => {
       if (obj.id === handlingId) {
         return { ...obj, state: 6 };
@@ -559,4 +574,10 @@ const MyBought = ({ stateInfo }) => {
     </div>
   );
 };
-export default MyBought;
+function mapStateToProps({ counter }) {
+  return {
+    counter, // 引入counter模型的状态
+  };
+}
+// export default MyBought;
+export default connect(mapStateToProps)(MyBought);

@@ -5,6 +5,7 @@ import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
 import { useHistory, useParams } from 'umi';
 import './myBoughtSold.less' // actions标签min-width
+import { connect } from 'umi';  
 
 // trade.state: 订单进度，0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
 
@@ -40,7 +41,7 @@ const handleList = [
 ]
 const allClosedStatus = [false, false, false, false, false, false, false, false]
 
-const MySold = ({ stateInfo }) => {
+const MySold = ({ stateInfo, dispatch }) => {
   const [listData, setListData] = useState([]);
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
@@ -78,6 +79,12 @@ const MySold = ({ stateInfo }) => {
     const res2 = await axios.get(`http://localhost:5000/users/${myContent}`)
     // setMyBalance(res2.data.balance)
   }, []);
+  const handleDecrement = (changedValue) => {
+    dispatch({
+      type: 'counter/decrement',
+      payload: changedValue,
+    });
+  };
   const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
     if (itemState === 1) {
       form.resetFields() // 每次打开后重新初始化form内容
@@ -163,6 +170,7 @@ const MySold = ({ stateInfo }) => {
       balance: res.data.balance - earnMoney,
       earn: res.data.earn - earnMoney
     })
+    handleDecrement(earnMoney)
     const res2 = await axios.get(`http://localhost:5000/goods/${tradeInfo.goodId}`)
     console.log("res2.data.num", res2.data.num, "tradeInfo.num", tradeInfo.num)
     await axios.patch(`http://localhost:5000/goods/${tradeInfo.goodId}`, {
@@ -350,4 +358,10 @@ const MySold = ({ stateInfo }) => {
     </div>
   );
 };
-export default MySold;
+function mapStateToProps({ counter }) {
+  return {
+    counter, // 引入counter模型的状态
+  };
+}
+// export default MySold;
+export default connect(mapStateToProps)(MySold);

@@ -1,4 +1,4 @@
-# Week 12 Report
+# Week 13 Report
 
 ## 学习内容及时长
 
@@ -25,9 +25,9 @@
   * reactGTS-超级管理员-账号管理&审查员记名 08:15-09:00 18:00-19:55
   * reactGTS-超级管理员-标签管理 21:40-21:55 23:40-00:20
 
-* **2023.03.17 日曜日:** 4h55min
+* **2023.03.17 日曜日:** 5h
   * reactGTS-网页路径可访问权限 19:05-20:15 22:10-01:03 02:12-02:57
-  * 整理报告 02:57-03:05
+  * 整理报告 02:57-03:10
   * reactGTS-全局变量 
   * reactGTS-窗口滚动条 
   * reactGTS-登录界面
@@ -79,7 +79,7 @@ const handleTrade = (itemId, itemState) => { // itemState: 0已下单待付款�
 ```
 即可
 
-### 【半解决】Umi 约定式动态路由`/[id].jsx`权限控制在`@/wrappers/Auth.jsx`中无法匹配
+### 【已解决】Umi 约定式动态路由`/[id].jsx`权限控制在`@/wrappers/Auth.jsx`中无法匹配
 * 首先是关于`_layout.jsx`
 ```jsx
 const index = (props) => {
@@ -154,4 +154,4 @@ export default Auth;
 ```
 Error: Objects are not valid as a React child (found: [object Promise]). If you meant to render a collection of children, use an array instead.
 ```
-所以如何去判定只能再想想了，如果把每个user所属的商品id写入token，那每次增删商品都还需要对token进行修改，也不太合理，之后再想想
+所以如何去判定只能再想想了，如果把每个user所属的商品id写入token，那每次增删商品都还需要对token进行修改，也不太合理，之后再想想，后面的内容放到下一周的相关问题中去

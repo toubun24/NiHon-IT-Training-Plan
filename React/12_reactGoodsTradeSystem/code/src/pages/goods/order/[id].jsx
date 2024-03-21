@@ -17,16 +17,24 @@ const Order = () => {
   const [numValue, setNumValue] = useState(1)
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/goods/${params.id}`)
-    setGoodsData(res.data)
-    const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
-    form.setFieldsValue({
-      shouhuo: {
-        dizhi1: res2.data.location, // 直接使用从服务器获取的位置数据  
-      },
-      // num:1
-    });
-    setTotalPrice(Number(numValue) * Number(res.data.shoujia) + Number(res.data.youfei)) // 初始值 // Number
+    try {
+      const res = await axios.get(`http://localhost:5000/goods/${params.id}`)
+      if (res.data.userId === myContent.id) {
+        history.push('/404')
+      } else {
+        setGoodsData(res.data)
+        const res2 = await axios.get(`http://localhost:5000/users/${myContent.id}`)
+        form.setFieldsValue({
+          shouhuo: {
+            dizhi1: res2.data.location, // 直接使用从服务器获取的位置数据  
+          },
+          // num:1
+        });
+        setTotalPrice(Number(numValue) * Number(res.data.shoujia) + Number(res.data.youfei)) // 初始值 // Number
+      }
+    } catch (error) {
+      history.push('/404')
+    }
   }, [])
   const onFinish = async (values) => { // async
     await axios.post('http://localhost:5000/trades', {
@@ -96,7 +104,7 @@ const Order = () => {
   return (
     <div>
       <MyBack />
-      <Form
+      {GoodsData && GoodsData.userId && GoodsData.userId !== myContent.id && <Form // 避免刷出一瞬间空表单
         name="basic"
         labelCol={{
           span: 8,
@@ -211,6 +219,7 @@ const Order = () => {
         </Form.Item>
 
       </Form>
+      }
     </div>
   );
 };

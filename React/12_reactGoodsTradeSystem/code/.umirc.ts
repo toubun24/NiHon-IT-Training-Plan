@@ -1,3 +1,4 @@
+// npm install less less-loader --save-dev
 import { defineConfig } from 'umi';
 
 export default defineConfig({
@@ -22,5 +23,28 @@ export default defineConfig({
   // dva: {  
   //   immer: true, // 启用 immer 以简化 reducer 中的状态更新  
   //   hmr: true, // 启用热更新  
+  // },
+  /*
+  chainWebpack(config, { webpack }) {
+    config.module
+      .rule('less')
+      .oneOf('normal')
+      .use('less-loader')
+      .loader('less-loader')
+      .options({
+        lessOptions: {
+          modifyVars: {
+            'primary-color': '#FFFF00', // 设置你的主题色为黄色  
+            'link-color': '#FFFF00', // 链接颜色也设置为黄色  
+            // ... 其他变量 ...  
+          },
+          javascriptEnabled: true,
+        },
+      });
+  },
+  */
+  // theme: { '@primary-color': '#FFFF00' },
+  // "theme": {
+  //   "primary-color": "#FFFF00",
   // },
 });

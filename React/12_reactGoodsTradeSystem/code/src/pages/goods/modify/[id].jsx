@@ -26,32 +26,40 @@ const Modify = () => {
   // const [tags, setTags] = useState([]);
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/goods/${params.id}`)
-    setGoodsData(res.data)
-    const tagIdData = res.data.tagList
-    // console.log("tagIdData",tagIdData)
-    const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
-    let tmpTags = []
-    await axios.all(requests).then(axios.spread((...responses) => {
-      tmpTags = responses.map(response => {
-        return response.data.tagName
-      })
-      // setTags(tmp)
-    }))
-    // console.log("tmp",tmpTags)
-    let { introduction, dizhi, fahuofangshi, youfei, yuanjia, shoujia, num } = res.data // 解构出所需数据
-    formRef.current.setFieldsValue({ // 预填充默表单认值
-      jianjie: introduction,
-      biaoqian: `#${tmpTags.join("#")}`, // 每个tag前都添加#
-      dizhi: dizhi,
-      fahuo: { // fahuo是一个对象，包含fangshi和youfei两个属性
-        fangshi: fahuofangshi, // 将fahuofangshi 赋值给fangshi
-        youfei: youfei // 将youfei赋值给youfei
-      },
-      yuanjia: yuanjia,
-      shoujia: shoujia,
-      num: num
-    })
+    try {
+      const res = await axios.get(`http://localhost:5000/goods/${params.id}`)
+      if (res.data.userId !== myContent.id) {
+        history.push('/404')
+      } else {
+        setGoodsData(res.data)
+        const tagIdData = res.data.tagList
+        // console.log("tagIdData",tagIdData)
+        const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
+        let tmpTags = []
+        await axios.all(requests).then(axios.spread((...responses) => {
+          tmpTags = responses.map(response => {
+            return response.data.tagName
+          })
+          // setTags(tmp)
+        }))
+        // console.log("tmp",tmpTags)
+        let { introduction, dizhi, fahuofangshi, youfei, yuanjia, shoujia, num } = res.data // 解构出所需数据
+        formRef.current.setFieldsValue({ // 预填充默表单认值
+          jianjie: introduction,
+          biaoqian: `#${tmpTags.join("#")}`, // 每个tag前都添加#
+          dizhi: dizhi,
+          fahuo: { // fahuo是一个对象，包含fangshi和youfei两个属性
+            fangshi: fahuofangshi, // 将fahuofangshi 赋值给fangshi
+            youfei: youfei // 将youfei赋值给youfei
+          },
+          yuanjia: yuanjia,
+          shoujia: shoujia,
+          num: num
+        })
+      }
+    } catch (error) {
+      history.push('/404')
+    }
   }, [])
   const selected = (value) => { // value = zishe / baoyou / ziti
     if (value === "zishe") {
@@ -178,7 +186,7 @@ const Modify = () => {
   return (
     <div>
       <MyBack />
-      <Form
+      {GoodsData.userId === myContent.id && <Form
         name="basic"
         labelCol={{
           span: 8,
@@ -377,7 +385,7 @@ const Modify = () => {
           </Space>
         </Form.Item>
 
-      </Form>
+      </Form>}
     </div>
   );
 };

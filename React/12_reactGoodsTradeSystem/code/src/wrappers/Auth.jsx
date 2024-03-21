@@ -35,12 +35,12 @@ const Auth = (props) => { // props: any in TS
     const matchedPath = matchPath ? matchPath[1] : null
     const matchId = pathname.match(/\/(\d+)$/);
     const matchedId = matchId ? matchId[1] : null
-    console.log(id)
-    console.log(matchedPath, matchedId)
+    // console.log(id)
+    // console.log(matchedPath, matchedId)
     // console.log(rights) // 权限列表
     rights.push('/') // 加一个斜杠
     const rights2 = rights.map(right => `${right}/${matchedId}`);
-    console.log(rights2, pathname)
+    // console.log(rights2, pathname)
     //const res = await axios.get(`http://localhost:5000/goods?_expand=user&userId=${id}`)
     // if (localStorage.getItem('token')) { // 有token则遵循../index.jsx跳转到home
     if (tokenContent) {

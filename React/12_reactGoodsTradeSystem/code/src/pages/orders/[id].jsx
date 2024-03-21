@@ -56,22 +56,33 @@ const Orders = () => {
   const [sellerData, setSellerData] = useState({})
   const [buyerData, setBuyerData] = useState({})
   const history = useHistory()
+  const tokenContent = localStorage.getItem('token')
+  const myId = tokenContent == '' ? { myId: '' } : JSON.parse(tokenContent).id // JSON.parse
 
   useEffect(async () => {
-    const res = await axios.get(`http://localhost:5000/trades/${params.id}`)
-    setTradeData(res.data)
-    const res2 = await axios.get(`http://localhost:5000/users/${res.data.sellerId}`)
-    setSellerData(res2.data)
-    const res3 = await axios.get(`http://localhost:5000/users/${res.data.buyerId}`)
-    setBuyerData(res3.data)
-    const tagIdData = res.data.tagList
-    const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
-    axios.all(requests).then(axios.spread((...responses) => {
-      const tmp = responses.map(response => {
-        return response.data.tagName
-      })
-      setTags(tmp)
-    }))
+    const res0 = await axios.get(`http://localhost:5000/users/${myId}`)
+    try {
+      const res = await axios.get(`http://localhost:5000/trades/${params.id}`)
+      if (res0.state !== 6 && res0.state !== 7 && res.data.sellerId !== myId && res.data.buyerId !== myId) {
+        history.push('/404')
+      } else {
+        setTradeData(res.data)
+        const res2 = await axios.get(`http://localhost:5000/users/${res.data.sellerId}`)
+        setSellerData(res2.data)
+        const res3 = await axios.get(`http://localhost:5000/users/${res.data.buyerId}`)
+        setBuyerData(res3.data)
+        const tagIdData = res.data.tagList
+        const requests = tagIdData && tagIdData.map(id => { return axios.get(`http://localhost:5000/tags/${id}`) });
+        axios.all(requests).then(axios.spread((...responses) => {
+          const tmp = responses.map(response => {
+            return response.data.tagName
+          })
+          setTags(tmp)
+        }))
+      }
+    } catch (error) {
+      history.push('/404')
+    }
   }, [])
   const ClickTag = (index) => {
     // console.log(tagData[index])
@@ -228,7 +239,7 @@ const Orders = () => {
 
   return (
     <div>
-      <Descriptions title={<div><MyBack />订单详情</div>} layout="vertical" bordered items={items} column={4} />
+      {tradeData && tradeData.id && <Descriptions title={<div><MyBack />订单详情</div>} layout="vertical" bordered items={items} column={4} />}
     </div>
   )
 };

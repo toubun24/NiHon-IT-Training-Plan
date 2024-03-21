@@ -50,7 +50,7 @@ const Login = ({ dispatch }) => { // stateId: 1正常 2禁购 3禁售 4封禁 5�
     )
   };
   return (
-    <div>
+    <div className="login-container">
       <Form
         name="normal_login"
         className="login-form"

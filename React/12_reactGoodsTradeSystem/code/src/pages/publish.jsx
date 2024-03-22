@@ -50,8 +50,8 @@ const Publish = () => {
       "state": finishState, // 0草稿箱，1发布待审核，2已发布，3审核未通过，4卖家已下架
       "publishTime": Date.now(),
       "introduction": values.jianjie,
-      "yuanjia": values.yuanjia,
-      "shoujia": values.shoujia,
+      "yuanjia": Number(values.yuanjia),
+      "shoujia": Number(values.shoujia),
       "dizhi": values.dizhi,
       "fahuofangshi": values.fahuo.fangshi ? values.fahuo.fangshi : 'baoyou',
       "youfei": values.fahuo.fangshi === 'zishe' ? Number(values.fahuo.youfei) : 0,

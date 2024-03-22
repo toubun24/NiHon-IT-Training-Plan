@@ -5,7 +5,37 @@ import { EyeOutlined } from '@ant-design/icons';
 import moment from 'moment'; // 时间戳格式化
 import { useHistory, useParams } from 'umi';
 import './myBoughtSold.less' // actions标签min-width
-import { connect } from 'umi';  
+import { connect } from 'umi';
+// import MyStar from './myStar';
+import { StarOutlined, StarFilled } from '@ant-design/icons';
+
+const MyStar = ({ form }) => {
+  const [rating, setRating] = useState(5);
+  const handleStarClick = (newRating) => {
+    setRating(newRating);
+    form.setFieldsValue({ rating: newRating })
+    console.log(newRating)
+  };
+  const renderStars = () => {
+    return Array.from({ length: 5 }, (_, index) => {
+      const isFilled = index < rating;
+      const IconComponent = isFilled ? StarFilled : StarOutlined;
+      return (
+        <IconComponent
+          key={index}
+          onClick={() => handleStarClick(index + 1)}
+          className={isFilled ? 'filled-star' : 'empty-star'}
+        />
+      );
+    });
+  };
+  return (
+    <div>
+      {renderStars()}
+      {/* <p>Rating: {rating}</p> */}
+    </div>
+  );
+};
 
 // trade.state: 订单进度，0已下单待付款，1已付款待发货，2待收货，3待评价，4退款中，5已取消
 
@@ -70,12 +100,9 @@ const argueColorList = [
 ]
 
 const MyBought = ({ stateInfo, dispatch }) => {
-  const [listData, setListData] = useState([]);
   const tokenContent = localStorage.getItem('token')
   const myContent = tokenContent == '' ? { myContent: '' } : JSON.parse(tokenContent).id // JSON.parse // .id
   const history = useHistory()
-  const [clickId, setClickId] = useState();
-  const params = useParams() // 返回一个对象,其中包含URL参数和它们的值
   const [mergedData, setMergedData] = useState([]);
   const [handlingId, setHandlingId] = useState();
   const [displayPrice, setDisplayPrice] = useState();
@@ -298,6 +325,7 @@ const MyBought = ({ stateInfo, dispatch }) => {
         state: 7,
         commentByBuyer: values.comment,
         editTime: Date.now(),
+        stars: values.rating,
       })
       setMergedData(mergedData.map(obj => {
         if (obj.id === handlingId) {
@@ -372,6 +400,16 @@ const MyBought = ({ stateInfo, dispatch }) => {
   const tradeDetail = (itemId) => {
     history.push(`/orders/${itemId}`)
   }
+  /*
+  const handleOk311 = async () => {
+    try {
+      const values = await commentForm.validateFields(); // 调用Form的validateFields方法来验证并获取表单字段的值
+      console.log(values)
+    } catch (error) {
+      console.error('Validate Failed:', error);
+    }
+  };
+  */
 
   return (
     <div>
@@ -486,6 +524,11 @@ const MyBought = ({ stateInfo, dispatch }) => {
               <Form
                 form={commentForm}
               >
+                <Form.Item
+                  name="rating"
+                >
+                  <MyStar form={commentForm} />
+                </Form.Item>
                 <Form.Item
                   name="comment"
                   rules={[

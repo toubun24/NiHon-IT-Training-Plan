@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'umi'; // useParams
 import axios from 'axios';
 import moment from 'moment'; // 时间戳格式化
 import MyBack from './../../components/myBack';
+import MyStar from './../../components/myStar';
 
 const colorList = [
   "gold", // 0 for 已下单待付款
@@ -181,56 +182,60 @@ const Orders = () => {
     },
     {
       key: '13',
+      label: '评价星数',
+      children: tradeData.stars ? <MyStar rating={tradeData.stars} /> : "-",
+    },
+    {
+      key: '14',
       label: '快递单号',
       children: tradeData.kuaidi ? tradeData.kuaidi : "-",
     },
     {
-      key: '14',
+      key: '15',
       label: '发货提醒',
       children: tradeData.dot === true ? "是" : "否",
     },
     {
-      key: '15',
+      key: '16',
       label: '备注',
-      span: 2,
       children: tradeData.note ? tradeData.note : "-",
     },
     {
-      key: '16',
+      key: '17',
       label: '申诉状态',
       children: <Tag color={argueColorList[tradeData.argue]}>{argueList[tradeData.argue]}</Tag>,
     },
     {
-      key: '17',
+      key: '18',
       label: '仲裁员',
       children: tradeData.auditor ? tradeData.auditor : "-",
     },
     {
-      key: '18',
+      key: '19',
       label: '申诉理由',
       span: 2,
       children: tradeData.argueReason ? tradeData.argueReason : "-",
     },
     {
-      key: '19',
+      key: '20',
       label: '卖方驳回理由',
       span: 2,
       children: tradeData.argueReply1 ? tradeData.argueReply1 : "-",
     },
     {
-      key: '20',
+      key: '21',
       label: '管理仲裁理由',
       span: 2,
       children: tradeData.argueReply2 ? tradeData.argueReply2 : "-",
     },
     {
-      key: '21',
+      key: '22',
       label: '买方评价',
       span: 2,
       children: tradeData.commentByBuyer ? tradeData.commentByBuyer : "-",
     },
     {
-      key: '22',
+      key: '23',
       label: '卖方评价',
       span: 2,
       children: tradeData.commentBySeller ? tradeData.commentBySeller : "-",

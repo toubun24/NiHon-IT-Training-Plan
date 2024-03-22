@@ -29,6 +29,7 @@ const Homepage = ({ dispatch, counter }) => { // stateId: 1正常 2禁购 3禁�
   const [imageUrl, setImageUrl] = useState();
   const [userData, setUserData] = useState([]);
   const [earnData, setEarnData] = useState()
+  // const [starsData, setStarsData] = useState() // 获评星数
  
   useEffect(() => {
     // const tokenContent = localStorage.getItem('token')

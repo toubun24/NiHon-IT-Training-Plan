@@ -58,6 +58,7 @@ const Order = () => {
       "argueReply1": "",
       "argueReply2": "",
       "auditor": "",
+      "stars": 0,
       // 快照内容
       "publishTime": GoodsData.publishTime,
       "introduction": GoodsData.introduction,

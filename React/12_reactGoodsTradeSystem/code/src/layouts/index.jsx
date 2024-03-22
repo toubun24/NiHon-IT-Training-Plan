@@ -31,9 +31,12 @@ const App = (props) => { // 插槽props
         collapsible
         collapsed={collapsed}
         theme="light" // 黑底变白底
+        style={{ backgroundColor: "#b2f1e8" }}
       >
         <div className="demo-logo-vertical" />
-        <MySider />
+        <MySider
+        // style={{backgroundColor:"#fadb14"}} // 这里写没用，得去<Menu/>
+        />
       </Sider>
       <Layout>
         <Header
@@ -41,7 +44,8 @@ const App = (props) => { // 插槽props
             padding: 0,
             background: colorBgContainer,
             display: 'flex',
-            alignItems: 'center'
+            alignItems: 'center',
+            backgroundColor: "#b2f1e8"
           }}
         >
           <Button
@@ -56,7 +60,7 @@ const App = (props) => { // 插槽props
           />
           <MyHeader />
 
-          <Flex style={{position: "fixed", right: "3%"}}>
+          <Flex style={{ position: "fixed", right: "3%" }}>
             <MyAvatar />
           </Flex>
 

@@ -46,6 +46,7 @@ const MyHeader = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6�
         fontSize: '16px',
         width: 400,
         height: 64,
+        backgroundColor: "#b2f1e8"
       }}
       onClick={({ key }) => { history.push(key) }}
     />

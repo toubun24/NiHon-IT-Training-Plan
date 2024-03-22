@@ -65,11 +65,13 @@ const MySider = () => { // stateId: 1正常 2禁购 3禁售 4封禁 5注销 6管
         key: item.key,
         label: item.title, // label => title
         icon: iconList[item.key], // icon // []
+        // style:{ backgroundColor: "#8dcff8" } // 间隙依然是白色
       }
     })
   }
   return (
     <Menu
+      style={{ backgroundColor: "#b2f1e8" }}
       mode="inline"
       // openKeys={openKeys}
       onOpenChange={onOpenChange}

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>vue中的数据代理</title>
+    <script src="../js/vue.js"></script>
+</head>
+
+<body>
+    <!--
+        1.Vue中的数据代理：
+            通过vm对象来代理data对象中属性的操作（读/写）
+        2.Vue中数据代理的好处：
+            更加方便的操作data中的数据
+        3.基本原理：
+            通过Object.defineProperty()把data对象中所有属性添加到vm上。
+            为每一个添加到vm上的属性，都指定一个getter/setter。
+            在getter/setter内部去操作（读/写）data中对应的属性。
+        Object.defineProperty(person,'age', {
+            // value: 18,
+            // enumerable: true, //此时代表这个属性是可以枚举的
+            // writable: true, //代表可以重写该属性(控制属性是否被修改)
+            // configurable:true, //控制属性是否可以被删除 默认为false
+
+            //当读取person的age属性时get属性就会被调用，且返回值就是age的值
+            //invoke property proxy映射数据代理
+             get: function () {
+                //测试它的调用情况
+                console.log('@@@ GET AGE');
+                //此时age的值依赖number的值
+                return number
+            },
+            //当修改person的age属性时set(setter)属性就会被调用，且会收到修改的具体值
+            set(v) {
+                //测试
+                console.log('CHANGE AGE');
+                number=v;
+            }
+        });
+    -->
+    <div id="root">
+        <h2>地址: {{ address }}</h2>
+    </div>
+    <script type="text/javascript">
+        Vue.config.productionTip = false;
+        let data;
+        //通过vm代理
+        const vm = new Vue({
+            el: '#root',
+            //vm._data === options.data = data
+            //
+            data() {
+                return data = {
+                    address: 'Tokyo'
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

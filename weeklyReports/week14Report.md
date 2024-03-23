@@ -16,8 +16,118 @@
   * reactGTS-报告 22:17-01:10
 
 * **2023.03.23 土曜日:** 
-
+  * Vue-简介 18:20-18:32
+  * Vue-helloWorld 18:32-18:50
+  * Vue-模板语法 18:50-19:02
+  * Vue-数据绑定 19:02-19:15
+  * Vue-el和data的两种写法 19:15-19:24
+  * Vue-mvvm模型的理解 19:24-19:34
+  * Vue-数据代理 19:34-19:40
+  * Vue-事件处理 19:40-19:50
+  * Vue-事件修饰符 
+  * Vue-键盘事件 
+ 
 * **2023.03.24 日曜日:** 
+
+## 学习笔记
+### Vue的特点
+* 组件化模式：一个Vue文件含有html，css和js，相互组件独立
+* 申明式编码：v-for="p in persons"
+* 虚拟dom和diff算法，复用dom节点
+
+## 创建vue实例对象
+* 一个vue实例不可能去接管多个容器，如果有多个容器的情况，vue事例永远只接管第一个容器
+* 不能多个vue实例同时来接管同一个容器，如果有多个的情况下永远是第一个vue实例来接管该容器
+* vue实例与容器直接的对应关系是一对一的
+
+## 模板语法
+* 插值语法：一般用在标签体的值`{{}}`
+* 指令语法：用于解析标签(标签体,标签属性, 绑定事件)上，类似于`v-bind`(还可以简写为`:`)
+
+## 数据绑定
+* **单向绑定(v-bind)：**数据只能从data流向页面
+* **双向绑定(v-model)：**数据不仅能从data流向页面，还可以从页面流向data
+  * 双向绑定一般都应用在表单类元素上（如：`input`、`select`等）
+  * `v-model`:value可以简写为v-model，因为v-model默认收集的就是value值
+
+## el和data的两种写法
+* el的两种写法
+```js
+const v = new Vue({
+  el: '#root',
+  data: {
+    name: 'Tokyo'
+  }
+});
+```
+```js
+setTimeout(() => {
+  v.$mount('#root');
+}, 3000)
+```
+* data的两种写法
+```js
+data: {
+  name: ' Tokyo'
+}
+```
+```js
+data: () => { // 尽量不要写成箭头函数
+  console.log('@@@', this); //此时this是Window
+  return {
+    name: 'Tokyo'
+  }
+}
+```
+```js
+data() {
+  console.log('@@@', this); //此时this是Vue
+  return {
+    name: 'Tokyo'
+  }
+}
+```
+
+## MVVM模型
+* **M**：模型(Model)：data中的数据
+* **V**：视图(View)：模板代码
+* **VM**：视图模型(ViewModel)：Vue实例
+data中所有的属性，最后都出现在了vm身上
+vm身上所有的属性 及 Vue原型上所有属性，在Vue模板中都可以直接使用
+
+## 数据代理
+* 通过vm对象来代理data对象中属性的操作（读/写），更加方便的操作data中的数据
+* 基本原理：通过Object.defineProperty()把data对象中所有属性添加到vm上。为每一个添加到vm上的属性，都指定一个getter/setter。在getter/setter内部去操作（读/写）data中对应的属性。
+```js
+Object.defineProperty(person,'age', {
+  value: 18,
+  enumerable: true, //此时代表这个属性是可以枚举的
+  writable: true, //代表可以重写该属性(控制属性是否被修改)
+  configurable:true, //控制属性是否可以被删除 默认为false
+
+  //当读取person的age属性时get属性就会被调用，且返回值就是age的值
+  //invoke property proxy映射数据代理
+  get: function () {
+    //测试它的调用情况
+    console.log('@@@ GET AGE');
+    //此时age的值依赖number的值
+    return number
+  },
+  //当修改person的age属性时set(setter)属性就会被调用，且会收到修改的具体值
+  set(v) {
+    //测试
+    console.log('CHANGE AGE');
+    number=v;
+  }
+});
+```
+
+
+
+
+
+
+
 
 
 ## 内容拓展

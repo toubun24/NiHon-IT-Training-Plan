@@ -2,20 +2,20 @@
 
 ## 学习内容及时长
 
-* **2024.03.18 月曜日:** 
+* **2024.03.18 月曜日:** 3h57min
   * reactGTS-全局变量 19:45-22:30 00:48-01:06 03:18-04:12
   * reactGTS-窗口滚动条 \
 
-* **2023.03.21 木曜日:** 
+* **2023.03.21 木曜日:** 2h11min
   * reactGTS-id权限控制 18:15-19:17 23:02-23:38
   * reactGTS-主题色 23:38-00:11
 
-* **2023.03.22 金曜日:** 
+* **2023.03.22 金曜日:** 5h8min
   * reactGTS-登录界面 18:17-19:15
   * reactGTS-五星好评 21:00-22:17
   * reactGTS-报告 22:17-01:10
 
-* **2023.03.23 土曜日:** 
+* **2023.03.23 土曜日:** 4h58min
   * Vue-简介 18:20-18:32
   * Vue-helloWorld 18:32-18:50
   * Vue-模板语法 18:50-19:02
@@ -36,14 +36,20 @@
   * Vue-列表排序 03:30-03:45
   * Vue-set的使用 03:45-04:10
 
-* **2023.03.24 日曜日:** 
-  * Vue-数据检测 
-  * Vue-表单数据收集 
-  * Vue-过滤器 
-  * Vue-内置指令 
-  * Vue-自定义指令 
-  * Vue-生命周期 
-  * Vue-组件的使用 
+* **2023.03.24 日曜日:** 3h3min
+  * Vue-数据监测 17:40-17:54
+  * Vue-表单数据收集 17:54-18:05
+  * Vue-过滤器 18:05-18:15
+  * Vue-内置指令 18:15-18:31
+  * Vue-自定义指令 18:31-18:40
+  * Vue-生命周期 21:10-21:29
+  * Vue-组件的使用 21:29-21:55 22:05-22:18
+  * Vue-脚手架HelloWorld 22:18-22:50 03:24-03:45
+  * Vue-props传参数
+  * Vue-mixin
+  * Vue-todoList基本实现
+  * Vue-自定义事件
+  * 整理报告 03:12-03:24
 
 ## 学习笔记
 ### Vue的特点
@@ -314,8 +320,136 @@ Object.defineProperty(person,'age', {
 * 特别注意：`Vue.set()` 和 `vm.$set()` 不能给vm或vm的根数据对象添加属性！！！
   * 注: 数据劫持可以理解成为vue对你写在data的数据会进行加工，让它们都变成响应式的
 
+### 常用的生命周期钩子：
+* `mounted`: 发送ajax请求、启动定时器、绑定自定义事件、订阅消息等【初始化操作】。
+* `beforeDestroy`: 清除定时器、解绑自定义事件、取消订阅消息等【收尾工作】。
+* 关于销毁Vue实例
+  * 销毁后借助Vue开发者工具看不到任何信息。
+  * 销毁后自定义事件会失效，但原生DOM事件依然有效。(click之类的原生事件依然会被调用)
+  * 一般不会在beforeDestroy操作数据，因为即便操作数据，也不会再触发更新流程了。
 
+### Vue中使用组件的三大步骤：
+* 定义组件(创建组件)
+  * 使用Vue.extend(options)创建，其中options和new Vue(options)时传入的那个options几乎一样，但也有点区别；
+  * 区别如下：
+	  * el不要写，为什么？ ——— 最终所有的组件都要经过一个vm的管理，由vm中的el决定服务哪个容器。
+    * data必须写成函数，为什么？ ———— 避免组件被复用时，数据存在引用关系。
+  * 备注：使用template可以配置组件结构。
+* 注册组件
+  * 局部注册：靠new Vue的时候传入components选项
+  ```js
+  new Vue({
+      el: "#root",
+      data: {},
+      components: {
+          school,
+          student
+      },
+  })
+  ```
+  * 全局注册：靠`Vue.component('组件名',组件)`
+* 使用组件(写组件标签)
+  * `<school></school>`
 
+### Vue中使用组件的几个注意点：
+* 关于组件名:
+  * 一个单词组成：
+    * 第一种写法(首字母小写)：school
+    * 第二种写法(首字母大写)：School
+  * 多个单词组成：
+    * 第一种写法(kebab-case命名)：my-school
+    * 第二种写法(CamelCase命名)：MySchool (需要Vue脚手架支持)
+    * 备注：
+    * 组件名尽可能回避HTML中已有的元素名称，例如：h2、H2都不行。
+    * 可以使用name配置项指定组件在开发者工具中呈现的名字。
+* 关于组件标签:
+  * 第一种写法：`<school></school>`
+  * 第二种写法：`<school/>`
+  * 备注：不用使用脚手架时，`<school/>`会导致后续组件不能渲染。
+* 一个简写方式：
+  * `const school = Vue.extend(options)`可简写为：`const school = options`
+
+### 关于VueComponent：
+* school组件本质是一个名为VueComponent的构造函数，且不是程序员定义的，是Vue.extend生成的。
+* 我们只需要写<school/>或<school></school>，Vue解析时会帮我们创建school组件的实例对象，
+  * 即Vue帮我们执行的：new VueComponent(options)。
+* 特别注意：每次调用Vue.extend，返回的都是一个全新的VueComponent！！！！注意这一点很重要
+* 关于`this`指向：
+  * 组件配置中：data函数、methods中的函数、watch中的函数、computed中的函数 它们的this均是【**VueComponent实例对象**】(它的原型对象是**Vue实例对象**)。不允许指定`el`。
+  * `new Vue(options)`配置中：data函数、methods中的函数、watch中的函数、computed中的函数 它们的this均是【**Vue实例对象**】。允许指定`el`。
+* VueComponent的实例对象，以后简称vc（也可称之为：组件实例对象）。
+  * Vue的实例对象，以后简称vm。 vm管理着一个又一个vc，vc可以再
+* 因为组件是可复用的 Vue 实例，所以它们与 new Vue 接收相同的选项，例如 data、computed、watch、methods 以及生命周期钩子等。仅有的例外是像 el 这样根实例特有的选项。
+  * 所以vm与vc属性配置并不是一模一样，尽管vc底层复用了很多vm的逻辑
+* 一个重要的内置关系：`VueComponent.prototype.__proto__ === Vue.prototype === vm.__proto__`
+* 为什么要有这个关系：让组件实例对象（vc）可以访问到 Vue原型上的属性、方法。
+
+### 收集表单数据：
+  * 若：`<input type="text"/>`，则v-model收集的是value值，用户输入的就是value值。
+  * 若：`<input type="radio"/>`，则v-model收集的是value值，且要给标签配置value值。
+  * 若：`<input type="checkbox"/>`
+* 没有配置input的value属性，那么收集的就是checked（勾选 or 未勾选，是布尔值）
+* 配置input的value属性:
+  * v-model的初始值是非数组，那么收集的就是checked（勾选 or 未勾选，是布尔值）
+  * v-model的初始值是数组，那么收集的的就是value组成的数组
+* 备注：v-model的三个修饰符：
+  * `lazy`：失去焦点再收集数据
+  * `number`：输入字符串转为有效的数字
+  * `trim`：输入首尾空格过滤
+
+### 过滤器：
+* 定义：对要显示的数据进行特定格式化后再显示（适用于一些简单逻辑的处理）。
+* 语法：
+  * 注册过滤器：`Vue.filter(name,callback)` 或 `new Vue{filters:{}}`
+  * 使用过滤器：`{{ xxx | 过滤器名}}`或`v-bind:属性 = "xxx | 过滤器名"`
+* 备注：
+  * 过滤器也可以接收额外参数、多个过滤器也可以串联
+  * 并没有改变原本的数据, 是产生新的对应的数据
+
+### 内置指令
+* 学过的指令：
+  * `v-bind`	: 单向绑定解析表达式, 可简写为 :xxx
+  * `v-model`	: 双向数据绑定
+  * `v-for`  	: 遍历数组/对象/字符串
+  * `v-on`   	: 绑定事件监听, 可简写为@
+  * `v-if`  	: 条件渲染（动态控制节点是否存存在）
+  * `v-else` 	: 条件渲染（动态控制节点是否存存在）
+  * `v-show` 	: 条件渲染 (动态控制节点是否展示)
+* `v-text`指令：
+  * 作用：向其所在的节点中渲染文本内容。 (纯文本渲染)
+  * 与插值语法的区别：`v-text`会替换掉节点中的内容，`{{xx}}`则不会。这里有点不太灵活
+* `v-html`指令：
+  * 作用：向指定节点中渲染包含html结构的内容。
+  * 与插值语法的区别：
+	  * `v-html`会替换掉节点中所有的内容，`{{xx}}`则不会。
+	  * `v-html`可以识别html结构。
+  * 严重注意：`v-html`有安全性问题！！！！
+	  * 在网站上动态渲染任意HTML是非常危险的，容易导致XSS攻击。
+	  * 一定要在可信的内容上使用`v-html`，永不要用在用户提交的内容上！
+* `v-cloak`指令（没有值）：
+  * 本质是一个特殊属性，Vue实例创建完毕并接管容器后，会删掉`v-cloak`属性。
+  * 使用css配合`v-cloak`可以解决网速慢时页面展示出`{{xxx}}`的问题。
+  * `<style>[v-cloak]{display: none;}</style> <h2 v-cloak>{{name}}</h2>`
+* `v-once`指令：
+  * `v-once`所在节点在初次动态渲染后，就视为静态内容了。
+  * 以后数据的改变不会引起`v-once`所在结构的更新，可以用于优化性能。
+* `v-pre`指令：
+  * 跳过其所在节点的编译过程。
+  * 可利用它跳过：没有使用指令语法、没有使用插值语法的节点，会加快编译。
+
+### 自定义指令总结：
+* 定义语法：
+  * 局部指令：
+    * `new Vue({directives:{指令名:配置对象} })`或`new Vue({directives: {指令名:回调函数}})`
+  * 全局指令：
+    * `Vue.directive(指令名,配置对象)`或`Vue.directive(指令名,回调函数)`
+* 配置对象中常用的3个回调：
+  * `bind`：指令与元素成功绑定时调用。
+  * `inserted`：指令所在元素被插入页面时调用。
+  * `update`：指令所在模板结构被重新解析时调用。
+* 备注：
+  * 指令定义时不加`v-`，但使用时要加`v-`；
+  * 指令名如果是多个单词，要使用`kebab-case`命名方式，不要用`camelCase`命名。
 
 ## 内容拓展
 ### redux持久化存储和localStorage持久化存储有什么区别，各自优劣
@@ -387,17 +521,113 @@ const arr = this.persons.filter(p => p.name.indexOf(this.keyword) !== -1)
 
 但这样是不行的，无法实现更新
 
+### 箭头函数this
+箭头函数（Arrow Functions）在JavaScript中提供了一种更简洁的函数语法。箭头函数的一个关键特性是它不绑定自己的 `this` 值，而是捕获其所在上下文的 `this` 值，作为自己的 `this` 值。这意味着，在箭头函数内部使用的 `this`，实际上是在定义箭头函数时所在的外部作用域的 `this`。
+
+这种特性使得箭头函数在处理回调函数、事件处理器、定时器等方面非常有用，尤其是当你想保持 `this` 指向不变时。
+
+下面是一个具体的例子来说明这个特性：
 
 
+```javascript
+function OuterFunction() {
+  this.value = "I am from OuterFunction";
+
+  // 常规函数
+  this.normalFunction = function() {
+    console.log(this.value); // 输出 "I am from OuterFunction"
+  };
+
+  // 箭头函数
+  this.arrowFunction = () => {
+    console.log(this.value); // 输出 "I am from OuterFunction"
+  };
+}
+
+const outer = new OuterFunction();
+
+outer.normalFunction(); // 输出 "I am from OuterFunction"
+outer.arrowFunction(); // 输出 "I am from OuterFunction"
+
+// 更改全局的 this 指向（在浏览器环境中通常是 window 对象）
+const anotherValue = "I am from global scope";
+globalThis.value = anotherValue; // 使用 globalThis 以兼容不同的环境（如浏览器和 Node.js）
+
+// 使用 setTimeout 来模拟异步调用，这样可以看到 this 的指向在函数执行时是如何的
+setTimeout(outer.normalFunction, 0); // 输出 "I am from global scope"，因为 normalFunction 的 this 在执行时指向了 globalThis（或 window）
+setTimeout(outer.arrowFunction, 0); // 输出 "I am from OuterFunction"，因为 arrowFunction 的 this 是在定义时捕获的，指向 OuterFunction 的实例
+```
+在这个例子中，`OuterFunction` 有一个常规函数 `normalFunction` 和一个箭头函数 `arrowFunction`。当这两个函数被调用时，它们都试图访问 `this.value`。对于 `normalFunction`，它的 `this` 在执行时指向了全局对象（在浏览器中是 `window`），因此它输出了全局作用域中的 `value` 值。然而，对于 `arrowFunction`，它的 `this` 是在定义时捕获的，指向 `OuterFunction` 的实例，因此它输出了 `OuterFunction` 实例中的 `value` 值。
+
+这个特性使得箭头函数在处理 `this` 指向方面更加直观和可预测，尤其是在处理回调函数和事件处理器时。不过，也需要注意，由于箭头函数不绑定自己的 `this`，它们也不能用作构造函数（即不能使用 `new` 关键字来调用）。
+
+### `VueComponent.prototype.__proto__ === Vue.prototype === vm.__proto__`
+1. **Vue.prototype**
+`Vue.prototype` 是 Vue 构造函数的原型对象。这意味着当你创建一个 Vue 实例（例如 `new Vue({...})`）时，这个实例会继承 `Vue.prototype` 上的所有属性和方法。Vue 允许你扩展 `Vue.prototype` 来添加全局的自定义方法或属性，这样它们就可以在任何 Vue 实例中访问。
+2. **VueComponent.prototype**
+`VueComponent` 是 Vue 组件的构造函数。当你定义一个 Vue 组件时（无论是全局组件还是局部组件），这个组件的背后实际上是一个 `VueComponent` 的实例。`VueComponent.prototype` 是这个构造函数的原型对象，它继承了 `Vue.prototype` 的所有属性和方法，并可能添加了一些组件特有的属性和方法。
+3. **vm.__proto__**
+`vm` 通常是一个 Vue 实例的引用。在 JavaScript 中，每个对象都有一个 `__proto__` 属性，它指向该对象的原型。因此，`vm.__proto__` 就是 `vm` 这个 Vue 实例的原型，它应该指向 `Vue.prototype`（或者更准确地说是 `Vue.prototype` 的一个实例，因为原型可能会被修改）。
+- `VueComponent.prototype.__proto__` 应该指向 `Vue.prototype`，因为 `VueComponent` 继承自 `Vue`。
+- `vm.__proto__` 应该指向 `Vue.prototype`，因为 `vm` 是一个 Vue 实例。
+
+### 构造函数，原型对象，实例，实例的引用
+1. **构造函数**：
+构造函数是一种特殊的函数，当创建对象时，它会被自动调用。构造函数的主要任务是初始化对象的状态，即为其属性设置初始值。在JavaScript中，构造函数的名字通常与类名相同，它可以有参数，但不能有返回值（除了`void`）。一旦对象生成，构造函数自动调用，且不能再次执行。
+
+例如，在JavaScript中：
 
 
+```javascript
+function Car(color, make) {
+    this.color = color;
+    this.make = make;
+}
+```
+上面的`Car`就是一个构造函数，它接受两个参数`color`和`make`，并初始化新创建的对象的这两个属性。
+2. **原型对象**：
+在JavaScript中，每个函数都有一个`prototype`属性，这个属性的值是一个对象，我们称之为“原型对象”。原型对象主要用于共享方法和属性。当一个对象试图访问一个属性或方法时，如果这个属性或方法在该对象自身上不存在，那么JavaScript引擎就会在该对象的原型（即构造函数的`prototype`属性所指向的对象）上查找。这种机制实现了属性和方法的继承。
+3. **实例**：
+在计算机语言中，“类”在实例化之后叫做一个“实例”。一个类定义了对象的结构（属性和方法），而实例则是这个结构的一个具体实现。每个实例都有自己的内存空间，存储其属性和方法的具体值。在数据库中，实例也可以表示一些程序的集合，如在Oracle中，实例是一些能支撑数据库运行的数据库程序。
+4. **实例的引用**：
+在计算机语言中，引用是指向某一变量（或对象）的别名。对引用的操作实际上就是对所引用变量（或对象）的直接操作。这种机制允许我们间接地访问和操作对象，而不需要直接知道其内存地址。在JavaScript中，引用是通过变量名来实现的。
+
+例如：
 
 
+```javascript
+let car1 = new Car('red', 'Toyota');
+let car2 = car1; // car2是car1的一个引用，它们指向同一个对象
+```
+在这个例子中，`car2`是`car1`的一个引用，它们都指向同一个`Car`实例。对`car2`的修改也会影响到`car1`，因为它们引用的是同一个对象。
 
+### Vue Cli, Vue SFC, Vite
+* Vue CLI，即Vue命令行界面（Command-Line Interface），是一个基于Vue.js进行快速开发的完整系统。它提供了一个交互式的项目脚手架，通过@vue/cli实现，致力于将Vue生态中的工具基础标准化。Vue CLI确保了各种构建工具能够基于智能的默认配置平稳衔接，使开发者能够专注于编写应用程序，而不是花费大量时间在配置上。此外，Vue CLI还提供了丰富的官方插件集合，集成了前端生态系统中最好的工具，以及一个完整的图形用户界面，用于创建和管理Vue.js项目。
+* Vue SFC是单文件组件（Single-File Component）的缩写。这是一种特殊的文件格式，允许开发者将Vue组件的模板、逻辑与样式封装在一个单独的`.vue`文件中。具体来说，`<template>`、`<script>`和`<style>`三个块在同一个`.vue`文件中封装、组合了组件的视图、逻辑和样式。这种设计使得组件的开发和维护更加便捷和高效。需要注意的是，浏览器本身并不支持`.vue`文件，因此需要对这些文件进行加载和解析。这通常是通过vue-loader等Webpack的loader来实现的，它们可以将`.vue`文件转换为JavaScript模块，以便在浏览器中运行。总的来说，Vue SFC是Vue.js框架中的一个重要特性，它大大简化了Vue组件的开发过程，提高了开发效率。
+* Vite是一种新型的前端构建工具，最初是配合Vue 3.0一起使用的，后来适配了各种前端项目，目前提供了Vue、React、Preact框架模板。Vite旨在提供开箱即用的配置，其插件API和JavaScript API带来了高度的可扩展性，并有完整的类型支持。它具有以下显著特点：快速的冷启动、即时的模块热更新、真正的按需编译。在2023年4月20日，Vite官方团队宣布了Vite 4.3的正式发布，专注于改进devServer的性能，提升了整体速度，并在Best of JS公布的前端构建工具中名列前茅。总的来说，Vite是一个强大且灵活的前端构建工具，为开发者提供了高效、快速的前端开发体验。
 
+# Vue项目创建
+* 基于[Vite Vue 3 工具链指南](https://cn.vuejs.org/guide/scaling-up/tooling.html)
+```
+npm create vue@latest
 
+cd vue-project
+npm install
+npm run dev
+```
+* 基于[Vue CLI](https://cli.vuejs.org/zh/#%E8%B5%B7%E6%AD%A5)
+```
+npm install -g @vue/cli
+# OR
+yarn global add @vue/cli
 
+vue create my-project
+# OR
+vue ui
 
+cd my-project
+npm run serve
+```
 
 ## 遇见问题
 ### 【已解决】useEffect测试时`const res = await axios.get(``http://localhost:5000/trades/${params.id}``)`后的`console.log("1")`未显示输出

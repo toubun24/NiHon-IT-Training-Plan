@@ -15,7 +15,7 @@
 
 <script>
 export default {
-    name: 'StudentDemo',
+    name: 'DemoStudent',
     // 1
     // props: ['name', 'sex', 'age', 'num'],
     // 2

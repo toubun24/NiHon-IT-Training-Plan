@@ -4,8 +4,9 @@
 
 * **2023.03.28 木曜日:** 
   * Vue-props传参数 22:40-23:40
-  * Vue-mixin
-  * Vue-todoList基本实现
+  * Vue-mixin 23:40-00:15
+  * Vue-Plugins 00:20-00:30 01:25-02:30
+  * Vue-todoList基本实现 02:30-
   * Vue-自定义事件
 
 * **2023.03.29 金曜日:** 

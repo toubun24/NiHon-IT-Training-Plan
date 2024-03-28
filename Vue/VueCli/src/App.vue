@@ -1,15 +1,19 @@
 <template>
-  <StudentDemo name="name" sex="男" :age="12" num="13"/>
+  <div>
+    <PluginsStudent />
+    <hr />
+    <PluginsSchool />
+  </div>
 </template>
 
 <script>
-import StudentDemo from './components/StudentDemo.vue'
-
+import PluginsStudent from "@/components/PluginsStudent";
+import PluginsSchool from "@/components/PluginsSchool";
 export default {
-  name: 'App',
+  name: "App",
   components: {
-    StudentDemo
+    PluginsSchool,
+    PluginsStudent,
   },
-  // methods: {}
 }
 </script>

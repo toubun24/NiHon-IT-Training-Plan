@@ -8,13 +8,23 @@
   * Vue-plugins插件 00:20-00:30 01:25-02:30
 
 * **2023.03.30 土曜日:** 
-  * Vue-odoList基本实现 17:40-19:30
+  * Vue-todoList基本实现 17:40-19:30
   * Vue-scoped样式 21:00-21:10
   * 浏览器本地存储 21:15-21:25
   * Vue-todolist本地存储版本 21:25-21:40
   * Vue-自定义事件 21:50-22:55
   * Vue-todolist自定义事件版本 22:55-23:05
-  * Vue-事件总线
+  * Vue-事件总线 23:55-00:10 00:15-00:25
+  * Vue-pubsub 00:25-00:35
+  * Vue-todolistPubsub版本 00:35-00:45
+  * Vue-nextTick 00:45-01:40
+  * Vue-动画效果 
+  * Vue-todolist动画版本 
+  * Vue-配置代理 
+  * Vue-github搜索案例 
+  * Vue-github搜索案例vue-resource版本 
+  * Vue-插槽 
+  * Vue-VUEX 
 
 * **2023.03.31 日曜日:** 
 
@@ -199,4 +209,7 @@ emitter.emit('someEvent', { data: 'Hello, world!' });
 // 当不再需要监听事件时，可以取消订阅
 emitter.off('someEvent');
 ```
-请注意，`mitt` 只是一个例子，还有很多其他库和模式可以实现类似的功能。选择最适合你项目需求的库或方法。
+
+### 【已解决】Vue pubsub 传参
+* 首先注意传参错位的情况，说明忘记占位`_,`
+* 随后是注意方法固定传递两个参数,一个是 `msg`,一个是 `data`,`msg` 就是订阅的内容(也就是发布名称),`data` 就是我们要从 `publish` 中的传递的值，所以不能在`msg`后跟多个参数排列这样，我是将后面的多个要传的参数合并成数组一起传的就成功了

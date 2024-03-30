@@ -1,21 +1,21 @@
 <template>
   <div>
     <CustomEventsTodoHeader @todoAdd="todoAdd" />
-    <NextTickTodoList :todos="todos" :todoCheck="todoCheck" :todoDelete="todoDelete" />
+    <PubsubTodoList :todos="todos" :todoCheck="todoCheck" :todoDelete="todoDelete" />
     <CustomEventsTodoFooter :todos="todos" @todoCheckAll="todoCheckAll" @todoClear="todoClear" />
   </div>
 </template>
 
 <script>
 import CustomEventsTodoHeader from "@/components/CustomEventsTodoHeader";
-import NextTickTodoList from "@/components/NextTickTodoList";
+import PubsubTodoList from "@/components/PubsubTodoList";
 import CustomEventsTodoFooter from "@/components/CustomEventsTodoFooter";
-import pubsub from "pubsub-js"
+import pubsub from "pubsub-js" // npm install pubsub-js --save
 export default {
   name: "App",
   components: {
     CustomEventsTodoHeader,
-    NextTickTodoList,
+    PubsubTodoList,
     CustomEventsTodoFooter,
   },
   data() {
@@ -25,13 +25,14 @@ export default {
   },
   methods: {
     todoAdd(todo) {
-      // console.log("add")
+      console.log("add")
       this.todos.unshift(todo)
     },
     todoCheck(id) {
       const todo = this.todos.find(todo => todo.id === id)
       todo.done = !todo.done
     },
+    // todoDelete(id) {
     todoDelete(_, id) {
       this.todos = this.todos.filter(todo => todo.id !== id)
     },
@@ -40,12 +41,6 @@ export default {
     },
     todoClear() {
       this.todos = this.todos.filter(todo => !todo.done)
-    },
-    todoUpdate(_, idTitle) { // pubsub => _,
-      console.log("app", "id", idTitle[0], "title", idTitle[1])
-      this.todos.forEach(todo => {
-        if (todo.id === idTitle[0]) todo.title = idTitle[1];
-      })
     }
   },
   watch: {
@@ -56,13 +51,11 @@ export default {
       }
     },
   },
-  mounted() {
+  mounted() { // mounted
     this.pubId = pubsub.subscribe('todoDelete', this.todoDelete);
-    this.pubId2 = pubsub.subscribe('todoUpdate', this.todoUpdate);
   },
-  beforeMount() {
-    pubsub.unsubscribe(this.pubId);
-    pubsub.unsubscribe(this.pubId2);
+  beforeMount() { // 被卸载注意解绑
+    pubsub.unsubscribe(this.pubId); // 取消订阅的方式与取消定时器的方式是类似的，记住
   }
 }
 </script>

@@ -24,11 +24,11 @@ export default {
         },
         isAll: {
             get() {
-                console.log(this.total,this.totalDone)
+                // console.log(this.total,this.totalDone)
                 return this.total === this.totalDone && this.totalDone > 0
             },
             set(value) {
-                console.log("value",value)
+                // console.log("value",value)
                 // this.todoCheckAll(value);
                 this.$emit('todoCheckAll', value);
             }

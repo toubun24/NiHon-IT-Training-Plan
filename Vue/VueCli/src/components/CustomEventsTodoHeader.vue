@@ -15,7 +15,7 @@ export default {
     },
     methods: {
         add() {
-            console.log(this.inputValue)
+            // console.log(this.inputValue)
             if (!this.inputValue.trim()) {
                 alert('输入不能为空')
                 return

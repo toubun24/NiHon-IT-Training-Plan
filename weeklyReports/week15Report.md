@@ -5,13 +5,11 @@
 * **2023.03.28 木曜日:** 
   * Vue-props传参数 22:40-23:40
   * Vue-mixin 23:40-00:15
-  * Vue-Plugins 00:20-00:30 01:25-02:30
-  * Vue-todoList基本实现 02:30-
-  * Vue-自定义事件
-
-* **2023.03.29 金曜日:** 
+  * Vue-plugins 00:20-00:30 01:25-02:30
 
 * **2023.03.30 土曜日:** 
+  * Vue-todoList基本实现 17:40-19:30
+  * Vue-自定义事件
 
 * **2023.03.31 日曜日:** 
 
@@ -46,7 +44,8 @@
 
 
 ## 内容拓展
-
+### Vue `<label>`标签
+`<label>`标签用于定义标签，通常与表单元素一起使用，以提供点击区域，将点击与特定表单元素关联，例如单选按钮或复选框。
 
 
 
@@ -86,3 +85,33 @@ module.exports = defineConfig({
 })
 ```
 而后运行项目不再显示警告
+
+### 【已解决】Vue TodoList 勾选与取消勾选待办事项无法改变done状态
+* 先设置控制台输出
+```js
+todoCheck(id) {
+    const todo = this.todos.filter(todo => todo.id === id)
+    console.log("check1", id,todo,todo.done)
+    todo.done = !todo.done
+    console.log("check2", id,todo,todo.done)
+},
+```
+对同一选项连续点击
+```
+check1 001 undefined undefined
+check2 001 [Proxy(Object), done: true] true
+check3 001 Proxy(Object) {id: '001', title: '吃饭', done: false}
+
+check1 001 undefined undefined
+check2 001 [Proxy(Object), done: true] true
+check3 001 Proxy(Object) {id: '001', title: '吃饭', done: false}
+```
+注意到`[Proxy(Object), done: true] true`内容为
+```
+0: Proxy(Object) {id: '001', title: '吃饭', done: false}
+done: true
+length: 1
+[[Prototype]]: Array(0)
+```
+意识到是`filter`返回的结果为数组格式，才发现示例代码用的`.find()`，**所以以后在这种返回唯一匹配结果时不要用`.filter()`而应该用`.find()`**
+

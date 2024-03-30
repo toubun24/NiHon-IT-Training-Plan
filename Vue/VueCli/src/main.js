@@ -9,9 +9,9 @@ import App from './App.vue'
 // Vue.mixin(shareData)
 
 /* 全局引入插件 */
-import plugins from './plugins';
-// Vue.use(plugins); // vue应用插件 // Vue 2
-createApp(App).use(plugins).mount('#app')
+// import plugins from './plugins';
+// // Vue.use(plugins); // vue应用插件 // Vue 2
+// createApp(App).use(plugins).mount('#app')
 
 /* 另一种写法 */
 // Vue.config.productionTip = false
@@ -19,5 +19,5 @@ createApp(App).use(plugins).mount('#app')
 //     render: h => h(App),
 // }).$mount('#app')
 
-// createApp(App).mount('#app')
+createApp(App).mount('#app')
 

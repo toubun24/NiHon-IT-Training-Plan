@@ -1,27 +1,30 @@
 <template>
   <div>
-    <!--<TodoHeader :todoAdd="todoAdd" />-->
-    <CustomEventsTodoHeader @todoAdd="todoAdd" />
+    <TodoHeader :todoAdd="todoAdd" />
     <TodoList :todos="todos" :todoCheck="todoCheck" :todoDelete="todoDelete" />
-    <!--<TodoFooter :todos="todos" :todoCheckAll="todoCheckAll" :todoClear="todoClear" />-->
-    <CustomEventsTodoFooter :todos="todos" @todoCheckAll="todoCheckAll" @todoClear="todoClear" />
+    <TodoFooter :todos="todos" :todoCheckAll="todoCheckAll" :todoClear="todoClear" />
   </div>
 </template>
 
 <script>
-import CustomEventsTodoHeader from "@/components/CustomEventsTodoHeader";
+import TodoHeader from "@/components/TodoHeader";
 import TodoList from "@/components/TodoList";
-import CustomEventsTodoFooter from "@/components/CustomEventsTodoFooter";
+import TodoFooter from "@/components/TodoFooter";
 export default {
   name: "App",
   components: {
-    CustomEventsTodoHeader,
+    TodoHeader,
     TodoList,
-    CustomEventsTodoFooter,
+    TodoFooter,
   },
   data() {
     return {
-      todos: JSON.parse(localStorage.getItem('todos')) || []
+      // todos: [
+      //   { id: '001', title: '吃饭', done: false },
+      //   { id: '002', title: "睡觉", done: true },
+      //   { id: '003', title: '打代码', done: false }
+      // ]
+      todos: JSON.parse(localStorage.getItem('todos')) || [] // null || [] => [] 确保数组格式
     }
   },
   methods: {
@@ -45,8 +48,10 @@ export default {
   },
   watch: {
     todos: {
-      deep: true,
-      handler(newValue) {
+      deep: true, // 深度监视，当我监视数组中的对象的某个属性的变化它也会产生反应
+      handler(newValue) { // newValue
+        // 本地存储存的是key和value都是字符串
+        // 数据存放在本地存储中
         localStorage.setItem("todos", JSON.stringify(newValue))
       }
     },

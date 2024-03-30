@@ -18,10 +18,9 @@
   * Vue-pubsub 00:25-00:35
   * Vue-todolistPubsub版本 00:35-00:45
   * Vue-nextTick 00:45-01:40
-  * Vue-动画效果 
-  * Vue-todolist动画版本 
-  * Vue-配置代理 
-  * Vue-github搜索案例 
+  * Vue-动画效果 03:45-04:05
+  * Vue-todolist动画版本 04:05-04:20
+  * Vue-github搜索案例 04:25-
   * Vue-github搜索案例vue-resource版本 
   * Vue-插槽 
   * Vue-VUEX 

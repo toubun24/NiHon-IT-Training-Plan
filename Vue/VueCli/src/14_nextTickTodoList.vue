@@ -1,21 +1,21 @@
 <template>
   <div>
     <CustomEventsTodoHeader @todoAdd="todoAdd" />
-    <AnimationTodoList :todos="todos" :todoCheck="todoCheck" />
+    <NextTickTodoList :todos="todos" :todoCheck="todoCheck" />
     <CustomEventsTodoFooter :todos="todos" @todoCheckAll="todoCheckAll" @todoClear="todoClear" />
   </div>
 </template>
 
 <script>
 import CustomEventsTodoHeader from "@/components/CustomEventsTodoHeader";
-import AnimationTodoList from "@/components/AnimationTodoList";
+import NextTickTodoList from "@/components/NextTickTodoList";
 import CustomEventsTodoFooter from "@/components/CustomEventsTodoFooter";
 import pubsub from "pubsub-js"
 export default {
   name: "App",
   components: {
     CustomEventsTodoHeader,
-    AnimationTodoList,
+    NextTickTodoList,
     CustomEventsTodoFooter,
   },
   data() {

@@ -1,7 +1,8 @@
 <template>
   <div>
     <CustomEventsTodoHeader @todoAdd="todoAdd" />
-    <PubsubTodoList :todos="todos" :todoCheck="todoCheck" :todoDelete="todoDelete" />
+    <!--<PubsubTodoList :todos="todos" :todoCheck="todoCheck" :todoDelete="todoDelete" />-->
+    <PubsubTodoList :todos="todos" :todoCheck="todoCheck" />
     <CustomEventsTodoFooter :todos="todos" @todoCheckAll="todoCheckAll" @todoClear="todoClear" />
   </div>
 </template>

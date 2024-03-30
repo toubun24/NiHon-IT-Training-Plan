@@ -5,7 +5,6 @@
             :key="todoObj.id"
             :todo="todoObj"
             :todoCheck="todoCheck"
-            :todoDelete="todoDelete"
         />
     </ul>
 </template>
@@ -17,6 +16,6 @@ export default {
     components: {
         NextTickTodoItem
     },
-    props: ['todos', 'todoCheck', 'todoDelete']
+    props: ['todos', 'todoCheck']
 }
 </script>

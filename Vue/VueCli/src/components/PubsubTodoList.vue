@@ -1,12 +1,13 @@
 <template>
     <ul class="demo">
-        <PubsubTodoItem
+        <!--<PubsubTodoItem
             v-for="todoObj in todos"
             :key="todoObj.id"
             :todo="todoObj"
             :todoCheck="todoCheck"
             :todoDelete="todoDelete"
-        />
+        />-->
+        <PubsubTodoItem v-for="todoObj in todos" :key="todoObj.id" :todo="todoObj" :todoCheck="todoCheck" />
     </ul>
 </template>
 
@@ -17,6 +18,7 @@ export default {
     components: {
         PubsubTodoItem
     },
-    props: ['todos', 'todoCheck', 'todoDelete']
+    //props: ['todos', 'todoCheck', 'todoDelete']
+    props: ['todos', 'todoCheck']
 }
 </script>

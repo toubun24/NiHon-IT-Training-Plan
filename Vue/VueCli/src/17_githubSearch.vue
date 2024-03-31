@@ -1,17 +1,17 @@
 <template>
   <div>
-    <GithubResourceSearch />
+    <GithubSearch />
     <GithubList />
   </div>
 </template>
 
 <script>
-import GithubResourceSearch from "@/components/GithubResourceSearch";
+import GithubSearch from "@/components/GithubSearch";
 import GithubList from "@/components/GithubList";
 export default {
   name: "App",
   components: {
-    GithubResourceSearch,
+    GithubSearch,
     GithubList,
   },
 }

@@ -20,12 +20,12 @@
   * Vue-nextTick 00:45-01:40
   * Vue-动画效果 03:45-04:05
   * Vue-todolist动画版本 04:05-04:20
-  * Vue-github搜索案例 04:25-
-  * Vue-github搜索案例vue-resource版本 
-  * Vue-插槽 
-  * Vue-VUEX 
 
 * **2023.03.31 日曜日:** 
+  * Vue-github搜索案例 18:45-18:50 23:05-23:35
+  * Vue-github搜索案例vue-resource版本 23:35-23:40
+  * Vue-插槽 23:40-
+  * Vue-VUEX 
 
 ## 学习笔记
 ### props传参数

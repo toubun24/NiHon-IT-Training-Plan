@@ -2,12 +2,12 @@
 
 ## 学习内容及时长
 
-* **2023.03.28 木曜日:** 
+* **2023.03.28 木曜日:** 2h50min
   * Vue-props传参数 22:40-23:40
   * Vue-mixin混入 23:40-00:15
   * Vue-plugins插件 00:20-00:30 01:25-02:30
 
-* **2023.03.30 土曜日:** 
+* **2023.03.30 土曜日:** 5h55min
   * Vue-todoList基本实现 17:40-19:30
   * Vue-scoped样式 21:00-21:10
   * 浏览器本地存储 21:15-21:25
@@ -21,11 +21,12 @@
   * Vue-动画效果 03:45-04:05
   * Vue-todolist动画版本 04:05-04:20
 
-* **2023.03.31 日曜日:** 
+* **2023.03.31 日曜日:** 1h
   * Vue-github搜索案例 18:45-18:50 23:05-23:35
   * Vue-github搜索案例vue-resource版本 23:35-23:40
-  * Vue-插槽 23:40-
+  * Vue-插槽 23:40-23:50 00:10-01:25
   * Vue-VUEX 
+  * 整理报告 00:00-00:10
 
 ## 学习笔记
 ### props传参数
@@ -34,28 +35,6 @@
 * 注意props属性名不能是vue底层已征用的属性名(比如key, ref等等)
 * 把props传递过来的值当成vc的状态，这样改name是不会出问题的，因为你没有直接去修改props
 * 有三种设置形式，具体参考NiHon-IT-Training-Plan\Vue\VueCli\src\components\StudentDemo.vue
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 ## 内容拓展
 ### Vue `<label>`标签
@@ -87,7 +66,11 @@
 注意：在 Vue 3 中，`.native` 修饰符已经不再是必要的，因为 Vue 3 改进了组件的事件监听机制，使得监听组件的根元素的原生事件变得更加直接和简单。但是，如果你正在使用 Vue 2，那么 `.native` 修饰符仍然是一个很有用的工具。
 综上所述，这段代码允许你在父组件中通过 `ref` 直接访问 `Student` 组件的实例，并且当 `Student` 组件的根元素被点击时，会调用父组件的 `show` 方法。
 
-
+### 插槽
+* **默认插槽**允许父组件向子组件传递任意内容，子组件中通过`<slot></slot>`标签定义默认插槽的位置。
+* **具名插槽**允许在子组件中定义多个插槽，并通过不同的名称来区分它们，从而更加灵活地控制内容的渲染位置。
+  * `v-slot`仅仅只能被用在组件上或者template标签上
+* **作用域插槽**是Vue的高级插槽机制，它允许父组件将数据传递给子组件，并在子组件中自定义渲染这些数据。这通常用于需要动态渲染的内容以及子组件需要访问来自父组件的数据的情况。
 
 
 
@@ -212,3 +195,101 @@ emitter.off('someEvent');
 ### 【已解决】Vue pubsub 传参
 * 首先注意传参错位的情况，说明忘记占位`_,`
 * 随后是注意方法固定传递两个参数,一个是 `msg`,一个是 `data`,`msg` 就是订阅的内容(也就是发布名称),`data` 就是我们要从 `publish` 中的传递的值，所以不能在`msg`后跟多个参数排列这样，我是将后面的多个要传的参数合并成数组一起传的就成功了
+
+### 【已解决】Vue 3 `slot`弃用
+```
+error  `slot` attributes are deprecated  vue/no-deprecated-slot-attribute
+```
+在 Vue 2 中，我们这样使用插槽：
+```html
+<my-component>
+  <template slot="header">
+    <!-- header content -->
+  </template>
+  <template slot="footer">
+    <!-- footer content -->
+  </template>
+</my-component>
+```
+而在 Vue 3 中，你应该使用 `v-slot` 指令来替代 `slot` 属性：
+```html
+<my-component>
+  <template v-slot:header>
+    <!-- header content -->
+  </template>
+  <template v-slot:footer>
+    <!-- footer content -->
+  </template>
+</my-component>
+```
+或者，对于默认插槽，你可以简单地使用 `#default` 替代 `#`：
+```html
+<my-component>
+  <template #default>
+    <!-- default content -->
+  </template>
+</my-component>
+```
+另外，Vue 3 还引入了新的插槽语法糖，允许你直接在元素上使用 `v-slot` 简写：
+```html
+<my-component>
+  <template #header>
+    <!-- header content -->
+  </template>
+  <template #footer>
+    <!-- footer content -->
+  </template>
+  <div #default>
+    <!-- default content -->
+  </div>
+</my-component>
+```
+或者，如果你只关心插槽的内容而不关心它的名字，可以使用默认插槽的简写：
+```html
+<my-component>
+  <div #default>
+    <!-- default content -->
+  </div>
+</my-component>
+```
+或者更简洁地：
+```html
+<my-component>
+  <div>
+    <!-- default content -->
+  </div>
+</my-component>
+```
+
+### Vue 3 `scope`弃用
+```
+error  `scope` attributes are deprecated  vue/no-deprecated-scope-attribute
+```
+在 Vue 2 中，当你想要定义一个作用域插槽时，你需要在 `<slot>` 标签上使用 `scope` 属性，如下所示：
+```html
+<!-- Vue 2 的作用域插槽语法 -->
+<my-component>
+  <template slot="header" scope="props">
+    {{ props.someData }}
+  </template>
+</my-component>
+```
+在 Vue 3 中，这种使用 `scope` 属性的语法已经不被推荐使用，你应该使用 `v-slot` 指令，并直接通过解构赋值的方式获取插槽提供的数据，如下所示：
+```html
+<!-- Vue 3 的作用域插槽语法 -->
+<my-component>
+  <template v-slot:header="props">
+    {{ props.someData }}
+  </template>
+</my-component>
+```
+或者，你可以使用更简洁的语法糖形式：
+```html
+<!-- Vue 3 作用域插槽的简写语法 -->
+<my-component>
+  <template #header="props">
+    {{ props.someData }}
+  </template>
+</my-component>
+```
+在这个简写语法中，`#header` 是具名插槽的缩写，而 `props` 是一个临时变量，用来接收从子组件插槽中传递过来的数据对象。

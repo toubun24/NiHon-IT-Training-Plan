@@ -11,18 +11,17 @@
   * Vue-路由query参数 00:45-01:08
   * Vue-命名路由 01:08-01:29
   * Vue-路由params参数 01:29-01:42
-  * Vue-路由props配置 01:42-01:55
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
-	* Vue-
+  * Vue-路由props配置 01:42-01:55 02:45-03:30
+	* Vue-编程式路由导航 03:30-03:40
+	* Vue-缓存路由组件 03:45-04:05
+	* Vue-两个新的生命周期钩子 04:15-04:23
 
 * **2023.04.02 火曜日:** 
+	* Vue-全局路由守卫
+	* Vue-独享路由守卫
+	* Vue-组件内部路由守卫
+	* Vue-history模式和hash模式
+	* Vue-element-ui组件库
 
 * **2023.04.03 水曜日:** 
 
@@ -100,3 +99,68 @@
 ### 【已解决】VSCode Vue代码高亮混乱
 * 特别是在将粘贴一小段内容到某一代码行中时，甚至会影响到其他行的代码高亮，同一个变量名染上不同颜色
 * 解决方案：禁用造成冲突的`Vue - Official`插件，仅保留`Vetur`后问题解决
+
+### 【已解决】Router props 点击message后报错`Missing required param "id"`且无法显示detail
+```
+Uncaught runtime errors:
+ERROR
+Missing required param "id"
+at Object.stringify (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:978:26)
+at Object.resolve (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:1349:22)
+at Object.resolve (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:2742:34)
+at eval (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:1920:76)
+at ReactiveEffect.eval [as fn] (webpack-internal:///./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js:958:44)
+at ReactiveEffect.run (webpack-internal:///./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js:217:19)
+at get value (webpack-internal:///./node_modules/@vue/reactivity/dist/reactivity.esm-bundler.js:965:147)
+at useLink (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:1961:22)
+at setup (webpack-internal:///./node_modules/vue-router/dist/vue-router.esm-bundler.js:2007:64)
+at callWithErrorHandling (webpack-internal:///./node_modules/@vue/runtime-core/dist/runtime-core.esm-bundler.js:328:19)
+```
+* 原因是保留了先前params方式时使用的路径
+```js
+{
+		path: 'message',
+		component: RouterNameMessage,
+		children: [
+				{
+						name: 'particulars',
+						path: 'detail/:id/:title', // 这里
+						component: RouterPropsDetail,
+						props({ query: { id, title } }) {
+								return {
+										id,
+										title
+								}
+						}
+				}
+		],
+		}
+```
+所以改为`path: 'detail'`即可
+
+### 【已解决】Vue 3 缓存路由组件缓存无效并警告`<router-view> can no longer be used directly inside <transition> or <keep-alive>`
+```
+[Vue Router warn]: <router-view> can no longer be used directly inside <transition> or <keep-alive>.
+Use slot props instead:
+
+<router-view v-slot="{ Component }">
+  <keep-alive>
+    <component :is="Component" />
+  </keep-alive>
+</router-view>
+```
+原代码为
+```js
+<keep-alive include="RouterCachedNews">
+	<router-view> </router-view>
+</keep-alive>
+```
+按警告说明替换为
+```js
+<router-view v-slot="{ Component }">
+	<keep-alive>
+		<component :is="Component" />
+	</keep-alive>
+</router-view>
+```
+即可

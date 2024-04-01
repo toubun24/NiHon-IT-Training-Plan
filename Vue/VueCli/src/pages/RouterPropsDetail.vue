@@ -11,9 +11,9 @@
 export default {
   name: "RouterPropsDetail",
   props: ['id', 'title'], // new
-  mounted() {
-    console.log(this.$route);
-  },
+  // mounted() {
+  //   console.log(this.$route);
+  // },
 };
 </script>
 

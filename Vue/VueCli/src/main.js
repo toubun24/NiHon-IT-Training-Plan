@@ -19,5 +19,18 @@ import App from './App.vue'
 //     render: h => h(App),
 // }).$mount('#app')
 
-createApp(App).mount('#app')
+/* VUEX in Vue 2 */
+// import Vue from "vue"
+// import store from './store';
+// new Vue({
+//     el: '#app',
+//     store,
+//     render: h => h(App),
+// });
+
+/* VUEX in Vue 3 */
+import store from './store';
+createApp(App).use(store).mount('#app')
+
+//createApp(App).mount('#app')
 

@@ -6,12 +6,21 @@
   * Vue-VUEX 18:05-18:20 18:30-18:50
   * Vue-VUEX多组件 19:35-19:55
   * Vue-模块化 20:00-20:30
-  * Vue-
-  * Vue-
-  * Vue-
-  * Vue-
-  * Vue-
-  * Vue-
+  * Vue-router 20:40-21:10
+  * Vue-多级路由 22:15-22:35 00:30-00:45
+  * Vue-路由query参数 00:45-01:08
+  * Vue-命名路由 01:08-01:29
+  * Vue-路由params参数 01:29-01:42
+  * Vue-路由props配置 01:42-01:55
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
+	* Vue-
 
 * **2023.04.02 火曜日:** 
 
@@ -31,8 +40,30 @@
 * Vue2使用VUEX3及以下，Vue3才可使用VUEX4及以上
 * 对比Redux，VUEX异步操作不需要中间件
 
-
-
+### VUE router
+* Vue2使用3及以下
+* 使用params传递参数，不能配置path，只能配置name
+* props
+	* **props的第一种写法：**值为对象，该对象的所有key-value都会以props的形式传给detail组件(死数据)
+	```js
+	props:{
+	  a:1,
+	  b:'hello'
+	}
+	```
+	* **props的第二种写法：**值为布尔值，布尔值为真，就会把该路由组件收到的所有params(注意如果是query参数不会奏效的)参数以props的形式传递给detail组件
+	```js
+	props: true
+	```
+	* **props的第三种写法：**值为函数，$route.query.id
+	```js
+	props({ query: { id, title } }) {
+		return {
+			id,
+			title
+		}
+	}
+	```
 
 
 ## 内容拓展
@@ -66,3 +97,6 @@
 
 
 ## 遇见问题
+### 【已解决】VSCode Vue代码高亮混乱
+* 特别是在将粘贴一小段内容到某一代码行中时，甚至会影响到其他行的代码高亮，同一个变量名染上不同颜色
+* 解决方案：禁用造成冲突的`Vue - Official`插件，仅保留`Vetur`后问题解决

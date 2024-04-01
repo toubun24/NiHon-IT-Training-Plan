@@ -29,8 +29,23 @@ import App from './App.vue'
 // });
 
 /* VUEX in Vue 3 */
-import store from './store';
-createApp(App).use(store).mount('#app')
+// import store from './store';
+// createApp(App).use(store).mount('#app')
+
+/* Router in Vue 2 */
+// import VueRouter from "vue-router"; // npm install vue-router@next
+// import router from './router';
+// Vue.use(VueRouter);
+// new Vue({
+//     el: '#app',
+//     render: h => h(App),
+//     router
+// });
+
+/* Router in Vue 3 */
+import router from './router';
+import 'bootstrap/dist/css/bootstrap.css' // npm install bootstrap --save
+createApp(App).use(router).mount('#app')
 
 //createApp(App).mount('#app')
 

@@ -22,6 +22,25 @@
 	* [Vue-history模式和hash模式](https://github.com/warrenlucky/zerostart/tree/main/java/VUE_%E5%AD%A6%E5%AE%8CREACT%E5%90%8E/02-vue-advance-master/40_src_history%E6%A8%A1%E5%BC%8F%E5%92%8Chash%E6%A8%A1%E5%BC%8F)
 	* Vue-element-ui组件库 19:13-19:25
 	* Vue-分析工程结构&初识setup 19:25-19:50
+	* Vue-ref 22:35-22:45
+	* Vue-reactive 22:45-22:55
+	* Vue-响应式原理 22:55-23:10
+	* Vue-setup 23:10-23:35
+	* Vue-计算属性
+	* Vue-watch
+	* Vue-watch-ref
+	* Vue-watchEffect
+	* Vue-生命周期
+	* Vue-自定义hook
+	* Vue-toRef和toRefs
+	* Vue-shallowRef和shallowReactive
+	* Vue-readOnly和shallowReadOnly
+	* Vue-toRaw和markRaw
+	* Vue-cutsomRef
+	* Vue-provide与inject
+	* Vue-响应式数据的判断
+	* Vue-Teleport组件
+	* Vue-suspense组件
 
 * **2023.04.03 水曜日:** 
 
@@ -74,8 +93,19 @@
 * 但在setup中不能访问到Vue2.x配置（data、methos、computed...）。
 * 如果有重名, setup优先。
 
-
-
+### Vue 3 setup
+* `setup()`执行完才会执行`beforeCreate()`
+* context
+  ```
+	attrs: (…)
+	emit: (…)
+	expose: exposed => {…}
+	slots: (…)
+	get attrs: ƒ attrs()
+	get emit: emit() { return (event, ...args) => {…}
+	get slots: ƒ slots()
+	[[Prototype]]: Object
+	```
 
 
 
@@ -110,6 +140,24 @@
 * 如果你只是想直接更改状态，并且不涉及异步操作或复杂逻辑，那么使用 `this.$store.commit`。
 * 如果你的状态更改逻辑涉及异步操作或需要多个 mutation，那么使用 `this.$store.dispatch` 来触发一个 action。
 
+### 响应式原理
+要正确访问和修改响应式数据，并确保您的代码是响应式的，您应该：
+* 确保所有需要响应式的变量或对象都通过 `ref` 或 `reactive` 创建。
+* 使用正确的语法来访问和修改这些响应式数据。
+* 在组件中使用这些数据，这样当数据变化时，组件会自动重新渲染。
+**Vue 2 的响应式原理**
+在 Vue 2 中，响应式系统是基于 Object.defineProperty 实现的。当 Vue 实例被创建时，Vue 会遍历 data 对象中的所有属性，并使用 Object.defineProperty 将它们转化为 getter/setter，这样当数据变化时，视图会自动更新。然而，这种方式有几个限制：
+1. **无法检测属性的添加或删除**：由于 Vue 2 在实例创建时只处理已存在的属性，对于后来添加的属性，Vue 无法使其变为响应式的。
+2. **不能检测数组的变化**：虽然 Vue 2 提供了一些方法来修改数组并触发视图更新（如 push、pop、splice 等），但它不能检测到数组元素的变化或长度的变化。
+**Vue 3 的响应式原理**
+Vue 3 引入了基于 Proxy 的新响应式系统，这解决了 Vue 2 中存在的一些问题。Proxy 是 ES6 中提供的一个新特性，它可以拦截对象上的各种操作，包括属性的读取、赋值、枚举等。
+在 Vue 3 中，当组件的 data 被创建时，Vue 会使用 Proxy 将这个对象包装起来。这样，当数据被访问或修改时，Proxy 的拦截器就会被触发，从而可以追踪数据的变化并通知相关的观察者（通常是组件）。
+Vue 3 的响应式系统有以下优点：
+1. **可以检测属性的添加或删除**：由于 Proxy 是对整个对象进行拦截，所以即使后来添加了新的属性，Vue 也能使其变为响应式的。
+2. **可以检测数组的变化**：Vue 3 不再需要特殊的方法来修改数组，因为 Proxy 可以拦截数组上的任何操作，包括修改元素、改变长度等。
+3. **性能优化**：虽然 Proxy 本身可能比 Object.defineProperty 慢一些，但 Vue 3 的响应式系统经过优化，使得在大多数情况下，性能与 Vue 2 相当甚至更好。
+此外，Vue 3 还引入了 Composition API，这是一种新的代码组织方式，使逻辑复用更加容易，同时也与响应式系统更加紧密地集成在一起。
+总的来说，Vue 3 的响应式系统在处理复杂数据和复杂逻辑时更加灵活和强大，同时也提供了更好的性能和更方便的代码组织方式。
 
 
 
@@ -184,3 +232,6 @@ Use slot props instead:
 </router-view>
 ```
 即可
+
+### 【已解决】注释报错 `error Irregular whitespace not allowed`
+注释中存在奇怪的空格，按报错信息给出的精确位置找到后重新打一个空格即可

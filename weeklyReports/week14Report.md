@@ -606,7 +606,7 @@ let car2 = car1; // car2是car1的一个引用，它们指向同一个对象
 * Vue SFC是单文件组件（Single-File Component）的缩写。这是一种特殊的文件格式，允许开发者将Vue组件的模板、逻辑与样式封装在一个单独的`.vue`文件中。具体来说，`<template>`、`<script>`和`<style>`三个块在同一个`.vue`文件中封装、组合了组件的视图、逻辑和样式。这种设计使得组件的开发和维护更加便捷和高效。需要注意的是，浏览器本身并不支持`.vue`文件，因此需要对这些文件进行加载和解析。这通常是通过vue-loader等Webpack的loader来实现的，它们可以将`.vue`文件转换为JavaScript模块，以便在浏览器中运行。总的来说，Vue SFC是Vue.js框架中的一个重要特性，它大大简化了Vue组件的开发过程，提高了开发效率。
 * Vite是一种新型的前端构建工具，最初是配合Vue 3.0一起使用的，后来适配了各种前端项目，目前提供了Vue、React、Preact框架模板。Vite旨在提供开箱即用的配置，其插件API和JavaScript API带来了高度的可扩展性，并有完整的类型支持。它具有以下显著特点：快速的冷启动、即时的模块热更新、真正的按需编译。在2023年4月20日，Vite官方团队宣布了Vite 4.3的正式发布，专注于改进devServer的性能，提升了整体速度，并在Best of JS公布的前端构建工具中名列前茅。总的来说，Vite是一个强大且灵活的前端构建工具，为开发者提供了高效、快速的前端开发体验。
 
-# Vue项目创建
+### Vue项目创建
 * 基于[Vite Vue 3 工具链指南](https://cn.vuejs.org/guide/scaling-up/tooling.html)
 ```
 npm create vue@latest

@@ -21,6 +21,7 @@
 	* Vue-独享路由守卫&组件内部路由守卫 18:58-19:13
 	* [Vue-history模式和hash模式](https://github.com/warrenlucky/zerostart/tree/main/java/VUE_%E5%AD%A6%E5%AE%8CREACT%E5%90%8E/02-vue-advance-master/40_src_history%E6%A8%A1%E5%BC%8F%E5%92%8Chash%E6%A8%A1%E5%BC%8F)
 	* Vue-element-ui组件库 19:13-19:25
+	* Vue-分析工程结构&初识setup 19:25-19:50
 
 * **2023.04.03 水曜日:** 
 
@@ -68,7 +69,10 @@
 * Element
 * iView
 
-
+### Vue 2 & Vue 3
+* Vue2.x配置（data、methos、computed...）中可以访问到setup中的属性、方法。
+* 但在setup中不能访问到Vue2.x配置（data、methos、computed...）。
+* 如果有重名, setup优先。
 
 
 

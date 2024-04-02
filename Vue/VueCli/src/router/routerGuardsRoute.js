@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import RouterGuardsAbout from "@/pages/RouterGuardsAbout";
+import RouterNestedAbout from "@/pages/RouterNestedAbout";
 import RouterCachedHome from '@/pages/RouterCachedHome';
 import RouterHooksNews from "@/pages/RouterHooksNews";
 import RouterPropsDetail from "@/pages/RouterPropsDetail";
@@ -11,9 +11,8 @@ const router = createRouter({
         {
             name: 'regard',
             path: '/about',
-            component: RouterGuardsAbout,
+            component: RouterNestedAbout,
             meta: {
-                isAuth: true, // new
                 title: '关于'
             }
         },
@@ -31,9 +30,11 @@ const router = createRouter({
                         isAuth: true,
                         title: '新闻'
                     },
+                    //独享路由守卫
                     beforeEnter(to, from, next) {
                         const { isAuth } = to.meta;
                         if (isAuth) {
+                            //代表需要鉴权
                             if (localStorage.getItem('school') === 'Osaka1') next();//类似于nodejs中间件
                             else alert('无权限');
                         } else {
@@ -66,6 +67,16 @@ const router = createRouter({
         }
     ]
 });
+// router.beforeEach((to, from, next) => {
+//     console.log('前置路由守卫');
+//     const { isAuth } = to.meta;
+//     if (isAuth) {
+//         if (localStorage.getItem('school') === 'Osaka1') next();
+//         else alert('无权限');
+//     } else {
+//         next();
+//     }
+// });
 router.afterEach((to, from) => {
     console.log('后置路由守卫', to, from);
     const { title } = to.meta;

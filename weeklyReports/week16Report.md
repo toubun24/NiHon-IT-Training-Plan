@@ -17,11 +17,10 @@
 	* Vue-两个新的生命周期钩子 04:15-04:23
 
 * **2023.04.02 火曜日:** 
-	* Vue-全局路由守卫
-	* Vue-独享路由守卫
-	* Vue-组件内部路由守卫
-	* Vue-history模式和hash模式
-	* Vue-element-ui组件库
+	* Vue-全局路由守卫 18:50-18:58
+	* Vue-独享路由守卫&组件内部路由守卫 18:58-19:13
+	* [Vue-history模式和hash模式](https://github.com/warrenlucky/zerostart/tree/main/java/VUE_%E5%AD%A6%E5%AE%8CREACT%E5%90%8E/02-vue-advance-master/40_src_history%E6%A8%A1%E5%BC%8F%E5%92%8Chash%E6%A8%A1%E5%BC%8F)
+	* Vue-element-ui组件库 19:13-19:25
 
 * **2023.04.03 水曜日:** 
 
@@ -63,6 +62,23 @@
 		}
 	}
 	```
+
+### Vue组件库
+* Antdv
+* Element
+* iView
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 内容拓展

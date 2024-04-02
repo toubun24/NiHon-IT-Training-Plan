@@ -43,9 +43,29 @@ import App from './App.vue'
 // });
 
 /* Router in Vue 3 */
-import router from './router';
-import 'bootstrap/dist/css/bootstrap.css' // npm install bootstrap --save
-createApp(App).use(router).mount('#app')
+// import router from './router';
+// import 'bootstrap/dist/css/bootstrap.css' // npm install bootstrap --save
+// createApp(App).use(router).mount('#app')
+
+/* Element in Vue 2 */
+// import { Button, Input, Row, DatePicker } from 'element-ui';
+// Vue.use(Button);
+// Vue.use(Input);
+// Vue.use(Row);
+// Vue.use(DatePicker);
+// Vue.config.productionTip = false;
+// new Vue({
+//   el: '#app',
+//   render: h => h(App),
+// });
+
+/* Element in Vue 3 */
+import ElementPlus from 'element-plus';
+import 'element-plus/dist/index.css' // 引入样式
+const app = createApp(App);
+app.use(ElementPlus); // 使用 ElementPlus 插件
+app.config.productionTip = false; // 隐藏生产模式的提示
+app.mount('#app');
 
 //createApp(App).mount('#app')
 

@@ -2,15 +2,17 @@
   <button @click="isShowDemo = !isShowDemo">
     {{ isShowDemo ? "隐藏" : "显示" }}
   </button>
-  <ReadOnlys v-if="isShowDemo" />
+  <ToRefs v-if="isShowDemo" />
+  <!-- <hr /> -->
+  <!-- <HooksTest /> -->
 </template>
 
 <script>
-import ReadOnlys from "./components/ReadOnlys";
+import ToRefs from "./components/ToRefs";
 import { ref } from "vue";
 export default {
   name: "App",
-  components: { ReadOnlys },
+  components: { ToRefs },
   setup() {
     let isShowDemo = ref(true);
     return {

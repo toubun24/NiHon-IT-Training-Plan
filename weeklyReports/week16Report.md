@@ -35,9 +35,9 @@
 	* Vue-watchEffect 11:43-11:50 12:00-12:14
 	* Vue-生命周期 12:14-12:30
 	* Vue-自定义hook 12:30-12:40
-	* Vue-toRef和toRefs
-	* Vue-shallowRef和shallowReactive
-	* Vue-readOnly和shallowReadOnly
+	* Vue-toRef和toRefs 17:40-18:00
+	* Vue-shallowRef和shallowReactive 18:20-18:50
+	* Vue-readOnly和shallowReadOnly 18:50-19:15
 	* Vue-toRaw和markRaw
 	* Vue-cutsomRef
 	* Vue-provide与inject
@@ -270,8 +270,13 @@ export default {
 在这个例子中，当用户尝试设置 `fullName` 的值时，`set` 方法会被调用。它接收一个 `newValue` 参数，然后将其分割为名字和姓氏，并分别更新 `firstName` 和 `lastName` 的值。这样，当用户通过某种方式（比如表单输入）设置 `fullName` 时，`firstName` 和 `lastName` 也会相应地更新。
 需要注意的是，当计算属性依赖于其他响应式数据时，这些依赖数据的变化会自动触发计算属性的重新计算（通过 `get` 方法）。然而，当计算属性本身被赋值时，只有提供了 `set` 方法的情况下，这个赋值操作才会被处理。如果没有提供 `set` 方法，尝试设置计算属性的值将会导致一个警告或错误。
 
-
-
+### Vue 3 同名对象toRef
+```js
+// nameToRef: toRef(person, "name"),
+// ...toRefs(person),
+const { name: nameRef1 } = toRefs(person);  
+const { name: nameRef2 } = toRefs(person2);
+```
 
 
 

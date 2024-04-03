@@ -2,15 +2,15 @@
   <button @click="isShowDemo = !isShowDemo">
     {{ isShowDemo ? "隐藏" : "显示" }}
   </button>
-  <ReadOnlys v-if="isShowDemo" />
+  <ShallowRes v-if="isShowDemo" />
 </template>
 
 <script>
-import ReadOnlys from "./components/ReadOnlys";
+import ShallowRes from "./components/ShallowRes";
 import { ref } from "vue";
 export default {
   name: "App",
-  components: { ReadOnlys },
+  components: { ShallowRes },
   setup() {
     let isShowDemo = ref(true);
     return {

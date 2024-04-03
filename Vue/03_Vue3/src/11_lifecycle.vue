@@ -1,19 +1,18 @@
 <template>
+  <!-- <LifecycleDemo /> -->
   <button @click="isShowDemo = !isShowDemo">
     {{ isShowDemo ? "隐藏" : "显示" }}
   </button>
-  <HooksDemo v-if="isShowDemo" />
-  <hr />
-  <HooksTest />
+  <LifecycleDemo v-if="isShowDemo" />
 </template>
 
 <script>
-import HooksDemo from "./components/HooksDemo";
-import HooksTest from "./components/HooksTest";
-import { ref } from "vue";
+import LifecycleDemo from "./components/LifecycleDemo";
+import { ref } from "vue"; // ref
 export default {
   name: "App",
-  components: { HooksDemo, HooksTest },
+  components: { LifecycleDemo },
+  // setup() {},
   setup() {
     let isShowDemo = ref(true);
     return {

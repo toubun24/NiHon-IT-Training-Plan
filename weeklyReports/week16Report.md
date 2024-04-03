@@ -26,12 +26,15 @@
 	* Vue-reactive 22:45-22:55
 	* Vue-响应式原理 22:55-23:10
 	* Vue-setup 23:10-23:35
-	* Vue-计算属性
-	* Vue-watch
-	* Vue-watch-ref
-	* Vue-watchEffect
-	* Vue-生命周期
-	* Vue-自定义hook
+	* Vue-计算属性 23:35-23:40 
+
+* **2023.04.03 水曜日:** 
+	* Vue-计算属性 10:50-11:00
+	* Vue-watch 11:00-11:20
+	* Vue-watch-ref 11:20-11:25 11:35-11:43
+	* Vue-watchEffect 11:43-11:50 12:00-12:14
+	* Vue-生命周期 12:14-12:30
+	* Vue-自定义hook 12:30-12:40
 	* Vue-toRef和toRefs
 	* Vue-shallowRef和shallowReactive
 	* Vue-readOnly和shallowReadOnly
@@ -41,8 +44,6 @@
 	* Vue-响应式数据的判断
 	* Vue-Teleport组件
 	* Vue-suspense组件
-
-* **2023.04.03 水曜日:** 
 
 * **2023.04.04 木曜日:** 
 
@@ -107,6 +108,50 @@
 	[[Prototype]]: Object
 	```
 
+### Vue 3 watch
+```js
+/*
+ * 情况三:监视reactive所定义的一个响应式数据
+ * 坑:1.此处无法获取正确的ov(oldValue)
+ *    2.强制开启了深度监视
+ */
+watch(person, (nv, ov) => {
+	console.log('person变化了');
+	console.log(nv, ov);
+	// 两次输出结果相同，均为nv
+}, {
+	deep: false // 课件中此处的deep配置是无效的，默认开启深度监视无法关闭
+	// "vue": "^3.2.13"版本中此处设置可以生效，深度监视能够被关闭
+});
+```
+* `ref`: `ref` 创建的对象是一个 `RefImpl` 实例，它有一个 `.value` 属性，这个 `.value` 属性才是实际的响应式数据。
+
+### 生命周期
+* 通过组合式api的形式去使用生命周期钩子
+	* **初始化：**setup-beforeMount-mounted
+	* **隐藏组件：**beforeUnmount-unmounted
+	* **显示组件：**setup-beforeMount-mounted
+	* **数据更新：**beforeUpdate-updated
+	* **代码更新：**beforeUnmount-setup-beforeMount-unmounted-mounted
+* 使用配置项的形式使用生命周期钩子
+	* **初始化：**setup-**beforeCreate**-**created**-beforeMount-mounted
+	* **隐藏组件：**beforeUnmount-unmounted
+	* **显示组件：**setup-**beforeCreate**-**created**-beforeMount-mounted
+	* **数据更新：**beforeUpdate-updated
+	* **代码更新：**beforeUnmount-setup-**beforeCreate**-**created**-beforeMount-unmounted-mounted
+(`setup()`相当于`beforeCreate()`和`created()`)
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -158,6 +203,83 @@ Vue 3 的响应式系统有以下优点：
 3. **性能优化**：虽然 Proxy 本身可能比 Object.defineProperty 慢一些，但 Vue 3 的响应式系统经过优化，使得在大多数情况下，性能与 Vue 2 相当甚至更好。
 此外，Vue 3 还引入了 Composition API，这是一种新的代码组织方式，使逻辑复用更加容易，同时也与响应式系统更加紧密地集成在一起。
 总的来说，Vue 3 的响应式系统在处理复杂数据和复杂逻辑时更加灵活和强大，同时也提供了更好的性能和更方便的代码组织方式。
+
+### `reactive` 和 `ref`
+* **使用场景**：`reactive` 通常用于处理对象或数组，而 `ref` 更适用于处理基本类型的数据。然而，`ref` 也可以用于处理对象或数组，但这通常是在你需要一个单独的响应式引用时，例如将其传递给一个函数或作为一个单独的 prop 传递。
+* **解构与类型**：当使用 `reactive` 创建的响应式对象进行解构时，得到的值将不再是响应式的。而使用 `ref` 创建的响应式引用在解构时，可以通过 `toRefs` 来保持其响应性。此外，`ref` 创建的响应式数据在 TypeScript 中可以保持其类型信息，而 `reactive` 则可能需要额外的类型断言。
+* **性能**：在处理大量数据时，`reactive` 通常比 `ref` 更快，因为它直接操作对象属性，而 `ref` 需要通过 `.value` 来访问或修改数据。
+
+### `get` 和 `set`
+在 Vue 3 中，计算属性（Computed Properties）的 `get` 和 `set` 方法允许你定义计算属性的读取（getter）和写入（setter）行为。`get` 方法用于返回计算属性的当前值，而 `set` 方法则用于响应计算属性值的设置或更新。
+#### get 方法
+`get` 方法是计算属性的读取器，它定义了当计算属性被访问时应该返回的值。通常情况下，`get` 方法会根据计算属性的依赖项（即响应式数据）来计算并返回一个值。这个值可以是任何类型的数据，比如字符串、数字、对象或数组等。
+例如：
+```javascript
+import { ref, computed } from 'vue';
+
+export default {
+  setup() {
+    const firstName = ref('John');
+    const lastName = ref('Doe');
+
+    const fullName = computed({
+      get() {
+        return firstName.value + ' ' + lastName.value;
+      }
+    });
+
+    return {
+      firstName,
+      lastName,
+      fullName
+    };
+  }
+};
+```
+在上面的代码中，`fullName` 是一个计算属性，其 `get` 方法返回 `firstName` 和 `lastName` 的拼接值。当 `fullName` 被访问时，它会触发 `get` 方法，并返回当前的全名字符串。
+#### set 方法
+`set` 方法是计算属性的写入器，它定义了当计算属性的值被设置或更新时应该执行的操作。在 Vue 3 的计算属性中，你可以提供一个 `set` 方法来监听计算属性的赋值操作，并在这个方法中执行自定义的逻辑。
+例如，你可能想要在用户尝试设置 `fullName` 时，自动更新 `firstName` 和 `lastName`：
+```javascript
+import { ref, computed } from 'vue';
+
+export default {
+  setup() {
+    const firstName = ref('John');
+    const lastName = ref('Doe');
+
+    const fullName = computed({
+      get() {
+        return firstName.value + ' ' + lastName.value;
+      },
+      set(newValue) {
+        const names = newValue.split(' ');
+        firstName.value = names[0];
+        lastName.value = names.pop(); // 使用 pop() 来获取最后一个元素，并移除它
+      }
+    });
+
+    return {
+      firstName,
+      lastName,
+      fullName
+    };
+  }
+};
+```
+在这个例子中，当用户尝试设置 `fullName` 的值时，`set` 方法会被调用。它接收一个 `newValue` 参数，然后将其分割为名字和姓氏，并分别更新 `firstName` 和 `lastName` 的值。这样，当用户通过某种方式（比如表单输入）设置 `fullName` 时，`firstName` 和 `lastName` 也会相应地更新。
+需要注意的是，当计算属性依赖于其他响应式数据时，这些依赖数据的变化会自动触发计算属性的重新计算（通过 `get` 方法）。然而，当计算属性本身被赋值时，只有提供了 `set` 方法的情况下，这个赋值操作才会被处理。如果没有提供 `set` 方法，尝试设置计算属性的值将会导致一个警告或错误。
+
+
+
+
+
+
+
+
+
+
+
 
 
 

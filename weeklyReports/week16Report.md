@@ -38,12 +38,18 @@
 	* Vue-toRef和toRefs 17:40-18:00
 	* Vue-shallowRef和shallowReactive 18:20-18:50
 	* Vue-readOnly和shallowReadOnly 18:50-19:15
-	* Vue-toRaw和markRaw
-	* Vue-cutsomRef
-	* Vue-provide与inject
-	* Vue-响应式数据的判断
-	* Vue-Teleport组件
-	* Vue-suspense组件
+	* Vue-toRaw和markRaw 23:15-23:28
+	* Vue-cutsomRef&provide与inject 23:28-23:43
+	* Vue-响应式数据的判断&Teleport组件&suspense组件 23:43-00:05
+	* MySQL-介绍 
+	* MySQL-快速入门 
+	* MySQL-表设计1 
+	* MySQL-表设计2 
+	* MySQL-表设计3 
+	* MySQL-表设计4 
+	* MySQL-表设计5 
+	* MySQL-多表联查 
+	* MySQL-权限系统设计典型 
 
 * **2023.04.04 木曜日:** 
 
@@ -278,7 +284,14 @@ const { name: nameRef1 } = toRefs(person);
 const { name: nameRef2 } = toRefs(person2);
 ```
 
-
+### Vue 3 `Suspense`
+Vue 3中的Suspense组件主要用于处理异步组件和延迟加载，提供了一种更简洁和直观的方式来管理这些异步操作的状态。其主要功能和用途包括：
+1. **占位符显示**：在异步组件加载完成前，Suspense允许开发者定义一个占位符，如“Loading...”，以提供更好的用户体验。
+2. **异步组件加载**：当使用异步组件时，Suspense允许开发者定义一个加载状态，直到该组件可用。
+3. **异步数据获取**：对于需要异步获取数据的组件，Suspense可以等待数据加载完成后再渲染组件。
+4. **懒加载组件**：在应用中使用懒加载技术时，Suspense可以提供一个加载指示器，告诉用户内容正在加载中。
+使用Suspense的基本步骤包括使用`<Suspense>`标签包裹异步组件，并在其中定义`default`和`fallback`插槽。`default`插槽用于放置异步组件，而`fallback`插槽则用于放置加载中的占位符。
+需要注意的是，Suspense组件只能包含一个异步组件，`fallback`插槽中的内容只能是一个单独的元素，且异步组件必须通过`defineAsyncComponent`方法定义。
 
 
 

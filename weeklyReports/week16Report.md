@@ -41,17 +41,17 @@
 	* Vue-toRaw和markRaw 23:15-23:28
 	* Vue-cutsomRef&provide与inject 23:28-23:43
 	* Vue-响应式数据的判断&Teleport组件&suspense组件 23:43-00:05
-	* MySQL-介绍 
-	* MySQL-快速入门 
-	* MySQL-表设计1 
-	* MySQL-表设计2 
-	* MySQL-表设计3 
+  * N1-新完全掌握 01:50-02:35
+
+* **2023.04.04 木曜日:** 
+	* MySQL-介绍&快速入门 11:10-11:40 12:00-13:00 18:05-18:40
+	* MySQL-表设计1 18:40-19:10
+	* MySQL-表设计2 19:10-19:42
+	* MySQL-表设计3 19:42-19:45
 	* MySQL-表设计4 
 	* MySQL-表设计5 
 	* MySQL-多表联查 
 	* MySQL-权限系统设计典型 
-
-* **2023.04.04 木曜日:** 
 
 * **2023.04.05 金曜日:** 
 
@@ -147,7 +147,15 @@ watch(person, (nv, ov) => {
 	* **代码更新：**beforeUnmount-setup-**beforeCreate**-**created**-beforeMount-unmounted-mounted
 (`setup()`相当于`beforeCreate()`和`created()`)
 
-
+### MySQL快速入门
+* 常见的 MySQL 数据类型：
+  > INT: 整数类型，可存储范围为-2147483648到2147483647的整数 \
+  > VARCHAR: 可变长度字符串类型，可存储最大长度为65535个字符的字符串 \
+  > CHAR: 定长字符串类型，可存储最大长度为255个字符的字符串 \
+  > DECIMAL: 定点数类型，可存储精度高达65个数字的小数 \
+  > DATE: 日期类型，存储年、月、日信息 \
+  > DATETIME: 日期时间类型，存储年、月、日、时、分、秒信息，如“2023-03-23 10:30:00” \
+  > TIMESTAMP: 时间戳类型，存储时间戳信息
 
 
 

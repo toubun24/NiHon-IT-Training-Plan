@@ -51,9 +51,23 @@
 	* MySQL-表设计4 21:47-22:12
 	* MySQL-表设计5 22:12-22:23
 	* MySQL-多表联查 22:23-22:45
-	* MySQL-权限系统设计典型 23:25-
+	* MySQL-权限系统设计典型 23:25-23:40
+	* Java-介绍 23:40-23:50
+	* Java-HelloWorld 23:50-24:00
 
 * **2023.04.05 金曜日:** 
+	* Java-HelloWorld
+	* Java-注释
+	* Java-标识符
+	* Java-关键字与保留字
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
 
 * **2023.04.06 土曜日:** 
 
@@ -157,22 +171,8 @@ watch(person, (nv, ov) => {
   > DATETIME: 日期时间类型，存储年、月、日、时、分、秒信息，如“2023-03-23 10:30:00” \
   > TIMESTAMP: 时间戳类型，存储时间戳信息
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+### MySQL & JAVA
+相关学习笔记已被移至对应语言文件夹下属README.md中统一管理，后续内容也均依此方式记录
 
 ## 内容拓展
 ### Vuex `commit`和`dispatch`

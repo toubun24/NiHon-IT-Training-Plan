@@ -47,10 +47,10 @@
 	* MySQL-介绍&快速入门 11:10-11:40 12:00-13:00 18:05-18:40
 	* MySQL-表设计1 18:40-19:10
 	* MySQL-表设计2 19:10-19:42
-	* MySQL-表设计3 19:42-19:45
-	* MySQL-表设计4 
-	* MySQL-表设计5 
-	* MySQL-多表联查 
+	* MySQL-表设计3 19:42-19:45 21:40-21:47
+	* MySQL-表设计4 21:47-22:12
+	* MySQL-表设计5 22:12-22:23
+	* MySQL-多表联查 22:23-22:45
 	* MySQL-权限系统设计典型 
 
 * **2023.04.05 金曜日:** 
@@ -383,3 +383,67 @@ Use slot props instead:
 
 ### 【已解决】注释报错 `error Irregular whitespace not allowed`
 注释中存在奇怪的空格，按报错信息给出的精确位置找到后重新打一个空格即可
+
+### 【已解决】MySQL 表名报错
+```
+mysql> show tables;
++----------------------+
+| Tables_in_mydatabase |
++----------------------+
+| customer             |
+| order                |
++----------------------+
+2 rows in set (0.00 sec)
+```
+```
+mysql> drop table order;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order' at line 1
+```
+在MySQL中，`order`是一个保留字（reserved word），它用于指定查询结果的排序方式。因此，当您尝试使用`order`作为表名时，MySQL会将其视为保留字，导致语法错误。
+要解决这个问题，您可以使用反引号（`）将表名括起来，这样MySQL就会将其视为标识符而不是保留字。下面是修改后的命令：
+```sql
+mysql> drop table `order`;
+```
+
+### 【已解决】MySQL `Integer display width is deprecated and will be removed in a future release.`
+```sql
+CREATE TABLE `customer` (
+  `id` int(11) NOT NULL PRIMARY KEY,
+  `name` varchar(50) NOT NULL,
+  `email` varchar(50) NOT NULL UNIQUE
+);
+```
+```
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+```
+```sql
+SHOW WARNINGS;
+```
+```
++---------+------+------------------------------------------------------------------------------+
+| Level   | Code | Message                                                                      |
++---------+------+------------------------------------------------------------------------------+
+| Warning | 1681 | Integer display width is deprecated and will be removed in a future release. |
++---------+------+------------------------------------------------------------------------------+
+1 row in set (0.00 sec)
+```
+您提供的警告信息表示MySQL正在告诉您一个关于整数类型显示宽度的弃用警告。具体来说，警告代码1681指出整数类型的显示宽度（例如 `int(11)` 中的 `11`）已被弃用，并将在未来的MySQL版本中移除。
+在MySQL中，为整数类型指定显示宽度（例如 `int(5)` 或 `int(11)`）曾经被用来在某些情况下影响显示格式，但这实际上并不限制整数的值范围或存储大小。从MySQL 5.0.3版本开始，这个显示宽度就不再有任何意义，除了在某些特定情况下与 `ZEROFILL` 选项一起使用时会影响列的显示格式。
+这个警告告诉您，尽管您可以在创建表或修改列时指定一个显示宽度，但这个特性已经不被推荐使用，并且将在未来的MySQL版本中完全移除。因此，您应该避免在定义整数列时包含显示宽度，除非您确实需要使用 `ZEROFILL` 选项来确保固定宽度的显示格式。
+如果您在定义表结构时不需要固定宽度的显示格式，您可以简单地省略显示宽度，只使用整数类型（如 `INT`），如下所示：
+```sql
+CREATE TABLE `customer` (
+    `id` INT NOT NULL PRIMARY KEY,
+    `name` VARCHAR(50) NOT NULL,
+    `email` VARCHAR(50) NOT NULL UNIQUE
+);
+```
+在这个例子中，`id` 列被定义为 `INT` 而不是 `INT(11)`，这样就不会触发关于显示宽度弃用的警告了。如果您的应用程序或数据库设计确实需要 `ZEROFILL` 选项，您可以像这样包括它：
+```sql
+CREATE TABLE `some_table` (
+    `some_column` INT(5) ZEROFILL NOT NULL
+);
+```
+但请注意，即使在这种情况下，显示宽度也不会影响列中能够存储的值的范围或存储大小。
+总之，您可以安全地忽略这个警告，但如果您希望避免未来的兼容性问题，最好更新您的表定义，以移除不必要的显示宽度指定。
+

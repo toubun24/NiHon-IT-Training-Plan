@@ -1072,6 +1072,9 @@ UNION
 SELECT Customers.CustomerName, Orders.OrderID
 FROM Customers
 RIGHT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+DROP TABLE Customers;
+DROP TABLE Orders;
 ```
 ```
 +--------------+---------+
@@ -1085,54 +1088,96 @@ RIGHT JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
 +--------------+---------+
 ```
 
+## 权限系统设计典型
 
+### 权限系统设计
+* 当设计一个基于角色的权限系统时，通常需要设计三个核心表：**用户表**、**角色表**和**权限表**
+  * **用户表**存储用户的信息
+  * **角色表**定义一组权限的集合
+  * **权限表**存储每个权限的详细信息
+```sql
+CREATE TABLE users (
+    user_id INT PRIMARY KEY,
+    username VARCHAR(50),
+    email VARCHAR(100)
+);
+CREATE TABLE roles (
+    role_id INT PRIMARY KEY,
+    role_name VARCHAR(50)
+);
+CREATE TABLE permissions (
+    permission_id INT PRIMARY KEY,
+    permission_name VARCHAR(50)
+);
+
+CREATE TABLE user_role (
+    user_id INT,
+    role_id INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+CREATE TABLE role_permission (
+    role_id INT,
+    permission_id INT,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id),
+    FOREIGN KEY (permission_id) REFERENCES permissions(permission_id)
+);
+
+-- 插入用户
+INSERT INTO users (user_id, username, email) VALUES
+    (1, 'Alice', 'alice@test.com'),
+    (2, 'Bob', 'bob@test.com'),
+    (3, 'Jerry', 'jerry@test.com');
+-- 插入角色
+INSERT INTO roles (role_id, role_name) VALUES
+    (1, 'manager'),
+    (2, 'user');
+-- 插入权限
+INSERT INTO permissions (permission_id, permission_name) VALUES
+    (1, 'view'),
+    (2, 'modify'),
+    (3, 'delete');
+-- 给用户分配角色
+INSERT INTO user_role (user_id, role_id) VALUES
+    (1, 1), -- Alice是管理员
+    (2, 2), -- Bob是普通用户
+    (3, 2); -- Charlie是普通用户
+-- 给角色分配权限
+INSERT INTO role_permission (role_id, permission_id) VALUES
+    (1, 1), -- 管理员有查看数据的权限
+    (1, 2), -- 管理员有修改数据的权限
+    (1, 3), -- 管理员有删除数据的权限
+    (2, 1); -- 普通用户有查看数据的权限
+
+SELECT users.username, roles.role_name, permissions.permission_name
+FROM users
+INNER JOIN user_role ON users.user_id = user_role.user_id
+INNER JOIN roles ON user_role.role_id = roles.role_id
+INNER JOIN role_permission ON roles.role_id = role_permission.role_id
+INNER JOIN permissions ON role_permission.permission_id = permissions.permission_id;
+
+DROP TABLE user_role;
+DROP TABLE role_permission;
+DROP TABLE users;
+DROP TABLE roles;
+DROP TABLE permissions;
+```
+```
++----------+-----------+-----------------+
+| username | role_name | permission_name |
++----------+-----------+-----------------+
+| Alice    | manager   | view            |
+| Alice    | manager   | modify          |
+| Alice    | manager   | delete          |
+| Bob      | user      | view            |
+| Jerry    | user      | view            |
++----------+-----------+-----------------+
+```
 ```sql
 
 ```
 ```
 
 ```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-```sql
-
-```
-```
-
-```
-
-https://www.lalapodo.com/academy/JapanWork/405 04:29

@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"Java.Array"},{"l":"Java.HelloWorld"},{"l":"Java.Object"},{"l":"Java.String"}];updateSearchResults();

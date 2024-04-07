@@ -1,4 +1,4 @@
-package Java.HelloWorld;
+package Java._01_HelloWorld;
 
 public class If01 {
     public static void main(String[] args) {

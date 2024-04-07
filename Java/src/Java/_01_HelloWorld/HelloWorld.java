@@ -1,4 +1,4 @@
-package Java.HelloWorld;
+package Java._01_HelloWorld;
 
 import Java.Object.Object01;
 

@@ -1,4 +1,4 @@
-# Week 15 Report
+# Week 16 Report
 
 ## 学习内容及时长
 
@@ -56,21 +56,47 @@
 	* Java-HelloWorld 23:50-24:00 00:45-00:55 01:05-01:00
 	* Java-注释 01:00-01:30
 
-* **2023.04.05 金曜日:** 
-	* Java-标识符
-	* Java-关键字与保留字
-	* Java-
-	* Java-
-	* Java-
-	* Java-
-	* Java-
-	* Java-
-	* Java-
-	* Java-
-
-* **2023.04.06 土曜日:** 
-
 * **2023.04.07 日曜日:** 
+	* Java-标识符 17:15-17:30
+	* Java-关键字与保留字 17:30-17:33
+	* Java-变量与常量 17:33-18:08
+	* Java-基本数据类型 18:08-18:25
+	* Java-算术运算符 18:25-18:39
+	* Java-赋值运算符 18:39-18:43
+	* Java-逻辑运算符 18:43-18:47
+	* Java-关系运算符 18:47-18:49
+	* Java-位运算符 18:49-18:55
+	* Java-运算符补充 18:55-19:00
+	* Java-运算符优先级 
+	* Java-条件控制if
+	* Java-条件控制switch
+	* Java-while循环
+	* Java-dowhile循环 
+	* Java-for循环
+	* Java-字符串定义 
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+	* Java-
+
+
+
+
+
+
+
+
 
 
 ## 学习笔记

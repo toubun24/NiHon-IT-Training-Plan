@@ -185,6 +185,200 @@ public class HelloWorld {
 ### 
 
 ## (10)Java 运算符优先级
+| 优先级 | 运算符 | 关联性 |
+|------|-----------------|--------|
+| 优先级 | 运算符 | 关联性 |
+| 1 | ()、[]、{} | 左到右 |
+| 2 | !、-、~、++、-- | 右到左 |
+| 3 | *、/、% | 左到右 |
+| 4 | +、- | 左到右 |
+| 5 | <<、>>、>>>  | 左到右 |
+| 6 | <、<=、>、>=、instanceof | 左到右 |
+| 7 | ==、!=  | 左到右 |
+| 8 | &  | 左到右 |
+| 9 | ^  | 左到右 |
+| 10 | &#124;  | 左到右 |
+| 11 | &&  | 左到右 |
+| 12 | &#124;&#124;  | 左到右 |
+| 13 | ?: | 右到左 |
+| 14 | =、+=、-=、*=、/=  | 右到左 |
+
+## (12)Java 循环
+
+### 循环中断
+* `break`：break 用于完全结束一个循环
+* `continue`：continue用于跳过循环中剩余的语句而强制执行下一次循环
+
+## (13)Java 字符串与字符串常用方法
+* Java字符串属于引用数据类型
+* 字符串是由零个或多个字符组成的有限序列
+
+### 字符串定义
+* 双引号定义字符串
+```
+String a = "yes";
+```
+
+* 文本块：使用三引号定义一个多行字符串(Java 13 提供的预览特性)
+```
+String a = """
+  Hello
+  World
+  """;
+```
+
+* String 类定义字符串
+```
+String a = new String("Hello World");
+```
+### 字符串常用方法
+* **字符串拼接**：加法运算符可以将多个字符串进行拼接
+* **获取字符串长度**：使用String 类的 `length()`方法可以获取字符串长度
+* **截取字符串**：使用String 类的 `substring()`方法可以截取字符串
+* **去除首尾空格**：使用String 类的 `trim()`方法可以去除首尾空格
+* **字符串替换**：使用String 类的 `replace()`方法可以进行字符串替换
+* **根据字符查找字符所在字符串索引**：使用String 类的 `indexOf()`方法和 `lastlndexOf()` 方法可以根据字符查找字符所在字符串索引，`indexOf()`方法为首次出现的索引位置，`lastlndexOf()`方法为最后出现的索引位置
+
+## (14)Java 一维数组
+* 数组属于引用数据类型
+
+### 一维数组定义
+* 数组中的数据类型可以是基本数据类型和引用数据类型。
+* 数组的大小一旦声明就不能再修改
+```java
+数据类型[] 数组名;
+int[] arrayName;
+数组名 = new 数据类型[数组长度];
+arrayName = new int[5];
+OR
+数据类型 数组名[];
+int arrayName[];
+数组名 = new 数据类型[数组长度];
+arrayName = new int[5];
+OR 简写
+数据类型[] 数组名 = new 数据类型[数组长度];
+int[] arrayName = new int[5];
+```
+### 一维数组初始化
+* 定义的同时进行数组赋值
+  ```java
+  数据类型[] 数组名 = {元素1, 元素2, 元素3, 元素n};
+  int[] arrayName = {1, 2, 3, 4, 5};
+  OR
+  数据类型[] 数组名 = new 数据类型[]{元素1, 元素2, 元素3, 元素n};
+  int[] arrayName = new int[]{1, 2, 3, 4, 5};
+  ```
+* 定义后再进行数组赋值
+  ```java
+  int[] arrayName = new int[5];
+  arrayName[0] = 1;
+  arrayName[1] = 2;
+  arrayName[2] = 3;
+  arrayName[3] = 4;
+  arrayName[4] = 5;
+  ```
+
+### 一维数组取值
+* 使用foreach 循环遍历数组
+```java
+for (int i : arrayName) {
+  System.out.println(i);
+}
+```
+
+## (15)Java 二维数组
+
+### 二维数组定义
+* 每个数组元素是一个一维数组
+* 数组长度2可为空，表示可变化
+```java
+数据类型[][] 数组名;
+int[][] arrayName;
+数组名 = new 数据类型[数组长度1][数组长度2];
+arrayName = new int[5][];
+OR
+数据类型 数组名[][];
+int arrayName[][];
+数组名 = new 数据类型[数组长度1][数组长度2];
+arrayName = new int[5][];
+OR
+数据类型[][] 数组名 = new 数据类型[数组长度1][数组长度2];
+int[][] arrayName = new int[5][];
+```
+
+### 二维数组初始化
+* 定义的同时进行数组赋值
+  ```java
+  数据类型[][] 数组名 = {{xx,xx}, {}, {}, {}};
+  int[][] arrayName = {{1,2}, {3,4}, {5}};
+  OR
+  数据类型[][] 数组名 = new 数据类型[][]{{xx,xx}, {}, {}, {}};
+  int[][] arrayName = new int[][]{{1,2}, {3,4}, {5}};
+  ```
+* 定义后再进行数组赋值
+  ```java
+  int[][] arrayName = new int[3][2];
+  arrayName[0][0] = 1;
+  arrayName[0][1] = 2;
+  arrayName[1][0] = 3;
+  arrayName[1][1] = 4;
+  arrayName[2][0] = 5;
+  ```
+
+### 二维数组取值
+* 使用foreach 循环遍历数组
+```java
+for (int[] ints : arrayName) {
+  for (int anInt : ints) {
+    System.out.println(anInt);
+  }
+}
+```
+* `Arrays.deepToString`
+```java
+System.out.println(Arrays.deepToString(arrayName))
+```
+
+## (16)Java 面向对象概念
+
+
+## (17)Java 类与对象
+
+
+## (18)Java 方法
+
+
+## (19)Java 构造方法
+
+
+## (20)Java 方法重载
+
+
+## (21)Java 类封装
+
+
+## (22)Java 继承
+
+
+## (23)Java super关键字
+
+
+## (24)Java 方法重写
+
+
+## (25)Java final关键字
+
+
+## (26)Java 多态
+
+
+## 
+
+
+## 
+
+
+## 
 
 
 ## 

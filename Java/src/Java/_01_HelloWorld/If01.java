@@ -8,7 +8,7 @@ public class If01 {
             if (sex.equals("Female")) {
                 System.out.println("OK");
             } else {
-                System.out.println("NO");
+                System.out.println("NO"); // NO
             }
         } else if (age == 18) {
             System.out.println("OK1");

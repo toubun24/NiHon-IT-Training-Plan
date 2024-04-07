@@ -1,10 +1,10 @@
-package Java.Array;
+package Java._03_Array;
 
 public class Array01 {
     public static void main(String[] args) {
         int[] arrayName = new int[5];
         for (int i: arrayName) {
-            System.out.println(i);
+            System.out.println(i); // 0 0 0 0 0
         }
         int[] arrayName2 = new int[]{1, 2, 3, 4, 5};
         for (int i: arrayName2) {

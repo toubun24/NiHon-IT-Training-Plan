@@ -1,4 +1,4 @@
-package Java.Object;
+package Java._04_Object;
 
 import java.lang.reflect.InvocationTargetException;
 

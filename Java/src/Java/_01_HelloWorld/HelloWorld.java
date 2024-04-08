@@ -1,6 +1,6 @@
 package Java._01_HelloWorld;
 
-import Java.Object.Object01;
+import Java._04_Object.Object01;
 
 //HelloWorldClass
 public class HelloWorld {
@@ -17,8 +17,8 @@ public class HelloWorld {
         System.out.println("Hello World !");
 
         Object01 object01 = new Object01();
-        object01.name = "zhangsan";
-        // object01.aaa = "aaa"
-        // object01.bbb = "bbb"
+        object01.name = "zhangsan"; // public
+        // object01.aaa = "aaa" // protected
+        // object01.bbb = "bbb" // default
     }
 }

@@ -1,4 +1,4 @@
-package Java.Object;
+package Java._04_Object;
 
 public class Object06 {
     public static void main(String[] args) {

@@ -855,6 +855,61 @@ MyInterface myInterface = System.out::println;
 
 ## (37)Java 函数式接口
 
+### 使用函数式接口的优点
+* 简化代码：使用函数式接口和 Lambda 表达式可以使代码更加简洁，减少样板代码，降低代码复杂度。
+* 提高可读性：使用函数式接口可以更加直观地表达代码的意图，使得代码更加易读易懂。
+* 支持并行执行：函数式接口和 Lambda 表达式支持并行执行，可以将任务分配给多个线程同时执行，提高程序的并发能力和效率。
+* 支持更灵活的设计模式：使用函数式接口可以更加灵活地设计代码结构，例如可以使用 Lambda 表达式作为参数传递，可以在运行时动态生成函数式接口的实现类等。
+* 在函数式编程中，函数是头等对象即头等函数，这意味着一个函数，既可以作为其它函数的输入参数值，也可以从函数中返回值，被修改或者被分配给一个变量。
+
+### Runnable
+* Runnable 是一个没有参数和返回值的函数式接口，用于表示一个可执行的任务。
+* 该接口只有一个抽象方法 run()，用于定义具体的任务代码或处理逻辑。
+* 在多线程编程中，可以通过实现 Runnable 接口来创建一个新的线程。
+```java
+Runnable task = () -> System.out.println("Running the task");
+new Thread(task).start();
+```
+
+### Consumer
+* Consumer 是一个接收单个输入参数并且没有返回值的函数式接口。它表示了对输入参数的消费操作。
+* 该接口只有一个抽象方法 accept(T t)，用于消费一个参数数据
+* 该接口还有一个默认方法 andThen(Consumer<? super T> after)，可返回一个组合的 Consumer，依次执行操作。
+```java
+Consumer<String> consumer = System.out::println;
+consumer.accept("Hello, World!");
+```
+
+### Supplier
+* Supplier 是一个没有参数但是返回一个值的函数式接口。它表示了对值的生成操作。
+* 该接口只有一个抽象方法 get()，用于按照由Lambda表达式定义的相关实现，返回一个具体的数据
+```java
+Supplier<Integer> randomInt = () -> new Random().nextInt(10);
+int result = randomInt.get();
+System.out.println(result); // 0 到 9 之间的随机整数
+```
+
+### Function
+* Function 是一个接收一个参数并产生一个结果的函数式接口。它表示了从一个值到另一个值的映射操作。
+* 该接口只有一个抽象方法 R apply(T t)，用于接收一个数据操作数据之后返回一个新的数据。
+```java
+Function<Integer, String> intToString = (i) -> "The number is " + i;
+String result = intToString.apply(66);
+System.out.println(result); // 输出 "The number is 66"
+```
+
+### Predicate
+* Predicate 是一个接收单个输入参数并返回一个布尔值的函数式接口。它表示了对输入参数的判断操作。
+* 该接口只有一个抽象方法 boolean test(T t)，用于对接受数据做出相应的判断。
+```java
+Predicate<Integer> isPositive = i -> i > 0;
+boolean result1 = isPositive.test(42);
+System.out.println(result1); // 输出 true
+boolean result2 = isPositive.test(-1);
+System.out.println(result2); // 输出 false
+```
+
+
 
 ## (38)Java Lambda延迟执行
 

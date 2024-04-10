@@ -40,9 +40,9 @@
 	* Java-自定义异常 21:16-21:20 21:25-21:37
 	* Java-Lambda表达式 22:20-22:45
 	* Java-Lambda表达式简写 22:45-23:00
-	* Java-方法引用 
-	* Java-Runnable接口
-	* Java-Consumer接口
+	* Java-方法引用 01:00-01:40
+	* Java-Runnable接口 01:40-01:52
+	* Java-Consumer接口 01:52-02:00
 	* Java-Supplier接口
 	* Java-Function接口
 	* Java-Predicate接口

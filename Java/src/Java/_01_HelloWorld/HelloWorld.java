@@ -14,6 +14,8 @@ public class HelloWorld {
      */
     public static void main(String[] args) {
         String Name;
+//        String e = null;
+//        e.substring(1); // Exception in thread "main" java.lang.NullPointerException: Cannot invoke "String.substring(int)" because "e" is null
         System.out.println("Hello World !");
 
         Object01 object01 = new Object01();

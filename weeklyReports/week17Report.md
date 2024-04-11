@@ -43,12 +43,13 @@
 	* Java-方法引用 01:00-01:40
 	* Java-Runnable接口 01:40-01:52
 	* Java-Consumer接口 01:52-02:00
-	* Java-Supplier接口
-	* Java-Function接口
-	* Java-Predicate接口
-	* Java-Lambda延迟执行
 
 * **2023.04.11 木曜日:** 
+	* Java-Supplier接口 05:20-05:25
+	* Java-Function接口 05:25-05:44
+	* Java-Predicate接口 05:44-05:57
+	* Java-Lambda延迟执行 05:57-06:00 
+	* Java-
 
 * **2023.04.12 金曜日:** 
 

@@ -48,10 +48,25 @@
 	* Java-Supplier接口 05:20-05:25
 	* Java-Function接口 05:25-05:44
 	* Java-Predicate接口 05:44-05:57
-	* Java-Lambda延迟执行 05:57-06:00 
-	* Java-
+	* Java-Lambda延迟执行 05:57-06:00 07:20-07:35
+	* Java-多线程概念 10:35-10:40
+	* Java-继承Thread类创建线程 10:40-10:54
+	* Java-实现Runnable接口创建线程 10:54-11:00
+	* Java-实现Callable接口创建线程 11:00-11:10
 
 * **2023.04.12 金曜日:** 
+	* Java-线程状态简介 23:30-23:40
+	* Java-线程中断 
+	* Java-守护线程 
+	* Java-synchronized线程同步1
+	* Java-synchronized线程同步2
+	* Java-ReentrantLock线程同步 
+	* Java-线程wait与notify
+	* Java-线程池1
+	* Java-线程池2
+	* Java-ForkJoin 
+	* Java-泛型1
+	* Java-泛型2
 
 * **2023.04.13 土曜日:** 
 

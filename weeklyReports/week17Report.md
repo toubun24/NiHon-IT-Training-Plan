@@ -56,10 +56,10 @@
 
 * **2023.04.12 金曜日:** 
 	* Java-线程状态简介 23:30-23:40
-	* Java-线程中断 
-	* Java-守护线程 
-	* Java-synchronized线程同步1
-	* Java-synchronized线程同步2
+	* Java-线程中断 23:40-23:57
+	* Java-守护线程 23:57-00:20
+	* Java-synchronized线程同步1 01:05-01:20
+	* Java-synchronized线程同步2 01:20-01:45
 	* Java-ReentrantLock线程同步 
 	* Java-线程wait与notify
 	* Java-线程池1

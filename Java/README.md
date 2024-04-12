@@ -994,14 +994,87 @@ System.out.println(result2); // 输出 false
 
 ## (42)Java 线程中断
 
+### 线程中断
+* Java中，线程中断是一种协作机制，可允许一个线程中断另一个线程的执行。
+* 线程中断并不是强制性的，它只是向目标线程发出了一个请求，希望目标线程能够自行停止执行。
+* 目标线程可以根据自己的需要决定是否停止执行。
 
 ## (43)Java 守护线程
-
+### 守护线程
+* Java 中，守护线程（Daemon Thread）是一种特殊的线程。
+* 它的作用是为其他线程提供服务，不会阻止 JVM 的退出。当所有的非守护线程结束时，守护线程会自动结束。
 
 ## (44)Java 线程同步
 
+### 线程同步
+* Java 线程同步是指在多个线程并发执行时，对共享资源进行协调和管理，以保证多线程间的数据访问正确性和一致性。
+* Java 提供了多种同步机制，其中最常用的是JVM 实现的synchronized 关键字和JDK 实现的 ReentrantLock。
+
+### synchronized关键字
+* synchronized 关键字是 Java 中实现线程同步的一种方式。
+* 它的作用是协调多个线程对共享资源的访问，以保证数据的正确性和一致性。
+  * 保证原子性：synchronized 关键字可保证被它修饰的方法或代码块在同一时间只能被一个线程执行，从而避免了多个线程同时访问共享资源导致的数据不一致问题。
+  * 保证可见性：synchronized 关键字不仅可以保证原子性，还可以保证多个线程对共享资源的修改在其他线程中是可见的。这是因为 synchronized 会将修改后的数据刷新到主内存中，而其他线程在访问共享资源时会从主内存中读取最新的数据。
+  * 保证有序性：synchronized 关键字可以保证代码的执行顺序与程序中编写的顺序一致，即遵循了“先行发生原则”。这是因为 synchronized 在释放锁时会强制刷新线程的本地内存，从而使得之前的所有操作对其他线程都是可见的。
+
+### 同步方法语法
+* synchronized 方法会锁住整个对象，即使该对象有多个 synchronized 方法，其他线程也不能访问该对象的其他 synchronized 方法。
+* 即同步方法中的锁对象是 this。
+* 如果要对某个方法进行细粒度的控制，可以使用 synchronized 代码块。
+```java
+public synchronized void methodName() {
+    // 方法体
+}
+```
+
+### 同步代码块语法
+* object 表示用来锁住代码块的对象，该对象可以是任何对象，但是需要保证多个线程访问该对象时使用的是同一个对象。
+* 当某个线程进入该代码块时，它会锁住 object 对象，其他线程在访问该对象时需要等待当前线程释放锁。
+* synchronized 代码块只会锁住被 synchronized 关键字修饰的代码块，其他代码不受影响。
+* 如果要对整个方法进行控制，可以将 synchronized 关键字放在方法定义的位置。
+```java
+synchronized (object) {
+    // 代码块
+}
+```
+
+### ReentrantLock
+* ReentrantLock 是 Java 中的一个可重入锁，它与 synchronized 关键字一样，都是用来实现线程同步的机制。
+* ReentrantLock 与 synchronized 关键字相比，提供了更加灵活的线程同步控制。
+* 作用：
+  * 可以控制线程的等待时间：使用ReentrantLock可以调用tryLock(long time, TimeUnit unit)方法来控制线程等待获取锁的时间。如果等待时间超过了指定的时间，线程就会放弃获取锁，返回false，继续执行后续代码。
+  * 可以实现公平锁：ReentrantLock提供了构造函数ReentrantLock(boolean fair)，用于指定锁是否是公平锁。公平锁是指多个线程获取锁的顺序与它们发出获取锁请求的顺序相同，即先来先服务。
+  * 可以实现可重入锁：可重入锁是指同一个线程可以多次获取同一把锁，而不会被阻塞。ReentrantLock 就是一个可重入锁。
+  * 可以实现条件变量：ReentrantLock 还提供了一个 Condition 接口，可以实现类似于 Object.wait() 和 Object.notify() 的功能，用于线程之间的通信和协调。
+  * 可以实现精确控制锁的释放：相比于 synchronized 关键字，在使用 ReentrantLock 时，程序员可以更加精确地控制锁的释放时机，从而更好地控制线程同步。
+
+### ReentrantLock
+* 创建ReentrantLock对象。
+```java
+ReentrantLock lock = new ReentrantLock();
+```
+* 加锁
+* 使用lock()方法可以获取锁对象，并且该方法是可重入的，也就是说，同一个线程可以多次调用该方法获取锁。
+* 当多个线程同时访问加锁的代码块时，只有一个线程能够获取锁，其他线程需要等待锁被释放后才能进入代码块。
+* 需要注意的是，加锁后一定要释放锁，否则会出现死锁的情况。
+* 一般使用 try-finally 结构来确保锁被释放，即使在加锁过程中出现异常也能保证锁被释放。
+```java
+lock.lock();
+try {
+    // 需要线程同步的代码
+} finally {
+    lock.unlock();
+}
+```
+* 解锁
+* 使用unlock() 方法可以释放锁对象。
+* ReentrantLock 还提供了一些高级的功能，如可重入锁、公平锁、限时等待等，可以通过构造函数或者相应的方法来实现。
+```java
+lock.unlock();
+```
 
 ## (45)Java 线程wait与notify
+
 
 
 ## (46)Java 线程池

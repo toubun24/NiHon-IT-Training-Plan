@@ -60,5 +60,15 @@ public class Test07 {
         thread10.join();
         System.out.println(synchronizedExample4.getCount());
         // 0
+
+        SynchronizedExample5 synchronizedExample5 = new SynchronizedExample5();
+        MyThread6 thread11 = new MyThread6(synchronizedExample5);
+        MyThread6 thread12 = new MyThread6(synchronizedExample5);
+        thread11.start();
+        thread12.start();
+        thread11.join();
+        thread12.join();
+        System.out.println(synchronizedExample5.getCount());
+        // 0 // ReentrantLock
     }
 }

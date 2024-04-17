@@ -1086,6 +1086,12 @@ lock.unlock();
 
 ## (46)Java 线程池
 
+### 线程池
+* 在Java中，线程池是一组预先创建的线程，这些线程可以被重复使用来执行多个任务。
+* 使用线程池的好处是可以避免频繁地创建和销毁线程，从而提高程序的性能和效率。
+* Java中的线程池通过Executor框架实现，可以使用`ThreadPoolExecutor`或  `ScheduledThreadPoolExecutor`类来创建线程池。
+* `ThreadPoolExecutor`可以在程序启动时创建一定数量的线程，并且维护一个任务队列。当有新的任务到来时，线程池中的线程就会自动从任务队列中取出一个任务进行执行，当任务执行完毕后，线程又会自动返回线程池，等待下一个任务的到来。这样，线程的创建和销毁就大大减少了，同时也保证了并发任务的高效执行。
+* `ScheduledThreadPoolExecutor`它继承`ThreadPoolExecutor`，可以按照一定的时间间隔定期执行任务，并且供了一些用于调度任务的方法如`schedule()`和`scheduleAtFixedRate()`。
 
 ## (47)Java ForkJoin
 

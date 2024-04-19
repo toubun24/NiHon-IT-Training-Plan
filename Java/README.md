@@ -1271,6 +1271,46 @@ File file3 = new File(parentDir, "example.txt");
 
 ## (52)Java 缓冲流
 
+### 缓冲流
+* 在读写数据时，经常会发现IO操作非常耗时，这是因为每次读写操作都会涉及到磁盘或网络IO，而这种IO操作是非常慢的。
+* 为了提高IO操作的效率，Java提供了缓冲流。
+* 缓冲流是基于字节流和字符流之上的一层，是处理流的一种，它可以将数据缓存到内存中，减少实际IO操作的次数。
+* 在读取数据时，缓冲流会预先读取一定量的数据到缓存中，当应用程序需要读取数据时，缓冲流会先从缓存中读取，如果缓存中没有数据了，就再去进行实际的IO操作。
+* 在Java中，缓冲流有四种类型：
+  * **BufferedInputStream**：字节缓冲输入流。
+  * **BufferedOutputStream**：字节缓冲输出流。
+  * **BufferedReader**：字符缓冲输入流。
+  * **BufferedWriter**：字符缓冲输出流。
+
+#### 缓冲字节流
+* BufferedInputStream和BufferedOutputStream常用方法：
+* 构造方法：
+  * public BufferedInputStream(InputStream in): 创建一个新的缓冲输入流，以读取指定的输入流。
+  * public BufferedOutputStream(OutputStream out): 创建一个新的缓冲输出流，以将数据写入指定的底层输出流。
+* 读取数据和写入数据：
+  * public int read() throws IOException: 从输入流中读取下一个字节数据。
+  * public int read(byte[] b, int off, int len) throws IOException: 从输入流中读取一定量的字节，并将其存储在缓冲区数组 b 中。
+  * public void write(int b) throws IOException: 将指定的字节写入此缓冲的输出流。
+  * public void write(byte[] b, int off, int len) throws IOException: 将指定字节数组中从偏移量 off 开始的 len 个字节写入此缓冲输出流。
+* 刷新缓存区：
+  * public void flush() throws IOException: 刷新缓冲的输出流，强制将所有缓存的输出字节写入到底层输出流中。
+* 关闭流：
+  * public void close() throws IOException: 关闭缓冲的输入流或输出流，同时会关闭底层流。
+
+#### 缓冲字符流
+* BufferedReader和BufferedWriter常用方法
+* 构造方法：
+  * public BufferedReader(Reader in): 创建一个新的缓冲输入流，以读取指定的输入流。
+  * public BufferedWriter(Writer out): 创建一个新的缓冲输出流，以将数据写入指定的底层输出流。
+* 读取数据和写入数据：
+  * public int read() throws IOException: 从输入流中读取一个字符。
+  * public int read(char[] cbuf, int off, int len) throws IOException: 从输入流中读取一定量的字符，并将其存储在缓冲区数组 cbuf 中。
+  * public void write(int c) throws IOException: 将指定的字符写入此缓冲的输出流。
+  * public void write(char[] cbuf, int off, int len) throws IOException: 将指定字符数组中从偏移量 off 开始的 len 个字符写入此缓冲输出流。
+* 刷新缓存区：
+  * public void flush() throws IOException: 刷新缓冲的输出流，强制将所有缓存的输出字符写入到底层输出流中。
+* 关闭流：
+  * public void close() throws IOException: 关闭缓冲的输入流或输出流，同时会关闭底层流。
 
 ## (53)Java 对象流
 

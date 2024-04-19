@@ -65,9 +65,3 @@
 	* Java-ReentrantLock线程同步 03:40-03:53
 	* Java-线程wait与notify 03:53-04:10
 	* report 04:10-04:20
-
-	* Java-线程池1
-	* Java-线程池2
-	* Java-ForkJoin 
-	* Java-泛型1
-	* Java-泛型2

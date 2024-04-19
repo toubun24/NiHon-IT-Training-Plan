@@ -5,7 +5,8 @@ import java.io.File;
 public class FileExample {
     public static void main(String[] args) {
         // 创建File对象，表示当前工作目录下的text.txt文件
-        File file = new File("text.txt");
+        File file = new File("text.txt"); // 文件不存在???
+        /*实际上只是创建了一个 File 类的实例，这个实例代表了一个文件路径（在这个例子中是名为 "text.txt" 的文件）。然而，这并不会在文件系统中真正创建一个文件。换句话说，这仅仅是一个指向文件或目录路径的引用，而不是一个实际的文件。*/
         // 检查文件是否存在
         if (file.exists()) {
             System.out.println("文件存在"); // 文件存在
@@ -21,7 +22,7 @@ public class FileExample {
             System.out.println("文件绝对路径：" + file.getAbsolutePath()); // 文件绝对路径：G:\NiHon-IT-Training-Plan\Java\text.txt
             file.renameTo(new File("G:\\NiHon-IT-Training-Plan\\Java\\text2.txt"));
             System.out.println("文件名：" + file.getName()); // 文件名：text.txt???
-            file.renameTo(new File("G:\\NiHon-IT-Training-Plan\\Java\\text.txt"));
+            file.renameTo(new File("G:\\NiHon-IT-Training-Plan\\Java\\text3.txt"));
             System.out.println("文件名：" + file.getName()); // 文件名：text.txt
             // 删除文件
 //            boolean deleted = file.delete();

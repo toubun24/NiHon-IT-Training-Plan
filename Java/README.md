@@ -1353,4 +1353,30 @@ File file3 = new File(parentDir, "example.txt");
 
 ## (54)Java Socket
 
+### Socket概念
+* Socket（套接字）网络应用进程之间通信需要API接口，目前在Internet中使用最广泛的网络应用编程接口就是Socket接口。
+* 在计算机网络中，Socket是一种抽象的概念，它不仅仅是一种网络通信协议的实现，还是一种通信机制的封装，可以在不同的操作系统和编程语言中使用。
+* 在Java中，Socket是一个类，它提供了一种用于创建网络应用程序的接口。
 
+### TCP Socket编程
+* TCP Socket编程是指使用TCP协议进行网络通信的编程方式。
+* 在Java中，可以使用Socket类和ServerSocket类来实现TCP Socket编程。
+* 基本流程：
+  * 服务器创建ServerSocket对象并监听某个端口。
+  * 客户端创建Socket对象，指定服务器IP地址和端口号。
+  * 客户端向服务器发送连接请求。
+  * 服务器接受连接请求，建立连接。
+  * 通过Socket对象进行数据传输。
+  * 传输结束后，关闭连接。
+
+### UDP Socket编程
+* UDP是一种无连接的协议。
+* UDP Socket编程是指使用UDP协议进行网络通信的编程方式。
+* 在Java中，可以使用DatagramSocket类和DatagramPacket类来实现UDP Socket编程。
+* 它提供了不可靠的、无序的、基于数据包的数据传输服务。
+* 使用UDP套接字，客户端和服务器可以直接发送和接收数据包。以下是UDP套接字的基本流程：
+* 创建DatagramSocket对象：使用DatagramSocket类的构造函数创建UDP套接字。
+* 创建DatagramPacket对象：使用DatagramPacket类的构造函数创建UDP数据包对象。
+* 发送数据：使用DatagramSocket类的send()方法发送数据。
+* 接收数据：使用DatagramSocket类的receive()方法接收数据。
+* 关闭套接字：使用DatagramSocket类的close()方法关闭UDP套接字。

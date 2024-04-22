@@ -3,12 +3,23 @@
 ## 学习内容及时长
 
 * **2023.04.22 月曜日:** 
-	* Java-对象流1
-	* Java-对象流2 
-	* Java-对象流3 
-	* Java-对象流4 
-	* Java-Socket1 
-	* Java-Socket2 
+	* Java-对象流1 15:20-15:39
+	* Java-对象流2 15:39-15:55 18:00-18:07
+	* Java-对象流3 18:07-18:14
+	* Java-对象流4 18:14-18:25
+	* Java-Socket1 19:27-19:36
+	* Java-Socket2 19:36-19:47
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
+  * Spring-
 
 * **2023.04.23 火曜日:** 
 

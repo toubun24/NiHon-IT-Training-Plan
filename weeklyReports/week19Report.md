@@ -2,27 +2,29 @@
 
 ## 学习内容及时长
 
-* **2023.04.22 月曜日:** 
+* **2023.04.22 月曜日:** 3h19min
 	* Java-对象流1 15:20-15:39
 	* Java-对象流2 15:39-15:55 18:00-18:07
 	* Java-对象流3 18:07-18:14
 	* Java-对象流4 18:14-18:25
 	* Java-Socket1 19:27-19:36
-	* Java-Socket2 19:36-19:47
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
-  * Spring-
+	* Java-Socket2 19:36-19:50
+  * Spring-相关概念 20:02-20:12
+  * Spring-第一个项目 20:12-20:35 21:00-21:55
+  * Spring-IoC介绍 22:30-22:38 22:44-23:05
+  * Spring-XML配置文件DI 23:55-00:04
 
 * **2023.04.23 火曜日:** 
-
+  * Spring-多配置文件 
+  * Spring-注解方式DI 
+  * Spring-AOP介绍 
+  * Spring-AOP切入点表达式 
+  * Spring-AOP快速入门XML方式 
+  * Spring-AOP快速入门注解方式 
+  * Spring-AspectJ注解介绍 
+  * Spring-数据库集成 
+  * Spring-事务快速入门 
+  * Spring-事务介绍 
 
 * **2023.04.24 水曜日:** 
 

@@ -3,4 +3,42 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean class="User.User" id="user"/>
+
+    <!--spring调用setName(),若该方法，没有则会报错，spring创建对象赋值时，不考虑是否存在该属性，而是寻找该‘name’的set方法-->
+    <bean id="user1" class="User.User">
+        <property name="name" value="张三"></property>
+        <property name="age" value="18"></property>
+    </bean>
+
+    <!--使用name属性-->
+    <bean id="pet" class="User.Pet"/>
+    <bean id="user2" class="User.User">
+        <constructor-arg name="name" value="张三"></constructor-arg>
+        <constructor-arg name="age" value="18"></constructor-arg>
+        <constructor-arg name="pet" ref="pet"></constructor-arg>
+    </bean>
+
+    <!--使用索引属性-->
+    <bean id="pet2" class="User.Pet"/>
+    <bean id="user3" class="User.User">
+        <constructor-arg index="0" value="张三"></constructor-arg>
+        <constructor-arg index="1" value="18"></constructor-arg>
+        <constructor-arg index="2" ref="pet2"></constructor-arg>
+    </bean>
+
+    <!--byName注入-->
+    <bean id="pet3" class="User.Pet"/>
+    <bean id="user4" class="User.User" autowire="byName">
+        <property name="name" value="张三"></property>
+        <property name="age" value="18"></property>
+    </bean>
+
+    <!--byType注入-->
+    <bean id="pet4" class="User.Pet"/>
+    <bean id="user5" class="User.User" autowire="byType">
+        <property name="name" value="张三"></property>
+        <property name="age" value="18"></property>
+        <property name="pet" ref="pet4"/>
+    </bean>
+
 </beans>

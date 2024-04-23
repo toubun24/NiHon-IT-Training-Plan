@@ -111,3 +111,4 @@
   * 语法:`<import resource=“其他配置文件的路径"/>`
   * 关键字:"classpath":类路径
   * 在spring的配置文件中要指定其他文件的位置，需要使用classpath,告诉spring到哪去读取配置文件。
+

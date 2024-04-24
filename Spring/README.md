@@ -112,3 +112,292 @@
   * 关键字:"classpath":类路径
   * 在spring的配置文件中要指定其他文件的位置，需要使用classpath,告诉spring到哪去读取配置文件。
 
+## DI(注解方式)
+
+### DI(注解方式)
+* 需要在 Spring 配置文件中配置组件扫描器，用于在指定的包中扫描相关注解。
+* 组件扫描(component-scan) ,组件就是java对象。
+* base-package:在指定的包中的相关注解。
+* component-scan工作方式: Spring会扫描base-package指定的包，找到包中和子包中的所有类的注解。按照注解的功能创建对象，或进行属性赋值。
+```xml
+<context:component-scan base-package="User"/>
+```
+指定多个包
+```xml
+<context: component-scan base-package="User"/>
+<context :component-scan base-package="User1"/>
+<!--分隔符(;或,)可以分隔多个包名-->
+<context: component-scan base-package="User;User1"/>
+<!--或使用顶级的父包-->
+<context : component-scan base-package="xxx"/>
+```
+
+### @Component
+* @Component:等同于<bean>
+  * 属性:value就是对象的名称，也就是bean的id值，value的值是唯一的。
+  * 不指定对象名称,由Spring提供默认名称:类名的首字母小写
+  * 位置:写在类的上面
+```xml
+@Component(value = "user")
+          ||
+<bean id="user" class="xxx"/>
+```
+```java
+@Component(value ="user")
+public class User {}
+```
+* 另外，Spring 还提供了 3 个创建对象的注解：
+  * `@Controller` 用于对 Controller 进行注解
+  * `@Repository` 用于对 DAO 进行注解
+  * `@Service` 用于对 Service 进行注解
+* 这三个注解与@Component 都可以创建对象，但这三个注解有些区别
+* @Repository，@Service，@Controller 是对@Component 注解的细化，标注不同层的对象。
+
+### @Value
+* @Value:简单类型的属性赋值
+  * 属性:value是String类型的，表示简单类型的属性值。
+  * 位置:推荐写在属性定义的上面。
+```java
+@Component
+public class User {
+    @Value(value = "张三")
+    private String name;
+    @Value(value ="18")
+    private Integer age;}
+```
+
+### @Autowired
+* @Autowired: Spring框架提供的注解，实现引用类型赋值。默认使用的是byType注入。
+  * Spring中通过注解给引用类型赋值，使用的是自动注入原理，支持byName，byType
+  * 位置:推荐写在属性定义的上面。
+```java
+  @Component
+  public class User {
+      @Autowired
+      private Xxx xxx;
+```
+
+### @Autowired与@Qualifier
+* @Autowired byName方式:
+  * 属性上面加入@Qualifier(value="xxx"):表示使用指定名称的bean完成赋值。
+  * 属性上面加入@Autowired
+```java
+  @Component
+  public class User {
+      @Qualifier("xxx")
+      @Autowired
+      private Xxx xxx;
+```
+
+### @Resource
+* @Resource:来自JDK中的注解，支持byName，byType。默认为byName。
+  * 位置:推荐写在属性定义的上面。
+  * 注意:默认为byName:先使用byName自动注入，如果byName注入失败，再使用byType
+```java
+@Component
+public class User {
+    @Resource
+    private Xxx xxx;
+```
+  * 如只使用byName方式,需要增加一个name属性
+```java
+  @Component
+  public class User {
+      @Resource(name="xxx")
+      private Xxx xxx;
+```
+
+### 注解对比XML
+* 注解方式：
+  * 优点：方便、直观、高效（代码少，没有配置文件的书写那么复杂）。
+  * 缺点：以硬编码的方式写入到 Java 代码中。
+* XML 方式：
+  * 优点：配置和代码是分离的。
+  * 缺点：编写麻烦，效率低。
+
+## AOP 面向切面编程
+
+### AOP（Aspect Orient Programming）面向切面编程
+* 术语：
+  * Aspect:切面，表示增强的功能，就是一堆代码，完成某个一个功能。常见的切面功能有日志管理/权限控制等等。
+  * JoinPoint:连接点，连接业务方法和切面的位置。就某类中的业务方法
+  * Advice:通知，通知表示切面在特定连接点采取的操作。
+  * Pointcut:切入点，指多个连接点方法的集合。
+
+### AOP实现
+* AOP的技术实现框架:
+  * Spring AOP：Spring在内部实现了AOP规范。但开发中很少使用Spring的AOP规范，因其较为笨重。
+  * AspectJ: 开源的AOP框架。Spring框架中集成了AspectJ框架，通过Spring就能使用AspectJ的功能。
+* AspectJ框架实现AOP有两种方式:
+  * 使用xml的配置文件：配置全局事务
+  * 使用注解：AspectJ有5个注解
+```
+@Before前置通知
+@AfterReturning后置通知
+@Around环绕通知
+@AfterThrowing异常通知
+@After最终通知
+```
+
+### 切入点表达式
+* AspectJ支持三种通配符：
+  * `*` 匹配任意字符，只匹配一个元素
+  * `..` 匹配任意字符，可以匹配多个元素，在表示类时，必须和 * 联合使用
+  * `+` 表示按照类型匹配指定类的所有类，必须跟在类名后面，如com.User.User+,表示继承该类的所有子类包括本身
+* 表达式的原型:
+  * execution(<访问修饰符><方法返回值><包名称.类.方法(参数)><异常>)
+  * execution代表方法的执行
+  * 访问修饰符和异常可以省略
+  * 例如表达式execution(* User.User.*(..))
+    * 意思User类中的所有方法。
+    * 第一个“*”代表任意访问修饰符及任意方法返回值。
+    * 第二个“*”代表任意方法。
+    * “..”匹配任意数量、任意类型的参数。
+  * 目标类、接口与该切面类在同一个包中可以省略包名。
+```
+表达式    execution(public * User.*(..))
+含义      User类中的所有公有方法
+
+表达式   execution(* User.User.*.*(..)) 
+含义     匹配 User.User 包下的所有类的所有方法
+```
+  * 在AspectJ中，切入点表达式可以通过 “&&”、“||”、“!”等操作符结合起来。
+```
+表达式    execution (* *.get(int,..)) || execution(* *.insert(int,..))
+含义      匹配任意类中第一个参数为int类型的get方法或insert方法
+
+表达式    !execution (* *.get(int,..))
+含义      匹配任意类中第一个参数不是为int类型的get方法
+```
+
+### AOP 快速入门
+* 操作流程
+  * 引入 AOP 相关依赖
+    * AspectJ 依赖
+```xml
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjrt</artifactId>
+    <version>1.9.9.1</version>
+</dependency>
+<dependency>
+    <groupId>org.aspectj</groupId>
+    <artifactId>aspectjweaver</artifactId>
+    <version>1.9.9.1</version>
+</dependency>
+```
+  * 创建目标类:接口和实现类。要做的是给类中的方法增加功能
+  * 创建切面类:普通类
+    * 在类上面加上@Aspect
+    * 注意:如使用注解方式的话需要加上@Component
+    * 在类中定义方法，方法就是切面要执行的功能代码在方法的上面加入Aspect中的相关注解，例如@Before注解，但需要指定切入点表达式execution()
+  * Spring的配置文件(推荐使用注解)
+    * 声明目标对象(可以使用注解)
+    * 声明切面类对象(可以使用注解)
+    * 声明Aspect框架中的自动代理生成器标签:<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+  * 创建测试类，从IoC容器中获取目标对象(实际就是代理对象)进行测试即可。
+
+### AspectJ 注解
+
+#### @Pointcut:切入点
+* 属性:value切入点表达式。
+* 位置:放在方法上面
+* 注意:使用@Pointcut定义在一个方法的上面，这个方法的名称就是切入点表达式的别名。
+```java
+@Pointcut("execution(* com.lalapodo.Service.UserService.*(..))")
+private void pointcut(){}
+```
+
+#### @Before:前置通知
+* 属性:value切入点表达式。
+* 位置:放在方法上面
+* 注意:在目标方法之前先执行,不改变目标方法执行结果,不影响目标方法的执行。
+* 参数:可以有JoinPoint参数
+```java
+@Aspect
+@Component
+public class UserAop {
+    @Before(value="execution(* com.lalapodo.Service.UserService.*(..))")//定位业务方法
+    public void insertUser(JoinPoint joinPoint){
+        System.out.println(joinPoint);
+        System.out.println("插入了一个User");
+    }
+}
+@Service
+public class UserServiceImpl implements UserService {
+    @Override
+    public void getUser() {
+        System.out.println("get了User");
+    }
+}
+```
+
+#### @AfterReturning:后置通知
+* 属性:value切入点表达式。
+  * returning自定义变量，表示目标方法返回值。
+* 位置:放在方法上面
+* 注意:在目标方法之后执行,能够获取到目标方法的返回值，可以根据这个返回值做不同的处理功能。
+```java
+@AfterReturning(value = "pointcut()",returning = "res")
+public void insertUser(Object res) {
+    System.out.println(res);
+    System.out.println("插入了一个User");
+}
+```
+
+#### @Around:环绕通知
+* 属性:value切入点表达式。
+* 位置:放在方法上面
+* 注意:在目标方法的前后都能执行,会影响最后的调用结果。
+* 参数:可以有ProceedingJoinPoint。
+  * 作用:执行目标方法
+```java
+@Around("pointcut()")
+public void insertUser(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+    proceedingJoinPoint.proceed();
+    System.out.println("插入了一个User");
+}
+```
+
+#### @AfterThrowing:异常通知
+* 属性:value切入点表达式。
+  * throwing自定义变量，表示目标方法抛出的异常对象。
+* 位置:放在方法上面
+* 注意:在目标方法抛出异常时执行,用于监控目标方法执行时是不是有异常。
+```java
+@AfterThrowing(value = "pointcut()",throwing = "exception")
+public void insertUser(Exception exception) {
+    System.out.println(exception);
+    System.out.println("插入了一个User");
+}
+```
+
+#### @After:最终通知
+* 属性:value切入点表达式。
+* 位置:放在方法上面
+* 注意:总是会执行,顺序为在目标方法之后执行
+```java
+@After("pointcut()")
+public void insertUser() {
+    System.out.println("插入了一个User");
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

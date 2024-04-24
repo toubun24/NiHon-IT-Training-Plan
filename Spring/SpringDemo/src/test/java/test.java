@@ -1,4 +1,5 @@
 import User.User;
+import com.lalapodo.Service.Impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
@@ -28,8 +29,6 @@ public class test { // IOC容器创建并存储User对象，再用applicationCon
         System.out.println("--user5--");
         User user5 = applicationContext.getBean("user5", User.class);
         user5.getUser();
-    }
-}
 //--user--
 //null
 //0
@@ -54,3 +53,12 @@ public class test { // IOC容器创建并存储User对象，再用applicationCon
 //张三
 //18
 //User.Pet@34b9f960
+    }
+
+    @Test
+    public void test2(){
+        ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
+        UserServiceImpl userService = applicationContext.getBean("userService", UserServiceImpl.class);
+        userService.getUser();
+    }
+}

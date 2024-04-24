@@ -16,18 +16,17 @@
 
 * **2023.04.23 火曜日:** 
   * Spring-多配置文件 21:50-22:45
-  * Spring-注解方式DI 
-  * Spring-AOP介绍 
-  * Spring-AOP切入点表达式 
-  * Spring-AOP快速入门XML方式 
+
+* **2023.04.24 水曜日:** 
+  * Spring-注解方式DI 14:40-15:00
+  * Spring-AOP介绍 15:00-15:14
+  * Spring-AOP切入点表达式 15:14-15:22
+  * Spring-AOP快速入门XML方式 21:40-22:20 
   * Spring-AOP快速入门注解方式 
   * Spring-AspectJ注解介绍 
   * Spring-数据库集成 
   * Spring-事务快速入门 
   * Spring-事务介绍 
-
-* **2023.04.24 水曜日:** 
-
 
 * **2023.04.25 木曜日:** 
 

@@ -383,21 +383,79 @@ public void insertUser() {
 }
 ```
 
+## Spring事务
 
+### Spring 集成 Mybatis
+* 操作流程
+  * 引入 Mybatis与数据库相关依赖
+  * 创建配置类
+  * Config.java
+  * SqlConfig.java
+  * MybatisConfig.java
+  * 创建实体类:映射数据库表
+  * 创建Mapper
+  * Service实现即可
 
+### Spring事务
+* 数据库事务是访问并可能操作各种数据项的一个数据库操作序列，这些操作要么全部执行,要么全部不执行，是一个不可分割的工作单位。
+* 事务由事务开始与事务结束之间执行的全部数据库操作组成。
 
+#### Spring事务优点:
+* 以事务的方式对数据库进行访问，有如下的优点:
+  * 把逻辑相关的操作分成了一个组
+  * 在数据永久改变前，可以预览数据变化
+  * 能够保证数据的读一致性。
 
+#### Spring的事务:
+* Spring支持两种事务方式:
+  * 分别是编程式事务和声明式事务，后者最常见
+  * 声明式事务通常情况下只需一个@Transactional注解
+* 声明式事务: 声明式事务将事务管理代码从业务方法中抽离了出来，以声明式的方式来实现事务管理。
+* 编程式事务: 编程式事务，必须在每个业务操作中包含额外的事务管理代码，就导致代码看起来非常的臃肿。
 
+#### Spring的事务配置:
+* 操作流程
+  * 在需要开启事务的方法上加上@Transactional注解
+  * Config.java
+  * SqlConfig.java
 
+#### 事务的传播行为属性:
+* 事务的传播行为可以由传播属性指定，Spring定义了7种类型的传播行为。其中最常用的是REQUIRED和REQUIRES_NEW。
+* 事务的传播行为可以在@Transactional注解的propagation属性中定义。
+```java
+PROPAGATION_REQUIRED -- 默认行为。支持当前事务，如果当前没有事务，就新建一个事务。
+PROPAGATION_REQUIRES_NEW -- 新建事务，如果当前存在事务，把当前事务挂起。
+PROPAGATION_SUPPORTS -- 支持当前事务，如果当前没有事务，就以非事务方式执行。
+PROPAGATION_NOT_SUPPORTED -- 以非事务方式执行操作，如果当前存在事务，就把当前事务挂起。
+PROPAGATION_MANDATORY -- 支持当前事务，如果当前没有事务，就抛出异常。
+PROPAGATION_NEVER -- 以非事务方式执行，如果当前存在事务，则抛出异常。
+PROPAGATION_NESTED -- 如果当前存在事务，则在嵌套事务内执行。如果当前没有事务，则进行与PROPAGATION_REQUIRED类似的操作。
+```
+#### 事务的隔离级别:
+* 事务的隔离级别可以通过隔离级别事务属性(isolation)指定。
+```java
+DEFAULT -- 数据库默认的事务隔离级别。
+READ_UNCOMMITTED -- 这是事务最低的隔离级别，它允许另外一个事务可以看到这个事务未提交的数据。这种隔离级别会产生脏读，不可重复读和幻像读。
+READ_COMMITTED -- 保证一个事务修改的数据提交后才能被另外一个事务读取，另外一个事务不能读取该事务未提交的数据。这种事务隔离级别可以避免脏读出现，但是可能会出现不可重复读和幻像读。
+REPEATABLE_READ -- 这种事务隔离级别可以防止脏读、不可重复读，但是可能出现幻像读。它除了保证一个事务不能读取另一个事务未提交的数据外，还保证了不可重复读。
+SERIALIZABLE -- 这是花费最高代价但是最可靠的事务隔离级别，事务被处理为顺序执行。除了防止脏读、不可重复读外，还避免了幻像读
+```
+#### 事务的属性:
+* 事务的属性可以在**@Transactional注解**中定义。
+* 参数名称: 功能描述
+  * readOnly: 该属性用于设置当前事务是否为只读事务，设置为true表示只读，false则表示可读写，默认值为false
+  * rollbackFor: 该属性用于设置需要进行回滚的异常类数组，当方法中抛出指定异常数组中的异常时，则进行事务回滚
+  * rollbackForClassName: 该属性用于设置需要进行回滚的异常类名称数组
+  * noRollbackFor: 该属性用于设置不需要进行回滚的异常类数组，当方法中抛出指定异常数组中的异常时，不进行事务回滚
+  * noRollbackForClassName: 该属性用于设置不需要进行回滚的异常类名称数组
+  * isolation: 该属性用于设置事务隔离级别
+  * propagation: 该属性用于设置事务的传播行为
+  * timeout: 该属性用于设置事务的超时秒数，默认值为-1表示永不超时
 
-
-
-
-
-
-
-
-
-
+#### @Transactional注意:
+* Spring官方建议在具体的类（或类的方法）上使用 @Transactional 注解，而不要使用在类所要实现的任何接口上。
+  * 你当然可以在接口上使用 @Transactional 注解，但是这将只能当你设置了基于接口的代理时它才生效。
+* @Transactional 注解可以被应用于接口定义和接口方法、类定义和类的 public 方法上。
+* @Transactional 只能被应用到 public 方法上, 对于其它非public的方法,如果使用了@Transactional也不会报错,但方法没有事务功能。
 
 

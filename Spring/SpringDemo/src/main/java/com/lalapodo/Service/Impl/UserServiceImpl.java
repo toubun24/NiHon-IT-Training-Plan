@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     @Override
-    public void getUser() { // 方法复写
+    // public void getUser() { // 方法复写
+    public void getUser(int a) { // JoinPoint
+        // System.out.println(1/0); // AfterThrowing
         System.out.println("getUser");
     }
 }

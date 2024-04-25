@@ -22,17 +22,12 @@
   * Spring-AOP介绍 15:00-15:14
   * Spring-AOP切入点表达式 15:14-15:22
   * Spring-AOP快速入门XML方式 21:40-22:20 
-  * Spring-AOP快速入门注解方式 
-  * Spring-AspectJ注解介绍 
-  * Spring-数据库集成 
-  * Spring-事务快速入门 
-  * Spring-事务介绍 
 
 * **2023.04.25 木曜日:** 
   * Spring-AOP快速入门XML方式 15:35-15:58
   * Spring-AOP快速入门注解方式 15:58-16:30 16:35-17:10 18:00-18:10
-  * Spring-AspectJ注解介绍 
-  * Spring-数据库集成 
+  * Spring-AspectJ注解介绍 19:15-19:50
+  * Spring-数据库集成 19:50-20:00 20:55-21:05 21:30-23:15
   * Spring-事务快速入门 
   * Spring-事务介绍 
 
@@ -43,6 +38,19 @@
 
 
 * **2023.04.28 日曜日:** 
+
+## 内容拓展
+
+### JoinPoint获取的信息
+* 方法签名：你可以通过JoinPoint.getSignature()方法获取到当前正在执行的方法的签名。
+* 方法参数：通过JoinPoint.getArgs()方法，你可以获取到当前方法执行的参数列表。
+* 目标对象：JoinPoint.getTarget()方法会返回被通知方法所在的对象实例。
+* 代理对象：JoinPoint.getThis()方法返回的是代理对象本身。
+* 静态部分：JoinPoint.getStaticPart()方法返回与JoinPoint关联的静态部分，它包含关于连接点的信息，但不包含运行时的信息。
+
+
+
+
 
 
 ## 遇见问题
@@ -336,3 +344,103 @@ Dependency maven:org.springframework:spring-core:5.3.23 is vulnerable, safe vers
 </dependency>
 ```
 至此得以正常实现
+
+### Spring "数据库集成"xml依赖警告信息`Uncontrolled Resource Consumption vulnerability with High severity found  Results powered by Checkmarx(c)`
+```
+Provides transitive vulnerable dependency maven:com.google.protobuf:protobuf-java:3.19.4 CVE-2022-3509 7.5 Uncontrolled Resource Consumption vulnerability with High severity found CVE-2022-3510 7.5 Uncontrolled Resource Consumption vulnerability with High severity found CVE-2022-3171 7.5 Uncontrolled Resource Consumption vulnerability with High severity found  Results powered by Checkmarx(c)
+```
+```xml
+<!--mysql驱动-->
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.30</version>
+</dependency>
+```
+
+### 【已解决】Spring "数据库集成"运行报错`Invalid value type for attribute 'factoryBeanObjectType': java.lang.String`
+```
+org.springframework.context.support.AbstractApplicationContext refresh
+WARNING: Exception encountered during context initialization - cancelling refresh attempt: java.lang.IllegalArgumentException: Invalid value type for attribute 'factoryBeanObjectType': java.lang.String
+
+java.lang.IllegalArgumentException: Invalid value type for attribute 'factoryBeanObjectType': java.lang.String
+
+    ...
+    at test.test4(test.java:14)
+    at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+    at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+```
+对应的位置为
+```java
+public class test {
+    @Test
+    public void test4(){
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class); // 报错位置1
+        UserService userService = applicationContext.getBean(UserService.class); // 调整版本号后的报错位置2
+        System.out.println(userService.getAll());
+    }
+}
+```
+* 尝试更新部分xml依赖版本号
+```xml
+<!--spring事务相关-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-tx</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+</dependency>
+<!--spring jdbc-->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-jdbc</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+</dependency>
+<!--mybatis依赖-->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis</artifactId>
+    <version>3.5.11</version>
+</dependency>
+<!--mybatis和spring集成依赖-->
+<dependency>
+    <groupId>org.mybatis</groupId>
+    <artifactId>mybatis-spring</artifactId>
+<!--            <version>2.0.7</version>-->
+    <version>3.0.3</version>
+</dependency>
+```
+* 报错信息发生变化
+```
+org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.lalapodo.Service.UserService' available
+
+    ...
+    at test.test4(test.java:15)
+    at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+    at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+```
+* 给UserServiceImpl补上`@Service`后得到期望输出（但反复确认过课件视频，这一段是没写`@Service`的）
+```java
+package com.lalapodo.Service.Impl;
+
+import com.lalapodo.Bean.TestTable;
+import com.lalapodo.Mapper.TestMapper;
+import com.lalapodo.Service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service; // new
+
+import java.util.List;
+
+@Service // new
+public class UserServiceImpl implements UserService {
+
+    @Autowired
+    TestMapper testMapper;
+
+    @Override
+    public List<TestTable> getAll() {
+        return testMapper.getAll();
+    }
+}
+```

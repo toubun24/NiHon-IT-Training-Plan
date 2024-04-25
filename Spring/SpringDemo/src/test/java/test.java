@@ -63,7 +63,8 @@ public class test { // IOC容器创建并存储User对象，再用applicationCon
     public void test2(){
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
         UserServiceImpl userService = applicationContext.getBean("userService", UserServiceImpl.class);
-        userService.getUser();
+        // userService.getUser();
+        userService.getUser(2); // JoinPoint
     }
 
     /*AOP注解方式*/
@@ -73,6 +74,7 @@ public class test { // IOC容器创建并存储User对象，再用applicationCon
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class); // import com.lalapodo.config.Config;
         // UserServiceImpl userService = applicationContext.getBean("userService", UserServiceImpl.class);
         UserService userService = applicationContext.getBean(UserService.class); // UserService接口 // import com.lalapodo.Service.UserService;
-        userService.getUser();
+        // userService.getUser();
+        userService.getUser(3); // JoinPoint
     }
 }

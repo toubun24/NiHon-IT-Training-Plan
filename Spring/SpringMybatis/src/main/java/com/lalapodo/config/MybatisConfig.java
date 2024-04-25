@@ -19,7 +19,7 @@ public class MybatisConfig {
     @Bean
     public MapperScannerConfigurer mapperScannerConfigurer() {
         MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setBasePackage("com.lalapodo.Mapper");
+        mapperScannerConfigurer.setBasePackage("com.lalapodo.Mapper"); // Mapper
         return mapperScannerConfigurer;
     }
 }

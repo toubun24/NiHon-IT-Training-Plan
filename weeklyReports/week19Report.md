@@ -28,8 +28,8 @@
   * Spring-AOP快速入门注解方式 15:58-16:30 16:35-17:10 18:00-18:10
   * Spring-AspectJ注解介绍 19:15-19:50
   * Spring-数据库集成 19:50-20:00 20:55-21:05 21:30-23:15
-  * Spring-事务快速入门 
-  * Spring-事务介绍 
+  * Spring-事务快速入门 23:45-00:16
+  * Spring-事务介绍 00:16-00:35
 
 * **2023.04.26 金曜日:** 
 
@@ -443,4 +443,27 @@ public class UserServiceImpl implements UserService {
         return testMapper.getAll();
     }
 }
+```
+
+### 【课件示例】Spring "事务快速入门"运行报错`org.apache.ibatis.binding.BindingException: Parameter 'name' not found.`
+```
+com.alibaba.druid.support.logging.JakartaCommonsLoggingImpl info
+INFO: {dataSource-1} inited
+
+Caused by: org.apache.ibatis.binding.BindingException: Parameter 'name' not found. Available parameters are [arg1, arg0, param1, param2]
+```
+* 解决方案：UserServiceImpl中添加`@Param`
+```java
+    @Override
+    // public void insertUser(String name, String age) {
+    public void insertUser(@Param("name") String name, @Param("age") String age) {
+        testMapper.insertUser(name,age);
+        testMapper.insertUser2(name,age);
+    }
+
+    @Override
+    // public void insertUser2(String name, String age) {
+    public void insertUser2(@Param("name") String name, @Param("age") String age) {
+        // no
+    }
 ```

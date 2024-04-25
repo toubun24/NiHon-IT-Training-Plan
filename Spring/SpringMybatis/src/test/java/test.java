@@ -17,5 +17,10 @@ public class test {
     }
     // [TestTable{id=1, name='zhangsan', age='18'}, TestTable{id=2, name='lisi', age='19'}, TestTable{id=3, name='wangwu', age='20'}]
 
-    
+    @Test
+    public void inserUser(){
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class);
+        UserService userService = applicationContext.getBean(UserService.class);
+        userService.insertUser("aaa","18");
+    }
 }

@@ -1,8 +1,11 @@
 import User.User;
 import com.lalapodo.Service.Impl.UserServiceImpl;
+import com.lalapodo.Service.UserService;
+import com.lalapodo.config.Config;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class test { // IOC容器创建并存储User对象，再用applicationContext拿到相关对象
@@ -55,10 +58,21 @@ public class test { // IOC容器创建并存储User对象，再用applicationCon
 //User.Pet@34b9f960
     }
 
+    /*AOPXML方式*/
     @Test
     public void test2(){
         ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
         UserServiceImpl userService = applicationContext.getBean("userService", UserServiceImpl.class);
+        userService.getUser();
+    }
+
+    /*AOP注解方式*/
+    @Test
+    public void test3(){
+        // ApplicationContext applicationContext = new ClassPathXmlApplicationContext("application.xml");
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class); // import com.lalapodo.config.Config;
+        // UserServiceImpl userService = applicationContext.getBean("userService", UserServiceImpl.class);
+        UserService userService = applicationContext.getBean(UserService.class); // UserService接口 // import com.lalapodo.Service.UserService;
         userService.getUser();
     }
 }

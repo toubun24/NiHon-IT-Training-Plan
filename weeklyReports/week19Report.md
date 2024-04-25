@@ -29,7 +29,12 @@
   * Spring-事务介绍 
 
 * **2023.04.25 木曜日:** 
-
+  * Spring-AOP快速入门XML方式 15:35-15:58
+  * Spring-AOP快速入门注解方式 15:58-16:30 16:35-17:10 18:00-18:10
+  * Spring-AspectJ注解介绍 
+  * Spring-数据库集成 
+  * Spring-事务快速入门 
+  * Spring-事务介绍 
 
 * **2023.04.26 金曜日:** 
 
@@ -207,3 +212,127 @@ public class User {
     <property name="pet" ref="pet4"/>
 </bean>
 ```
+
+### 【已解决】Spring "AOP快速入门XML方式"test2示例代码运行报错`org.junit.platform.commons.JUnitException: TestEngine with ID 'junit-jupiter' failed to discover tests`
+```
+org.junit.platform.commons.JUnitException: TestEngine with ID 'junit-jupiter' failed to discover tests
+```
+调整修改xml文件中版本号等内容后
+```
+org.springframework.beans.factory.xml.XmlBeanDefinitionStoreException: Line 48 in XML document from class path resource [application.xml] is invalid
+
+	at org.springframework.beans.factory.xml.XmlBeanDefinitionReader.doLoadBeanDefinitions(XmlBeanDefinitionReader.java:402)
+	...
+Caused by: org.xml.sax.SAXParseException; lineNumber: 48; columnNumber: 43; cvc-complex-type.2.4.c: The matching wildcard is strict, but no declaration can be found for element 'aop:config'.
+	at java.xml/com.sun.org.apache.xerces.internal.util.ErrorHandlerWrapper.createSAXParseException(ErrorHandlerWrapper.java:204)
+    ...
+	... 84 more
+```
+* 解决方案：
+原来是xml文件头部的引用没写全,使用aop后应该有如下增添
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+">
+```
+补充为
+```xml
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       https://www.springframework.org/schema/aop/spring-aop.xsd
+">
+```
+
+### 【已解决】Spring "AOP快速入门注解方式"test3示例代码运行报错`java.lang.NoClassDefFoundError: org/springframework/core/NestedIOException`
+```
+java.lang.NoClassDefFoundError: org/springframework/core/NestedIOException
+    ...
+    at test.test3(test.java:73)
+    ...
+Caused by: java.lang.ClassNotFoundException: org.springframework.core.NestedIOException
+	...
+	... 78 more
+```
+```java
+/*AOP注解方式*/
+    @Test
+    public void test3(){
+        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(Config.class); // (test.java:73)
+        UserService userService = applicationContext.getBean(UserService.class);
+        userService.getUser();
+    }
+```
+* 解决方案：先前因为报错
+```
+Dependency maven:org.springframework:spring-core:5.3.23 is vulnerable, safe version 6.1.2 CVE-2024-22233 7.5 Uncontrolled Resource Consumption vulnerability with High severity found   Results powered by Checkmarx(c)
+```
+所以修改了xml中的spring版本号（只修改了报错的部分）
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+    <version>5.3.23</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+    <version>5.3.23</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+<!--            <version>5.3.23</version>-->
+<!--            <version>6.1.2</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-expression</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+```
+在遇到新报错后通过[java.lang.ClassNotFoundException: org.springframework.core.NestedIOException 错误](https://blog.csdn.net/Yao220/article/details/128783819)得知在spring-core 5.3.x版本已经废弃了NestedIOException这个类，因为使用6.0版本的，所以是找不到这个类。原因就是mybatis-spring的版本太老了，换成最新版的就解决了。
+所以把所有原为@5.3.23的spring版本均统一改为推荐的@6.1.3
+```xml
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-context</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-beans</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-core</artifactId>
+<!--            <version>5.3.23</version>-->
+<!--            <version>6.1.2</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-expression</artifactId>
+<!--            <version>5.3.23</version>-->
+    <version>6.1.3</version>
+    <scope>compile</scope>
+</dependency>
+```
+至此得以正常实现

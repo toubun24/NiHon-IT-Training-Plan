@@ -33,9 +33,9 @@
 
 * **2023.04.26 金曜日:** 
   * SpringMVC-介绍 15:55-16:25
-  * SpringMVC-第一个项目 18:30-18:40 18:45-19:20 21:25-21:40 22:15-22:45 23:40-
-  * SpringMVC-基本注解 
-  * SpringMVC-路径匹配 
+  * SpringMVC-第一个项目 18:30-18:40 18:45-19:20 21:25-21:40 22:15-22:45 23:40-23:50
+  * SpringMVC-基本注解 23:50-00:10
+  * SpringMVC-路径匹配 01:00-01:15
   * SpringMVC-获取请求参数 
   * SpringMVC-JSON数据处理 
   * SpringMVC-数据响应 
@@ -57,6 +57,20 @@
 
 
 * **2023.04.28 日曜日:** 
+
+
+## 学习笔记
+
+### SpringMVC-第一个项目
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240426234843.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240426234915.png)
+
+### SpringMVC-基本注解
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240427000905.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240427001012.png)
+
+### SpringMVC-路径匹配
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240427010638.png)
 
 ## 内容拓展
 
@@ -505,8 +519,7 @@ Provides transitive vulnerable dependency maven:org.springframework:spring-web:6
 * 问题说明：IDEA中右上角`Edit Configuratoins...-Add New Configuratoins`没有`Tomcat`相关可选配置
 * 问题解决：参考https://www.jb51.net/server/291538mpa.htm，通过`Smart Tomcat`插件实现相应功能，但具体配置界面依然和课件中呈现内容不同，例如没有`部署-在服务器启动时部署-工件`。
 * 此处贴一个`Smart Tomcat`的配置情况以供之后参考
-QQ20240426224547.png
-
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240426224547.png)
 
 ### 【已解决】SpringMVC第一个项目运行报错`java: cannot access jakarta.servlet.ServletException class file for jakarta.servlet.ServletException not found`
 ```

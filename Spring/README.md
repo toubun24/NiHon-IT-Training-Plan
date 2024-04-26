@@ -490,6 +490,8 @@ SERIALIZABLE -- 这是花费最高代价但是最可靠的事务隔离级别，�
 * 返回中文信息乱码解决
 * 创建Controller
 * 最后请求进行测试
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240426234843.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240426234915.png)
 
 ## SpringMVC请求
 

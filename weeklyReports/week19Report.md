@@ -32,7 +32,26 @@
   * Spring-事务介绍 00:16-00:35
 
 * **2023.04.26 金曜日:** 
-
+  * SpringMVC-介绍 15:55-16:25
+  * SpringMVC-第一个项目 18:30-18:40 18:45-19:20 21:25-21:40 22:15-22:45 23:40-
+  * SpringMVC-基本注解 
+  * SpringMVC-路径匹配 
+  * SpringMVC-获取请求参数 
+  * SpringMVC-JSON数据处理 
+  * SpringMVC-数据响应 
+  * SpringMVC-RESTful快速入门 
+  * SpringMVC-拦截器 
+  * SpringBoot-介绍
+  * SpringBoot-第一个项目 
+  * SpringBoot-配置文件
+  * SpringBoot-配置文件读取
+  * SpringBoot-配置文件多环境 
+  * SpringBoot-命令行启动配置 
+  * SpringBoot-集成Quartz概念 
+  * SpringBoot-集成Quartz操作
+  * SpringBoot-Task使用 
+  * SpringBoot-集成MyBatis 
+  * SpringBoot-CRUD练习 
 
 * **2023.04.27 土曜日:** 
 
@@ -467,3 +486,47 @@ Caused by: org.apache.ibatis.binding.BindingException: Parameter 'name' not foun
         // no
     }
 ```
+
+### 【仅警告，暂不影响使用】SpringMVC xml依赖spring-webmvc版本`Vulnerability with High severity found`
+```
+Provides transitive vulnerable dependency maven:org.springframework:spring-web:6.1.3 CVE-2024-22243 8.1 Vulnerability with High severity found CVE-2024-22259 8.1 Vulnerability with High severity found  Results powered by Checkmarx(c) 
+```
+```xml
+<!-- SpringMVC -->
+<dependency>
+    <groupId>org.springframework</groupId>
+    <artifactId>spring-webmvc</artifactId>
+<!--    <version>5.3.23</version>-->
+    <version>6.1.3</version>
+</dependency>
+```
+
+### 【已解决】IDEA搭建项目找不到Tomcat
+* 问题说明：IDEA中右上角`Edit Configuratoins...-Add New Configuratoins`没有`Tomcat`相关可选配置
+* 问题解决：参考https://www.jb51.net/server/291538mpa.htm，通过`Smart Tomcat`插件实现相应功能，但具体配置界面依然和课件中呈现内容不同，例如没有`部署-在服务器启动时部署-工件`。
+* 此处贴一个`Smart Tomcat`的配置情况以供之后参考
+QQ20240426224547.png
+
+
+### 【已解决】SpringMVC第一个项目运行报错`java: cannot access jakarta.servlet.ServletException class file for jakarta.servlet.ServletException not found`
+```
+java: cannot access jakarta.servlet.ServletException
+class file for jakarta.servlet.ServletException not found
+```
+* 参考https://blog.csdn.net/m0_46504802/article/details/130838846去xml中添加了语句
+```xml
+<dependency>
+    <groupId>org.apache.tomcat</groupId>
+    <artifactId>tomcat-api</artifactId>
+    <version>10.1.23</version>
+</dependency>
+```
+随后报错变为
+```
+SEVERE [main] org.apache.catalina.util.LifecycleBase.handleSubClassException Failed to initialize component [Connector["http-nio-8080"]]
+org.apache.catalina.LifecycleException: Protocol handler initialization failed
+Caused by: java.net.BindException: Address already in use: bind
+SEVERE [main] org.apache.catalina.core.StandardServer.await Failed to create server shutdown socket on address [localhost] and port [8005] (base port [8005] and offset [0])
+java.net.BindException: Address already in use: bind
+```
+似乎是占用问题，一试果然是因为后台通过`apache-tomcat-10.1.23\bin\startup.bat`启动了tomcat已经。关掉之后再次运行，页面成功返回期望值

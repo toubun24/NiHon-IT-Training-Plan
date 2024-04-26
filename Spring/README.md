@@ -458,4 +458,141 @@ SERIALIZABLE -- 这是花费最高代价但是最可靠的事务隔离级别，�
 * @Transactional 注解可以被应用于接口定义和接口方法、类定义和类的 public 方法上。
 * @Transactional 只能被应用到 public 方法上, 对于其它非public的方法,如果使用了@Transactional也不会报错,但方法没有事务功能。
 
+# SpringMVC
+
+## SpringMVC介绍
+
+### MVC模式
+* MVC模式（Model–view–controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。
+* MVC模式最早在1978年提出。MVC模式的目的是实现一种动态的程序设计，使后续对程序的修改和扩展简化，并且使程序某一部分的重复利用成为可能。
+
+### 组件的互动
+* 模型（Model） 用于封装与应用程序的业务逻辑相关的数据以及对数据的处理方法。
+  * “ Model ”有对数据直接访问的权力，例如对数据库的访问。
+  * “ Model ”不依赖“ View ”和“ Controller ”，也就是说， Model 不关心它会被如何显示或是如何被操作。
+* 视图（View）能够实现数据有目的的显示。
+* 控制器（Controller）起到不同层面间的组织作用，用于控制应用程序的流程。它处理事件并作出响应。
+
+### SpringMVC
+* Spring MVC属于SpringFrameWork的后续产品，已经融合在Spring Web Flow里面。
+* Spring 框架提供了构建 Web 应用程序的全功能 MVC 模块。
+* 使用 Spring 可插入的 MVC 架构，从而在使用Spring进行WEB开发时，可以选择使用Spring的Spring MVC框架。
+
+### SpringMVC 优点
+* 基于 MVC 架构，功能分工明确，解耦合。
+* SpringMVC能够使用 Spring 的 IoC 和 Aop，整合其他框架方便。
+* SpringMVC使用方便，使用@Controller 就能创建处理器对象,@Service 就能创建业务对象。
+
+### 第一个SpringMVC项目
+* Maven坐标导入SpringMVC依赖与设置tomcat服务器
+* 创建SpringMVC配置文件
+* 初始化Servlet容器
+* 返回中文信息乱码解决
+* 创建Controller
+* 最后请求进行测试
+
+## SpringMVC请求
+
+### 前面使用注解介绍
+
+#### @RequestMapping
+* @RequestMapping:将请求和处理请求的控制器方法进行关联起来，建立映射关系。
+* SpringMVC接收到指定的请求，找到在映射关系中对应的控制器方法来处理这个请求。
+* 位置:SpringMVC控制器类或方法定义上方
+* 属性:
+  * value默认属性：必须设置，为一个字符串类型的数组，表示该请求映射能够匹配的请求地址
+  * method属性：非必须，为一个请求方法类型数组，表示该请求映射能够匹配的请求方式
+  * 拥有派生注解：
+    * get请求-→@GetMapping
+    * post请求-→@PostMapping
+    * put请求-→@PutMapping
+    * delete请求-→@DeleteMapping
+    * …​
+  * params属性：非必须，为一个字符串类型的数组，可以通过表达式设置请求参数和请求映射的匹配关系
+  * headers属性：非必须，为一个字符串类型的数组，可以通过表达式设置请求头信息和请求映射的匹配关系
+
+#### @ResponseBody
+* @ResponseBody：将Controller方法的返回结果通过适当的转换器转换为指定的格式后，直接写入HTTP响应正文中通常用来返回JSON/XML数据。
+* 位置:SpringMVC控制器类或方法定义上方
+
+#### @Controller
+* @Controller：标注此注解后的组件会被Spring识别为可以接受并处理网页请求的组件。
+* @Controller注解继承了Spring的@Component注解，会把对应的类声明为Spring对应的Bean，并且可以被Web组件管理。
+
+### SpringMVC中的路径匹配
+* Spring支持两种路径匹配方式。
+  * PathPattern：Spring 5 引入。使用预解析的方法匹配路径。专门为Web路径匹配而设计，可以支持复杂的表达式，执行效率很高。
+  * AntPathMatcher：Sping在2013年引入。Spring中用于类路径、文件系统和其它资源的解决方案，效率比较低。
+* PathPattern可以向下兼容AntPathMatcher的逻辑
+```
+?:表示任意的单个字符
+*:表示任意的0个或多个字符
+**:表示任意的一层或多层目录
+{xxx}:路径占位符,使用@PathVariable注解可以此获取参数变量
+```
+* PathPattern配置开启
+```java
+@Configuration
+@EnableWebMvc
+public class WebConfiguration implements WebMvcConfigurer {
+    @Override
+    public void configurePathMatch(PathMatchConfigurer configurer) {
+        configurer.setPatternParser(new PathPatternParser());
+    }
+}
+```
+* PathPattern特性
+```
+可以支持{*path}:同时可以匹配到多级路径
+PathPattern 只支持结尾部分使用 **，不同于AntPathMatcher
+```
+### SpringMVC中的路径冲突
+如当一次请求匹配到多个路径，那么就需要选出最接近的路径。
+通常会使用@RequestMapping注解，根据不同功能模块修改其映射路径解决此问题。
+
+### SpringMVC获取请求参数
+* **(原始)通过ServletAPI获取**，将HttpServletRequest作为控制器方法的形参，此时HttpServletRequest类型的参数表示封装了当前请求的请求报文对象
+```
+request.getParameter("xxx");
+```
+* **方法形参获取**，多个值逗号分开即可
+```java
+@RequestMapping("/hello")
+@ResponseBody
+public String hello(String name,String password){
+    System.out.println(name);
+    System.out.println(password);
+    return "hello world";
+}
+```
+* **通过POJO获取**
+  * 如果参数较多，那么接收参数的时候就较为复杂，这个时候可以使用POJO获取参数。
+  * 需要注意请求参数key的名称要和POJO中属性的名称一致。
+```java
+@RequestMapping("/hello")
+@ResponseBody
+public String hello(User user){
+    System.out.println(user);
+    return "hello world";
+}
+```
+* @RequestParam
+  * 当请求参数与方法形参对应不上，可使用@RequestParam注解解决
+  * 位置放在方法形参定义前面
+  * 属性:
+    * required：是否为必传参数
+    * defaultValue：参数默认值
+### SpringMVC JSON数据处理
+* 可借助其他JSON依赖帮助处理JSON数据，例如jackson等等
+* 操作流程，导入jackson包
+```xml
+<dependency>
+    <groupId>com.fasterxml.jackson.core</groupId>
+    <artifactId>jackson-databind</artifactId>
+    <version>2.13.4.2</version>
+</dependency>
+```
+* 配置类上添加@EnableWebMvc注解
+* 方法形参前添加@RequestBody即可
+* @RequestBody(常用注解):将外部传递的json数据映射到形参的集合或对象中
 

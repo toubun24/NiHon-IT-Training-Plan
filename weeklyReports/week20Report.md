@@ -7,10 +7,10 @@
 
 * **2023.04.30 火曜日:** 
   * SpringMVC-JSON数据处理 15:50-16:32
-  * SpringMVC-数据响应 16:32-
-  * SpringMVC-RESTful快速入门 
-  * SpringMVC-拦截器 
-  * SpringBoot-介绍
+  * SpringMVC-数据响应 16:32-16:55
+  * SpringMVC-RESTful快速入门 19:15-19:36
+  * SpringMVC-拦截器 19:36-20:15
+  * SpringBoot-介绍 20:20-
   * SpringBoot-第一个项目 
   * SpringBoot-配置文件
   * SpringBoot-配置文件读取
@@ -135,7 +135,119 @@ public List<User> responsejson2(){
 ```
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430165430.png)
 
+### RESTful API
+
+#### RESTful GET
+```java
+@GetMapping // 查询
+public String getUser(){
+    return "获取所有User信息";
+}
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430192903.png)
+
+#### RESTful POST
+```java
+@PostMapping // 添加
+public String insertUser(@RequestBody User user){
+    System.out.println(user);
+    return "新增用户数据";
+}
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430193034.png)
+```
+User(id=444, name=wsx, password=qwe)
+```
+
+#### RESTful PUT
+```java
+@PutMapping("/{userId}") // 更新
+public String updateUser(@PathVariable("userId") Long userId, @RequestBody User user){
+    System.out.println(userId);
+    System.out.println(user);
+    return "更新用户数据";
+}
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430193255.png)
+```
+444
+User(id=444, name=wsx22, password=qwe22)
+```
+
+#### RESTful DELETE
+```java
+@DeleteMapping("/{userId}") // 删除
+public String deleteUser(@PathVariable("userId") Long userId){
+    System.out.println(userId);
+    return "删除用户数据";
+}
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430193449.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 内容拓展
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ## 遇见问题

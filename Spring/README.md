@@ -630,4 +630,33 @@ public String hello(User user){
 * RESTful快速入门
   * @RestController=@Controller+@ResponseBody
 
-## 
+## SpringMVC拦截器
+
+### 拦截器
+* SpringMVC的控制器拦截器,用于对控制器进行预处理和后处理。
+* 依赖于Web框架，在实现上基于Java的反射机制，属于面向切面编程（AOP）的一种运用。
+* 一个拦截器实例在一个控制器生命周期之内可以多次调用。
+* 类似于Servlet中的过滤器Filter。
+
+### 拦截器和过滤器区别
+* 过滤器
+  * 过滤器属于Servlet技术
+  * 过滤器主要对所有请求过滤
+  * 过滤器的执行时机早于拦截器
+* 拦截器
+  * 拦截器属于SpringMVC技术，必须要有SpringMVC环境才可以使用
+  * 拦截器通常对控制器Controller进行拦截
+  * 拦截器只能拦截dispatcherServlet处理的请求
+
+### 拦截器应用场景
+* 进行权限检查，登录检测等等。
+* 只要是多个Controller中的处理方法都需要的逻辑，可以抽离出使用拦截器实现。
+
+### 拦截器配置
+* 创建拦截器类
+* preHandler方法，返回true放行，执行原始方法，返回false则拦截。
+  * request参数:请求对象
+  * response参数:响应对象
+  * handler参数:被调用的控制器方法对象
+* 重写WebMvcConfigurer中的addInterceptors进行拦截器注册
+* 如有静态资源重写WebMvcConfigurer中的addResourceHandlers放行静态资源

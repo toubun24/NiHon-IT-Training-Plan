@@ -596,3 +596,38 @@ public String hello(User user){
 * 方法形参前添加@RequestBody即可
 * @RequestBody(常用注解):将外部传递的json数据映射到形参的集合或对象中
 
+## SpringMVC响应
+
+### SpringMVC响应
+* SpringMVC接收到请求后，需要进行一些操作进行处理请求，将结果进行响应操作。
+
+#### 响应文本数据
+* 需要添加@ResponseBody注解，将文本数据进行响应。
+
+#### 响应JSON数据
+* SpringMVC还可以响应实体类(集合)对象。
+* 需要添加依赖@ResponseBody注解和@EnableWebMvc注解。
+* 此时控制器方法返回值为实体类类型时，即可响应JSON数据。
+
+### RESTful API
+* 传统风格API
+  * http://localhost/user/getUser 查询所有用户信息
+  * http://localhost/user/insertUser 添加用户信息
+  * http://localhost/user/updateUser 更新用户信息
+  * http://localhost/user/deleteUser 删除用户信息
+* SpringMVC还支持RESTful风格API
+  * http://localhost/user GET请求方式查询所有用户信息
+  * http://localhost/user POST请求方式添加用户信息
+  * http://localhost/user/{userId} PUT请求方式更新用户信息
+  * http://localhost/user/{userId} DELETE请求方式删除用户信息
+* 优点
+  * 统一接口，GET/POST/PUT/DELETE进行CRUD操作。
+  * 面向资源，一目了然。
+  * 数据描述简单，一般以JSON做数据交换…​。
+* 缺点
+  * 对于查询参数过多的接口，会导致URL的长度过长、造成请求失败。
+  * 应按照实际需求制作相应的接口。
+* RESTful快速入门
+  * @RestController=@Controller+@ResponseBody
+
+## 

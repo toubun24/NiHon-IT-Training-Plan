@@ -5,6 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller // 注册为处理器对象
 // @RequestMapping("/test") // 解决路径冲突
 // http://localhost:8080/hello?test-params=zhangsan 报错
@@ -68,5 +71,44 @@ public class TestController {
         System.out.println(name);
         System.out.println(password);
         return "getparameter4";
+    }
+
+    /*JSON数据处理*/
+    @RequestMapping("/testjson")
+    @ResponseBody
+    // public String testjson(@RequestBody User user){ // @RequestBody: 将外部传递的json数据映射到形参的集合或对象中
+    public String testjson(@RequestBody List<User> user){
+        System.out.println(user);
+        return "testjson";
+    }
+
+    /*响应JSON数据*/
+    @RequestMapping("/responsejson")
+    @ResponseBody
+    public User responsejson(){
+        User user = new User();
+        user.setId(1L);
+        user.setName("张三");
+        user.setPassword("abc123");
+        return user;
+    }
+
+    /*响应JSON数据2*/
+    @RequestMapping("/responsejson2")
+    @ResponseBody
+    // public User responsejson2(){
+    public List<User> responsejson2(){
+        User user = new User();
+        user.setId(1L);
+        user.setName("张三");
+        user.setPassword("abc123");
+        User user2 = new User();
+        user2.setId(12L);
+        user2.setName("张三2");
+        user2.setPassword("abc1232");
+        List<User> list = new ArrayList<>();
+        list.add(user);
+        list.add(user2);
+        return list;
     }
 }

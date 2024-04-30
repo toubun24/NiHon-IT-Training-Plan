@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Configuration
-@EnableWebMvc
+@EnableWebMvc // JSON数据处理和响应
 public class WebConfiguration implements WebMvcConfigurer {
     /*中文支持*/
     @Override

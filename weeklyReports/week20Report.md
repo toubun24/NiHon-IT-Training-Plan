@@ -10,8 +10,8 @@
   * SpringMVC-数据响应 16:32-16:55
   * SpringMVC-RESTful快速入门 19:15-19:36
   * SpringMVC-拦截器 19:36-20:15
-  * SpringBoot-介绍 20:20-
-  * SpringBoot-第一个项目 
+  * SpringBoot-介绍 23:30-23:40 01:05-01:10
+  * SpringBoot-第一个项目 01:10-01:45
   * SpringBoot-配置文件
   * SpringBoot-配置文件读取
   * SpringBoot-配置文件多环境 
@@ -297,3 +297,7 @@ Caused by: java.lang.ClassNotFoundException: com.fasterxml.jackson.databind.cfg.
 </dependency>
 ```
 
+### 【已解决】IDEA社区版新建项目没有Spring Initializr
+参考[链接](https://blog.csdn.net/xiangkouyizhimao/article/details/134959972)的[方法二](https://blog.csdn.net/weixin_45014413/article/details/129726113)(方法一的Spring Boot Helper插件现在要收费否则`no license`无法使用)，在`https://start.spring.io/`进行配置后下载
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240501013034.png)
+但安装依赖的过程

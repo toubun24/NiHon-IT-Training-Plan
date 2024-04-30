@@ -660,3 +660,30 @@ public String hello(User user){
   * handler参数:被调用的控制器方法对象
 * 重写WebMvcConfigurer中的addInterceptors进行拦截器注册
 * 如有静态资源重写WebMvcConfigurer中的addResourceHandlers放行静态资源
+
+# SpringBoot
+
+## SpringBoot介绍
+
+### SpringBoot
+* Spring Boot是由Pivotal团队提供的全新框架，其设计目的是用来简化新Spring应用的初始搭建以及开发过程。
+* 该框架使用了特定的方式来进行配置，从而使开发人员不再需要定义样板化的配置。
+* 通过这种方式，Spring Boot致力于在蓬勃发展的快速应用开发领域成为领导者。
+
+### SpringBoot特点
+* SpringBoot所具备的特征有：
+  * 可以创建独立的Spring应用程序，并且基于其Maven或Gradle插件，可以创建可执行的JARs和WARs；
+  * 内嵌Tomcat或Jetty等Servlet容器；
+  * 提供自动配置的“starter”项目对象模型（POMS）以简化Maven配置；
+  * 尽可能自动配置Spring容器；
+  * 提供准备好的特性，如指标、健康检查和外部化配置；
+  * 不需要XML配置等等。
+
+### 第一个SpringBoot项目
+* 创建新项目，选择Spring Initializr，配置项目相关信息
+* 选择当前项目需要使用的技术依赖项
+* 创建Controller
+* 运行SpringApplication即可启动项目用于测试。
+* 除此之外还可以使用package打包命令打包后使用java -jar直接运行程序。
+
+## SpringBoot配置

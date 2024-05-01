@@ -1,0 +1,3 @@
+# spring.application.name=_04_SpringBoot
+server:
+  port: 8081

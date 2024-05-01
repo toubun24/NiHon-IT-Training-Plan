@@ -12,17 +12,18 @@
   * SpringMVC-拦截器 19:36-20:15
   * SpringBoot-介绍 23:30-23:40 01:05-01:10
   * SpringBoot-第一个项目 01:10-01:45
-  * SpringBoot-配置文件
-  * SpringBoot-配置文件读取
+
+* **2023.05.01 水曜日:** 
+  * SpringBoot-第一个项目 02:10-02:51
+  * SpringBoot-配置文件 02:51-
+  * SpringBoot-配置文件读取 
   * SpringBoot-配置文件多环境 
   * SpringBoot-命令行启动配置 
   * SpringBoot-集成Quartz概念 
-  * SpringBoot-集成Quartz操作
+  * SpringBoot-集成Quartz操作 
   * SpringBoot-Task使用 
   * SpringBoot-集成MyBatis 
   * SpringBoot-CRUD练习 
-
-* **2023.05.01 水曜日:** 
 
 * **2023.05.02 木曜日:** 
 
@@ -297,7 +298,41 @@ Caused by: java.lang.ClassNotFoundException: com.fasterxml.jackson.databind.cfg.
 </dependency>
 ```
 
-### 【已解决】IDEA社区版新建项目没有Spring Initializr
-参考[链接](https://blog.csdn.net/xiangkouyizhimao/article/details/134959972)的[方法二](https://blog.csdn.net/weixin_45014413/article/details/129726113)(方法一的Spring Boot Helper插件现在要收费否则`no license`无法使用)，在`https://start.spring.io/`进行配置后下载
+### 【已解决】SpringBoot IDEA社区版新建项目没有Spring Initializr
+* 参考[链接](https://blog.csdn.net/xiangkouyizhimao/article/details/134959972)的[方法二](https://blog.csdn.net/weixin_45014413/article/details/129726113)(方法一的Spring Boot Helper插件现在要收费否则`no license`无法使用)，在`https://start.spring.io/`进行配置后下载
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240501013034.png)
-但安装依赖的过程
+* 但这样的目录名里依然是各种的`demo`，所以需要继续优化修改名称等
+* 参考课件删除了`gitignore`, `HELP.md`, `mvnw`, `mvnw.cmd`文件以及`.mvn`目录
+* 项目启动方式：`_04_SpringBoot/src/main/java/com/example/demo/Application.java`文件中直接以`Current File`启动即可，注意不是`_04_SpringBoot/src/test/java/com/example/demo/ApplicationTests.java`文件
+* 项目打包方式：停止运行中的项目后，点击IDEA右侧边栏`Maven-_04_SpringBoot-Lifecycle-package`，随后生成`target`文件夹，找到`demo-0.0.1-SNAPSHOT.jar`文件，右键运行即可；或者在TERMINAL执行
+```
+cd .../target
+java -jar demo-0.0.1-SNAPSHOT.jar
+```
+也可以实现运行
+* 根据课件，`_04_SpringBoot/src/main/resources/application.properties`被重命名为`application.yml`，同时创建了更高优先级的`_04_SpringBoot/src/main/resources/config/application.yml`
+
+### 【已解决】SpringBoot pom.xml `Plugin 'org.springframework.boot:spring-boot-maven-plugin:3.2.5' not found`
+```
+Plugin 'org.springframework.boot:spring-boot-maven-plugin:3.2.5' not found
+```
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId> <!--此处报错-->
+            <version>3.2.5</version> <!--默认没有这里，加上这句指明版本号后就可以下载依赖解决报错了-->
+            <configuration>
+                <excludes>
+                    <exclude>
+                        <groupId>org.projectlombok</groupId>
+                        <artifactId>lombok</artifactId>
+                    </exclude>
+                </excludes>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+```
+

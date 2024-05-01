@@ -687,3 +687,102 @@ public String hello(User user){
 * 除此之外还可以使用package打包命令打包后使用java -jar直接运行程序。
 
 ## SpringBoot配置
+
+### Springboot结构中的pom.xml文件
+* parent:继承的项目中定义了若干个依赖坐标版本，减少依赖冲突。
+* 即只需提供groupId与artifactId，version由SpringBoot提供。
+```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId> <!---->
+    <version>3.2.5</version>
+    <relativePath/> <!-- lookup parent from repository -->
+</parent>
+```
+* starter:定义了当前项目使用的相关依赖坐标，减少配置依赖的操作。
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+### Springboot中的配置文件
+* SpringBoot中的配置文件分别是三种类型,优先级从上至下，越上面的优先级越高。
+  * application.properties
+  * application.yml
+  * application.yaml
+  * 注意:如有config目录，则config目录下的配置文件优先级高于类路径下的配置文件。
+* SpringBoot开发中配置文件建议使用yml格式，因为其层次分明，且支持对象数组等定义。
+  * 但需注意yml语法大小写敏感，同层级左侧对齐等等语法要求。
+
+#### Springboot中的配置文件如何读取？
+* 使用@Value注解从配置文件中读取数据,例如:@Value("${属性名.属性名}")
+* 使用环境对象Environment,默认获取application配置文件的内容
+  * 使用@PropertySource可以读取自定义配置文件到 Spring 的 Environment 中。
+  * 和@Value搭配使用，可以将自定义配置文件中的属性变量值注入到当前类使用了@Value注解的成员变量中。
+  * 注意@PropertySource默认情况下不会加载yaml/yml文件,默认加载的是.xml或者 .properties文件。
+  * 如需要加载.yml文件，就需要继承DefaultPropertySourceFactory类并修改。
+  * @PropertySource(value = "classpath:test.yml",factory = YamlConfig.class)
+* 使用实体类对象进行属性映射
+  * 在实体类上标注@ConfigurationProperties注解进行配置文件加载。
+  * 并且此实体类需要注册到IoC容器。
+  * 如遇未配置 Spring Boot 配置注解处理器警告，在pom中添加如下依赖即可。
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-configuration-processor</artifactId>
+    <optional>true</optional>
+</dependency>
+```
+#### Springboot配置文件中的多环境
+* 开发环境、测试环境、生产环境都有不同的环境，例如各种日志级别，数据库连接…​。
+* 因此配置文件中的多环境也非常有必要。
+* yml配置文件中可以直接使用---来区分不同的配置
+```yml
+# yml
+spring:
+  profiles:
+    active: pro
+---
+# 开发环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+server:
+  port: 8080
+---
+# 生产环境
+spring:
+  config:
+    activate:
+      on-profile: pro
+server:
+  port: 80
+```
+* properties配置文件可以直接使用不同名称的多配置文件来区分不同的配置
+  * application-dev.properties 开发环境配置文件。
+  * application-pro.properties 生产环境配置文件。
+* 注意:SpringBoot只会默认加载名为application.properties的配置文件
+* 所以需要在application.properties配置文件中设置使用哪个配置文件
+```
+spring.profiles.active=pro
+```
+
+#### Springboot命令行启动
+* 命令行启动提供的配置参数优先级最高，即使配置文件中已经定义了相关参数。
+* 主要方便在对应用程序打包后需要临时改变相关参数的情况，而无需修改代码或配置文件再重新打包运行。
+```
+java -jar lalapodo.jar --server.port=8080 --spring.profiles.active=pro
+```
+* 在Docker容器运行时也方便临时修改参数。
+```
+FROM amazoncorretto:17.0.5
+ADD lalapodo.jar lalapodo.jar
+EXPOSE 8080
+ENTRYPOINT ["java", "-jar", "lalapodo.jar", "--server.port=8080", "--spring.profiles.active=pro"]
+```
+
+
+

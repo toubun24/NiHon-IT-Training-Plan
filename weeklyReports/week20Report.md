@@ -18,14 +18,14 @@
   * SpringBoot-配置文件 02:51-03:25
   * SpringBoot-配置文件读取 03:55-04:28
   * SpringBoot-配置文件多环境 04:28-04:40
-  * SpringBoot-命令行启动配置 
-  * SpringBoot-集成Quartz概念 
-  * SpringBoot-集成Quartz操作 
-  * SpringBoot-Task使用 
-  * SpringBoot-集成MyBatis 
-  * SpringBoot-CRUD练习 
 
 * **2023.05.02 木曜日:** 
+  * SpringBoot-命令行启动配置 20:40-20:53
+  * SpringBoot-集成Quartz概念 20:53-21:05
+  * SpringBoot-集成Quartz操作 21:10-21:27
+  * SpringBoot-Task使用 21:27-21:43
+  * SpringBoot-集成MyBatis 21:43-00:30
+  * SpringBoot-CRUD练习 
 
 * **2023.05.03 金曜日:** 
 
@@ -210,8 +210,11 @@ public String deleteUser(@PathVariable("userId") Long userId){
 
 ## 内容拓展
 
+### `@Autowired`
+https://blog.csdn.net/m0_50308467/article/details/135240536
 
-
+### `implements`
+https://blog.csdn.net/m0_58761900/article/details/124801632
 
 
 
@@ -336,3 +339,172 @@ Plugin 'org.springframework.boot:spring-boot-maven-plugin:3.2.5' not found
 </build>
 ```
 
+### 【基本解决】Spring MyBatis 运行报错
+```
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Field testService in com.example.demo.Controller.Test2Controller required a bean of type 'com.example.demo.Service.TestService' that could not be found.
+
+The injection point has the following annotations:
+	- @org.springframework.beans.factory.annotation.Autowired(required=true)
+
+
+Action:
+
+Consider defining a bean of type 'com.example.demo.Service.TestService' in your configuration.
+
+
+Process finished with exit code 1
+```
+* 给`TestServiceImpl`补上`@Service`后
+```java
+package com.example.demo.Service.Imlp;
+
+@Service // new
+public class TestServiceImpl implements TestService {
+    @Autowired
+    private TestMapper testMapper;
+
+    @Override
+    public List<TestTable> getAll() {
+        return testMapper.getAll();
+    }
+}
+
+```
+```
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The dependencies of some of the beans in the application context form a cycle:
+
+   test2Controller (field private com.example.demo.Service.TestService com.example.demo.Controller.Test2Controller.testService)
+┌─────┐
+|  testServiceImpl (field private com.example.demo.mapper.TestMapper com.example.demo.Service.Imlp.TestServiceImpl.testMapper)
+└─────┘
+
+
+Action:
+
+Relying upon circular references is discouraged and they are prohibited by default. Update your application to remove the dependency cycle between beans. As a last resort, it may be possible to break the cycle automatically by setting spring.main.allow-circular-references to true.
+```
+* 相关功能的实现在`_04_SpringBoot/src/main/resources/mapper/TestServiceMapper.xml`，注意到文件路径错误，因此对其进行修改
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.lalapodo.mapper.TestMapper"> <!--路径错误-->
+    <select id="getAll" resultType="com.lalapodo.Bean.TestTable"> <!--路径错误-->
+        select * from test_table
+    </select>
+</mapper>
+```
+* 修改为`<mapper namespace="com.example.demo.mapper.TestMapper">`和`<select id="getAll" resultType="com.example.demo.Bean.TestTable">`，但报错依然存在
+* 注意到数据库路径也存在同样问题，对`_04_SpringBoot/src/main/resources/config/application.yml`中的相关路径进行修改
+```yml
+spring:
+  config:
+    activate:
+      on-profile: dev
+  datasource:
+    # url: jdbc:mysql://localhost:3306/lalapodo
+    url: jdbc:mysql://localhost:3306/mydatabase
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+server:
+  port: 8080
+```
+* 参考[链接](https://www.jb51.net/program/2849430jp.htm)，SpringBoot 从 2.6 开始默认不允许出现 Bean 循环引用。而且这个是在Bean 定义上也就是类上就不允许出现循环引用。
+* 其中还提到，绕过SpringBoot这个拦截的方法还有比如使用`@Lazy`注解进行延迟初始化。在查阅其他参考链接时确实有注意到过这种写法。
+* 尝试在TestServiceImpl中给TestMapper加上`@Lazy`
+```java
+@Service
+public class TestServiceImpl implements TestService {
+    @Lazy // new
+    @Autowired
+    private TestMapper testMapper;
+
+    @Override
+    public List<TestTable> getAll() {
+        return testMapper.getAll();
+    }
+}
+```
+* 报错变为
+```
+java.lang.ClassNotFoundException: com.mysql.cj.jdbc.Driver
+...
+
+2024-05-02T23:59:30.453+08:00  WARN 5764 --- [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Generic.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: com.mysql.cj.jdbc.Driver
+2024-05-02T23:59:30.456+08:00  INFO 5764 --- [           main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2024-05-02T23:59:30.510+08:00  INFO 5764 --- [           main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2024-05-02T23:59:30.522+08:00 ERROR 5764 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Generic.class]: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: com.mysql.cj.jdbc.Driver
+...
+
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [javax.sql.DataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: com.mysql.cj.jdbc.Driver
+...
+
+Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.cj.jdbc.Driver
+...
+```
+* 似乎与`_04_SpringBoot/src/main/resources/config/application.yml`中的`driver-class-name: com.mysql.cj.jdbc.Driver`配置项有关，想到**可能又是版本问题**导致的
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+* 于是先参考`https://repo.maven.apache.org/maven2/mysql/mysql-connector-java/`将`mysql-connector-java`设为了尽可能新的稳定版本`@8.0.33`(因为`spring-boot-starter-parent@3.2.5`的发布时间为Apr 18, 2024，也是很新了)
+```xml
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <version>8.0.33</version>
+    <scope>runtime</scope>
+</dependency>
+```
+* 然而显示警告
+```
+[WARNING] The artifact mysql:mysql-connector-java:jar:8.0.33 has been relocated to com.mysql:mysql-connector-j:jar:8.0.33
+```
+* 这个警告信息表示尝试使用的Maven依赖mysql:mysql-connector-java:jar:8.0.33已经被迁移到新的坐标com.mysql:mysql-connector-j:jar:8.0.33。这意味着应该更新你的pom.xml文件来反映这个变化。
+* 此时我没有直接去修改写法，反正只是写法问题警告，先搞出来再说；然后又想到去看网上其他人`spring-boot-starter-parent@3.2.5`的相关依赖配置版本，参考[链接](https://www.jb51.net/program/3203078xj.htm)
+```xml
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <!--<version>2.2.2</version>-->
+    <version>3.0.3</version>
+</dependency>
+<!--<dependency>-->
+<!--    <groupId>mysql</groupId>-->
+<!--    <artifactId>mysql-connector-java</artifactId>-->
+<!--    <version>8.0.33</version> &lt;!&ndash;new&ndash;&gt;-->
+<!--    <scope>runtime</scope>-->
+<!--</dependency>-->
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+* 随后顺利解决，但循环依赖那里我是用的`@Lazy`规避过去了，总感觉还是差点意思，先暂时搁置，之后熟练了再尝试重构代码避免循环依赖

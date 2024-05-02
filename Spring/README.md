@@ -784,5 +784,104 @@ EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "lalapodo.jar", "--server.port=8080", "--spring.profiles.active=pro"]
 ```
 
+## SpringBoot集成Quartz
 
+### Quartz
+Quartz是OpenSymphony开源组织在Job scheduling领域的开源项目，它可以与J2EE与J2SE应用程序相结合也可以单独使用。
+
+Quartz可以用来创建简单或为运行十个，百个，甚至是好几万个Jobs这样复杂的程序。
+
+Jobs可以做成标准的Java组件或 EJBs。
+
+### Quartz相关API
+  * Scheduler：Quartz 中的任务调度器，通过 Trigger 和 JobDetail 可以用来调度、暂停和删除任务。
+  * 调度器就相当于一个容器，装载着任务和触发器，该类是一个接口，代表一个 Quartz 的独立运行容器。
+  * Trigger：Quartz 中的触发器，是一个类，描述触发 Job 执行的时间触发规则，主要有 SimpleTrigger 和 CronTrigger 这两个子类。
+    * 仅需调度一次或者以固定时间间隔周期执行调度，SimpleTrigger 是最适合的选择。
+    * 而 CronTrigger 可以通过 Cron 表达式定义出各种复杂时间规则的调度方案。
+  * Job：Quartz 中具体的任务，包含了执行任务的具体方法。
+  * JobDetail：Quartz 中需要执行的任务详情，包括了任务的唯一标识和具体要执行的任务，可以通过 JobDataMap 往任务中传递数据。
+  * JobBuilder：用于定义/构建 JobDetail 实例，用于定义作业的实例。
+  * TriggerBuilder：用于定义/构建触发器实例。
+
+### SpringBoot集成Quartz
+1. 引入Quartz依赖
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-quartz</artifactId>
+</dependency>
+```
+2. 定义Job类
+  * 其中JobExecutionContext包含各种上下文信息的句柄。
+  * 可以通过它获取Job运行时的环境以及属性信息。
+  * 而JobDataMap实现了Map接口，用法同Map类似，它可以装载任何可序列化的数据对象。
+  * 执行Job时JobDataMap可用来传递数据，JobDataMap存在于JobExecutionContext中，通过JobExecutionContext来获取。
+3. 创建Quartz配置类定义任务
+
+## SpringBootTask
+
+### SpringBoot Task
+* Spring Task 是 Spring 自主研发的轻量级定时任务工具，相比于 Quartz 更加简单方便，且不需要引入其他依赖即可使用。
+* Spring Task 缺点在于不支持持久化，并且默认是所有定时任务都在一个线程中执行，不配置线程池可能会出现线程阻塞、卡死等！
+
+### SpringBoot Task使用
+1. 启动类加上@EnableScheduling注解开启Spring Task
+2. 定义定时任务交由Ioc容器
+
+### SpringBoot Task配置
+```java
+@Configuration
+public class SpringTaskConfig implements SchedulingConfigurer {
+    @Override
+    public void configureTasks(ScheduledTaskRegistrar taskRegistrar) {
+        ThreadPoolTaskScheduler threadPoolTaskScheduler = new ThreadPoolTaskScheduler();
+        //设置线程池大小 默认为1
+        threadPoolTaskScheduler.setPoolSize(10);
+        //设置线程名称前缀
+        threadPoolTaskScheduler.setThreadNamePrefix("aaa-");
+        //设置线程池关闭时是否等待任务完成
+        threadPoolTaskScheduler.setWaitForTasksToCompleteOnShutdown(true);
+        //设置线程池关闭前最大等待时间
+        threadPoolTaskScheduler.setAwaitTerminationSeconds(60);
+        //初始化
+        threadPoolTaskScheduler.initialize();
+        taskRegistrar.setTaskScheduler(threadPoolTaskScheduler);
+    }
+}
+```
+
+## SpringBoot集成MyBatis
+
+### MyBatis简介
+* MyBatis是一个基于Java的持久层框架，它使用对象关系映射实现了对结果集的封装。
+* 对象关系映射:把数据库表和实体类及实体类的属性对应起来，让开发者操作实体类就实现操作数据库表。
+* 它封装了JDBC操作的很多细节，使开发者只需要关注SQL语句本身，而无需关注注册驱动，创建连接等烦杂过程。
+
+### SpringBoot集成MyBatis
+1. 引入MyBatis相关依赖
+```xml
+<dependency>
+    <groupId>org.mybatis.spring.boot</groupId>
+    <artifactId>mybatis-spring-boot-starter</artifactId>
+    <version>2.2.2</version>
+</dependency>
+<dependency>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
+</dependency>
+<dependency>
+    <groupId>com.alibaba</groupId>
+    <artifactId>druid-spring-boot-starter</artifactId>
+    <version>1.2.14</version>
+</dependency>
+```
+2. 配置文件中配置数据库相关信息
+3. 定义数据库表实体类
+4. 定义Mapper接口
+5. 定义Service接口及实现类
+6. 类路径mapper目录下定义SQL映射文件
+7. 定义控制器类
+8. 发送请求进行测试即可
 

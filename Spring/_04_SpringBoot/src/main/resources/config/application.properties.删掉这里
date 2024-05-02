@@ -1,0 +1,5 @@
+spring.profiles.active=dev
+# application-dev.properties or application-pro.properties
+
+# java -jar demo-0.0.1-SNAPSHOT.jar => dev 8080
+# java -jar demo-0.0.1-SNAPSHOT.jar --spring.profiles.active=pro => pro 80

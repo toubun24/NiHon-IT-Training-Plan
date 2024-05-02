@@ -10,8 +10,21 @@ spring:
   config:
     activate:
       on-profile: dev
+# MyBatis
+  datasource:
+    # url: jdbc:mysql://localhost:3306/lalapodo
+    url: jdbc:mysql://localhost:3306/mydatabase
+    username: root
+    password: 12345678
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #开启驼峰命名功能
+    map-underscore-to-camel-case: true
 server:
-  port: 8081
+  port: 8080
 ---
 # 生产环境
 spring:
@@ -19,4 +32,4 @@ spring:
     activate:
       on-profile: pro
 server:
-  # port: 80 # localhost/...
+  port: 80 # localhost/...

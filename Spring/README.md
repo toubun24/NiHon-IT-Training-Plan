@@ -951,3 +951,78 @@ system         Y            Y             -             Y
 * provided：provided依赖只有在当JDK或者一个容器已提供该依赖之后才使用，provided依赖在编译和测试时需要，在运行时不需要。
 * runtime：runtime依赖在运行和测试的时候需要，但在编译的时候不需要。
 * system：system范围依赖与provided类似，但是必须显示的提供一个对于本地系统中jar文件的路径。一般不推荐使用。
+
+## Maven 依赖管理
+
+### Maven依赖管理
+* Maven一个核心的特性就是依赖管理。
+* 当我们处理多模块的项目（包含成百上千个模块或者子项目），模块间的依赖关系就变得非常复杂，管理也变得很困难。
+* 针对此种情形，Maven 提供了一种高度控制的方法。
+
+### 可传递性依赖发现
+* 一种相当常见的情况，比如说 A 依赖于其他库 B。如果，另外一个项目 C 想要使用 A ，那么 C 项目也需要使用库 B。
+* Maven 通过读取项目文件（pom.xml），找出它们项目之间的依赖关系。
+* 我们需要做的只是在每个项目的 pom 中定义好直接的依赖关系。其他的事情 Maven 会帮我们搞定。
+* 通过可传递性的依赖，所有被包含的库的图形会快速的增长。
+* 当有重复库时，可能出现的重复的情形将会持续上升。
+
+#### 依赖排除
+* 任何可传递的依赖都可以通过 "exclusion" 元素被排除在外。
+
+#### 依赖可选
+* 任何可传递的依赖可以被标记为可选的，通过使用 "optional" 元素。
+
+
+### 依赖管理
+* 通常情况下，在一个共通的项目下，有一系列的项目。
+* 在这种情况下，我们可以创建一个公共依赖的 pom 文件，该 pom 包含所有的公共的依赖关系，我们称其为其他子项目 pom 的 pom 父。
+* 此 pom 父是一个不具有业务功能的空工程。能解决批量模块同步构建的问题。
+* 操作步骤
+1. 创建一个空的maven项目
+2. 将项目打包方式改为pom(重要)
+3. 添加所要管理的项目到此pom.xml文件中
+```xml
+<modules>
+    <module>xxx</module>
+</modules>
+```
+4. 使用此 pom 父统一管理项目即可
+5. 此 pom 父会按照项目与项目之间的依赖关系来自动决定执行的顺序和配置的顺序无关。
+6. 除此之外，还可以把子项目(模块)共同使用的jar包都抽离出来，维护在 pom 父中，方便管理。
+7. pom 父
+```xml
+<properties>
+    <spring.version>5.3.23</spring.version>
+</properties>
+<dependencies>
+    <!--依赖-->
+    <dependency>
+          <!-- 项目名称 -->
+          <groupId>xxx</groupId>
+          <!-- 模块名称 -->
+          <artifactId>xxx</artifactId>
+          <!-- 版本 -->
+          <version>${spring.version}</version>
+      </dependency>
+</dependencies>
+```
+8. 子项目(模块)继承 pom 父即可
+```xml
+<parent>
+    <artifactId>parent_demo</artifactId>
+    <groupId>com.lalapodo</groupId>
+    <version>1.0</version>
+</parent>
+```
+9. pom 父也能够配置可选依赖
+```xml
+<dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>xxx</groupId>
+            <artifactId>xxx</artifactId>
+            <version>xxx</version>
+        </dependency>
+    </dependencies>
+</dependencyManagement>
+```

@@ -28,13 +28,13 @@
 
 * **2023.05.03 金曜日:** 
   * SpringBoot-CRUD练习 20:30-21:05
-  * Maven-介绍与配置 21:05-21:10 21:50-22:15
-  * Maven-常用命令 22:15-22:40
-  * Maven-POM介绍 
-  * Maven-可传递性依赖 
-  * Maven-依赖管理 
-  * Maven-远程仓库搭建 
-  * Maven-远程仓库配置使用 
+  * SpringMaven-介绍与配置 21:05-21:10 21:50-22:15
+  * SpringMaven-常用命令 22:15-22:40
+  * SpringMaven-POM介绍 23:50-00:00
+  * SpringMaven-可传递性依赖 00:00-00:11
+  * SpringMaven-依赖管理 00:11-01:00
+  * SpringMaven-远程仓库搭建 
+  * SpringMaven-远程仓库配置使用 
 
 * **2023.05.04 土曜日:** 
 
@@ -210,12 +210,14 @@ public String deleteUser(@PathVariable("userId") Long userId){
 ### MAVEN install
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503223812.png)
 
+### MAVEN pom父
 
+#### pom父
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504004909.png)
 
-
-
-
-
+#### pom父配置可选依赖
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504005646.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504010033.png)
 
 ## 内容拓展
 
@@ -517,3 +519,9 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 </dependency>
 ```
 * 随后顺利解决，但循环依赖那里我是用的`@Lazy`规避过去了，总感觉还是差点意思，先暂时搁置，之后熟练了再尝试重构代码避免循环依赖
+
+### 【已解决】Java Maven新建子项目pom中parent找不到父项目
+* 参考[链接](https://blog.csdn.net/weixin_41040035/article/details/134690965)，注意默认创建时`GroupId`为`org.example`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504002731.png)
+需要改为和子项目相同的`GroupId`(此处应为`com.example`)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504002915.png)

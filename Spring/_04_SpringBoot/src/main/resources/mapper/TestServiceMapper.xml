@@ -10,4 +10,20 @@
     <select id="getAll" resultType="com.example.demo.Bean.TestTable">
         select * from test_table
     </select>
+
+    <select id="getOne" resultType="com.example.demo.Bean.TestTable">
+        select * from test_table where id =#{id}
+    </select>
+
+    <insert id="insertOne">
+        insert into test_table (id, name, age) values (default, #{name}, #{age})
+    </insert>
+
+    <update id="updateOne">
+        update test_table set name = #{testTable.name}, age=#{testTable.age} where id =#{id} <!--testTable.-->
+    </update>
+
+    <delete id="deleteOne">
+        delete from test_table where id = #{id}
+    </delete>
 </mapper>

@@ -8,4 +8,12 @@ import java.util.List;
 @Mapper
 public interface TestMapper { // MyBatis
     List<TestTable> getAll();
+
+    TestTable getOne(Long id);
+
+    boolean insertOne(TestTable testTable);
+
+    boolean updateOne(Long id, TestTable testTable);
+
+    boolean deleteOne(Long id);
 }

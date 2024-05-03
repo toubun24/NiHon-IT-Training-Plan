@@ -25,9 +25,16 @@
   * SpringBoot-集成Quartz操作 21:10-21:27
   * SpringBoot-Task使用 21:27-21:43
   * SpringBoot-集成MyBatis 21:43-00:30
-  * SpringBoot-CRUD练习 
 
 * **2023.05.03 金曜日:** 
+  * SpringBoot-CRUD练习 20:30-21:05
+  * Maven-介绍与配置 21:05-21:10 
+  * Maven-常用命令 
+  * Maven-POM介绍 
+  * Maven-可传递性依赖 
+  * Maven-依赖管理 
+  * Maven-远程仓库搭建 
+  * Maven-远程仓库配置使用 
 
 * **2023.05.04 土曜日:** 
 
@@ -185,15 +192,16 @@ public String deleteUser(@PathVariable("userId") Long userId){
 ```
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240430193449.png)
 
+### CRUD练习
 
+#### POST
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503205425.png)
 
+#### DELETE
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503210153.png)
 
-
-
-
-
-
-
+#### PUT
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503210345.png)
 
 
 

@@ -19,4 +19,24 @@ public class TestServiceImpl implements TestService { // MyBatis
     public List<TestTable> getAll() {
         return testMapper.getAll();
     }
+
+    @Override
+    public TestTable getOne(Long id) {
+        return testMapper.getOne(id);
+    }
+
+    @Override
+    public boolean insertOne(TestTable testTable) {
+        return testMapper.insertOne(testTable);
+    }
+
+    @Override
+    public boolean updateOne(Long id, TestTable testTable) {
+        return testMapper.updateOne(id, testTable);
+    }
+
+    @Override
+    public boolean deleteOne(Long id) {
+        return testMapper.deleteOne(id);
+    }
 }

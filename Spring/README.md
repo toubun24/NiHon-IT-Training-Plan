@@ -885,3 +885,69 @@ public class SpringTaskConfig implements SchedulingConfigurer {
 7. 定义控制器类
 8. 发送请求进行测试即可
 
+# SpringMaven
+
+## Maven介绍
+
+### Maven
+* Maven这个单词来自于犹太语，意为知识的积累。
+* Maven 翻译为"专家"、"内行"，是 Apache 下的一个纯 Java 开发的开源项目。
+* 基于项目对象模型（缩写：POM）概念，Maven利用一个中央信息片断能管理一个项目的构建、报告和文档等步骤。
+* Maven 是一个项目管理工具，可以对 Java 项目进行构建、依赖管理。
+* Maven 也可被用于构建和管理各种项目，例如 C#，Ruby，Scala 和其他语言编写的项目。
+* Maven 曾是 Jakarta 项目的子项目，现为由 Apache 软件基金会主持的独立 Apache 项目。
+
+### Maven优点
+* 快速构建工程，管理jar包，编译代码，运行单元测试，打包，生成报表，部署项目等等。
+
+### Maven仓库
+* Maven中，仓库是一个位置。
+* Maven仓库是项目中依赖的第三方库，这个库所在的位置叫做仓库。
+* Maven中，任何一个依赖、插件或者项目构建的输出，都可以称之为构件。
+* Maven仓库能帮助我们管理构件（主要是JAR），它就是放置所有JAR文件（WAR，ZIP，POM等等）的地方。
+* Maven 仓库有三种类型：
+  * 本地（local）:用来存储从远程仓库或中央仓库下载的插件和jar包，项目使用一些插件或jar包，优先从本地仓库查找。
+  * 中央（central）:Maven中内置的一个远程仓库地址http://repo1.maven.org/maven2，它是中央仓库，由Maven社区维护，其中包含了大量常用的库。
+  * 远程（remote）:如果Maven在中央仓库中也找不到依赖的文件，它会停止构建过程并输出错误信息到控制台。为避免这种情况，Maven 提供了远程仓库的概念，它是开发人员自己定制仓库，包含了所需要的代码库或者其他工程中用到的 jar 文件。
+
+### Maven项目目录结构
+* src/main/java —— java 代码文件
+* src/main/resources —— 项目资源文件
+* src/test/java —— 单元测试java 代码文件
+* src/test/resources —— 测试资源文件
+* target —— 项目输出位置，编译后的 class 文件会输出到此目录
+* pom.xml —— maven 项目核心配置文件
+
+### Maven常用命令
+* clean：清理命令，删除 target 目录及内容
+* compile：编译命令，将 src/main/java 下的文件编译为 class 文件输出到 target 目录下
+* test：测试命令，将执行 src/test/java 下的单元测试类
+* package：打包命令
+* install：安装命令，将项目打包后发布到本地仓库
+
+## Maven POM
+
+### POM
+* POM是 Maven 工程的基本工作单元，是一个XML文件，包含了项目的基本信息，用于描述项目如何构建，声明项目依赖，等等。
+* 执行任务或目标时，Maven 会在当前目录中查找 POM。它读取 POM，获取所需的配置信息，然后执行目标。
+* 所有 POM 文件都需要 project 元素和三个必需字段：groupId，artifactId，version。
+  * project 工程的根标签。
+  * modelVersion 模型版本需要设置为 4.0。
+  * groupId 这是工程组的标识。它在一个组织或者项目中通常是唯一的。
+  * artifactId 这是工程的标识。它通常是工程的名称。
+  * version 这是工程的版本号。在 artifact 的仓库中，它用来区分不同的版本。
+
+### POM依赖范围
+```
+依赖范围      编译          测试          运行时       打入jar包
+compile        Y            Y             Y             Y
+test           -            Y             -             -
+provided       Y            Y             -             -
+runtime        -            Y             Y             Y
+system         Y            Y             -             Y
+```
+* compile：编译范围，指 A 在编译时依赖 B，此范围为默认依赖范围。
+* test：test范围只有在测试编译和测试运行阶段可用。
+* provided：provided依赖只有在当JDK或者一个容器已提供该依赖之后才使用，provided依赖在编译和测试时需要，在运行时不需要。
+* runtime：runtime依赖在运行和测试的时候需要，但在编译的时候不需要。
+* system：system范围依赖与provided类似，但是必须显示的提供一个对于本地系统中jar文件的路径。一般不推荐使用。

@@ -70,7 +70,7 @@
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
+                <artifactId>spring-boot-maven-plugin</artifactId> <!--maven打包-->
                 <version>3.2.5</version>
                 <configuration>
                     <excludes>

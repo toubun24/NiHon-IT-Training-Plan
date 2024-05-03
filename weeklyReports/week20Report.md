@@ -28,8 +28,8 @@
 
 * **2023.05.03 金曜日:** 
   * SpringBoot-CRUD练习 20:30-21:05
-  * Maven-介绍与配置 21:05-21:10 
-  * Maven-常用命令 
+  * Maven-介绍与配置 21:05-21:10 21:50-22:15
+  * Maven-常用命令 22:15-22:40
   * Maven-POM介绍 
   * Maven-可传递性依赖 
   * Maven-依赖管理 
@@ -203,11 +203,12 @@ public String deleteUser(@PathVariable("userId") Long userId){
 #### PUT
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503210345.png)
 
+### 配置MAVEN环境变量
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503222130.png)
+* 参考[链接](https://blog.csdn.net/hetupyou/article/details/136468007)
 
-
-
-
-
+### MAVEN install
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240503223812.png)
 
 
 

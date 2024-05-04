@@ -33,10 +33,10 @@
   * SpringMaven-POM介绍 23:50-00:00
   * SpringMaven-可传递性依赖 00:00-00:11
   * SpringMaven-依赖管理 00:11-01:00
-  * SpringMaven-远程仓库搭建 
-  * SpringMaven-远程仓库配置使用 
 
 * **2023.05.04 土曜日:** 
+  * SpringMaven-远程仓库搭建 15:15-15:45
+  * SpringMaven-远程仓库配置使用 15:55-17:25
 
 * **2023.05.05 日曜日:** 
 
@@ -218,6 +218,151 @@ public String deleteUser(@PathVariable("userId") Long userId){
 #### pom父配置可选依赖
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504005646.png)
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504010033.png)
+
+### 远程仓库搭建
+```
+docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+```
+```
+Unable to find image 'sonatype/nexus3:latest' locally
+latest: Pulling from sonatype/nexus3
+22ebf0e44c85: Pull complete
+fa750a094ee3: Pull complete
+1f4a0800cfef: Pull complete
+e84ea3691eef: Pull complete
+cdea008ff1c4: Pull complete
+ee2d6100f273: Pull complete
+eee9c13a3249: Pull complete
+Digest: sha256:80b945be128a6466320df09589d73ed4a5dbf09f3495243281d264bbc643228c
+Status: Downloaded newer image for sonatype/nexus3:latest
+0211e0409935e82f19fe6642daf86f6e7b2bf5b244e37f582af0eccbf327dad6
+```
+
+```
+docker ps
+```
+```
+CONTAINER ID   IMAGE             COMMAND                   CREATED              STATUS              PORTS                    NAMES
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   About a minute ago   Up About a minute   0.0.0.0:8081->8081/tcp   nexus
+```
+
+`http://localhost:8081/`-`Sign in`
+```
+docker exec -it 0211e0409935 bash
+bash-4.4$ cat /nexus-data/admin.password
+```
+```
+f74ede78-9de9-44ba-926f-69f0fea27896
+```
+
+```
+admin
+f74ede78-9de9-44ba-926f-69f0fea27896
+```
+```
+12345678
+12345678
+Enable anonymous access
+```
+
+### 远程仓库配置使用
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504155927.png)
+* `...\IntelliJ IDEA Community Edition 2023.1.2\plugins\maven\lib\maven3\conf\settings.xml`:
+```xml
+<!-- servers
+  | This is a list of authentication profiles, keyed by the server-id used within the system.
+  | Authentication profiles can be used whenever maven must make a connection to a remote server.
+  |-->
+<servers>
+  <!-- server
+    | Specifies the authentication information to use when connecting to a particular server, identified by
+    | a unique name within the system (referred to by the 'id' attribute below).
+    |
+    | NOTE: You should either specify username/password OR privateKey/passphrase, since these pairings are
+    |       used together.
+    |
+  <server>
+    <id>deploymentRepo</id>
+    <username>repouser</username>
+    <password>repopwd</password>
+  </server>
+  -->
+  <server>
+    <!--仓库Name-->
+    <id>testrepo</id>
+    <!--用户名-->
+    <username>admin</username>
+    <!--密码-->
+    <password>12345678</password>
+  </server>
+  <!-- Another sample, using keys to authenticate.
+  <server>
+    <id>siteServer</id>
+    <privateKey>/path/to/private/key</privateKey>
+    <passphrase>optional; leave empty if not used.</passphrase>
+  </server>
+  -->
+</servers>
+```
+```xml
+<!-- mirrors
+  | This is a list of mirrors to be used in downloading artifacts from remote repositories.
+  |
+  | It works like this: a POM may declare a repository to use in resolving certain artifacts.
+  | However, this repository may have problems with heavy traffic at times, so people have mirrored
+  | it to several places.
+  |
+  | That repository definition will have a unique id, so we can create a mirror reference for that
+  | repository, to be used as an alternate download site. The mirror site will be the preferred
+  | server for that repository.
+  |-->
+<mirrors>
+  <!-- mirror
+    | Specifies a repository mirror site to use instead of a given repository. The repository that
+    | this mirror serves has an ID that matches the mirrorOf element of this mirror. IDs are used
+    | for inheritance and direct lookup purposes, and must be unique across the set of mirrors.
+    |
+  <mirror>
+    <id>mirrorId</id>
+    <mirrorOf>repositoryId</mirrorOf>
+    <name>Human Readable Name for this Mirror.</name>
+    <url>http://my.repository.com/repo/path</url>
+  </mirror>
+    -->
+  <!-- <mirror>
+    <id>maven-default-http-blocker</id>
+    <mirrorOf>external:http:*</mirrorOf>
+    <name>Pseudo repository to mirror external repositories initially using HTTP.</name>
+    <url>http://0.0.0.0/</url>
+    <blocked>true</blocked>
+  </mirror> -->
+  <mirror>
+    <!--仓库组ID-->
+    <id>maven-public</id>
+    <!--*代表所有内容都从自定义仓库获取-->
+    <mirrorOf>*</mirrorOf>
+    <!--私服仓库组maven-public的访问路径-->
+    <url>http://localhost:8081/repository/maven-public/</url>
+  </mirror>
+</mirrors>
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504161501.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504163501.png)
+```xml
+<!--远程仓库配置使用 in Spring/_05_SpringMaven/pom.xml-->
+<distributionManagement>
+<!--<repository>-->
+<!--    <id>xxx</id>-->
+<!--    <url>xxx</url>-->
+<!--</repository>-->
+    <snapshotRepository>
+        <id>testrepo</id>
+        <url>http://localhost:8081/repository/testrepo/</url>
+    </snapshotRepository>
+</distributionManagement>
+```
+`_05_SpringMaven-Lifecycle-clean`-`_05_SpringMaven-Lifecycle-deploy`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504172311.png)
 
 ## 内容拓展
 
@@ -525,3 +670,107 @@ Caused by: java.lang.IllegalStateException: Cannot load driver class: com.mysql.
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504002731.png)
 需要改为和子项目相同的`GroupId`(此处应为`com.example`)
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504002915.png)
+
+### 【已解决】SpringMaven 远程仓库配置使用 使用Lifecycle功能时报错 `Could not find artifact com.example:_05_SpringMaven:pom:1.0-SNAPSHOT and 'parent.relativePath' points at wrong local POM`
+```
+[INFO] Scanning for projects...
+[ERROR] [ERROR] Some problems were encountered while processing the POMs:
+[FATAL] Non-resolvable parent POM for org.example:_03_SpringMVC:1.0-SNAPSHOT: Could not find artifact com.example:_05_SpringMaven:pom:1.0-SNAPSHOT and 'parent.relativePath' points at wrong local POM @ line 18, column 13
+ @ 
+[ERROR] The build could not read 1 project -> [Help 1]
+[ERROR]   
+[ERROR]   The project org.example:_03_SpringMVC:1.0-SNAPSHOT (G:\NiHon-IT-Training-Plan\Spring\_03_SpringMVC\pom.xml) has 1 error
+[ERROR]     Non-resolvable parent POM for org.example:_03_SpringMVC:1.0-SNAPSHOT: Could not find artifact com.example:_05_SpringMaven:pom:1.0-SNAPSHOT and 'parent.relativePath' points at wrong local POM @ line 18, column 13 -> [Help 2]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/ProjectBuildingException
+[ERROR] [Help 2] http://cwiki.apache.org/confluence/display/MAVEN/UnresolvableModelException
+```
+* 首先回看课件，发现忘记在`Repositories/maven-public`中将`testrepo`从`available`加入到`Members`列表
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240504163501.png)
+* 报错依然存在，由于报错中提到了`parent.relativePath`，因此参考[链接](https://blog.csdn.net/u012433915/article/details/115367189)，在`Spring/_03_SpringMVC/pom.xml`中进行补充
+```xml
+<parent>
+    <artifactId>_05_SpringMaven</artifactId>
+    <groupId>com.example</groupId>
+    <version>1.0-SNAPSHOT</version>
+    <relativePath>../_05_SpringMaven/pom.xml</relativePath> <!--new-->
+</parent>
+```
+* 问题得到部分解决，可以正常执行`Lifecycle-clean`操作了，但在执行`Lifecycle-deploy`后依然报错，单开一个问题在下一部分
+
+### 【已解决】SpringMaven 远程仓库配置使用 使用`Lifecycle-deploy`功能时报错 `Cannot access defaults field of Properties`
+```
+_05_SpringMaven [deploy] (1 error, 1 warning)
+  org.example:_03_SpringMVC:war:1.0-SNAPSHOT (1 error, 1 warning)
+    war (1 error, 1 warning)
+      dependencies (1 warning)
+        Error injecting: org.apache.maven.plugin.war.WarMojo (warning)
+      Cannot access defaults field of Properties (error)
+```
+* 再次尝试`Lifecycle-clean`与`Lifecycle-deploy`，报错减少为
+```
+_05_SpringMaven [deploy] (1 error)
+  org.example:_03_SpringMVC:war:1.0-SNAPSHOT (1 error)
+    war (1 error)
+      Cannot access defaults field of Properties (error)
+```
+* 经测试，使用`Lifecycle-package`等功能时也是同样问题
+* 参考[链接](https://blog.csdn.net/m0_47256162/article/details/136162990)和`Breadcrumbszerostart/java/Spring/MVC/SpringMVCcode/springmvcdemo/pom.xml`示例代码，发现本地`pom.xml`缺失了`maven-war-plugin`相关依赖
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+        </plugin>
+    </plugins>
+</build>
+```
+* 在`Spring/_03_SpringMVC/pom.xml`中添加上述代码后报错没变，又选择了最新版本`@3.4.1`，添加下述代码
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.4.1</version>
+        </plugin>
+    </plugins>
+</build>
+```
+报错变为
+```
+[INFO] _03_SpringMVC ...................................... FAILURE [  0.030 s]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD FAILURE
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  0.573 s
+[INFO] Finished at: 2024-05-04T17:17:15+08:00
+[INFO] ------------------------------------------------------------------------
+[ERROR] Plugin org.apache.maven.plugins:maven-war-plugin:3.4.1 or one of its dependencies could not be resolved: org.apache.maven.plugins:maven-war-plugin:jar:3.4.1 was not found in http://localhost:8081/repository/maven-public/ during a previous attempt. This failure was cached in the local repository and resolution is not reattempted until the update interval of maven-public has elapsed or updates are forced -> [Help 1]
+[ERROR] 
+[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
+[ERROR] Re-run Maven using the -X switch to enable full debug logging.
+[ERROR] 
+[ERROR] For more information about the errors and possible solutions, please read the following articles:
+[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/PluginResolutionException
+```
+* 又重新尝试一开始的示例代码中提到的`@3.3.1`版本
+```xml
+<build>
+    <plugins>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+        </plugin>
+    </plugins>
+</build>
+```
+* 成功运行`Lifecycle-deploy`
+* 注意，每次运行`_05_SpringMaven-Lifecycle-deploy`前需要先`_05_SpringMaven-Lifecycle-clean`清除掉先前生成出的残缺的`Spring/_03_SpringMVC/target`文件夹

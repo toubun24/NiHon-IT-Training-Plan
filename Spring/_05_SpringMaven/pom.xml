@@ -49,4 +49,15 @@
         </dependencies>
     </dependencyManagement>
     <!--<= pom父配置可选依赖-->
+    <!--远程仓库配置使用 in Spring/_05_SpringMaven/pom.xml-->
+    <distributionManagement>
+<!--        <repository>-->
+<!--            <id>xxx</id>-->
+<!--            <url>xxx</url>-->
+<!--        </repository>-->
+        <snapshotRepository>
+            <id>testrepo</id>
+            <url>http://localhost:8081/repository/testrepo/</url>
+        </snapshotRepository>
+    </distributionManagement>
 </project>

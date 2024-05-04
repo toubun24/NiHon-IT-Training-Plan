@@ -1026,3 +1026,62 @@ system         Y            Y             -             Y
     </dependencies>
 </dependencyManagement>
 ```
+
+## Maven远程仓库搭建
+
+### 远程仓库搭建
+* 构建Maven项目时，检查pom.xml文件确定依赖包的位置，顺序如下：
+  1. 从本地仓库中查找并获得依赖包。
+  2. 从Maven默认中央仓库中查找并获得依赖包。
+  3. 如果在pom.xml中定义了自定义的远程仓库，那么也会在这里的仓库中进行查找并获得依赖包。
+* 远程仓库一般是镜像站以及nexus私有仓库居多。
+* 这里介绍Nexus私有仓库搭建。
+
+### 自定义仓库分类:
+* 宿主仓库hosted:保存自定义依赖或制件等等
+* 代理仓库proxy:代理远程仓库，通过nexus访问其他公共仓库，例如中央仓库
+* 仓库组group:若干个仓库组成一个组
+
+### 操作步骤
+1. 下载Nexus或使用Docker启动。
+  * 官方下载地址 https://help.sonatype.com/repomanager3/product-information/download
+  * Docker地址 https://hub.docker.com/r/sonatype/nexus3/ `docker run -d -p 8081:8081 --name nexus sonatype/nexus3`
+2. 运行下载的Nexus即可或Docker。
+  * 官方文档参考 https://help.sonatype.com/repomanager3/installation-and-upgrades/installation-methods
+3. 启动完成后配置使用即可。
+
+### 配置步骤
+1. Nexus中配置自定义仓库
+2. 修改Mavensettings.xml进行自定义仓库配置
+```xml
+<server>
+    <!--仓库Name-->
+    <id>tesrepo</id>
+    <!--用户名-->
+    <username>admin</username>
+    <!--密码-->
+    <password>123456</password>
+</server>
+```
+3. 配置自定义仓库访问路径
+```xml
+<mirror>
+    <!--仓库组ID-->
+    <id>maven-public</id>
+    <!--*代表所有内容都从自定义仓库获取-->
+    <mirrorOf>*</mirrorOf>
+    <!--私服仓库组maven-public的访问路径-->
+    <url>http://localhost:8081/repository/maven-public/</url>
+</mirror>
+```
+4. 将配置的自定义仓库添加到仓库组中例如(maven-public)
+5. pom.xml文件中配置仓库即可
+```xml
+<distributionManagement>
+    <repository>
+        <id>xxx</id>
+        <url>xxx</url>
+    </repository>
+</distributionManagement>
+```
+6. Maven命令deploy即可完成。

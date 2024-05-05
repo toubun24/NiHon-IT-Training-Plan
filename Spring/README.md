@@ -1112,3 +1112,148 @@ system         Y            Y             -             Y
 4. 定义实体类
 5. 参考官方文档定义SQL映射文件，位于类路径mappers目录下，名称为TestMapper.xml
 6. 单元测试进行测试
+
+## Mybatis配置
+
+### SQL映射文件注意事项
+* Mapper接口的全类名和SQL映射文件的namespace需一致
+* Mapper接口中方法名和SQL映射文件中编写SQL的标签的id属性需一致
+
+### Mybatis配置文件
+* 配置文件中的标签必须按照固定的顺序配置，某些标签可省略。
+* configuration（配置）
+  * properties（属性）
+  * settings（设置）
+  * typeAliases（类型别名）
+  * typeHandlers（类型处理器）
+  * objectFactory（对象工厂）
+  * plugins（插件）
+  * environments（环境配置）
+    * environment（环境变量）
+      * transactionManager（事务管理器）
+      * dataSource（数据源）
+  * databaseIdProvider（数据库厂商标识）
+  * mappers（映射器）
+
+### Mybatis多环境
+* environments标签中可配置多个environment,使用id属性区分多环境。
+* 在environments标签中使用default属性指定使用什么环境。
+
+### 类型别名
+* Mybatis提供了类型别名(typeAliases)标签可以简化SQL映射文件中的resultType书写
+
+## Mybatis获取参数
+
+### Mybatis获取参数
+Mybatis提供了两种参数占位符：
+
+#{}：执行SQL时将 #{} 占位符替换为?，自动赋予参数值。
+
+${}：SQL字符串拼接，会存在SQL注入问题，不建议使用。
+
+注意：为字符串类型或日期类型的字段进行赋值时，${}需要手动加单引号，#{}可以自动添加单引号。
+
+#### 单参数的情况
+* 单参数可以使用${}和#{}，其中名称可以为任意名称获取参数值。
+```xml
+<select id="getOne" resultType="test">
+	select * from test_table where id = #{id}
+</select>
+```
+
+#### 多参数的情况
+* 多参数的情况，MyBatis会自动将这些参数放在一个Map集合中。
+  * 一种情况是arg0,arg1…是键。
+  * 另一种情况是param1,param2…是键。
+* 直接使用${}和#{}写上Map集合相应的的键就可以获取相应的值。
+* 建议在接口方法参数上使用 @Param 注解，Mybatis 会将 arg 或 param1 开头的键名替换为对应注解的属性值。
+* 可以使代码清晰，可读性高。
+```xml
+<select id="getOneTwoarg" resultType="test">
+	select * from test_table where id = #{param1} and name = #{param2}
+</select>
+```
+```xml
+<select id="getOneTwoarg" resultType="test">
+	select * from test_table where id = #{id} and name = #{name}
+</select>
+```
+
+#### 实体类类型的情况
+* 实体类类型的情况可使用${}和#{}，访问实体类对象中的属性名即可获取属性值。
+```xml
+<insert id="insertOne">
+	insert into test_table (id,name,age) values (default,#{name},#{age})
+</insert>
+```
+
+#### Map集合的情况
+* 和多参数情况比较相像，直接使用${}和#{}写上Map集合相应的的键就可以获取相应的值。
+```xml
+<select id="getOneMap" resultType="test">
+	select * from test_table where id = #{id} and name = #{name}
+</select>
+```
+
+## Mybatis自定义结果映射
+
+### 自定义结果映射 resultMap
+* resultMap能设置自定义结果映射，解决数据库字段名和实体类中的属性名不一致造成的问题。
+* 注意：字段名和属性名一致的属性也要进行映射。
+  * 数据库字段名如使用_,可以在配置文件中开启驼峰命名。
+```xml
+<settings>
+    <setting name="mapUnderscoreToCamelCase" value="true"/>
+</settings>
+```
+* 标签resultMap：
+  * id：表示自定义结果映射的唯一标识，不能重复。
+  * type：映射类型
+```xml
+<!--id标识唯一的resultMap，type表示映射类型-->
+<resultMap id="customResult" type="com.lalapodo.Dao.TestTable">
+</resultMap>
+```
+* 子标签id：设置主键的字段映射关系
+  * property：设置映射关系中实体类属性名
+  * column：设置映射关系中表的字段名
+```xml
+<id property="id" column="id"/>
+```
+* 子标签result：设置普通字段的映射关系
+  * property：设置映射关系中实体类属性名
+  * column：设置映射关系中表的字段名
+```xml
+<result column="name" property="name"/>
+<result column="age" property="age"/>
+```
+
+### 多对一映射关系
+* 标签association：处理多对一映射关系
+  * property：需要处理多对一映射关系的属性名
+  * javaType：该属性的类型
+* 同样具有子标签id和子标签result
+```xml
+<association property="test2" javaType="com.lalapodo.Dao.TestTable2">
+    <id property="uid" column="uid"/>
+    <result property="UName" column="u_name"/>
+</association>
+```
+
+### 一对多映射关系
+* 标签collection：用来处理一对多映射关系
+  * property：需要处理一对多映射关系的属性名
+  * ofType：该属性的集合中存储的数类型
+* 同样具有子标签id和子标签result
+```xml
+<collection property="test1" ofType="com.lalapodo.Dao.TestTable">
+    <id property="id" column="id"/>
+    <result column="name" property="name"/>
+    <result column="age" property="age"/>
+</collection>
+```
+
+
+
+
+

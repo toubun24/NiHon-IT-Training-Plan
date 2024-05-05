@@ -3,6 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <!--类型别名-->
+    <typeAliases>
+        <!--
+        typeAlias：
+        type：需要设置别名的类型的全类名
+        alias：设置此类型的别名，别名不区分大小写。不设置此属性即使用默认别名，为类名
+        -->
+        <!--除此之外还可以使用package标签直接给某个软件包所有类设置默认别名-->
+        <typeAlias type="com.lalapodo.Dao.TestTable" alias="test"/>
+    </typeAliases>
     <!--数据库配置-->
     <environments default="development">
         <environment id="development">
@@ -10,6 +20,16 @@
             <dataSource type="POOLED">
                 <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql://localhost:3306/mydatabase"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+<!--        Mybatis多环境-->
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/user"/>
                 <property name="username" value="root"/>
                 <property name="password" value="12345678"/>
             </dataSource>

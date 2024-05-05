@@ -2,10 +2,10 @@
 
 ## 学习内容及时长
 
-* **2023.04.29 月曜日:** 
+* **2023.04.29 月曜日:** 1h45min
   * SpringMVC-获取请求参数 18:10-19:55
 
-* **2023.04.30 火曜日:** 
+* **2023.04.30 火曜日:** 2h55min
   * SpringMVC-JSON数据处理 15:50-16:32
   * SpringMVC-数据响应 16:32-16:55
   * SpringMVC-RESTful快速入门 19:15-19:36
@@ -13,20 +13,20 @@
   * SpringBoot-介绍 23:30-23:40 01:05-01:10
   * SpringBoot-第一个项目 01:10-01:45
 
-* **2023.05.01 水曜日:** 
+* **2023.05.01 水曜日:** 2h
   * SpringBoot-第一个项目 02:10-02:51
   * SpringBoot-配置文件 02:51-03:25
   * SpringBoot-配置文件读取 03:55-04:28
   * SpringBoot-配置文件多环境 04:28-04:40
 
-* **2023.05.02 木曜日:** 
+* **2023.05.02 木曜日:** 3h45min
   * SpringBoot-命令行启动配置 20:40-20:53
   * SpringBoot-集成Quartz概念 20:53-21:05
   * SpringBoot-集成Quartz操作 21:10-21:27
   * SpringBoot-Task使用 21:27-21:43
   * SpringBoot-集成MyBatis 21:43-00:30
 
-* **2023.05.03 金曜日:** 
+* **2023.05.03 金曜日:** 2h40min
   * SpringBoot-CRUD练习 20:30-21:05
   * SpringMaven-介绍与配置 21:05-21:10 21:50-22:15
   * SpringMaven-常用命令 22:15-22:40
@@ -34,27 +34,17 @@
   * SpringMaven-可传递性依赖 00:00-00:11
   * SpringMaven-依赖管理 00:11-01:00
 
-* **2023.05.04 土曜日:** 
+* **2023.05.04 土曜日:** 3h45min
   * SpringMaven-远程仓库搭建 15:15-15:45
   * SpringMaven-远程仓库配置使用 15:55-17:25
   * SpringMybatis-介绍 19:35-19:46
   * SpringMybatis-第一个项目快速入门 19:46-20:15
-  * SpringMybatis-配置文件介绍 
-  * SpringMybatis-多环境类型别名配置 
-  * SpringMybatis-获取参数 
-  * SpringMybatis-自定义结果映射 
-  * SpringMybatis-association标签 
-  * SpringMybatis-collection标签 
-  * SpringMybatis-SQL执行(上) 
-  * SpringMybatis-SQL执行(下) 
-  * SpringMybatis-if与where标签 
-  * SpringMybatis-choose与set标签 
-  * SpringMybatis-trim与foreach标签 
-  * SpringMybatis-分页插件 
-  * SpringMybatis-缓存 
+  * SpringMybatis-配置文件介绍 22:25-22:38
+  * SpringMybatis-多环境类型别名配置 22:38-22:55
+  * SpringMybatis-获取参数 22:55-23:30
 
-* **2023.05.05 日曜日:** 
-
+* **2023.05.05 日曜日:** 15min
+  * 整理报告 23:20-23:35
 
 ## 学习笔记
 

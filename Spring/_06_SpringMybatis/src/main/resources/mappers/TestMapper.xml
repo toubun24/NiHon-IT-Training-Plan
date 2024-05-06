@@ -47,7 +47,7 @@
         select id i, name n, age a from test_table
     </select>
 
-    <!--多对一映射关系-->
+    <!--多对一映射关系association-->
     <resultMap id="customResult2" type="com.lalapodo.Dao.TestTable">
         <id property="id" column="id"/>
         <result property="name" column="name"/>
@@ -60,5 +60,26 @@
     </resultMap>
     <select id="getAll3" resultMap="customResult2"> <!--where t.id = #{id} 带参数-->
         select *, t2.id t2id from test_table t left join test_table2 t2 on t2.uid = t.id where t.id = 1
+    </select>
+
+    <!--一对多映射关系-->
+    <resultMap id="customResult3" type="com.lalapodo.Dao.TestTable4">
+        <id property="id" column="id"/>
+        <result property="uGroup" column="u_group"/>
+        <!--<collection property="test1" javaType="com.lalapodo.Dao.TestTable3">-->
+        <collection property="test1" ofType="com.lalapodo.Dao.TestTable3">
+            <id property="id" column="t3id"/> <!--t3id-->
+            <result property="name" column="name"/>
+            <result property="age" column="age"/>
+            <result property="gid" column="gid"/>
+        </collection>
+    </resultMap>
+    <select id="getAll4" resultMap="customResult3">
+        select *, t3.id t3id from test_table4 t4 left join test_table3 t3 on t3.gid = t4.id where t4.id = 1
+    </select>
+
+    <!--SQL 特殊字段-->
+    <select id="getOne2" resultType="test"> <!-->-->
+        select * from test_table where id &gt; #{id}
     </select>
 </mapper>

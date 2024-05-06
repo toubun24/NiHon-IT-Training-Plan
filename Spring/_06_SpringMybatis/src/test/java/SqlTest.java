@@ -1,4 +1,5 @@
 import com.lalapodo.Dao.TestTable;
+import com.lalapodo.Dao.TestTable4;
 import com.lalapodo.mapper.TestMapper;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -129,4 +130,30 @@ public class SqlTest {
         System.out.println(testTable); // [TestTable(id=1, name=zhangsan, age=18, test2=TestTable2(id=1, uGroup=AAA, uid=1))]
         sqlSession.close();
     }
+
+    /*一对多映射关系*/
+    @Test
+    public void testsql10() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        List<TestTable4> testTable4 = mapper.getAll4();
+        System.out.println(testTable4);
+        // [TestTable4(id=1, uGroup=AAA, test1=[TestTable3(id=1, name=zhangsan, age=18, gid=1), TestTable3(id=2, name=lisi, age=19, gid=1), TestTable3(id=3, name=wangwu, age=20, gid=1)])]
+        sqlSession.close();
+    }
+
+    /*SQL 特殊字段*/
+    @Test
+    public void testsql11() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        TestTable testTable = mapper.getOne2(2L); // 3>2
+        System.out.println(testTable); // TestTable(id=3, name=wangwu, age=20, test2=null)
+        sqlSession.close();
+    }
+
 }

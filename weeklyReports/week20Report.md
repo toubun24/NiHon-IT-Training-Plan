@@ -437,7 +437,7 @@ public String getparameter2(String name, String password){
 ```
 参考[链接1](https://blog.csdn.net/maktoub/article/details/136760857)和[链接2](https://blog.csdn.net/aiben2024/article/details/102356327)，初步得出结论为新版spring-webmvc不再支持这种写法，所以要么修改依赖版本至`spring-webmvc@6.0.6`以前，要么加`@RequestParam`注解
 
-### SpringMVC JSON数据处理 `java.lang.ClassNotFoundException: com.fasterxml.jackson.databind.cfg.DatatypeFeature`
+### 【已解决】SpringMVC JSON数据处理 `java.lang.ClassNotFoundException: com.fasterxml.jackson.databind.cfg.DatatypeFeature`
 ```
 30-Apr-2024 16:10:08.069 INFO [http-nio-8080-exec-1] org.springframework.web.servlet.FrameworkServlet.initServletBean Initializing Servlet 'dispatcher'
 30-Apr-2024 16:10:08.095 WARNING [http-nio-8080-exec-1] org.springframework.context.support.AbstractApplicationContext.refresh Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'routerFunctionMapping' defined in class path resource [org/springframework/web/servlet/config/annotation/DelegatingWebMvcConfiguration.class]: Failed to instantiate [org.springframework.web.servlet.function.support.RouterFunctionMapping]: Factory method 'routerFunctionMapping' threw exception with message: com/fasterxml/jackson/databind/cfg/DatatypeFeature

@@ -20,4 +20,8 @@ public interface TestMapper {
     boolean insertOne(TestTable testTable);
 
     TestTable getOneMap(Map<String, Object> map);
+
+    List<TestTable> getAll2();
+
+    List<TestTable> getAll3();
 }

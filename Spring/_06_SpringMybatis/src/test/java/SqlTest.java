@@ -80,16 +80,16 @@ public class SqlTest {
     }
 
     /*获取实体类类型*/
-    @Test
-    public void testsql6() throws IOException {
-        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
-        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
-        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
-        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
-        boolean b = mapper.insertOne(new TestTable(null, "insertOne", "12321"));
-        System.out.println(b); // true
-        sqlSession.close();
-    }
+//    @Test
+//    public void testsql6() throws IOException {
+//        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+//        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+//        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+//        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+//        boolean b = mapper.insertOne(new TestTable(null, "insertOne", "12321"));
+//        System.out.println(b); // true
+//        sqlSession.close();
+//    }
 
     /*获取Map集合*/
     @Test
@@ -103,6 +103,30 @@ public class SqlTest {
         map.put("name","updatedname");
         TestTable oneMap = mapper.getOneMap(map);
         System.out.println(oneMap); // TestTable(id=1, name=updatedname, age=1000)
+        sqlSession.close();
+    }
+
+    /*自定义结果映射*/
+    @Test
+    public void testsql8() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        List<TestTable> testTable = mapper.getAll2();
+        System.out.println(testTable);
+        sqlSession.close();
+    }
+
+    /*多对一映射关系*/
+    @Test
+    public void testsql9() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        List<TestTable> testTable = mapper.getAll3();
+        System.out.println(testTable); // [TestTable(id=1, name=zhangsan, age=18, test2=TestTable2(id=1, uGroup=AAA, uid=1))]
         sqlSession.close();
     }
 }

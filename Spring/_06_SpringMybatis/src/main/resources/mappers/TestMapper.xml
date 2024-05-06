@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.lalapodo.mapper.TestMapper">
+
 <!--    <select id="getAll" resultType="com.lalapodo.Dao.TestTable">-->
     <select id="getAll" resultType="test">
         select * from test_table
@@ -30,5 +31,34 @@
 
     <select id="getOneMap" resultType="test"> <!--getOneMap-->
         select * from test_table where id = #{id} and name = #{name}
+    </select>
+
+    <!--自定义结果映射-->
+    <resultMap id="customResult" type="com.lalapodo.Dao.TestTable">
+        <!--<id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>-->
+        <id property="id" column="i"/>
+        <result property="name" column="n"/>
+        <result property="age" column="a"/>
+    </resultMap>
+    <select id="getAll2" resultMap="customResult">
+<!--        select * from test_table-->
+        select id i, name n, age a from test_table
+    </select>
+
+    <!--多对一映射关系-->
+    <resultMap id="customResult2" type="com.lalapodo.Dao.TestTable">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="age" column="age"/>
+        <association property="test2" javaType="com.lalapodo.Dao.TestTable2">
+            <id property="id" column="t2id"/>
+            <result property="uGroup" column="u_group"/>
+            <result property="uid" column="uid"/>
+        </association>
+    </resultMap>
+    <select id="getAll3" resultMap="customResult2"> <!--where t.id = #{id} 带参数-->
+        select *, t2.id t2id from test_table t left join test_table2 t2 on t2.uid = t.id where t.id = 1
     </select>
 </mapper>

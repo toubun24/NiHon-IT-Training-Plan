@@ -7,9 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class TestTable {
+public class TestTable2 {
     private Long id;
-    private String name;
-    private String age;
-    private TestTable2 test2;
+    private String uGroup; // u_group
+    private Long uid; // int
+    // private TestTable2 tt2;
 }

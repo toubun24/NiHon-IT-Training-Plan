@@ -42,5 +42,6 @@
     <!--SQL映射-->
     <mappers>
         <mapper resource="mappers/TestMapper.xml"/>
+        <mapper resource="mappers/TestMapper2.xml"/>
     </mappers>
 </configuration>

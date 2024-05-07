@@ -1,4 +1,5 @@
 import com.lalapodo.Dao.TestTable;
+import com.lalapodo.Dao.TestTable3;
 import com.lalapodo.Dao.TestTable4;
 import com.lalapodo.mapper.TestMapper;
 import org.apache.ibatis.io.Resources;
@@ -153,6 +154,31 @@ public class SqlTest {
         TestMapper mapper = sqlSession.getMapper(TestMapper.class);
         TestTable testTable = mapper.getOne2(2L); // 3>2
         System.out.println(testTable); // TestTable(id=3, name=wangwu, age=20, test2=null)
+        sqlSession.close();
+    }
+
+    /*SQL 批量删除*/
+    @Test
+    public void testsql12() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        boolean b = mapper.deleteMany("1,2,3"); // String id
+        System.out.println(b); // true
+        sqlSession.close();
+    }
+
+    /*SQL insert标签获取自增id*/
+    @Test
+    public void testsql13() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper mapper = sqlSession.getMapper(TestMapper.class);
+        TestTable3 tt3 = new TestTable3(null, "tt3", "22", 1L);
+        mapper.insertOne2(tt3);
+        System.out.println(tt3.getId()); // 15
         sqlSession.close();
     }
 

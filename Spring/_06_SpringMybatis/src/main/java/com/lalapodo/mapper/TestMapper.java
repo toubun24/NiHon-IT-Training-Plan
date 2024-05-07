@@ -1,6 +1,7 @@
 package com.lalapodo.mapper;
 
 import com.lalapodo.Dao.TestTable;
+import com.lalapodo.Dao.TestTable3;
 import com.lalapodo.Dao.TestTable4;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,8 @@ public interface TestMapper {
     List<TestTable4> getAll4();
 
     TestTable getOne2(Long id);
+
+    boolean deleteMany(String id); // String
+
+    boolean insertOne2(TestTable3 testTable3);
 }

@@ -1279,3 +1279,60 @@ ${}：SQL字符串拼接，会存在SQL注入问题，不建议使用。
   * keyProperty：数据库表记录新增操作完成后，返回自增id赋予传来的实体类对象。
 * 单元测试获取新增记录自增Id
 
+## Mybatis动态SQL
+
+### 动态SQL
+* 动态SQL主要对多条件查询时等情况，条件表达式和SQL语句如何连接等需要。
+* Mybatis提供了相关标签对动态SQL进行支持，致力于解决这些问题。
+  * if
+  * where
+  * choose,when,otherwise
+  * set
+  * trim
+  * foreach
+
+#### if标签
+* if标签：条件判断，test属性结果为true，则标签中的内容会执行，否则标签中的内容不会执行。
+  * test属性：写逻辑表达式。
+* test属性结果为true时SQL语句就会根据传递的参数值进行动态的拼接。
+* 但如果只给了name和age参数，那么SQL语句会成为一条错误的SQL语句。
+* 最直接解决就是在where后加一个永远为true的等式。
+* 但这样如果数据库是很久之前的版本，可能会影响SQL语句的索引优化，所有Mybatis提供了其他标签解决此问题。
+
+#### where标签
+* where标签解析为where关键字
+* 动态的去掉条件前的 and 或 or
+* 还能在没有值的情况下不添加where关键字
+
+#### choose,when,otherwise标签
+* 功能与Java中的swtich,case,default类似
+* 注意:when至少要有一个，otherwise可以没有，但最多一个。
+
+#### set标签
+* set标签解析为set关键字
+* 可搭配if标签判断是否具有输入
+* set标签可用来删除更新SQL语句中额外的逗号
+
+#### trim标签
+* trim标签用于添加或删除标签中的特定内容
+* 如果trim标签包裹的内容全都不满足，则trim标签无任何效果
+  * prefix属性：trim标签包裹的内容前添加特定内容
+  * suffix属性：trim标签包裹的内容后添加特定内容
+  * prefixOverrides属性：trim标签包裹的内容前删除特定内容
+  * suffixOverrides属性：trim标签包裹的内容后删除特定内容
+
+#### foreach标签
+* foreach标签可用来迭代任何可迭代的对象（如数组，集合）。
+  * collection属性：需迭代的对象。
+  * item属性：本次迭代中得到的元素。
+  * separator属性：集合项迭代之间的分隔符。foreach 标签不会错误地添加多余的分隔符。
+  * open属性：在拼接SQL语句之前拼接的语句，只会拼接一次。
+  * close属性：在拼接SQL语句之后拼接的语句，只会拼接一次。
+
+#### sql标签
+* sql标签可以写一段公有SQL内容，include标签可引入此标签中的SQL内容。
+
+#### include标签
+* include标签可以引用sql片段
+
+## 

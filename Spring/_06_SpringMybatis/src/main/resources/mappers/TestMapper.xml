@@ -79,7 +79,17 @@
     </select>
 
     <!--SQL 特殊字段-->
-    <select id="getOne2" resultType="test"> <!-->-->
+    <select id="getOne2" resultType="test"> <!-- > &gt; -->
         select * from test_table where id &gt; #{id}
     </select>
+
+    <!--SQL 批量删除-->
+    <delete id="deleteMany">
+        delete from test_table where id in (${id})
+    </delete>
+
+    <!--SQL insert标签获取自增id-->
+    <insert id="insertOne2" useGeneratedKeys="true" keyProperty="id"> <!--useGeneratedKeys&keyProperty-->
+        insert into test_table3 (id, name, age, gid) values (default, #{name}, #{age}, #{gid})
+    </insert>
 </mapper>

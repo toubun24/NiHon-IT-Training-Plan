@@ -7,14 +7,14 @@
   * SpringMybatis-association标签 07:30-08:05
   * SpringMybatis-collection标签 16:55-17:33
   * SpringMybatis-SQL执行(上) 17:33-18:00
-  * SpringMybatis-SQL执行(下) 
-  * SpringMybatis-if与where标签 
-  * SpringMybatis-choose与set标签 
+
+* **2023.05.07 火曜日:** 
+  * SpringMybatis-SQL执行(下) 17:30-17:49
+  * SpringMybatis-if与where标签 17:49-18:19
+  * SpringMybatis-choose与set标签 18:19-18:38
   * SpringMybatis-trim与foreach标签 
   * SpringMybatis-分页插件 
   * SpringMybatis-缓存 
-
-* **2023.05.07 火曜日:** 
 
 * **2023.05.08 水曜日:** 
 

@@ -68,4 +68,47 @@
         where id = #{id}
     </update>
 
+    <!--动态SQL trim标签-->
+    <select id="ifResult3" resultType="com.lalapodo.Dao.TestTable3">
+        select *
+        from test_table3
+        <trim prefix="where" prefixOverrides="and">
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="age != null and age != ''">
+                and age = #{age};
+            </if>
+        </trim>
+    </select>
+
+    <!--动态SQL foreach标签-->
+    <delete id="deleteResult">
+        delete from test_table3
+        where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--动态SQL sql标签-->
+    <sql id="data">name,age</sql>
+    <select id="ifResult4" resultType="com.lalapodo.Dao.TestTable3">
+        select <include refid="data"/> <!--sql标签-->
+        from test_table3
+        <where>
+            <if test="id != null">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="age != null">
+                and age = #{age}
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -58,4 +58,53 @@ public class SqlTest2 {
         // mapper2.updateResult(new TestTable3(1L,"zhangsan","18",1L));
         sqlSession.close();
     }
+
+    /*动态SQL trim标签*/
+    @Test
+    public void testsql24() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper2 mapper2 = sqlSession.getMapper(TestMapper2.class); // TestMapper2
+
+        List<TestTable3> tt3 = mapper2.ifResult3(new TestTable3(1L, "zhangsan", "18", 1L));
+        System.out.println(tt3); // [TestTable3(id=1, name=zhangsan, age=18, gid=1)]
+
+        List<TestTable3> tt32 = mapper2.ifResult3(new TestTable3(null, "zhangsan", "18", 1L));
+        System.out.println(tt32); // [TestTable3(id=1, name=zhangsan, age=18, gid=1)] // 能够智能去除and前缀
+
+        List<TestTable3> tt33 = mapper2.ifResult3(new TestTable3(null, null, null, null));
+        System.out.println(tt33); // all
+
+        sqlSession.close();
+    }
+
+    /*动态SQL foreach标签*/
+    @Test
+    public void testsql25() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper2 mapper2 = sqlSession.getMapper(TestMapper2.class); // TestMapper2
+
+        Long[] longs = {1L, 2L, 3L};
+        boolean b = mapper2.deleteResult(longs); // 删除所有!!!
+        System.out.println(b);
+
+        sqlSession.close();
+    }
+
+    /*动态SQL sql标签*/
+    @Test
+    public void testsql26() throws IOException {
+        InputStream resourceAsStream = Resources.getResourceAsStream("mybatisConfig.xml");
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(resourceAsStream);
+        org.apache.ibatis.session.SqlSession sqlSession = sqlSessionFactory.openSession(true);
+        TestMapper2 mapper2 = sqlSession.getMapper(TestMapper2.class); // TestMapper2
+
+        List<TestTable3> tt33 = mapper2.ifResult4(new TestTable3(1L, null, null, null));
+        System.out.println(tt33); // [TestTable3(id=null, name=zhangsan, age=18, gid=null)]
+
+        sqlSession.close();
+    }
 }

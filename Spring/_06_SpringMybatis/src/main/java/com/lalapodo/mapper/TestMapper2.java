@@ -17,4 +17,6 @@ public interface TestMapper2 {
     boolean deleteResult(@Param("ids") Long[] longs);
 
     List<TestTable3> ifResult4(TestTable3 testTable3);
+
+    List<TestTable3> getAll();
 }

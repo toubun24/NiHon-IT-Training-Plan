@@ -1335,4 +1335,57 @@ ${}：SQL字符串拼接，会存在SQL注入问题，不建议使用。
 #### include标签
 * include标签可以引用sql片段
 
-## 
+## Mybatis分页插件
+
+### Mybatis分页插件
+* MyBatis插件又称拦截器（Interceptor）
+* 分页插件优点
+  * 分页插件可以帮助我们更好的获取page信息
+  * 上一页和下一页和首页和尾页都能够轻松的获取到
+  * 将复杂的分页操作进行了封装，从而让分页功能变得非常简单。
+
+### Mybatis分页插件配置
+* 导入与PageHelper的依赖
+```xml
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper</artifactId>
+    <version>5.3.2</version>
+</dependency>
+```
+* Mybatis主配置文件(`Spring/_06_SpringMybatis/src/main/resources/mybatisConfig.xml`)中配置分页插件
+```xml
+<plugins>
+    <!-- com.github.pagehelper为PageHelper类所在包名 -->
+    <plugin interceptor="com.github.pagehelper.PageInterceptor">
+        <property name="helperDialect" value="mysql"/>
+    </plugin>
+</plugins>
+```
+* 分页插件会自动检测当前的数据库链接，自动选择合适的分页方式。
+* 可以配置helperDialect属性来指定分页插件使用哪种方言。
+* 配置时，可以使用下面的缩写值：
+  * oracle,mysql,mariadb,sqlite,hsqldb,postgresql,db2,sqlserver,informix,h2,sqlserver2012,derby
+* `.../src/main/resources/mybatisConfig.xml`中开启日志格式
+```xml
+<settings>
+    <!--PageHelper分页插件日志-->
+    <setting name="logImpl" value="STDOUT_LOGGING"/>
+</settings>
+```
+
+### Mybatis分页插件使用
+* 配置完成后可直接使用分页功能了
+* 在查询之前使用分页功能PageHelper.startPage(int pageNum, int pageSize)
+  * pageNum：当前页的页码
+  * pageSize：每页显示的条数
+  * PageInfo参数获取
+* PageInfo相关API
+  * getTotal()：获取总条数
+  * getPages()：获取总页数
+  * getPageNum()：获取当前页
+  * getPageSize()：获取每页显示条数
+  * getPrePage()：获取上一页
+  * getNextPage()：获取下一页
+  * isIsFirstPage()：获取是否是第一页
+  * isIsLastPage()：获取是否是最后一页

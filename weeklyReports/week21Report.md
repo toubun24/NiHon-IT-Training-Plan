@@ -20,8 +20,8 @@
 * **2023.05.10 金曜日:** 
 
 * **2023.05.11 土曜日:** 
-  * SpringMybatis-trim与foreach标签 09:20-10:00
-  * SpringMybatis-分页插件 
+  * SpringMybatis-trim与foreach标签 09:20-10:01
+  * SpringMybatis-分页插件 10:01-11:25
   * SpringMybatis-缓存 
 
 * **2023.05.12 日曜日:** 
@@ -133,3 +133,45 @@ Caused by: org.apache.ibatis.reflection.ReflectionException: Could not set prope
     select *, t3.id t3id from test_table4 t4 left join test_table3 t3 on t3.gid = t4.id where t4.id = 1
 </select>
 ```
+
+### 【已解决】Spring Mybatis 引入PageHelper包失败`Dependency 'com.github.pagehelper:pagehelper:6.1.0' not found`
+```
+com.github.pagehelper:pagehelper:pom:6.1.0 failed to transfer from http://localhost:8081/repository/maven-public/ during a previous attempt. This failure was cached in the local repository and resolution is not reattempted until the update interval of maven-public has elapsed or updates are forced. Original error: Could not transfer artifact com.github.pagehelper:pagehelper:pom:6.1.0 from/to maven-public (http://localhost:8081/repository/maven-public/): transfer failed for http://localhost:8081/repository/maven-public/com/github/pagehelper/pagehelper/6.1.0/pagehelper-6.1.0.pom
+
+Try to run Maven import with -U flag (force update snapshots)
+```
+```
+Dependency 'com.github.pagehelper:pagehelper:6.1.0' not found
+```
+* 注意到报错中提到的`http://localhost:8081/repository/maven-public/`，这是之前配置Maven远程Nexus仓库时用过的内容，在MyBatis板块照理来说是没用到的，但还是尝试在IDEA中打开项目从`Spring/_06_SpringMybatis`返回到了上一级完整的`Spring`文件夹，发现`_06_SpringMybatis`还没有被识别为Module，于是在Maven侧边栏中首先将其加入为module，随后报错依旧
+* 成功启动Maven远程仓库nexus3后报错依旧
+* 点击`Try to run Maven import with -U flag (force update snapshots)`后强制安装成功，报错消失
+
+
+### 【已解决】Maven远程仓库 nexus3 CMD启动失败
+```
+docker run -d -p 8081:8081 --name nexus sonatype/nexus3
+```
+```
+docker: Error response from daemon: Conflict. The container name "/nexus" is already in use by container "0211e0409935e82f19fe6642daf86f6e7b2bf5b244e37f582af0eccbf327dad6". You have to remove (or rename) that container to be able to reuse that name.
+See 'docker run --help'.
+```
+* 首先参考`https://blog.csdn.net/libin9iOak/article/details/134322883`，使用命令`docker ps -a`来列出所有容器，包括非活动的，以检查现有容器
+```
+docker ps -a
+```
+```
+CONTAINER ID   IMAGE             COMMAND                   CREATED        STATUS                     PORTS                    NAMES
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   6 days ago     Up About a minute          0.0.0.0:8081->8081/tcp   nexus
+c6471e03b8f8   mysql:latest      "docker-entrypoint.s…"   3 months ago   Exited (0) 9 minutes ago                            mysql-mysql-1
+```
+* 随后参考`docker run --name mycontainer myimage`尝试
+```
+docker run --name nexus nexus3
+```
+```
+Unable to find image 'nexus3:latest' locally
+docker: Error response from daemon: pull access denied for nexus3, repository does not exist or may require 'docker login': denied: requested access to the resource is denied.
+See 'docker run --help'.
+```
+* 虽然还是报错，但有加载时间，且`http://localhost:8081/`成功进入界面

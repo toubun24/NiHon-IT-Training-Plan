@@ -111,4 +111,9 @@
             </if>
         </where>
     </select>
+
+    <!--动态SQL PageHelper分页插件-->
+    <select id="getAll" resultType="com.lalapodo.Dao.TestTable3">
+        select * from test_table3
+    </select>
 </mapper>

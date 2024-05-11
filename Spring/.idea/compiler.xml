@@ -10,6 +10,7 @@
         <module name="_02_SpringMybatis" />
         <module name="_01_SpringDemo" />
         <module name="_04_SpringBoot" />
+        <module name="_06_SpringMybatis" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>

@@ -22,7 +22,11 @@
 * **2023.05.11 土曜日:** 
   * SpringMybatis-trim与foreach标签 09:20-10:01
   * SpringMybatis-分页插件 10:01-11:25
-  * SpringMybatis-缓存 
+  * SpringMybatis-缓存 19:00-19:20
+  * Redis介绍 19:20-
+
+
+
 
 * **2023.05.12 日曜日:** 
 

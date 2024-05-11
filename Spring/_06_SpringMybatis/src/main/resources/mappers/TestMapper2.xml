@@ -86,7 +86,7 @@
     </select>
 
     <!--动态SQL foreach标签-->
-    <delete id="deleteResult">
+    <delete id="deleteResult" flushCache="false"> <!--不默认进行缓存刷新-->
         delete from test_table3
         where id in
         <foreach collection="ids" item="id" separator="," open="(" close=")">
@@ -113,7 +113,10 @@
     </select>
 
     <!--动态SQL PageHelper分页插件-->
-    <select id="getAll" resultType="com.lalapodo.Dao.TestTable3">
+    <select id="getAll" resultType="com.lalapodo.Dao.TestTable3" useCache="false"> <!--阻止缓存-->
         select * from test_table3
     </select>
+
+    <!--将namespce与缓存进行绑定-->
+    <cache/>
 </mapper>

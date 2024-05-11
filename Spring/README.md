@@ -1389,3 +1389,54 @@ ${}：SQL字符串拼接，会存在SQL注入问题，不建议使用。
   * getNextPage()：获取下一页
   * isIsFirstPage()：获取是否是第一页
   * isIsLastPage()：获取是否是最后一页
+
+## Mybatis缓存
+
+### Mybatis缓存的存在原因
+* Mybatis为减少和数据库的交互次数，减少系统开销，提高系统效率，提供了缓存机制。
+* MyBatis系统中默认定义了两级缓存：一级缓存和二级缓存，默认情况下只有一级缓存开启。
+数据怎样使用缓存最优? 经常查询并且不经常改变的数据使用缓存最优。
+
+### 一级缓存
+* 一级缓存也叫本地缓存，与数据库同一次会话期间查询到的数据会放在本地缓存中。
+* 以后如果需要获取相同的数据，直接从缓存中获取。
+* 作用域默认为sqlSession，不需要实现Serializable。
+* 当 sqlSession flush 或 close 后, 该 sqlSession 中的所有缓存将被清空。
+* 一级缓存不能被关闭，但可以调用clearCache()来清空一级缓存。
+* 注意：
+  * Mybatis默认会开启一级缓存，不需要配置。
+  * 如果sqlSession执行了DML操作（insert、update、delete）。
+  * 那么Mybatis会清空当前sqlSession缓存中的所有缓存数据，这样保证缓存中的数据和数据库一致。
+  * sqlSession存储缓存数据时，使用 [ namespace:sql:参数 ] 作为key，查询返回的语句作为value保存的。
+
+### 二级缓存
+* 二级缓存也叫全局缓存，因一级缓存作用域太低，所以有了二级缓存。
+* 二级缓存作用域为Mapper ( Namespace )，并且可自定义存储源，如 Ehcache。
+* 作用域为Namespace是指对该Namespace对应的配置文件中所有的SELECT操作结果都缓存，这样不同线程之间就可以共用二级缓存。
+* 工作机制：
+  * 一个sqlSession查询一条数据，这个数据就会被放在当前会话的一级缓存中。
+  * 如果当前sqlSession关闭了，一级缓存中的数据被保存到二级缓存中。
+  * 新的sqlSession查询信息，就可以从二级缓存中获取内容。
+
+#### 快速开启二级缓存
+1. 放入二级缓存的对象需要实现序列化接口，如超出缓存范围时可写入硬盘。
+2. Mybatis主配置文件中启用二级缓存。
+```xml
+<settings>
+    <setting name="cacheEnabled" value="true"/>
+</settings>
+```
+3. SQL映射文件中使用cache元素将namespce与缓存进行绑定即可。
+```xml
+<cache/>
+```
+### Mybatis缓存查询的顺序
+* 先查询二级缓存，如二级缓存未命中，再查询一级缓存。
+* 如一级缓存也未命中，则查询数据库。
+
+
+
+
+
+
+

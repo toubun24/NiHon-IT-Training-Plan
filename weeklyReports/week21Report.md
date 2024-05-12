@@ -2,13 +2,13 @@
 
 ## 学习内容及时长
 
-* **2023.05.06 月曜日:** 
+* **2023.05.06 月曜日:** 2h5min
   * SpringMybatis-自定义结果映射 07:05-07:30
   * SpringMybatis-association标签 07:30-08:05
   * SpringMybatis-collection标签 16:55-17:33
   * SpringMybatis-SQL执行(上) 17:33-18:00
 
-* **2023.05.07 火曜日:** 
+* **2023.05.07 火曜日:** 1h8min
   * SpringMybatis-SQL执行(下) 17:30-17:49
   * SpringMybatis-if与where标签 17:49-18:19
   * SpringMybatis-choose与set标签 18:19-18:38
@@ -19,14 +19,19 @@
 
 * **2023.05.10 金曜日:** 
 
-* **2023.05.11 土曜日:** 
+* **2023.05.11 土曜日:** 4h50min
   * SpringMybatis-trim与foreach标签 09:20-10:01
   * SpringMybatis-分页插件 10:01-11:25
   * SpringMybatis-缓存 19:00-19:20
   * Redis-介绍 19:20-19:30
   * Redis-安装 19:30-19:50 20:00-21:05 00:40-01:15
   * Redis-简单配置 01:15-01:30
-  * Redis-Docker启动 
+
+* **2023.05.12 日曜日:** 1h30min
+  * Redis-简单配置 00:00-01:06
+  * Redis-Docker启动 01:06-01:23
+  * 整理报告 01:23-01:30
+
   * Redis-字符串数据类型 
   * Redis-列表数据类型 
   * Redis-集合Set 
@@ -45,10 +50,17 @@
   * Redis-集群分片操作 
   * Redis-集成SpringBoot 
 
-* **2023.05.12 日曜日:** 
-
 ## 学习笔记
 
+### Debian vim操作
+* 搜索关键词
+```bash
+/XXX
+```
+* 退出
+```bash
+:q!
+```
 
 ## 内容拓展
 
@@ -268,7 +280,7 @@ redis-cli -h localhost -p 6379 ping
 ```bash
 PONG
 ```
-* 端口监听也正常
+端口监听也正常
 * 尝试直接运行并测试
 ```bash
 root@DESKTOP-9MBCA87:/home/toubun# redis-cli
@@ -317,4 +329,66 @@ root@DESKTOP-9MBCA87:/home/toubun# redis-server
 
 54:M 12 May 2024 01:21:08.676 # Warning: Could not create server TCP listening socket *:6379: bind: Address already in use
 54:M 12 May 2024 01:21:08.676 # Failed listening on port 6379 (tcp), aborting.
+```
+* 一天后又能启动了
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# redis-server
+22:C 13 May 2024 00:24:42.636 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+22:C 13 May 2024 00:24:42.636 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+22:C 13 May 2024 00:24:42.636 * Redis version=7.2.4, bits=64, commit=00000000, modified=0, pid=22, just started
+22:C 13 May 2024 00:24:42.636 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+22:M 13 May 2024 00:24:42.636 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+22:M 13 May 2024 00:24:42.636 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 7.2.4 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 22
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+22:M 13 May 2024 00:24:42.637 * Server initialized
+22:M 13 May 2024 00:24:42.637 * Ready to accept connections tcp
+```
+但新开Debian窗口`systemctl status redis-server`依然失败
+* 参考给出的警告信息运行`sysctl vm.overcommit_memory=1`解决超内存问题后相关警告消失
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# sysctl vm.overcommit_memory=1
+vm.overcommit_memory = 1
+root@DESKTOP-9MBCA87:/etc/redis# redis-server
+35:C 13 May 2024 00:28:14.251 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+35:C 13 May 2024 00:28:14.251 * Redis version=7.2.4, bits=64, commit=00000000, modified=0, pid=35, just started
+35:C 13 May 2024 00:28:14.251 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+35:M 13 May 2024 00:28:14.251 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+35:M 13 May 2024 00:28:14.251 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 7.2.4 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 35
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+35:M 13 May 2024 00:28:14.251 * Server initialized
+35:M 13 May 2024 00:28:14.251 * Ready to accept connections tcp
 ```

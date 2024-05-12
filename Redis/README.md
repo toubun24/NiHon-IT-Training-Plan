@@ -22,6 +22,7 @@
 #### Windows Subsystem for Linux (WSL)
 * [官方文档](https://redis.io/docs/latest/operate/oss_and_stack/install/install-redis/install-redis-on-windows/)
 * `Control Panel\Programs\Turn Windows features on or off`中同时打开`Virtual Machine Platform`和`Windows Subsystem for Linux`
+
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240511195958.png)
 
 #### Debian方式安装Redis
@@ -142,3 +143,52 @@ systemctl status redis-server # Unit redis-server.service could not be found.
 make uninstall
 cd ..
 ```
+
+#### Docker方式安装Redis
+* [官方文档](https://hub.docker.com/_/redis)
+```bash
+C:\Windows\System32>docker ps -a
+CONTAINER ID   IMAGE             COMMAND                   CREATED        STATUS                            PORTS                               NAMES
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   8 days ago     Exited (255) About a minute ago   0.0.0.0:8081->8081/tcp              nexus
+c6471e03b8f8   mysql:latest      "docker-entrypoint.s…"   3 months ago   Exited (255) About a minute ago   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql-mysql-1
+
+C:\Windows\System32>docker run --name redis -d redis
+Unable to find image 'redis:latest' locally
+latest: Pulling from library/redis
+b0a0cf830b12: Pull complete
+214d0afb35ca: Pull complete
+16a9d12e7a2c: Pull complete
+cb9709829e8b: Pull complete
+00e912971fa2: Pull complete
+f7ebca356832: Pull complete
+4f4fb700ef54: Pull complete
+c16c264be546: Pull complete
+Digest: sha256:f14f42fc7e824b93c0e2fe3cdf42f68197ee0311c3d2e0235be37480b2e208e6
+Status: Downloaded newer image for redis:latest
+260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4
+
+C:\Windows\System32>docker ps -a
+CONTAINER ID   IMAGE             COMMAND                   CREATED          STATUS                       PORTS                               NAMES
+260541ddadb7   redis             "docker-entrypoint.s…"   16 seconds ago   Up 12 seconds                6379/tcp                            redis
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   8 days ago       Exited (255) 3 minutes ago   0.0.0.0:8081->8081/tcp              nexus
+c6471e03b8f8   mysql:latest      "docker-entrypoint.s…"   3 months ago     Exited (255) 3 minutes ago   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql-mysql-1
+
+C:\Windows\System32>docker images
+REPOSITORY        TAG       IMAGE ID       CREATED        SIZE
+sonatype/nexus3   latest    eaf32f10ff03   4 weeks ago    568MB
+redis             latest    9509c4dd19fb   5 weeks ago    116MB
+mysql             latest    56b21e040954   3 months ago   632MB
+
+# 启动即可
+docker run --name redis -d redis
+```
+
+### Redis配置
+
+#### 配置参数获取
+```bash
+redis-cli
+config get parameter [parameter ...]
+```
+
+## Redis基本数据类型(上)

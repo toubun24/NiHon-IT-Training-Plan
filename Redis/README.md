@@ -192,3 +192,89 @@ config get parameter [parameter ...]
 ```
 
 ## Redis基本数据类型(上)
+
+### redis-cli 连接到另一个服务器
+```bash
+redis-cli -h host -p port -a password
+```
+
+### Redis 字符串 (String)
+* String 是 Redis 最基本的数据类型，一个 Redis 中字符串 value 最多可以是 512M.
+* String 是二进制安全的。意味着 Redis 的 String 可以包含任何数据。
+  * String 的数据结构是简单动态字符串(Simple Dynamic String)。
+  * 内部结构实现上类似于 Java 的 ArrayList，采用预分配冗余空间的方式来减少内存的频繁分配。
+* String常用命令：
+  > SET 设置指定 key 的值 \
+  > SETNX 在 key 不存在时设置 key 的值 \
+  > SETEX 设置指定 key 的值并设过期时间 \
+  > MSET 同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在 \
+  > GET 获取指定 key 的值 \
+  > GETSET 设置新值同时获得旧值 \
+  > INCR/DECR 对 key 的值进行加1或者减1操作 \
+  > INCRBY/DECRBY 对 key 的值进行自定义加减 \
+  > SETRANGE 用指定的字符串覆盖给定 key 所储存的字符串值，覆盖的位置从偏移量 offset 开始 \
+  > GETRANGE 获取存储在指定 key 中字符串的子字符串。字符串的截取范围由 start 和 end 两个偏移量决定
+
+### Redis 列表 (List)
+* List是简单的字符串列表，按照插入顺序排序。
+  * 底层是双向链表，对两端的操作性能很高，通过索引下标的操作中间的节点性能会较差。
+* List常用命令：
+  > LPUSH 将一个或多个值插入到列表左端 \
+  > RPUSH 将一个或多个值插入到列表右端 \
+  > LPOP 移出并获取列表的第一个元素 \
+  > BLPOP 移出并获取列表的第一个元素,如列表没有元素会阻塞列表直到超时或发现元素为止 \
+  > RPOP 移除并获取列表的最后一个元素 \
+  > BRPOP 移除并获取列表的最后一个元素,如列表没有元素会阻塞列表直到超时或发现元素为止 \
+  > LRANGE 从左到右获取列表元素 \
+  > LSET 通过索引来设置元素的值 \
+  > LREM 根据参数 COUNT 的值，移除列表中与参数 VALUE 相等的元素
+* List命令搭配：
+  > LPUSH + LPOP = 栈 先进后出 \
+  > RPUSH + RPOP = 栈 先进后出 \
+  > LPUSH + RPOP = 队列 先进先出 \
+  > RPUSH + LPOP = 队列 先进先出 \
+  > LPUSH + BRPOP = 队列 阻塞效果 \
+  > RPUSH + BLPOP = 队列 阻塞效果
+
+### Redis 集合(Set)
+* Set提供的功能与 List 类似。
+* 特殊之处在于 Set 是可以自动排重，当需要存储一个列表数据，又不希望出现重复数据时，Set 是一个很好的选择。
+* Set 提供了判断某个成员是否在一个 Set 集合内的重要接口。
+* Set 是 String 类型的无序集合。
+* 底层是一个 value 为 null 的 哈希表和整型数组。
+* Set常用命令：
+  > SADD 向集合添加一个或多个成员 \
+  > SREM 移除集合中一个或多个成员 \
+  > SISMEMBER 判断 member 元素是否是集合 key 的成员 \
+  > SMEMBERS 返回集合中的所有成员 \
+  > SMOVE 将 member 元素从 源集合移动到 目标集合 \
+  > SINTER 返回所有给定集合的交集 \
+  > SUNION 返回所有给定集合的并集 \
+  > SDIFF 返回第一个集合与其他集合之间的差异(注意比较的两个集合有顺序)
+
+### Redis 有序集合 (ZSet)
+* ZSet与 Set 非常类似。
+* 特殊之处是ZSet的每个成员都关联了一个评分(score),这个评分被用来按照从最低分到最高分的方式排序集合中的成员。
+* 集合的成员是唯一的，但是评分可以重复。
+* 底层是压缩列表和跳跃列表。
+* ZSet常用命令：
+  > ZADD 向有序集合添加一个或多个成员，或者更新已存在成员的分数 \
+  > ZREM 移除有序集合中的一个或多个成员 \
+  > ZSCORE 返回有序集中，成员的分数值 \
+  > ZRANGE 通过索引区间返回有序集合指定区间内的成员 \
+  > ZRANK 返回有序集合中指定成员的排名，从小到大排序 \
+  > ZREVRANK 返回有序集合中指定成员的排名，从大到小排序 \
+  > ZCOUNT 计算在有序集合中指定区间分数的成员数
+
+### Redis 哈希 (Hash)
+* Hash是一个键值对集合。
+* 特别适合用于存储对象。类似 Java 里面的 Map<String,Object>。
+* 底层是压缩列表和哈希表。
+* Hash常用命令：
+  > HSET 将哈希表 key 中的字段 field 的值设为 value \
+  > HGET 获取存储在哈希表中指定字段的值 \
+  > HDEL 删除一个或多个哈希表字段 \
+  > HMSET 同时将多个 field-value (域-值)对设置到哈希表 key 中 \
+  > HMGET 获取所有给定字段的值 \
+  > HVALS 获取哈希表中所有值
+

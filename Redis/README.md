@@ -191,7 +191,7 @@ redis-cli
 config get parameter [parameter ...]
 ```
 
-## Redis基本数据类型(上)
+## Redis基本数据类型
 
 ### redis-cli 连接到另一个服务器
 ```bash
@@ -277,4 +277,37 @@ redis-cli -h host -p port -a password
   > HMSET 同时将多个 field-value (域-值)对设置到哈希表 key 中 \
   > HMGET 获取所有给定字段的值 \
   > HVALS 获取哈希表中所有值
+
+## Redis特殊数据类型
+
+### 地理位置（GEO）
+* Redis 3.2 版本中，新增了存储地理位置信息的功能。
+* GEO，地理信息的缩写，该类型是元素的 2 维坐标，在地图上就是经纬度。
+* 提供了经纬度设置，查询，范围查询，距离查询，经纬度 Hash 等常见操作。
+* 它的底层通过 Redis 有序集合实现。不过 GEO 并没有与 Zset 共用一套的命令，而是拥有自己的一套命令。
+* GEO常用命令：
+  > GEOADD 将指定的地理空间位置（纬度、经度、名称）添加到指定的 key 中
+  > GEOPOS 从 key 里返回所有给定位置元素的位置（即经度和纬度）
+  > GEODIST 返回两个地理位置间的距离，如果两个位置之间的其中一个不存在，那么返回空值
+  > GEORADIUSBYMEMBER 根据给定地理位置(具体的位置元素)获取指定范围内的地理位置集合
+
+### 位图（Bitmaps）
+* 位图（Bitmaps）同样属于 String 数据类型。Redis 中一个字符串类型的值最多能存储 512 MB 的内容。
+* 位图适用于一些特定的应用场景，比如用户签到次数、或者登录次数等。
+* 位图中的每一条记录仅占用一个 bit 位，大大降低了内存空间使用率。
+* Bitmaps常用命令：
+  > SETBIT 设置或者清除某一位上的值，其返回值是原来位上存储的值，key 在初始状态下所有的位都为 0
+  > GETBIT 获取某一位上的值
+  > BITCOUNT 统计指定位区间上，值为 1 的个数
+
+
+### 基数统计（HyperLoglog）
+* Redis 2.8.9 版本中，新增了HyperLogLog类型。
+* HyperLoglog 是 Redis 重要的数据类型之一，它非常适用于海量数据的计算、统计，其特点是占用空间小，计算速度快。
+* 基数：一个集合中不重复的元素个数，比如集合 {1,2,3,1,2} ，它的基数集合为 {1,2,3} ，基数为 3。
+* 适用于统计网站用户月活量，或者网站页面的 UV(网站独立访客)数据等。
+* HyperLoglog常用命令：
+  > PFADD 添加指定元素到 HyperLogLog 中
+  > PFMERGE 将多个 HyperLogLog 合并为一个 HyperLogLog
+  > PFCOUNT 返回给定 HyperLogLog 的基数估算值
 

@@ -6,10 +6,10 @@
   * Redis-字符串数据类型 21:15-21:41
   * Redis-列表数据类型 21:41-22:00
   * Redis-集合Set 22:30-23:03
-  * Redis-有序集合ZSet 23:03-
-  * Redis-哈希Hash 
-  * Redis-地理位置GEO 
-  * Redis-位图Bitmap 
+  * Redis-有序集合ZSet 23:03-23:26
+  * Redis-哈希Hash 23:26-23:30
+  * Redis-地理位置GEO 23:30-23:35 00:20-00:30
+  * Redis-位图Bitmap 00:30-00:45
   * Redis-基数统计HyperLoglog
   * Redis-RDB持久化 
   * Redis-AOF持久化 
@@ -316,24 +316,158 @@ OK
 3) "lisi"
 ```
 
+#### Redis ZSet有序集合
 ```bash
-
+127.0.0.1:6379> flushdb
+OK
+# ZADD 向有序集合添加一个或多个成员，或者更新已存在成员的分数
+127.0.0.1:6379> zadd name 100 zhangsan 200 lisi 300 wangwu
+(integer) 3
+# ZSCORE 返回有序集中，成员的分数值
+127.0.0.1:6379> zscore name wangwu
+"300"
+# ZRANGE 通过索引区间返回有序集合指定区间内的成员
+127.0.0.1:6379> zrange name 0 -1
+1) "zhangsan"
+2) "lisi"
+3) "wangwu"
+# ZREM 移除有序集合中的一个或多个成员
+127.0.0.1:6379> zrem name lisi
+(integer) 1
+127.0.0.1:6379> zrange name 0 -1
+1) "zhangsan"
+2) "wangwu"
+# ZRANK 返回有序集合中指定成员的排名，从小到大排序
+127.0.0.1:6379> zrank name zhangsan
+(integer) 0
+127.0.0.1:6379> zrank name wangwu
+(integer) 1
+# ZREVRANK 返回有序集合中指定成员的排名，从大到小排序
+127.0.0.1:6379> zrevrank name wangwu
+(integer) 0
+127.0.0.1:6379> zrevrank name zhangsan
+(integer) 1
+# ZCOUNT 计算在有序集合中指定区间分数的成员数
+127.0.0.1:6379> zcount name 100 300
+(integer) 2
+127.0.0.1:6379> zcount name 200 300
+(integer) 1
+127.0.0.1:6379>
 ```
 
 ```bash
+127.0.0.1:6379> flushdb
+OK
+# HSET 将哈希表 key 中的字段 field 的值设为 value
+127.0.0.1:6379> hset name name1 zhangsan
+(integer) 1
+# HGET 获取存储在哈希表中指定字段的值
+127.0.0.1:6379> hget name
+(error) ERR wrong number of arguments for 'hget' command
+127.0.0.1:6379> hget name name1
+"zhangsan"
+# HDEL 删除一个或多个哈希表字段
+127.0.0.1:6379> hdel name
+(error) ERR wrong number of arguments for 'hdel' command
+127.0.0.1:6379> hdel name name1
+(integer) 1
+# HMSET 同时将多个 field-value (域-值)对设置到哈希表 key 中
+127.0.0.1:6379> hmset name name1 zhangsan name2 lisi name3 wangwu
+OK
+# HMGET 获取所有给定字段的值
+127.0.0.1:6379> hmget name name1 name2 name3
+1) "zhangsan"
+2) "lisi"
+3) "wangwu"
+127.0.0.1:6379> hgetall name
+1) "name1"
+2) "zhangsan"
+3) "name2"
+4) "lisi"
+5) "name3"
+6) "wangwu"
+# HVALS 获取哈希表中所有值
+127.0.0.1:6379> hvals name
+1) "zhangsan"
+2) "lisi"
+3) "wangwu"
+```
 
+#### Redis GEO地理位置
+```bash
+127.0.0.1:6379> flushdb
+OK
+# GEOADD 将指定的地理空间位置（纬度、经度、名称）添加到指定的 key 中
+127.0.0.1:6379> geoadd chinacity 116.0 39.0 beijing 120.0 30.0 shanghai
+(integer) 2
+# GEOPOS 从 key 里返回所有给定位置元素的位置（即经度和纬度）
+127.0.0.1:6379> geopos chinacity beijing shanghai
+1) 1) "116.00000113248825073"
+   2) "38.99999918434559731"
+2) 1) "120.00000089406967163"
+   2) "30.00000024997701331"
+# GEODIST 返回两个地理位置间的距离，如果两个位置之间的其中一个不存在，那么返回空值
+127.0.0.1:6379> geodist chinacity beijing shanghai
+"1065751.2416"
+127.0.0.1:6379> geodist chinacity beijing shanghai km
+"1065.7512"
+# GEORADIUSBYMEMBER 根据给定地理位置(具体的位置元素)获取指定范围内的地理位置集合
+127.0.0.1:6379> georadiusbymember chinacity beijing 200 km
+1) "beijing"
+127.0.0.1:6379> georadiusbymember chinacity beijing 2000 km
+1) "shanghai"
+2) "beijing"
+```
+
+#### Redis Bitmap位图
+```bash
+127.0.0.1:6379> flushdb
+OK
+# SETBIT 设置或者清除某一位上的值，其返回值是原来位上存储的值，key 在初始状态下所有的位都为 0
+127.0.0.1:6379> setbit 2024login 13 1
+(integer) 0
+127.0.0.1:6379> setbit 2024login 12 0
+(integer) 0
+127.0.0.1:6379> setbit 2024login 11 0
+(integer) 0
+127.0.0.1:6379> setbit 2024login 10 1
+(integer) 0
+# GETBIT 获取某一位上的值
+127.0.0.1:6379> getbit 2024login 13
+(integer) 1
+127.0.0.1:6379> getbit 2024login 12
+(integer) 0
+127.0.0.1:6379> getbit 2024login 11
+(integer) 0
+127.0.0.1:6379> getbit 2024login 10
+(integer) 1
+# BITCOUNT 统计指定位区间上，值为 1 的个数
+127.0.0.1:6379> bitcount 2024login
+(integer) 2
 ```
 
 ```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
+127.0.0.1:6379> flushdb
+OK
+# PFADD 添加指定元素到 HyperLogLog 中
+127.0.0.1:6379> pfadd webview u1 u2 u3
+(integer) 1
+# PFCOUNT 返回给定 HyperLogLog 的基数估算值
+127.0.0.1:6379> pfcount webview
+(integer) 3
+127.0.0.1:6379> pfadd webview u1 u2 u3 u4 u4
+(integer) 1
+127.0.0.1:6379> pfcount webview
+(integer) 4
+127.0.0.1:6379> pfadd weblogin u1 u2 u3 u4 u5
+(integer) 1
+127.0.0.1:6379> pfcount weblogin
+(integer) 5
+# PFMERGE 将多个 HyperLogLog 合并为一个 HyperLogLog
+127.0.0.1:6379> pfmerge webtoday webview weblogin
+OK
+127.0.0.1:6379> pfcount webtoday
+(integer) 5
 ```
 
 ```bash

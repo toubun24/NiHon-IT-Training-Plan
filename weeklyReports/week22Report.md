@@ -11,17 +11,17 @@
   * Redis-地理位置GEO 23:30-23:35 00:20-00:30
   * Redis-位图Bitmap 00:30-00:45
   * Redis-基数统计HyperLoglog
-  * Redis-RDB持久化 
-  * Redis-AOF持久化 
-  * Redis-主从模式 
+
+* **2023.05.14 火曜日:** 
+  * Redis-RDB持久化 15:30-16:15
+  * Redis-AOF持久化 17:15-17:35
+  * Redis-主从模式 18:00-18:55
   * Redis-哨兵模式介绍 
   * Redis-哨兵模式搭建 
   * Redis-集群搭建 
   * Redis-集群分片机制 
   * Redis-集群分片操作 
   * Redis-集成SpringBoot 
-
-* **2023.05.14 火曜日:** 
 
 * **2023.05.15 水曜日:** 
 
@@ -355,6 +355,7 @@ OK
 127.0.0.1:6379>
 ```
 
+#### Redis Hash哈希
 ```bash
 127.0.0.1:6379> flushdb
 OK
@@ -446,6 +447,7 @@ OK
 (integer) 2
 ```
 
+#### Redis HyperLoglog基数统计
 ```bash
 127.0.0.1:6379> flushdb
 OK
@@ -470,6 +472,691 @@ OK
 (integer) 5
 ```
 
+### Redis RDB持久化
+```bash
+C:\Windows\System32>docker ps -a
+CONTAINER ID   IMAGE             COMMAND                   CREATED        STATUS                        PORTS                               NAMES
+260541ddadb7   redis             "docker-entrypoint.s…"   38 hours ago   Exited (255) 11 seconds ago   6379/tcp                            redis
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   10 days ago    Exited (255) 38 hours ago     0.0.0.0:8081->8081/tcp              nexus
+c6471e03b8f8   mysql:latest      "docker-entrypoint.s…"   3 months ago   Exited (255) 38 hours ago     0.0.0.0:3306->3306/tcp, 33060/tcp   mysql-mysql-1
+
+C:\Windows\System32>docker start 260541ddadb7
+260541ddadb7
+
+C:\Windows\System32>docker exec -it 260541ddadb7 redis-cli
+127.0.0.1:6379> lastsave
+(integer) 1715672679
+127.0.0.1:6379> save
+OK
+127.0.0.1:6379> lastsave
+(integer) 1715672749
+127.0.0.1:6379> bgsave
+Background saving started
+127.0.0.1:6379> lastsave
+(integer) 1715672771
+# XX秒一次key值改变进行持久化 空值为关闭RDB
+127.0.0.1:6379> config get save
+1) "save"
+2) "3600 1 300 100 60 10000"
+127.0.0.1:6379> config set save ""
+OK
+127.0.0.1:6379> config get save
+1) "save"
+2) ""
+127.0.0.1:6379> config set save "3600 1 300 100 60 10000"
+OK
+127.0.0.1:6379> config get save
+1) "save"
+2) "3600 1 300 100 60 10000"
+127.0.0.1:6379> exit
+
+C:\Windows\System32>docker ps
+CONTAINER ID   IMAGE     COMMAND                   CREATED        STATUS         PORTS      NAMES
+260541ddadb7   redis     "docker-entrypoint.s…"   39 hours ago   Up 5 minutes   6379/tcp   redis
+
+C:\Windows\System32>docker inspect 260541ddadb7
+[
+    {
+        "Id": "260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4",
+        "Created": "2024-05-12T17:19:11.337594962Z",
+        "Path": "docker-entrypoint.sh",
+        "Args": [
+            "redis-server"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 808,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2024-05-14T07:44:39.478021771Z",
+            "FinishedAt": "2024-05-14T07:44:09.845541718Z"
+        },
+        "Image": "sha256:9509c4dd19fbb2a8abe044ab2edba261139c141ef4ebba4dcb9e0d9295431288",
+        "ResolvConfPath": "/var/lib/docker/containers/260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4/hostname",
+        "HostsPath": "/var/lib/docker/containers/260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4/hosts",
+        "LogPath": "/var/lib/docker/containers/260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4/260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4-json.log",
+        "Name": "/redis",
+        "RestartCount": 0,
+        "Driver": "overlay2",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": null,
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "default",
+            "PortBindings": {},
+            "RestartPolicy": {
+                "Name": "no",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                30,
+                174
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "host",
+            "Dns": [],
+            "DnsOptions": [],
+            "DnsSearch": [],
+            "ExtraHosts": null,
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": [],
+            "BlkioDeviceReadBps": [],
+            "BlkioDeviceWriteBps": [],
+            "BlkioDeviceReadIOps": [],
+            "BlkioDeviceWriteIOps": [],
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": [],
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": false,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/asound",
+                "/proc/acpi",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/sys/firmware",
+                "/sys/devices/virtual/powercap"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "GraphDriver": {
+            "Data": {
+                "LowerDir": "/var/lib/docker/overlay2/21f8e0463b7a2a509c15c860b9621e7b1afb5bacba15c2afa58861182034aa7e-init/diff:/var/lib/docker/overlay2/4b7bf46ede5158fff0653d1a386c307645cd0a8b1383369c54b90a4adf0569e1/diff:/var/lib/docker/overlay2/21aa07359d2ebaf7b2478dbca882205c7a4dec3843870a0aa2b81b9e090a0ad0/diff:/var/lib/docker/overlay2/ac7ea050ef71107c4e9890dcb17c35f15ee86c2c1c150a2c402dc6332be3ee69/diff:/var/lib/docker/overlay2/2293d6f059dee682c889fbb97de0bcfe394d62d16f3489b02bd157bc0cce0f04/diff:/var/lib/docker/overlay2/d425416f7c2f85a33d510901421afc60e8b252ac2e6753f925d24910ff093a38/diff:/var/lib/docker/overlay2/9be94e2fe18c3490aa4c009798fe2ac35c9683fe7302873b6c0217b4b726ef86/diff:/var/lib/docker/overlay2/25903f18c1129f8179da81e4f367f92bf6314c6847719ed816a7aabb9ac3b570/diff:/var/lib/docker/overlay2/9701640e8deee6319fb61f95ded93111ba5678c5130707338e2b96136fbf0713/diff",
+                "MergedDir": "/var/lib/docker/overlay2/21f8e0463b7a2a509c15c860b9621e7b1afb5bacba15c2afa58861182034aa7e/merged",
+                "UpperDir": "/var/lib/docker/overlay2/21f8e0463b7a2a509c15c860b9621e7b1afb5bacba15c2afa58861182034aa7e/diff",
+                "WorkDir": "/var/lib/docker/overlay2/21f8e0463b7a2a509c15c860b9621e7b1afb5bacba15c2afa58861182034aa7e/work"
+            },
+            "Name": "overlay2"
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "e42f0b4b1433be821630317e1586afe93d2714ca0409d2b24117ecb9c49e4d0b",
+                "Source": "/var/lib/docker/volumes/e42f0b4b1433be821630317e1586afe93d2714ca0409d2b24117ecb9c49e4d0b/_data",
+                "Destination": "/data",
+                "Driver": "local",
+                "Mode": "",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "260541ddadb7",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": false,
+            "AttachStderr": false,
+            "ExposedPorts": {
+                "6379/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+                "GOSU_VERSION=1.17",
+                "REDIS_VERSION=7.2.4",
+                "REDIS_DOWNLOAD_URL=http://download.redis.io/releases/redis-7.2.4.tar.gz",
+                "REDIS_DOWNLOAD_SHA=8d104c26a154b29fd67d6568b4f375212212ad41e0c2caa3d66480e78dbd3b59"
+            ],
+            "Cmd": [
+                "redis-server"
+            ],
+            "Image": "redis",
+            "Volumes": {
+                "/data": {}
+            },
+            "WorkingDir": "/data",
+            "Entrypoint": [
+                "docker-entrypoint.sh"
+            ],
+            "OnBuild": null,
+            "Labels": {}
+        },
+        "NetworkSettings": {
+            "Bridge": "",
+            "SandboxID": "8dd8f94d97108d161c2319d3bfe858a2343ad31d7c4b25c4474b22a91bca5aed",
+            "HairpinMode": false,
+            "LinkLocalIPv6Address": "",
+            "LinkLocalIPv6PrefixLen": 0,
+            "Ports": {
+                "6379/tcp": null
+            },
+            "SandboxKey": "/var/run/docker/netns/8dd8f94d9710",
+            "SecondaryIPAddresses": null,
+            "SecondaryIPv6Addresses": null,
+            "EndpointID": "2d07c0b58aca5c33adfebf5e4181c1d90529f3972fabadda57a51e5b54ed9f64",
+            "Gateway": "172.17.0.1",
+            "GlobalIPv6Address": "",
+            "GlobalIPv6PrefixLen": 0,
+            "IPAddress": "172.17.0.2",
+            "IPPrefixLen": 16,
+            "IPv6Gateway": "",
+            "MacAddress": "02:42:ac:11:00:02",
+            "Networks": {
+                "bridge": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": null,
+                    "MacAddress": "02:42:ac:11:00:02",
+                    "NetworkID": "723799a55daa18520eb1abc474c8d03f2ba4dd30cd6f56f875b4fac0afb60e7b",
+                    "EndpointID": "2d07c0b58aca5c33adfebf5e4181c1d90529f3972fabadda57a51e5b54ed9f64",
+                    "Gateway": "172.17.0.1",
+                    "IPAddress": "172.17.0.2",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DriverOpts": null
+                }
+            }
+        }
+    }
+]
+
+C:\Windows\System32>docker exec -it 260541ddadb7 redis-cli
+127.0.0.1:6379> auth 123456
+(error) ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?
+```
+
+```bash
+127.0.0.1:6379> clear
+# 持久化操作失败，Redis则会停止提供接受操作
+127.0.0.1:6379> config get stop-writes-on-bgsave-error
+1) "stop-writes-on-bgsave-error"
+2) "yes"
+# 持久化操作的时候采用LZF压缩字符串和对象
+127.0.0.1:6379> config get rdbcompression
+1) "rdbcompression"
+2) "yes"
+# 完整性检查，存储或者加载持久化文件的时候会有性能下降
+127.0.0.1:6379> config get rdbchecksum
+1) "rdbchecksum"
+2) "yes"
+# 持久化文件名称设置
+127.0.0.1:6379> config get dbfilename
+1) "dbfilename"
+2) "dump.rdb"
+# 持久化文件保存目录设置
+127.0.0.1:6379> config get dir
+1) "dir"
+2) "/data"
+127.0.0.1:6379> keys '*'
+1) "chinacity"
+127.0.0.1:6379> set name zhangsan
+OK
+127.0.0.1:6379> keys '*'
+1) "chinacity"
+2) "name"
+127.0.0.1:6379> bgsave
+Background saving started
+127.0.0.1:6379> exit
+
+C:\Windows\System32>docker ps
+CONTAINER ID   IMAGE     COMMAND                   CREATED        STATUS          PORTS      NAMES
+260541ddadb7   redis     "docker-entrypoint.s…"   39 hours ago   Up 24 minutes   6379/tcp   redis
+
+C:\Windows\System32>docker restart 260541ddadb7
+260541ddadb7
+
+C:\Windows\System32>docker start 260541ddadb7
+260541ddadb7
+
+C:\Windows\System32>docker exec -it 260541ddadb7 redis-cli
+127.0.0.1:6379> auth 123456
+(error) ERR AUTH <password> called without any password configured for the default user. Are you sure your configuration is correct?
+127.0.0.1:6379> keys '*'
+1) "name"
+2) "chinacity"
+127.0.0.1:6379> get name
+"zhangsan"
+127.0.0.1:6379> exit
+
+C:\Windows\System32>docker exec -it 260541ddadb7 bash
+root@260541ddadb7:/data# ls
+dump.rdb
+root@260541ddadb7:/data# cat dump.rdb
+REDIS0011�     redis-ver7.2.4�
+redis-bits�@�ctime�>Cf�used-mem�h��aof-base���     chinacity..�shanghai  �3vbc2g       �beijin���4 ��t  �namzhangsan�������
+```
+
+### Redis AOF持久化
+```bash
+root@260541ddadb7:/data# exit
+exit
+
+C:\Windows\System32>docker exec -it 260541ddadb7 redis-cli
+# 默认AOF为关闭状态
+127.0.0.1:6379> config get appendonly
+1) "appendonly"
+2) "no"
+127.0.0.1:6379> config set appendonly yes
+OK
+127.0.0.1:6379> config get appendonly
+1) "appendonly"
+2) "yes"
+# 默认AOF文件名
+127.0.0.1:6379> config get appendfilename
+1) "appendfilename"
+2) "appendonly.aof"
+# 默认AOF文件存储目录
+127.0.0.1:6379> config get appenddirname
+1) "appenddirname"
+2) "appendonlydir"
+# 默认值为everysec(每秒同步) 可设置为always(每一次修改操作都进行同步)/no(操作系统控制同步操作 性能最好)
+127.0.0.1:6379> config get appendfsync
+1) "appendfsync"
+2) "everysec"
+# 默认为关闭状态，意思是同时在执行重写操作和写AOF文件时不会丢失数据，但是要忍受可能出现的阻塞与高延迟
+127.0.0.1:6379> config get no-appendfsync-on-rewrite
+1) "no-appendfsync-on-rewrite"
+2) "no"
+# 文件超过最小基准值的百分比时进行重写操作，默认百分比为100
+127.0.0.1:6379> config get auto-aof-rewrite-percentage
+1) "auto-aof-rewrite-percentage"
+2) "100"
+# 触发重写条件的文件基准值，默认为64M
+127.0.0.1:6379> config get auto-aof-rewrite-min-size
+1) "auto-aof-rewrite-min-size"
+2) "67108864"
+127.0.0.1:6379> flushdb
+OK
+127.0.0.1:6379> keys '*'
+(empty array)
+127.0.0.1:6379> lpush name zhangsan lisi wangwu laoliu
+(integer) 4
+127.0.0.1:6379> keys '*'
+1) "name"
+127.0.0.1:6379> exit
+
+C:\Windows\System32>docker exec -it 260541ddadb7 bash
+root@260541ddadb7:/data# ls
+appendonlydir  dump.rdb
+root@260541ddadb7:/data# cd appendonlydir/
+root@260541ddadb7:/data/appendonlydir# ls
+appendonly.aof.1.base.rdb  appendonly.aof.1.incr.aof  appendonly.aof.manifest
+root@260541ddadb7:/data/appendonlydir# cat appendonly.aof.1.incr.aof
+*2
+$6
+SELECT
+$1
+0
+*1
+$7
+flushdb
+*6
+$5
+lpush
+$4
+name
+$8
+zhangsan
+$4
+lisi
+$6
+wangwu
+$6
+laoliu
+```
+
+### Redis 主从模式搭建
+
+#### 命令搭建
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# ps -ef | grep redis
+toubun     409   407  0 18:12 pts/2    00:00:00 redis-server *:6379
+root       421    34  0 18:17 pts/1    00:00:00 grep redis
+# 命令搭建主从模式
+root@DESKTOP-9MBCA87:/home/toubun# redis-server --port 6380 --slaveof 127.0.0.1 6379 --daemonize yes
+422:C 14 May 2024 18:18:54.844 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+root@DESKTOP-9MBCA87:/home/toubun# sysctl vm.overcommit_memory=1
+vm.overcommit_memory = 1
+# 命令启动从机 主机为6379的redis
+root@DESKTOP-9MBCA87:/home/toubun# redis-server --port 6380 --slaveof 127.0.0.1 6379 --daemonize yes
+# 查看redis进程
+root@DESKTOP-9MBCA87:/home/toubun# ps -ef | grep redis
+toubun     409   407  0 18:12 pts/2    00:00:00 redis-server *:6379
+root       423    26  0 18:18 ?        00:00:00 redis-server *:6380
+root       434    34  0 18:19 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/home/toubun# redis-cli -p 6380
+# 从机不能写入操作
+127.0.0.1:6380> set name zhangsan
+(error) READONLY You can't write against a read only replica.
+```
+```bash
+# 从机信息
+127.0.0.1:6380> info replication
+# Replication
+role:slave
+master_host:127.0.0.1
+master_port:6379
+master_link_status:up
+master_last_io_seconds_ago:8
+master_sync_in_progress:0
+slave_read_repl_offset:266
+slave_repl_offset:266
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:266
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:15
+repl_backlog_histlen:252
+# 启动进入新redis-server
+127.0.0.1:6380> slaveof no one
+OK
+127.0.0.1:6380> set name zhangsan
+OK
+127.0.0.1:6380> get name
+"zhangsan"
+127.0.0.1:6380> info replication
+# Replication
+role:master
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:be5e74e3a248be28d78a2d219957186046a551eb
+master_replid2:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_repl_offset:480
+second_repl_offset:421
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:15
+repl_backlog_histlen:466
+127.0.0.1:6380> flushdb
+OK
+# 连接主机查看信息
+127.0.0.1:6380> slaveof 127.0.0.1 6379
+OK
+127.0.0.1:6380> info replication
+# Replication
+role:slave
+master_host:127.0.0.1
+master_port:6379
+master_link_status:up
+master_last_io_seconds_ago:1
+master_sync_in_progress:0
+slave_read_repl_offset:434
+slave_repl_offset:434
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:434
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:435
+repl_backlog_histlen:0
+# 写操作
+127.0.0.1:6380> set name zhangsan
+(error) READONLY You can't write against a read only replica.
+```
+```bash
+127.0.0.1:6380> keys '*'
+(empty array)
+127.0.0.1:6380> exit
+root@DESKTOP-9MBCA87:/home/toubun# redis-cli -p 6379
+127.0.0.1:6379> info replication
+# Replication
+role:master
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6380,state=online,offset=490,lag=1
+master_failover_state:no-failover
+master_replid:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:490
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:1
+repl_backlog_histlen:490
+127.0.0.1:6379> keys '*'
+(empty array)
+127.0.0.1:6379> set name zhangsan
+OK
+127.0.0.1:6379> keys '*'
+1) "name"
+127.0.0.1:6379> exit
+# 验证主从复制
+root@DESKTOP-9MBCA87:/home/toubun# redis-cli -p 6380
+127.0.0.1:6380> keys '*'
+1) "name"
+127.0.0.1:6380> get name
+"zhangsan"
+127.0.0.1:6380> exit
+root@DESKTOP-9MBCA87:/home/toubun# ps -ef | grep redis
+toubun     409   407  0 18:12 pts/2    00:00:01 redis-server *:6379
+root       423    26  0 18:18 ?        00:00:00 redis-server *:6380
+root       440    34  0 18:27 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/home/toubun# kill 423
+root@DESKTOP-9MBCA87:/home/toubun# ps -ef | grep redis
+toubun     409   407  0 18:12 pts/2    00:00:01 redis-server *:6379
+root       442    34  0 18:27 pts/1    00:00:00 grep redis
+```
+
+```bash
+toubun@DESKTOP-9MBCA87:~$ redis-server
+409:C 14 May 2024 18:12:15.741 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+409:C 14 May 2024 18:12:15.741 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+409:C 14 May 2024 18:12:15.741 * Redis version=7.2.4, bits=64, commit=00000000, modified=0, pid=409, just started
+409:C 14 May 2024 18:12:15.741 # Warning: no config file specified, using the default config. In order to specify a config file use redis-server /path/to/redis.conf
+409:M 14 May 2024 18:12:15.741 * Increased maximum number of open files to 10032 (it was originally set to 1024).
+409:M 14 May 2024 18:12:15.741 * monotonic clock: POSIX clock_gettime
+                _._
+           _.-``__ ''-._
+      _.-``    `.  `_.  ''-._           Redis 7.2.4 (00000000/0) 64 bit
+  .-`` .-```.  ```\/    _.,_ ''-._
+ (    '      ,       .-`  | `,    )     Running in standalone mode
+ |`-._`-...-` __...-.``-._|'` _.-'|     Port: 6379
+ |    `-._   `._    /     _.-'    |     PID: 409
+  `-._    `-._  `-./  _.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |           https://redis.io
+  `-._    `-._`-.__.-'_.-'    _.-'
+ |`-._`-._    `-.__.-'    _.-'_.-'|
+ |    `-._`-._        _.-'_.-'    |
+  `-._    `-._`-.__.-'_.-'    _.-'
+      `-._    `-.__.-'    _.-'
+          `-._        _.-'
+              `-.__.-'
+
+409:M 14 May 2024 18:12:15.742 * Server initialized
+409:M 14 May 2024 18:12:15.742 * Loading RDB produced by version 7.2.4
+409:M 14 May 2024 18:12:15.742 * RDB age 13 seconds
+409:M 14 May 2024 18:12:15.742 * RDB memory usage when created 0.83 Mb
+409:M 14 May 2024 18:12:15.742 * Done loading RDB, keys loaded: 0, keys expired: 0.
+409:M 14 May 2024 18:12:15.742 * DB loaded from disk: 0.000 seconds
+409:M 14 May 2024 18:12:15.742 * Ready to accept connections tcp
+409:M 14 May 2024 18:18:54.846 * Replica 127.0.0.1:6380 asks for synchronization
+409:M 14 May 2024 18:18:54.846 * Full resync requested by replica 127.0.0.1:6380
+409:M 14 May 2024 18:18:54.846 * Replication backlog created, my new replication IDs are '076e4252fa539f17a04b2d8eafc05292cb4424f1' and '0000000000000000000000000000000000000000'
+409:M 14 May 2024 18:18:54.846 * Delay next BGSAVE for diskless SYNC
+409:M 14 May 2024 18:18:59.802 * Starting BGSAVE for SYNC with target: replicas sockets
+409:M 14 May 2024 18:18:59.802 * Background RDB transfer started by pid 429
+429:C 14 May 2024 18:18:59.802 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+409:M 14 May 2024 18:18:59.803 * Diskless rdb transfer, done reading from pipe, 1 replicas still up.
+409:M 14 May 2024 18:18:59.805 * Background RDB transfer terminated with success
+409:M 14 May 2024 18:18:59.805 * Streamed RDB transfer with replica 127.0.0.1:6380 succeeded (socket). Waiting for REPLCONF ACK from replica to enable streaming
+409:M 14 May 2024 18:18:59.805 * Synchronization with replica 127.0.0.1:6380 succeeded
+409:M 14 May 2024 18:23:52.966 * Connection with replica 127.0.0.1:6380 lost.
+409:M 14 May 2024 18:24:33.902 * Replica 127.0.0.1:6380 asks for synchronization
+409:M 14 May 2024 18:24:33.902 * Partial resynchronization not accepted: Replication ID mismatch (Replica asked for 'be5e74e3a248be28d78a2d219957186046a551eb', my replication IDs are '076e4252fa539f17a04b2d8eafc05292cb4424f1' and '0000000000000000000000000000000000000000')
+409:M 14 May 2024 18:24:33.902 * Delay next BGSAVE for diskless SYNC
+409:M 14 May 2024 18:24:38.779 * Starting BGSAVE for SYNC with target: replicas sockets
+409:M 14 May 2024 18:24:38.779 * Background RDB transfer started by pid 436
+436:C 14 May 2024 18:24:38.780 * Fork CoW for RDB: current 0 MB, peak 0 MB, average 0 MB
+409:M 14 May 2024 18:24:38.780 * Diskless rdb transfer, done reading from pipe, 1 replicas still up.
+409:M 14 May 2024 18:24:38.782 * Background RDB transfer terminated with success
+409:M 14 May 2024 18:24:38.782 * Streamed RDB transfer with replica 127.0.0.1:6380 succeeded (socket). Waiting for REPLCONF ACK from replica to enable streaming
+409:M 14 May 2024 18:24:38.782 * Synchronization with replica 127.0.0.1:6380 succeeded
+409:M 14 May 2024 18:27:34.161 * Connection with replica 127.0.0.1:6380 lost.
+```
+
+#### 修改配置文件搭建
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# cd /etc/redis/
+root@DESKTOP-9MBCA87:/etc/redis# ls
+dump.rdb  redis.conf
+root@DESKTOP-9MBCA87:/etc/redis# vim
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_6380.conf
+```
+```bash
+# i
+slaveof 127.0.0.1 6379
+port 6380
+daemonize yes
+# ESC
+# :wq
+# ENTER
+```
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_6380.conf
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   407  0 18:12 pts/2    00:00:03 redis-server *:6379
+root       450    26  0 18:55 ?        00:00:00 redis-server *:6380
+root       458    34  0 18:55 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 6380
+127.0.0.1:6380> info replication
+# Replication
+role:slave
+master_host:127.0.0.1
+master_port:6379
+master_link_status:up
+master_last_io_seconds_ago:6
+master_sync_in_progress:0
+slave_read_repl_offset:774
+slave_repl_offset:774
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:774
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:747
+repl_backlog_histlen:28
+127.0.0.1:6380> set name zhangsan
+(error) READONLY You can't write against a read only replica.
+```
+
 ```bash
 
 ```
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
+## 遇见问题
+
+### 【已解决】Debian Redis `redis-cli` 命令运行失败报错 `Could not connect to Redis at 127.0.0.1:6379: Connection refused`
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# redis-cli
+Could not connect to Redis at 127.0.0.1:6379: Connection refused
+not connected> exit
+```
+* 解决方案：同时开启两个Debian窗口，其中一个运行`redis-server`，之后另一个窗口运行`redis-cli`后成功启动

@@ -9,15 +9,14 @@
   * Redis-有序集合ZSet 23:03-23:26
   * Redis-哈希Hash 23:26-23:30
   * Redis-地理位置GEO 23:30-23:35 00:20-00:30
-  * Redis-位图Bitmap 00:30-00:45
-  * Redis-基数统计HyperLoglog
+  * Redis-位图Bitmap&基数统计HyperLoglog 00:30-00:45
 
 * **2023.05.14 火曜日:** 
   * Redis-RDB持久化 15:30-16:15
   * Redis-AOF持久化 17:15-17:35
-  * Redis-主从模式 18:00-18:55
-  * Redis-哨兵模式介绍 
-  * Redis-哨兵模式搭建 
+  * Redis-主从模式 18:00-19:00
+  * Redis-哨兵模式介绍 20:35-20:43
+  * Redis-哨兵模式搭建 20:43-21:30
   * Redis-集群搭建 
   * Redis-集群分片机制 
   * Redis-集群分片操作 
@@ -1135,6 +1134,169 @@ repl_backlog_histlen:28
 (error) READONLY You can't write against a read only replica.
 ```
 
+### Redis 哨兵模式搭建
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   406  0 19:44 ?        00:00:04 redis-server *:6379
+root       450    26  0 20:27 ?        00:00:01 redis-server *:6380
+root       463    34  0 20:45 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# redis-server --port 6381 --slaveof 127.0.0.1 6379 --daemonize yes
+# 1主2从
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   406  0 19:44 ?        00:00:04 redis-server *:6379
+root       450    26  0 20:27 ?        00:00:01 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:00 redis-server *:6381
+root       472    34  0 20:46 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# vim sentinel_1.conf
+```
+```bash
+port 9100
+sentinel monitor smaster 127.0.0.1 6379 2
+daemonize yes
+```
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# vim sentinel_2.conf
+```
+```bash
+port 9101
+sentinel monitor smaster 127.0.0.1 6379 2
+daemonize yes
+```
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# vim sentinel_3.conf
+```
+```bash
+port 9102
+sentinel monitor smaster 127.0.0.1 6379 2
+daemonize yes
+```
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ls
+dump.rdb  redis.conf  redis_6380.conf  sentinel_1.conf  sentinel_2.conf  sentinel_3.conf
+root@DESKTOP-9MBCA87:/etc/redis# redis-server sentinel_1.conf --sentinel
+root@DESKTOP-9MBCA87:/etc/redis# redis-server sentinel_2.conf --sentinel
+root@DESKTOP-9MBCA87:/etc/redis# redis-server sentinel_3.conf --sentinel
+root@DESKTOP-9MBCA87:/etc/redis# systemctl stop redis-server # 关闭主机失败
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   406  0 19:44 ?        00:00:06 redis-server *:6379 # 主机依然存在
+root       450    26  0 20:27 ?        00:00:03 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:02 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:00 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:00 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:00 redis-server *:9102 [sentinel]
+root       526    34  0 21:11 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# systemctl list-units --type=service | grep redis
+redis-server.service    loaded inactive dead    Advanced key-value store
+root@DESKTOP-9MBCA87:/etc/redis# sudo kill 409 # 解决方法
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root       450    26  0 20:27 ?        00:00:04 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:02 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:01 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:01 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:01 redis-server *:9102 [sentinel]
+root       533    34  0 21:16 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 9100
+127.0.0.1:9100> info sentinel
+# Sentinel
+sentinel_masters:1
+sentinel_tilt:0
+sentinel_tilt_since_seconds:-1
+sentinel_running_scripts:0
+sentinel_scripts_queue_length:0
+sentinel_simulate_failure_flags:0
+master0:name=smaster,status=ok,address=127.0.0.1:6381,slaves=2,sentinels=3
+127.0.0.1:9100> exit
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 6381 # 新的主机号
+127.0.0.1:6381> info replication
+# Replication
+role:master # 成为master
+connected_slaves:1
+slave0:ip=127.0.0.1,port=6380,state=online,offset=142471,lag=1
+master_failover_state:no-failover
+master_replid:fe6502c50752a4c3eacefb9eaf3e0140de58c57e
+master_replid2:076e4252fa539f17a04b2d8eafc05292cb4424f1
+master_repl_offset:142616
+second_repl_offset:102345
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:747
+repl_backlog_histlen:141870
+127.0.0.1:6381> exit
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 6380
+127.0.0.1:6380> config get slaveof
+1) "slaveof"
+2) "127.0.0.1 6381"
+127.0.0.1:6380> exit
+root@DESKTOP-9MBCA87:/etc/redis# systemctl start redis-server # 启动命令
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root       450    26  0 20:27 ?        00:00:04 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:03 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:02 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:02 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:02 redis-server *:9102 [sentinel]
+redis      539    26  0 21:22 ?        00:00:00 /usr/bin/redis-server 127.0.0.1:6379 # 重新启动原主机
+root       545    34  0 21:22 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 6379
+127.0.0.1:6379> info replication
+# Replication
+role:slave # 主机=>从属
+master_host:127.0.0.1
+master_port:6381 # 新主机
+master_link_status:up
+master_last_io_seconds_ago:1
+master_sync_in_progress:0
+slave_read_repl_offset:204643
+slave_repl_offset:204643
+slave_priority:100
+slave_read_only:1
+replica_announced:1
+connected_slaves:0
+master_failover_state:no-failover
+master_replid:fe6502c50752a4c3eacefb9eaf3e0140de58c57e
+master_replid2:0000000000000000000000000000000000000000
+master_repl_offset:204643
+second_repl_offset:-1
+repl_backlog_active:1
+repl_backlog_size:1048576
+repl_backlog_first_byte_offset:174936
+repl_backlog_histlen:29708
+127.0.0.1:6379> config get slaveof
+1) "slaveof"
+2) "127.0.0.1 6381" # 新主机
+127.0.0.1:6379> exit
+root@DESKTOP-9MBCA87:/etc/redis# ls
+dump.rdb  redis.conf  redis_6380.conf  sentinel_1.conf  sentinel_2.conf  sentinel_3.conf
+root@DESKTOP-9MBCA87:/etc/redis# cat redis.conf
+# Redis configuration file example.
+#
+# Note that in order to read the configuration file, Redis must be
+# started with the file path as first argument:
+#
+# ./redis-server /path/to/redis.conf
+
+# 此处省略...
+
+# Generated by CONFIG REWRITE
+save 3600 1
+save 300 100
+save 60 10000
+replicaof 127.0.0.1 6381 # 新主机号
+latency-tracking-info-percentiles 50 99 99.9
+user default on nopass sanitize-payload ~* &* +@all
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
 ```bash
 
 ```
@@ -1150,6 +1312,28 @@ repl_backlog_histlen:28
 ```bash
 
 ```
+
+```bash
+
+```
+
+```bash
+
+```
+
+```bash
+
+```
+
+## 拓展内容
+
+### Vim退出
+* 退出输入模式，先按一下[ESC]键（有时要多按两下），然后执行：
+* :w!
+* :w ——保存当前文件
+* :wq —— 存盘退出(与指令 :x 功能相同)
+* :q —— 直接退出，如已修改会提示是否保存
+* :q! ——不保存直接退出
 
 ## 遇见问题
 
@@ -1160,3 +1344,66 @@ Could not connect to Redis at 127.0.0.1:6379: Connection refused
 not connected> exit
 ```
 * 解决方案：同时开启两个Debian窗口，其中一个运行`redis-server`，之后另一个窗口运行`redis-cli`后成功启动
+
+### win10 debian vim 复制的外部内容无法粘贴进vim文件
+
+### 【已解决】Debian Redis 使用`systemctl stop redis-server`命令关闭6379端口主机失败
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   406  0 19:44 ?        00:00:06 redis-server *:6379
+root       450    26  0 20:27 ?        00:00:03 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:02 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:00 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:00 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:00 redis-server *:9102 [sentinel]
+root       522    34  0 21:11 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# systemctl stop redis-server
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+toubun     409   406  0 19:44 ?        00:00:06 redis-server *:6379 # 依然存在
+root       450    26  0 20:27 ?        00:00:03 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:02 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:00 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:00 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:00 redis-server *:9102 [sentinel]
+root       526    34  0 21:11 pts/1    00:00:00 grep redis
+```
+* 主机启动方式为上上一问中新开Debian方式启动；而后参考文心一言：
+`systemctl stop redis-server` 命令通常用于通过 systemd 管理 Redis 服务。但是，从你给出的输出来看，存在几个问题可能导致该命令没有停止 6379 端口的 Redis 服务器：
+1. **systemd 单元文件配置**：系统可能配置了多个 Redis 的 systemd 单元文件，而 `redis-server` 这个名字可能只对应了其中一部分。例如，你可能有一个 `redis.service` 来控制 6379 端口的服务，但 `systemctl stop redis-server` 尝试停止的是另一个叫 `redis-server.service` 的服务（如果这样的服务存在的话）。
+2. **手动启动的服务**：6379 端口上的 Redis 服务器可能是手动启动的，而不是通过 systemd。这意味着它不会受到 `systemctl` 命令的影响。
+3. **使用不同的用户和配置**：你的系统中可能有多个 Redis 实例，它们使用不同的用户和配置文件运行。`systemctl` 命令可能只影响由 systemd 管理的那个实例。
+为了解决这个问题，你可以尝试以下步骤：
+- **确定 systemd 单元文件**：使用 `systemctl list-units --type=service | grep redis` 来列出所有与 Redis 相关的 systemd 单元文件。
+- **停止特定的服务**：如果你找到了与 6379 端口相关的 systemd 单元文件（比如 `redis.service`），你可以使用 `systemctl stop redis.service` 来停止它。
+- **手动停止服务**：如果 Redis 服务器是手动启动的，你可能需要找到启动它的命令或脚本，并使用相应的停止命令或脚本来关闭它。通常，这可以通过发送 `SIGTERM` 或 `SIGKILL` 信号给 Redis 进程来实现。
+- **检查 Redis 配置文件**：查看 Redis 的配置文件（通常在 `/etc/redis/` 目录下），以确定是否有多个实例的配置，并了解它们是如何启动的。
+- **使用 Redis CLI**：你还可以使用 Redis 的命令行界面（CLI）来连接到正在运行的服务器，并使用 `SHUTDOWN` 命令来关闭它。但是，请注意，这只会关闭你连接的那个 Redis 实例。
+最后，如果你只是想临时停止 6379 端口的 Redis 服务器进行测试或维护，你可以直接使用 `kill` 命令发送信号给该进程。例如，`kill 409` 会发送 `TERM` 信号给进程 ID 为 409 的 Redis 服务器，尝试优雅地关闭它。如果它不响应，你可以使用 `kill -9 409` 来强制关闭它。但是，请注意，强制关闭可能会导致数据丢失或损坏，所以请谨慎使用。
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# systemctl list-units --type=service | grep redis
+redis-server.service    loaded inactive dead    Advanced key-value store
+```
+从您提供的输出 `systemctl list-units --type=service | grep redis` 可以看到，`redis-server.service` 的状态是 `loaded inactive dead`。这表示该服务已经定义（loaded），但当前没有运行（inactive dead）。
+但是，您仍然有 Redis 进程在运行，并且它们似乎不是通过 systemd 管理的。这可能是因为它们是以不同的方式（如手动启动或通过其他 init 系统）启动的。
+要停止 6379 端口上的 Redis 服务器，您可以使用 `kill` 命令直接发送信号给进程。但是，首先，您需要确保您知道该进程是否可以安全地关闭，因为直接杀死进程可能会导致数据丢失或其他问题。
+如果您确定要停止该进程，可以使用以下命令：
+```bash
+sudo kill 409
+```
+但是，请注意以下几点：
+1. **数据丢失**：如果 Redis 正在处理重要的数据，并且没有设置持久化（例如，RDB 快照或 AOF 日志），那么直接杀死进程可能会导致数据丢失。
+2. **配置文件**：检查 Redis 的配置文件（通常在 `/etc/redis/` 目录下），看看是否有关于 6379 端口的设置，以及是否有关于持久化的设置。
+3. **其他服务**：确保没有其他服务依赖于这个 Redis 实例。
+4. **日志**：在停止 Redis 之前和之后，检查 Redis 的日志文件（通常也在 `/var/log/redis/` 或 `/var/log/syslog` 中），以获取有关启动、停止和任何潜在问题的更多信息。
+如果您想更优雅地停止 Redis 服务器，可以尝试连接到它并使用 `SHUTDOWN` 命令（如果您有权限并且 Redis 正在接受连接）。但是，从您提供的信息来看，这似乎不是一个选项，因为您似乎没有通过 systemd 启动它。
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# sudo kill 409
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root       450    26  0 20:27 ?        00:00:04 redis-server *:6380
+root       465    26  0 20:46 ?        00:00:02 redis-server *:6381
+root       499    26  0 21:07 ?        00:00:01 redis-server *:9100 [sentinel]
+root       505    26  0 21:07 ?        00:00:01 redis-server *:9101 [sentinel]
+root       511    26  0 21:08 ?        00:00:01 redis-server *:9102 [sentinel]
+root       533    34  0 21:16 pts/1    00:00:00 grep redis
+```
+* 使用`sudo kill 409`成功关闭主机

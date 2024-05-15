@@ -17,12 +17,12 @@
   * Redis-主从模式 18:00-19:00
   * Redis-哨兵模式介绍 20:35-20:43
   * Redis-哨兵模式搭建 20:43-21:30
-  * Redis-集群搭建 
-  * Redis-集群分片机制 
-  * Redis-集群分片操作 
-  * Redis-集成SpringBoot 
 
 * **2023.05.15 水曜日:** 
+  * Redis-集群搭建 16:10-17:25 18:45-19:00 20:10-20:47
+  * Redis-集群分片机制 20:47-
+  * Redis-集群分片操作 
+  * Redis-集成SpringBoot 
 
 * **2023.05.16 木曜日:** 
 
@@ -1285,12 +1285,239 @@ latency-tracking-info-percentiles 50 99 99.9
 user default on nopass sanitize-payload ~* &* +@all
 ```
 
+## Redis 集群搭建
 ```bash
+toubun@DESKTOP-9MBCA87:~$ sudo su
+[sudo] password for toubun: 123456
 
-```
+root@DESKTOP-9MBCA87:/home/toubun# cd /etc/redis
 
-```bash
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9000.conf
+# 新建 redis_9000.conf 文件,并添加以下配置信息
+port 9000
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9000.pid
+cluster-enabled yes
+cluster-config-file nodes-9000.conf
+cluster-node-timeout 15000
 
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9001.conf
+# 新建 redis_9001.conf 文件,并添加以下配置信息
+port 9001
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9001.pid
+cluster-enabled yes
+cluster-config-file nodes-9001.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9002.conf
+# 新建 redis_9002.conf 文件,并添加以下配置信息
+port 9002
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9002.pid
+cluster-enabled yes
+cluster-config-file nodes-9002.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9003.conf
+# 新建 redis_9003.conf 文件,并添加以下配置信息
+port 9003
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9003.pid
+cluster-enabled yes
+cluster-config-file nodes-9003.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9004.conf
+# 新建 redis_9004.conf 文件,并添加以下配置信息
+port 9004
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9004.pid
+cluster-enabled yes
+cluster-config-file nodes-9004.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9005.conf
+# 新建 redis_9005.conf 文件,并添加以下配置信息
+port 9005
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9005.pid
+cluster-enabled yes
+cluster-config-file nodes-9005.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# ls
+dump.rdb  redis.conf       redis_9000.conf  redis_9002.conf  redis_9004.conf  sentinel_1.conf  sentinel_3.conf
+exit      redis_6380.conf  redis_9001.conf  redis_9003.conf  redis_9005.conf  sentinel_2.conf
+
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        22    20  0 16:22 pts/1    00:00:00 vim redis_9000.conf # 需关闭
+root        54    20  0 16:46 pts/1    00:00:00 grep redis
+# root@DESKTOP-9MBCA87:/etc/redis# sudo rm .redis_9000.conf.swp # 但依然存在
+# root@DESKTOP-9MBCA87:/etc/redis# kill 22 # 但依然存在
+# 重启Debian后发现已成功清除
+
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        85    83  0 16:57 pts/1    00:00:00 grep redis
+
+root@DESKTOP-9MBCA87:/etc/redis# rm -rf /var/run/redis_*
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9000.conf
+86:C 15 May 2024 17:07:52.281 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+86:C 15 May 2024 17:07:52.281 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+
+root@DESKTOP-9MBCA87:/etc/redis# sysctl vm.overcommit_memory=1
+vm.overcommit_memory = 1
+
+# 启动redis-server
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9000.conf
+93:C 15 May 2024 17:08:17.794 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9001.conf
+95:C 15 May 2024 17:09:02.891 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9002.conf
+101:C 15 May 2024 17:09:06.170 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9003.conf
+107:C 15 May 2024 17:09:09.859 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9004.conf
+113:C 15 May 2024 17:09:12.188 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9005.conf
+119:C 15 May 2024 17:09:15.258 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+# 验证进程
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        87    77  0 17:07 ?        00:00:00 redis-server *:9000 [cluster]
+root        96    77  0 17:09 ?        00:00:00 redis-server *:9001 [cluster]
+root       102    77  0 17:09 ?        00:00:00 redis-server *:9002 [cluster]
+root       108    77  0 17:09 ?        00:00:00 redis-server *:9003 [cluster]
+root       114    77  0 17:09 ?        00:00:00 redis-server *:9004 [cluster]
+root       120    77  0 17:09 ?        00:00:00 redis-server *:9005 [cluster]
+root       126    83  0 17:10 pts/1    00:00:00 grep redis
+
+# 验证现在集群还未搭建完成
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 9000
+127.0.0.1:9000> CLUSTER INFO
+cluster_state:fail
+cluster_slots_assigned:0
+cluster_slots_ok:0
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:1
+cluster_size:0
+cluster_current_epoch:0
+cluster_my_epoch:0
+cluster_stats_messages_sent:0
+cluster_stats_messages_received:0
+total_cluster_links_buffer_limit_exceeded:0
+127.0.0.1:9000> exit
+
+# 一主一从的方式搭建集群
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster create --cluster-replicas 1 127.0.0.1:9000 127.0.0.1:9001 127.0.0.1:9002 127.0.0.1:9003 127.0.0.1:9004 127.0.0.1:9005 # 注意ip地址，可参考【问题22.5】
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 127.0.0.1:9004 to 127.0.0.1:9000
+Adding replica 127.0.0.1:9005 to 127.0.0.1:9001
+Adding replica 127.0.0.1:9003 to 127.0.0.1:9002
+>>> Trying to optimize slaves allocation for anti-affinity
+[WARNING] Some slaves are in the same host as their master # 提醒是在同一台机器上所做操作
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[0-5460] (5461 slots) master
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+Can I set the above configuration? (type 'yes' to accept): yes # yes
+>>> Nodes configuration updated
+>>> Assign a different config epoch to each node
+>>> Sending CLUSTER MEET messages to join the cluster
+Waiting for the cluster to join
+.
+>>> Performing Cluster Check (using node 127.0.0.1:9000)
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[0-5460] (5461 slots) master
+   1 additional replica(s)
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   slots: (0 slots) slave
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   slots: (0 slots) slave
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   slots: (0 slots) slave
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered. # 哈希槽分配
+
+# 验证集群搭建完成
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 9000
+127.0.0.1:9000> CLUSTER INFO
+cluster_state:ok
+cluster_slots_assigned:16384
+cluster_slots_ok:16384
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:6
+cluster_size:3
+cluster_current_epoch:6
+cluster_my_epoch:1
+cluster_stats_messages_ping_sent:61
+cluster_stats_messages_pong_sent:65
+cluster_stats_messages_sent:126
+cluster_stats_messages_ping_received:60
+cluster_stats_messages_pong_received:61
+cluster_stats_messages_meet_received:5
+cluster_stats_messages_received:126
+total_cluster_links_buffer_limit_exceeded:0
+
+127.0.0.1:9000> CLUSTER NODES
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715776781089 2 connected 5461-10922
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715776780086 2 connected
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715776781000 1 connected
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715776783095 3 connected
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715776780000 1 connected 0-5460
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715776782092 3 connected 10923-16383
+
+127.0.0.1:9000> exit
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+127.0.0.1:9000> set name zhangsan
+-> Redirected to slot [5798] located at 127.0.0.1:9001
+OK
+
+127.0.0.1:9001> get name
+"zhangsan"
 ```
 
 ```bash
@@ -1335,9 +1562,61 @@ user default on nopass sanitize-payload ~* &* +@all
 * :q —— 直接退出，如已修改会提示是否保存
 * :q! ——不保存直接退出
 
+### `ps -ef | grep redis`
+```bash
+ps -ef | grep redis
+root        87    77  0 17:07 ?        00:00:05 redis-server *:9000 [cluster]
+...
+root       149   147  0 18:48 pts/1    00:00:00 grep redis
+```
+这个命令是在Unix或Linux系统中使用的，用于查找与`redis`相关的进程。
+1. **命令**:
+```bash
+ps -ef | grep redis
+```
+* `ps -ef`: 这是一个常用的命令，用于显示系统上所有正在运行的进程的详细信息。
+	+ `-e`: 显示所有进程。
+	+ `-f`: 使用完整的格式显示进程信息。
+* `|`: 这是一个管道符号，用于将一个命令的输出作为另一个命令的输入。
+* `grep redis`: 这是一个文本搜索命令，它会搜索包含“redis”的行。
+2. **输出解释**:
+	* `root 87 77 0 17:07 ? 00:00:05 redis-server *:9000 [cluster]`
+		+ `root`: 进程的所有者，这里是root用户。
+		+ `87`: 进程的ID (PID)。
+		+ `77`: 父进程的ID (PPID)。
+		+ `0`: 进程使用的终端类型，`?` 表示没有与终端关联。
+		+ `17:07`: 进程启动的时间。
+		+ `00:00:05`: 进程已经运行的时间。
+		+ `redis-server *:9000 [cluster]`: 这是启动进程的命令或程序名。这表示一个Redis服务器正在监听9000端口，并且它是集群模式。
+	* 接下来的几行与第一行类似，只是它们显示的是其他Redis服务器的进程信息，分别监听9001、9002、9003、9004和9005端口。
+	* `root 149 147 0 18:48 pts/1 00:00:00 grep redis`: 这是`grep redis`命令自身的进程信息。因为`grep`命令也在搜索与`redis`相关的进程，所以它自己的进程也会被显示出来。
+
+### `redis-cli --cluster create --cluster-replicas 1`
+```bash
+redis-cli --cluster create --cluster-replicas 1 192.168.11.128:9000 192.168.11.128:9001 192.168.11.128:9002 192.168.11.128:9003 192.168.11.128:9004 192.168.11.128:9005
+```
+`redis-cli --cluster create` 命令用于创建 Redis 集群。在 Redis 3.0 及更高版本中，引入了集群模式，允许你在多个 Redis 实例之间自动分配数据，并提供高可用性。下面我将解释你给出的命令：
+1. **redis-cli**: 这是 Redis 的命令行界面工具，用于与 Redis 服务器进行交互。
+2. **--cluster**: 指示 `redis-cli` 使用集群模式进行操作。
+3. **create**: 表示要创建一个新的 Redis 集群。
+4. **--cluster-replicas 1**: 这意味着你希望为每个主节点（master node）配置一个从节点（replica node）。在你的例子中，你总共有6个 Redis 实例，所以它们将被配置为3个主节点和3个从节点。
+5. **IP地址和端口号**:
+	* `192.168.11.128:9000` 到 `192.168.11.128:9005`: 这些是你要加入集群的 Redis 实例的 IP 地址和端口号。
+**创建集群的过程**：
+1. `redis-cli` 会首先检查所有提供的实例是否都可以达到，并且它们是否都是干净的（即没有之前的数据）。
+2. 然后，它会将实例组织成主节点和从节点的组合。由于你指定了 `--cluster-replicas 1`，它将创建3个主节点和3个从节点。
+3. 接下来，它会使用哈希槽（hash slots）来分配数据。Redis 集群有 16384 个哈希槽，并且这些槽将被分配给主节点。
+4. 从节点会复制其对应主节点的数据，提供数据的冗余和高可用性。
+5. 最后，`redis-cli` 会提示你输入 `yes` 来确认创建集群。
+注意：在运行此命令之前，请确保：
+* 所有 Redis 实例都已正确配置并启动。
+* 它们都可以相互通信（没有防火墙或网络问题）。
+* 它们都是空的（即没有之前的数据），除非你确定要导入旧数据。
+此外，创建集群后，你可能还需要进行一些额外的配置和优化，例如设置密码、调整内存限制等。
+
 ## 遇见问题
 
-### 【已解决】Debian Redis `redis-cli` 命令运行失败报错 `Could not connect to Redis at 127.0.0.1:6379: Connection refused`
+### 22.1【已解决】Debian Redis `redis-cli` 命令运行失败报错 `Could not connect to Redis at 127.0.0.1:6379: Connection refused`
 ```bash
 root@DESKTOP-9MBCA87:/home/toubun# redis-cli
 Could not connect to Redis at 127.0.0.1:6379: Connection refused
@@ -1345,9 +1624,24 @@ not connected> exit
 ```
 * 解决方案：同时开启两个Debian窗口，其中一个运行`redis-server`，之后另一个窗口运行`redis-cli`后成功启动
 
-### win10 debian vim 复制的外部内容无法粘贴进vim文件
+### 22.2【已解决】win10 debian vim 复制的外部内容无法粘贴进vim文件
+* 参考[文档](https://blog.csdn.net/weixin_43592873/article/details/115497734)
+```bash
+su
+touch /etc/vim/vimrc.local
+vim /etc/vim/vimrc.local
+```
+```bash
+source /usr/share/vim/vim90/defaults.vim # 90为vim --version: VIM - Vi IMproved 9.0
+let skip_defaults_vim = 1
+if has('mouse')
+    set mouse=r
+endif
+~
+:wq
+```
 
-### 【已解决】Debian Redis 使用`systemctl stop redis-server`命令关闭6379端口主机失败
+### 22.3【已解决】Debian Redis 使用`systemctl stop redis-server`命令关闭6379端口主机失败
 ```bash
 root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
 toubun     409   406  0 19:44 ?        00:00:06 redis-server *:6379
@@ -1407,3 +1701,272 @@ root       511    26  0 21:08 ?        00:00:01 redis-server *:9102 [sentinel]
 root       533    34  0 21:16 pts/1    00:00:00 grep redis
 ```
 * 使用`sudo kill 409`成功关闭主机
+
+### 22.4【已解决】Debian Redis 集群配置 `ps -ef | grep redis`命令下 `root        22    20  0 16:22 pts/1    00:00:00 vim redis_9000.conf`无法关闭
+```
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        22    20  0 16:22 pts/1    00:00:00 vim redis_9000.conf
+root        54    20  0 16:46 pts/1    00:00:00 grep redis
+```
+* 首先尝试打开`redis_9000.conf`
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9000.conf
+
+Found a swap file by the name ".redis_9000.conf.swp"
+          owned by: root   dated: Wed May 15 16:23:49 2024
+         file name: /etc/redis/redis_9000.conf
+          modified: YES
+         user name: root   host name: DESKTOP-9MBCA87
+        process ID: 22 (STILL RUNNING)
+While opening file "redis_9000.conf"
+             dated: Wed May 15 16:53:30 2024
+      NEWER than swap file!
+
+(1) Another program may be editing the same file.  If this is the case,
+    be careful not to end up with two different instances of the same
+    file when making changes.  Quit, or continue with caution.
+(2) An edit session for this file crashed.
+    If this is the case, use ":recover" or "vim -r redis_9000.conf"
+    to recover the changes (see ":help recovery").
+    If you did this already, delete the swap file ".redis_9000.conf.swp"
+    to avoid this message.
+
+Swap file ".redis_9000.conf.swp" already exists!
+[O]pen Read-Only, (E)dit anyway, (R)ecover, (Q)uit, (A)bort:
+```
+这个信息表示 Vim 在尝试打开 redis_9000.conf 文件时检测到了一个名为 .redis_9000.conf.swp 的交换文件（swap file），这通常是因为 Vim 在之前的编辑会话中异常退出或崩溃，而没有正确关闭。交换文件是 Vim 用来在编辑过程中保存更改的临时文件，以便在崩溃时能够恢复更改。
+* 尝试手动删除该交换文件
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# sudo rm .redis_9000.conf.swp
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9000.conf # 打开后界面恢复正常
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        22    20  0 16:22 pts/1    00:00:00 vim redis_9000.conf
+root        67    20  0 16:54 pts/1    00:00:00 grep redis
+```
+但Vim文本编辑器进程依然存在
+* 尝试使用 kill 命令结束 Vim 进程 你可以通过发送一个终止信号来结束 Vim 进程。首先，使用 ps 命令找到 Vim 进程的 PID（进程ID），然后使用 kill 命令发送一个信号。
+```bash
+kill 22
+```
+进程依然存在，但重启Debian后发现进程已被成功清除
+
+### 22.5【已解决】Debian Redis 集群配置 执行`redis-cli --cluster create --cluster-replicas 1 192.168.11.128:9000 192.168.11.128:9001 192.168.11.128:9002 192.168.11.128:9003 192.168.11.128:9004 192.168.11.128:9005`命令回车后界面无内容返回
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        87    77  0 17:07 ?        00:00:00 redis-server *:9000 [cluster]
+root        96    77  0 17:09 ?        00:00:00 redis-server *:9001 [cluster]
+root       102    77  0 17:09 ?        00:00:00 redis-server *:9002 [cluster]
+root       108    77  0 17:09 ?        00:00:00 redis-server *:9003 [cluster]
+root       114    77  0 17:09 ?        00:00:00 redis-server *:9004 [cluster]
+root       120    77  0 17:09 ?        00:00:00 redis-server *:9005 [cluster]
+root       126    83  0 17:10 pts/1    00:00:00 grep redis
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -p 9000
+127.0.0.1:9000> CLUSTER INFO
+cluster_state:fail
+cluster_slots_assigned:0
+cluster_slots_ok:0
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:1
+cluster_size:0
+cluster_current_epoch:0
+cluster_my_epoch:0
+cluster_stats_messages_sent:0
+cluster_stats_messages_received:0
+total_cluster_links_buffer_limit_exceeded:0
+127.0.0.1:9000> exit
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster create --cluster-replicas 1 192.168.11.128:9000 192.168.11.128:9001 192.168.11.128:9002 192.168.11.128:9003 192.168.11.128:9004 192.168.11.128:9005
+# 回车后此处不再有内容
+```
+* 尝试另一种语序
+```bash
+redis-cli --cluster create 192.168.11.128:9000 192.168.11.128:9001 192.168.11.128:9002 192.168.11.128:9003 192.168.11.128:9004 192.168.11.128:9005 --cluster-replicas 1 # 选项--cluster-replicas 1意味着我们希望为每个创建的主节点创建一个副本
+```
+也不行
+* 参考[stackoverflow](https://stackoverflow.com/questions/39568561/how-to-solve-redis-cluster-waiting-for-the-cluster-to-join-issue/55379831)的相关问题解答
+```
+If there is no firewall problem between these 6 nodes, you may check bind setting in redis.conf.
+
+You should bind the redis service on LAN IP, of course, but one more thing:
+
+Delete 127.0.0.1 or move 127.0.0.1 to the end after LAN IP!
+
+Just like this: bind 10.2.1.x 127.0.0.1 or bind 10.2.1.x
+
+I met this issue when I creating a cluster between 3 nodes on 3 servers, waiting for cluster to join forever. This is a bug in redis maybe, at least in Redis 5.0, when you put 127.0.0.1 at front of LAN IP.
+```
+尝试查看`redis.conf`中`bind`相关内容：
+```bash
+################################## NETWORK #####################################
+
+# By default, if no "bind" configuration directive is specified, Redis listens
+# for connections from all available network interfaces on the host machine.
+# It is possible to listen to just one or multiple selected interfaces using
+# the "bind" configuration directive, followed by one or more IP addresses.
+# Each address can be prefixed by "-", which means that redis will not fail to
+# start if the address is not available. Being not available only refers to
+# addresses that does not correspond to any network interface. Addresses that
+# are already in use will always fail, and unsupported protocols will always BE
+# silently skipped.
+#
+# Examples:
+#
+# bind 192.168.1.100 10.0.0.1     # listens on two specific IPv4 addresses
+# bind 127.0.0.1 ::1              # listens on loopback IPv4 and IPv6
+# bind * -::*                     # like the default, all available interfaces
+#
+# ~~~ WARNING ~~~ If the computer running Redis is directly exposed to the
+# internet, binding to all the interfaces is dangerous and will expose the
+# instance to everybody on the internet. So by default we uncomment the
+# following bind directive, that will force Redis to listen only on the
+# IPv4 and IPv6 (if available) loopback interface addresses (this means Redis
+# will only be able to accept client connections from the same host that it is
+# running on).
+#
+# IF YOU ARE SURE YOU WANT YOUR INSTANCE TO LISTEN TO ALL THE INTERFACES
+# COMMENT OUT THE FOLLOWING LINE.
+#
+# You will also need to set a password unless you explicitly disable protected
+# mode.
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+bind 127.0.0.1 -::1
+
+# By default, outgoing connections (from replica to master, from Sentinel to
+# instances, cluster bus, etc.) are not bound to a specific local address. In
+# most cases, this means the operating system will handle that based on routing
+# and the interface through which the connection goes out.
+#
+# Using bind-source-addr it is possible to configure a specific address to bind
+# to, which may also affect how the connection gets routed.
+#
+# Example:
+#
+# bind-source-addr 10.0.0.1
+
+# Protected mode is a layer of security protection, in order to avoid that
+# Redis instances left open on the internet are accessed and exploited.
+#
+# When protected mode is on and the default user has no password, the server
+# only accepts local connections from the IPv4 address (127.0.0.1), IPv6 address
+# (::1) or Unix domain sockets.
+#
+# By default protected mode is enabled. You should disable it only if
+# you are sure you want clients from other hosts to connect to Redis
+# even if no authentication is configured.
+protected-mode yes
+
+# Redis uses default hardened security configuration directives to reduce the
+# attack surface on innocent users. Therefore, several sensitive configuration
+# directives are immutable, and some potentially-dangerous commands are blocked.
+#
+# Configuration directives that control files that Redis writes to (e.g., 'dir'
+# and 'dbfilename') and that aren't usually modified during runtime
+# are protected by making them immutable.
+#
+# Commands that can increase the attack surface of Redis and that aren't usually
+# called by users are blocked by default.
+#
+# These can be exposed to either all connections or just local ones by setting
+# each of the configs listed below to either of these values:
+#
+# no    - Block for any connection (remain immutable)
+# yes   - Allow for any connection (no protection)
+# local - Allow only for local connections. Ones originating from the
+#         IPv4 address (127.0.0.1), IPv6 address (::1) or Unix domain sockets.
+#
+# enable-protected-configs no
+# enable-debug-command no
+# enable-module-command no
+
+# Accept connections on the specified port, default is 6379 (IANA #815344).
+# If port 0 is specified Redis will not listen on a TCP socket.
+port 6379
+
+# TCP listen() backlog.
+#
+# In high requests-per-second environments you need a high backlog in order
+# to avoid slow clients connection issues. Note that the Linux kernel
+# will silently truncate it to the value of /proc/sys/net/core/somaxconn so
+# make sure to raise both the value of somaxconn and tcp_max_syn_backlog
+# in order to get the desired effect.
+tcp-backlog 511
+
+# Unix socket.
+#
+# Specify the path for the Unix socket that will be used to listen for
+# incoming connections. There is no default, so Redis will not listen
+# on a unix socket when not specified.
+#
+# unixsocket /run/redis.sock
+# unixsocketperm 700
+
+# Close the connection after a client is idle for N seconds (0 to disable)
+timeout 0
+
+# TCP keepalive.
+#
+# If non-zero, use SO_KEEPALIVE to send TCP ACKs to clients in absence
+# of communication. This is useful for two reasons:
+#
+# 1) Detect dead peers.
+# 2) Force network equipment in the middle to consider the connection to be
+#    alive.
+#
+# On Linux, the specified value (in seconds) is the period used to send ACKs.
+# Note that to close the connection the double of the time is needed.
+# On other kernels the period depends on the kernel configuration.
+#
+# A reasonable value for this option is 300 seconds, which is the new
+# Redis default starting with Redis 3.2.1.
+tcp-keepalive 300
+
+# Apply OS-specific mechanism to mark the listening socket with the specified
+# ID, to support advanced routing and filtering capabilities.
+#
+# On Linux, the ID represents a connection mark.
+# On FreeBSD, the ID represents a socket cookie ID.
+# On OpenBSD, the ID represents a route table ID.
+#
+# The default value is 0, which implies no marking is required.
+# socket-mark-id 0
+```
+其中重点关注`bind 127.0.0.1 -::1`，参考文心一言的解释：
+  如果你尝试使用 `redis-cli --cluster create` 命令来创建 Redis 集群，并且没有任何返回内容，这通常意味着命令正在执行中或者由于某种原因没有成功执行。不过，如果你的 Redis 服务器当前只绑定了 `127.0.0.1` 和 `::1`（即只监听本地连接），那么集群创建命令肯定无法成功，因为 Redis 节点无法从其他节点接收连接。
+  为了解决这个问题，你需要修改 `redis.conf` 文件中的 `bind` 配置，以便 Redis 节点可以监听 LAN IP 地址。由于你所有 Redis 实例都在同一个 IP 地址（`192.168.11.128`）上运行，但使用不同的端口，你可以将 `bind` 配置修改为监听该 IP 地址。
+  以下是修改 `redis.conf` 文件的步骤：
+  1. 打开所有 Redis 实例的 `redis.conf` 文件（通常位于 `/etc/redis/` 或 `/etc/redis/6379/` 这样的目录下，但因为你使用了非标准端口，所以可能位于如 `/etc/redis/9000/` 这样的目录中）。
+  2. 在每个 `redis.conf` 文件中，找到 `bind` 配置行。
+  3. 将 `bind 127.0.0.1 -::1` 修改为 `bind 192.168.11.128`（或者如果你希望同时监听 IPv4 和 IPv6 地址，可以保留 `::1` 但通常对于集群来说，只需要监听 IPv4 地址就足够了）。
+  4. 保存并关闭 `redis.conf` 文件。
+  5. 重启所有 Redis 实例以使更改生效。根据你的系统配置，你可以使用 `systemctl restart redis@9000`（针对端口 9000 的实例）或者 `service redis restart`（如果你使用的是传统的 init 脚本）等命令来重启服务。确保对每个 Redis 实例都执行了重启操作。
+  6. 一旦 Redis 实例重启完成，你可以再次尝试执行 `redis-cli --cluster create` 命令来创建集群。
+  7. 如果一切正常，`redis-cli --cluster create` 命令应该会显示集群创建的进度，并最终显示成功消息。
+  请注意，在执行集群创建命令时，你可能需要确保防火墙设置允许 Redis 端口（在你的例子中是 9000-9005）之间的通信，并且所有 Redis 实例都已正确启动并监听指定的端口。此外，如果你在创建集群时遇到任何问题，Redis 客户端通常会输出相关的错误信息，你可以根据这些信息进行故障排除。
+* 由此想到课件中提到`192.168.11.128`是虚拟机地址，将其改为`127.0.0.1`
+```bash
+root@debian:/etc/redis# redis-cli --cluster create --cluster-replicas 1 127.0.0.1:9000 127.0.0.1:9001 127.0.0.1:9002 127.0.0.1:9003 127.0.0.1:9004 127.0.0.1:9005
+```
+成功拿到回复，问题解决
+```bash
+>>> Performing hash slots allocation on 6 nodes...
+Master[0] -> Slots 0 - 5460
+Master[1] -> Slots 5461 - 10922
+Master[2] -> Slots 10923 - 16383
+Adding replica 127.0.0.1:9004 to 127.0.0.1:9000
+Adding replica 127.0.0.1:9005 to 127.0.0.1:9001
+Adding replica 127.0.0.1:9003 to 127.0.0.1:9002
+>>> Trying to optimize slaves allocation for anti-affinity
+[WARNING] Some slaves are in the same host as their master
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[0-5460] (5461 slots) master
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+```

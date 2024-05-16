@@ -20,11 +20,11 @@
 
 * **2023.05.15 水曜日:** 
   * Redis-集群搭建 16:10-17:25 18:45-19:00 20:10-20:47
-  * Redis-集群分片机制 20:47-
-  * Redis-集群分片操作 
-  * Redis-集成SpringBoot 
+  * Redis-集群分片机制 20:47-21:10
+  * Redis-集群分片操作 22:50-23:47
 
 * **2023.05.16 木曜日:** 
+  * Redis-集成SpringBoot 14:55-16:45
 
 * **2023.05.17 金曜日:** 
 
@@ -1285,7 +1285,7 @@ latency-tracking-info-percentiles 50 99 99.9
 user default on nopass sanitize-payload ~* &* +@all
 ```
 
-## Redis 集群搭建
+### Redis 集群搭建
 ```bash
 toubun@DESKTOP-9MBCA87:~$ sudo su
 [sudo] password for toubun: 123456
@@ -1520,12 +1520,420 @@ OK
 "zhangsan"
 ```
 
+### Redis 集群分片机制
 ```bash
-
+127.0.0.1:9001> CLUSTER KEYSLOT name
+(integer) 5798 # 9001 slots:[5461-10922] (5462 slots) master
 ```
 
-```bash
+### Redis 集群分片操作
 
+#### 添加新Node至集群
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ls
+appendonlydir  nodes-9000.conf  nodes-9003.conf  redis.conf       redis_9001.conf  redis_9004.conf  sentinel_2.conf
+dump.rdb       nodes-9001.conf  nodes-9004.conf  redis_6380.conf  redis_9002.conf  redis_9005.conf  sentinel_3.conf
+exit           nodes-9002.conf  nodes-9005.conf  redis_9000.conf  redis_9003.conf  sentinel_1.conf
+
+root@DESKTOP-9MBCA87:/etc/redis# cp redis_9005.conf redis_9006.conf
+
+root@DESKTOP-9MBCA87:/etc/redis# ls
+appendonlydir  nodes-9000.conf  nodes-9003.conf  redis.conf       redis_9001.conf  redis_9004.conf  sentinel_1.conf
+dump.rdb       nodes-9001.conf  nodes-9004.conf  redis_6380.conf  redis_9002.conf  redis_9005.conf  sentinel_2.conf
+exit           nodes-9002.conf  nodes-9005.conf  redis_9000.conf  redis_9003.conf  redis_9006.conf  sentinel_3.conf
+
+root@DESKTOP-9MBCA87:/etc/redis# vim redis_9006.conf
+port 9006
+daemonize yes
+protected-mode no
+appendonly yes
+pidfile /var/run/redis_9006.pid
+cluster-enabled yes
+cluster-config-file nodes-9006.conf
+cluster-node-timeout 15000
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9006.conf
+26:C 15 May 2024 23:02:33.349 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+26:C 15 May 2024 23:02:33.349 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+
+root@DESKTOP-9MBCA87:/etc/redis# sysctl vm.overcommit_memory=1
+vm.overcommit_memory = 1
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9006.conf
+33:C 15 May 2024 23:02:47.801 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        27    14  0 23:02 ?        00:00:00 redis-server *:9006 [cluster]
+root        37    20  0 23:03 pts/1    00:00:00 grep redis
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9000.conf
+45:C 15 May 2024 23:05:53.754 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9001.conf
+51:C 15 May 2024 23:05:57.713 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9002.conf
+57:C 15 May 2024 23:06:01.410 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9003.conf
+63:C 15 May 2024 23:06:05.113 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9004.conf
+69:C 15 May 2024 23:06:08.689 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9005.conf
+81:C 15 May 2024 23:06:13.801 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        27    14  0 23:02 ?        00:00:00 redis-server *:9006 [cluster]
+root        46    14  0 23:05 ?        00:00:00 redis-server *:9000 [cluster]
+root        52    14  0 23:05 ?        00:00:00 redis-server *:9001 [cluster]
+root        58    14  0 23:06 ?        00:00:00 redis-server *:9002 [cluster]
+root        64    14  0 23:06 ?        00:00:00 redis-server *:9003 [cluster]
+root        70    14  0 23:06 ?        00:00:00 redis-server *:9004 [cluster]
+root        82    14  0 23:06 ?        00:00:00 redis-server *:9005 [cluster]
+root        91    20  0 23:06 pts/1    00:00:00 grep redis
+# 经验证，此时9000-9005集群状态正常
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster help
+Cluster Manager Commands:
+  create         host1:port1 ... hostN:portN
+                 --cluster-replicas <arg>
+  check          <host:port> or <host> <port> - separated by either colon or space
+                 --cluster-search-multiple-owners
+  info           <host:port> or <host> <port> - separated by either colon or space
+  fix            <host:port> or <host> <port> - separated by either colon or space
+                 --cluster-search-multiple-owners
+                 --cluster-fix-with-unreachable-masters
+  reshard        <host:port> or <host> <port> - separated by either colon or space
+                 --cluster-from <arg>
+                 --cluster-to <arg>
+                 --cluster-slots <arg>
+                 --cluster-yes
+                 --cluster-timeout <arg>
+                 --cluster-pipeline <arg>
+                 --cluster-replace
+  rebalance      <host:port> or <host> <port> - separated by either colon or space
+                 --cluster-weight <node1=w1...nodeN=wN>
+                 --cluster-use-empty-masters
+                 --cluster-timeout <arg>
+                 --cluster-simulate
+                 --cluster-pipeline <arg>
+                 --cluster-threshold <arg>
+                 --cluster-replace
+  add-node       new_host:new_port existing_host:existing_port
+                 --cluster-slave
+                 --cluster-master-id <arg>
+  del-node       host:port node_id
+  call           host:port command arg arg .. arg
+                 --cluster-only-masters
+                 --cluster-only-replicas
+  set-timeout    host:port milliseconds
+  import         host:port
+                 --cluster-from <arg>
+                 --cluster-from-user <arg>
+                 --cluster-from-pass <arg>
+                 --cluster-from-askpass
+                 --cluster-copy
+                 --cluster-replace
+  backup         host:port backup_directory
+  help
+
+For check, fix, reshard, del-node, set-timeout, info, rebalance, call, import, backup you can specify the host and port of any working node in the cluster.
+
+Cluster Manager Options:
+  --cluster-yes  Automatic yes to cluster commands prompts
+
+# 添加Node
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster add-node 127.0.0.1:9006 127.0.0.1:9000
+>>> Adding node 127.0.0.1:9006 to cluster 127.0.0.1:9000
+>>> Performing Cluster Check (using node 127.0.0.1:9000)
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[0-5460] (5461 slots) master
+   1 additional replica(s)
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   slots: (0 slots) slave
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   slots: (0 slots) slave
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   slots: (0 slots) slave
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+>>> Getting functions from cluster
+>>> Send FUNCTION LIST to 127.0.0.1:9006 to verify there is no functions in it
+>>> Send FUNCTION RESTORE to 127.0.0.1:9006
+>>> Send CLUSTER MEET to node 127.0.0.1:9006 to make it join the cluster.
+[OK] New node added correctly.
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+127.0.0.1:9000> CLUSTER INFO
+cluster_state:ok
+cluster_slots_assigned:16384
+cluster_slots_ok:16384
+cluster_slots_pfail:0
+cluster_slots_fail:0
+cluster_known_nodes:7
+cluster_size:3
+cluster_current_epoch:6
+cluster_my_epoch:1
+cluster_stats_messages_ping_sent:501
+cluster_stats_messages_pong_sent:507
+cluster_stats_messages_sent:1008
+cluster_stats_messages_ping_received:506
+cluster_stats_messages_pong_received:497
+cluster_stats_messages_meet_received:1
+cluster_stats_messages_received:1004
+total_cluster_links_buffer_limit_exceeded:0
+
+127.0.0.1:9000> CLUSTER NODES
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715786054000 1 connected 0-5460
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715786055123 1 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715786057000 3 connected 10923-16383
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715786057129 2 connected
+e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006@19006 master - 0 1715786055000 0 connected # master
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715786058132 2 connected 5461-10922
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715786056125 3 connected
+
+127.0.0.1:9000> exit
+
+# 集群重新分片
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster reshard 127.0.0.1 9000
+>>> Performing Cluster Check (using node 127.0.0.1:9000)
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[0-5460] (5461 slots) master
+   1 additional replica(s)
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   slots: (0 slots) slave
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   slots: (0 slots) slave
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+M: e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006
+   slots: (0 slots) master
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   slots: (0 slots) slave
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+How many slots do you want to move (from 1 to 16384)? 2000
+What is the receiving node ID? e57e1427b7045d8469c8fafcca7540c656b8cdc3
+Please enter all the source node IDs.
+  Type 'all' to use all the nodes as source nodes for the hash slots.
+  Type 'done' once you entered all the source nodes IDs.
+Source node #1: ca650cf3796e78fa346b96d1b8fef040a570e1ed
+Source node #2: done
+
+Ready to move 2000 slots.
+  Source nodes:
+    M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+       slots:[0-5460] (5461 slots) master
+       1 additional replica(s)
+  Destination node:
+    M: e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006
+       slots: (0 slots) master
+  Resharding plan:
+    Moving slot 0 from ca650cf3796e78fa346b96d1b8fef040a570e1ed
+    ...
+    Moving slot 1999 from ca650cf3796e78fa346b96d1b8fef040a570e1ed
+Do you want to proceed with the proposed reshard plan (yes/no)? yes
+    Moving slot 0 from 127.0.0.1:9000 to 127.0.0.1:9006:
+    ...
+    Moving slot 1999 from 127.0.0.1:9000 to 127.0.0.1:9006:
+
+# 验证
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+127.0.0.1:9000> CLUSTER NODES
+# redis-cli -p 9000 cluster nodes
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715786324000 1 connected 2000-5460
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715786323000 1 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715786323908 3 connected 10923-16383
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715786324910 2 connected
+e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006@19006 master - 0 1715786323000 7 connected 0-1999
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715786324000 2 connected 5461-10922
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715786325913 3 connected
+
+127.0.0.1:9000> exit
+```
+
+#### 删除集群中Node
+```bash
+# 集群重新分片
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster reshard 127.0.0.1 9000
+>>> Performing Cluster Check (using node 127.0.0.1:9000)
+M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+   slots:[2000-5460] (3461 slots) master
+   1 additional replica(s)
+S: 44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003
+   slots: (0 slots) slave
+   replicates ca650cf3796e78fa346b96d1b8fef040a570e1ed
+M: 34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002
+   slots:[10923-16383] (5461 slots) master
+   1 additional replica(s)
+S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
+   slots: (0 slots) slave
+   replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
+M: e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006
+   slots:[0-1999] (2000 slots) master
+M: 8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001
+   slots:[5461-10922] (5462 slots) master
+   1 additional replica(s)
+S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
+   slots: (0 slots) slave
+   replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+[OK] All nodes agree about slots configuration.
+>>> Check for open slots...
+>>> Check slots coverage...
+[OK] All 16384 slots covered.
+How many slots do you want to move (from 1 to 16384)? 2000
+What is the receiving node ID? ca650cf3796e78fa346b96d1b8fef040a570e1ed
+Please enter all the source node IDs.
+  Type 'all' to use all the nodes as source nodes for the hash slots.
+  Type 'done' once you entered all the source nodes IDs.
+Source node #1: e57e1427b7045d8469c8fafcca7540c656b8cdc3
+Source node #2: done
+
+Ready to move 2000 slots.
+  Source nodes:
+    M: e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006
+       slots:[0-1999] (2000 slots) master
+  Destination node:
+    M: ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000
+       slots:[2000-5460] (3461 slots) master
+       1 additional replica(s)
+  Resharding plan:
+    Moving slot 0 from e57e1427b7045d8469c8fafcca7540c656b8cdc3
+    ...
+    Moving slot 1 from e57e1427b7045d8469c8fafcca7540c656b8cdc3
+Do you want to proceed with the proposed reshard plan (yes/no)? yes
+Moving slot 0 from 127.0.0.1:9006 to 127.0.0.1:9000:
+...
+Moving slot 1999 from 127.0.0.1:9006 to 127.0.0.1:9000:
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+127.0.0.1:9000> CLUSTER NODES
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715786708000 8 connected 0-5460
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715786713079 8 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715786714082 3 connected 10923-16383
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715786713000 2 connected
+e57e1427b7045d8469c8fafcca7540c656b8cdc3 127.0.0.1:9006@19006 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715786714000 8 connected # slave
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715786715085 2 connected 5461-10922
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715786713000 3 connected
+
+127.0.0.1:9000> exit
+
+# 删除Node
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli --cluster del-node 127.0.0.1:9006@19006 e57e1427b7045d8469c8fafcca7540c656b8cdc3
+>>> Removing node e57e1427b7045d8469c8fafcca7540c656b8cdc3 from cluster 127.0.0.1:9006
+>>> Sending CLUSTER FORGET messages to the cluster...
+>>> Sending CLUSTER RESET SOFT to the deleted node.
+
+# 验证
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+127.0.0.1:9000> CLUSTER NODES
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715786893000 8 connected 0-5460
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715786893643 8 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715786894000 3 connected 10923-16383
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715786893000 2 connected
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715786892000 2 connected 5461-10922
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715786894645 3 connected
+
+127.0.0.1:9000> exit
+```
+
+#### 集群故障恢复
+```bash
+root@DESKTOP-9MBCA87:/etc/redis# ps -ef | grep redis
+root        27    14  0 23:02 ?        00:00:02 redis-server *:9006 [cluster]
+root        46    14  0 23:05 ?        00:00:02 redis-server *:9000 [cluster]
+root        52    14  0 23:05 ?        00:00:01 redis-server *:9001 [cluster]
+root        58    14  0 23:06 ?        00:00:02 redis-server *:9002 [cluster]
+root        64    14  0 23:06 ?        00:00:01 redis-server *:9003 [cluster]
+root        70    14  0 23:06 ?        00:00:01 redis-server *:9004 [cluster]
+root        82    14  0 23:06 ?        00:00:01 redis-server *:9005 [cluster]
+root       108    20  0 23:29 pts/1    00:00:00 grep redis
+
+root@DESKTOP-9MBCA87:/etc/redis# kill 27 # 9006
+
+root@DESKTOP-9MBCA87:/etc/redis# kill 46 # 9000
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9001
+
+127.0.0.1:9001> CLUSTER NODES
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715787130987 3 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715787133996 3 connected 10923-16383
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 master - 1715787124969 1715787121000 8 disconnected 0-5460 # master
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 myself,master - 0 1715787132000 2 connected 5461-10922
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715787132993 2 connected
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715787132000 8 connected # slave
+
+127.0.0.1:9001> CLUSTER NODES
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715787140014 3 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715787138008 3 connected 10923-16383
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 master,fail? - 1715787124969 1715787121000 8 disconnected 0-5460 # fail?
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 myself,master - 0 1715787139000 2 connected 5461-10922
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715787138000 2 connected
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715787139011 8 connected # slave
+
+127.0.0.1:9001> CLUSTER NODES
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715787254375 3 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715787255378 3 connected 10923-16383
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 master,fail - 1715787124969 1715787121000 8 disconnected # fail
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 myself,master - 0 1715787253000 2 connected 5461-10922
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715787256381 2 connected
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 master - 0 1715787255000 9 connected 0-5460 # master
+
+127.0.0.1:9001> exit
+
+# 重新启动9000
+root@DESKTOP-9MBCA87:/etc/redis# redis-server redis_9000.conf
+111:C 15 May 2024 23:39:09.001 # WARNING: Changing databases number from 16 to 1 since we are in cluster mode
+
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9001
+127.0.0.1:9001> CLUSTER NODES
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715787565000 3 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715787564301 3 connected 10923-16383
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 slave 44117b0656484f9f847a7bdd33201ee9fcfeacdb 0 1715787565000 9 connected # slave
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 myself,master - 0 1715787564000 2 connected 5461-10922
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715787565304 2 connected
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 master - 0 1715787566307 9 connected 0-5460 # master
+
+127.0.0.1:9001> exit
+root@DESKTOP-9MBCA87:/etc/redis# redis-cli -c -p 9000
+
+# 手动主从切换：可进入从节点使用CLUSTER FAILOVER命令进行切换
+127.0.0.1:9000> CLUSTER FAILOVER
+OK
+
+127.0.0.1:9000> CLUSTER NODES
+8aeb37884db4ee8568c7fc3cbfef6be14003581f 127.0.0.1:9001@19001 master - 0 1715787675279 2 connected 5461-10922
+44117b0656484f9f847a7bdd33201ee9fcfeacdb 127.0.0.1:9003@19003 slave ca650cf3796e78fa346b96d1b8fef040a570e1ed 0 1715787675000 10 connected # slave
+8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005@19005 slave 34c1ea22a04c30d7e28223d0a21716a2325ce6af 0 1715787676282 3 connected
+34c1ea22a04c30d7e28223d0a21716a2325ce6af 127.0.0.1:9002@19002 master - 0 1715787677285 3 connected 10923-16383
+03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004@19004 slave 8aeb37884db4ee8568c7fc3cbfef6be14003581f 0 1715787675000 2 connected
+ca650cf3796e78fa346b96d1b8fef040a570e1ed 127.0.0.1:9000@19000 myself,master - 0 1715787673000 10 connected 0-5460 # master
 ```
 
 ```bash
@@ -1969,4 +2377,197 @@ S: 03a84f1035f268f74074ae8cc3f939fa3f8ef2bd 127.0.0.1:9004
    replicates 8aeb37884db4ee8568c7fc3cbfef6be14003581f
 S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
    replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
+```
+
+### 22.6【】Redis集成SpringBoot 运行报错 `Unable to connect to Redis`
+```
+15:35:35.352 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.SpringDataRedisApplicationTests]: SpringDataRedisApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+15:35:35.433 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.SpringDataRedisApplication for test class com.example.SpringDataRedisApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2024-05-16T15:35:35.803+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : Starting SpringDataRedisApplicationTests using Java 17.0.7 with PID 18332 (started by Toubun in G:\NiHon-IT-Training-Plan\Redis\Spring-Data-Redis)
+2024-05-16T15:35:35.804+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2024-05-16T15:35:36.074+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-05-16T15:35:36.076+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-05-16T15:35:36.099+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2024-05-16T15:35:36.631+08:00  INFO 18332 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : Started SpringDataRedisApplicationTests in 1.058 seconds (process running for 1.801)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+
+org.springframework.data.redis.RedisConnectionFailureException: Unable to connect to Redis
+   ...
+Caused by: io.lettuce.core.RedisConnectionException: Unable to connect to localhost/<unresolved>:6379
+   ...
+Caused by: io.netty.channel.AbstractChannel$AnnotatedConnectException: Connection refused: no further information: localhost/127.0.0.1:6379
+Caused by: java.net.ConnectException: Connection refused: no further information
+```
+* 将先前的Redis集群在Debian中开启后报错依然存在
+* 注意到`Connection refused: no further information: localhost/127.0.0.1:6379`，于是启动早前的docker相关配置内容
+```bash
+C:\Windows\System32>docker ps -a
+CONTAINER ID   IMAGE             COMMAND                   CREATED        STATUS                    PORTS                               NAMES
+260541ddadb7   redis             "docker-entrypoint.s…"   3 days ago     Exited (0) 45 hours ago                                       redis
+0211e0409935   sonatype/nexus3   "/opt/sonatype/nexus…"   12 days ago    Exited (255) 3 days ago   0.0.0.0:8081->8081/tcp              nexus
+c6471e03b8f8   mysql:latest      "docker-entrypoint.s…"   3 months ago   Exited (255) 3 days ago   0.0.0.0:3306->3306/tcp, 33060/tcp   mysql-mysql-1
+
+C:\Windows\System32>docker start 260541ddadb7
+260541ddadb7
+
+C:\Windows\System32>docker exec -it 260541ddadb7 redis-cli
+127.0.0.1:6379>
+```
+但随后的运行依然失败报错
+* 尝试使用`.yaml`方式docker启动Redis，但Windows默认没有右键从当前文件夹位置打开CMD的功能，于是参考[链接](https://blog.csdn.net/weixin_57451673/article/details/123424429)对右键菜单栏进行配置。需要注意的是，另存为`.reg`文件时的编码方式如果按原链接选择`ANSI`编码方式，则之后生成的右键CMD选项名称会乱码。我这里本地windows默认语言为英语。选择
+```
+Windows Registry Editor Version 5.00
+
+[HKEY_CLASSES_ROOT\Directory\shell\OpenCmdHere]
+@="在此处打开命令窗口"
+"Icon"="cmd.exe"
+
+[HKEY_CLASSES_ROOT\Directory\shell\OpenCmdHere\command]
+@="cmd.exe /s /k pushd "%V""
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCmdHere]
+@="在此处打开命令窗口"
+"Icon"="cmd.exe"
+
+[HKEY_CLASSES_ROOT\Directory\Background\shell\OpenCmdHere\command]
+@="cmd.exe /s /k pushd \"%V\""
+
+[HKEY_CLASSES_ROOT\Drive\shell\OpenCmdHere]
+@="在此处打开命令窗口"
+"Icon"="cmd.exe"
+
+[HKEY_CLASSES_ROOT\Drive\shell\OpenCmdHere\command]
+@="cmd.exe /s /k pushd \"%V\""
+
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\OpenCmdHere]
+@="在此处打开命令窗口"
+"Icon"="cmd.exe"
+
+[HKEY_CLASSES_ROOT\LibraryFolder\background\shell\OpenCmdHere\command]
+@="cmd.exe /s /k pushd \"%V\""
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240516160550.png)
+* 通过解决【问题22.7】后使用docker运行端口为6379的redis后，再次运行IDEA中的原test，成功运行
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240516163925.png)
+```bash
+16:38:53.125 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.SpringDataRedisApplicationTests]: SpringDataRedisApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+16:38:53.199 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.SpringDataRedisApplication for test class com.example.SpringDataRedisApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.5)
+
+2024-05-16T16:38:53.504+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : Starting SpringDataRedisApplicationTests using Java 17.0.7 with PID 29196 (started by Toubun in G:\NiHon-IT-Training-Plan\Redis\Spring-Data-Redis)
+2024-05-16T16:38:53.505+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : No active profile set, falling back to 1 default profile: "default"
+2024-05-16T16:38:53.721+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Multiple Spring Data modules found, entering strict repository configuration mode
+2024-05-16T16:38:53.724+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2024-05-16T16:38:53.746+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2024-05-16T16:38:54.184+08:00  INFO 29196 --- [Spring-Data-Redis] [           main] c.e.SpringDataRedisApplicationTests      : Started SpringDataRedisApplicationTests in 0.878 seconds (process running for 1.494)
+OpenJDK 64-Bit Server VM warning: Sharing is only supported for boot loader classes because bootstrap classpath has been appended
+zhangsan
+
+Process finished with exit code 0
+```
+
+
+### 22.7【已解决】docker CMD配置`.yaml`文件 `docker compose -f '.\docker compose.yaml' up -d`命令 失败
+```bash
+G:\NiHon-IT-Training-Plan\Redis>docker compose -f '.\docker compose.yaml' up -d
+Usage:  docker compose [OPTIONS] COMMAND
+
+Define and run multi-container applications with Docker.
+
+Options:
+      --ansi string                Control when to print ANSI control
+                                   characters ("never"|"always"|"auto")
+                                   (default "auto")
+      --compatibility              Run compose in backward compatibility mode
+      --dry-run                    Execute command in dry run mode
+      --env-file stringArray       Specify an alternate environment file.
+  -f, --file stringArray           Compose configuration files
+      --parallel int               Control max parallelism, -1 for
+                                   unlimited (default -1)
+      --profile stringArray        Specify a profile to enable
+      --progress string            Set type of progress output (auto,
+                                   tty, plain, quiet) (default "auto")
+      --project-directory string   Specify an alternate working directory
+                                   (default: the path of the, first
+                                   specified, Compose file)
+  -p, --project-name string        Project name
+
+Commands:
+  build       Build or rebuild services
+  config      Parse, resolve and render compose file in canonical format
+  cp          Copy files/folders between a service container and the local filesystem
+  create      Creates containers for a service.
+  down        Stop and remove containers, networks
+  events      Receive real time events from containers.
+  exec        Execute a command in a running container.
+  images      List images used by the created containers
+  kill        Force stop service containers.
+  logs        View output from containers
+  ls          List running compose projects
+  pause       Pause services
+  port        Print the public port for a port binding.
+  ps          List containers
+  pull        Pull service images
+  push        Push service images
+  restart     Restart service containers
+  rm          Removes stopped service containers
+  run         Run a one-off command on a service.
+  scale       Scale services
+  start       Start services
+  stop        Stop services
+  top         Display the running processes
+  unpause     Unpause services
+  up          Create and start containers
+  version     Show the Docker Compose version information
+  wait        Block until the first service container stops
+  watch       Watch build context for service and rebuild/refresh containers when files are updated
+
+Run 'docker compose COMMAND --help' for more information on a command.
+unknown docker command: "compose compose.yaml'"
+```
+* 随后尝试`docker-compose -f '.\docker compose.yaml' up -d`和`docker-compose -f .\docker compose.yaml up -d`和`docker-compose -f G:\NiHon-IT-Training-Plan\Redis\docker compose.yaml up -d`，但均报错依旧
+* 最后修改`G:\NiHon-IT-Training-Plan\Redis\docker-compose.yaml`的文件名为`docker compose.yaml`后使用`docker-compose -f .\docker-compose.yaml up -d`成功运行，但还是有点小问题
+```bash
+G:\NiHon-IT-Training-Plan\Redis>docker-compose -f .\docker-compose.yaml up -d
+[+] Running 1/0
+ ✔ Network redis_default  Created                                                                                  0.0s
+ - Container redis        Creating                                                                                 0.0s
+Error response from daemon: Conflict. The container name "/redis" is already in use by container "260541ddadb78c81506b4f3af65012a499a06beb5bb0917684b27a96c7e781f4". You have to remove (or rename) that container to be able to reuse that name.
+```
+* 应该是原先CMD中执行的redis运行导致冲突。修改`docker-compose.yaml`中命名即可
+```yml
+version: "3.8"
+
+services:
+  cache:
+    image: redis:latest
+    container_name: redis-docker
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass 123456
+```
+```bash
+[+] Running 1/0ining-Plan\Redis>docker-compose -f .\docker-compose.yaml up -d
+[+] Running 1/1edis-docker  Created                                                                                 0.0s
+[+] Running 1/1edis-docker  Created                                                                                 0.0s
+[+] Running 1/1edis-docker  Created                                                                                 0.0s
+[+] Running 1/1edis-docker  Created                                                                                 0.0s
+[+] Running 1/1edis-docker  Created                                                                                 0.0s
+ ✔ Container redis-docker  Started                                                                                 0.0s
 ```

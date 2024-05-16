@@ -466,9 +466,88 @@ redis-cli --cluster del-node host:port node_id
 ```
 * 手动主从切换：可进入从节点使用CLUSTER FAILOVER命令进行切换
 
+## Redis集成Springboot
 
+### Spring-Data-Redis
+* Spring-Data-Redis是Spring-Data模块的一部分,专门用来支持在Spring管理项目对Redis的操作。
+* 使用Java操作Redis最常用的是使用Jedis,但并不是只有Jedis可以使用。
+* Spring-Data-Redis提供了Redis的Java客户端的抽象,和Spring原生集成。
+* 比起单纯的使用Redis其他推荐客户端,例如Jedis,会更加稳定、管理起来更加自动化。
 
+### Spring-Data-Redis功能
+1. 提供了一个高度封装的“RedisTemplate”类，里面封装了对Redis的数据结构的各种操作
+2. RedisTemplate采用是lettuce(基于netty采用异步非阻塞式lO)进行通信，大并发下比Jedis效率更高。
+3. RedisTemplate使用序列化器操作Redis数据
+> `JdkSerializationRedisSerializer` 默认的Key序列化器，POJO类通过ObjectInputstream/ObjectOutputstream进行序列化操作，最终redis-server中将存储字节序列 \
+> `StringRedisSerializer` 适用于Key或者Value为字符串的场景,最轻量级和高效的策略 \
+> `GenericJackson2JsonRedisSerializer` jackson-json提供JavaBean与JSON之间的转换能力，能将POJO实例序列化成JSON格式存储在Redis中，也可以将JSON格式的数据转换成POJO实例
 
+### Spring-Data-Redis快速入门
+1. 创建项目，导入Maven坐标引入依赖
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240516151002.png)
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+```
+2. SpringBoot配置文件添加Redis配置
+```yml
+# Redis/Spring-Data-Redis/src/main/resources/application.yml
+spring:
+  data:
+    redis:
+      host: localhost # 本地IP 或是 虚拟机IP
+      port: 6379
+      password: 123456
+      database: 0 # 默认使用 0号 db
+```
+3. 可按需求配置RedisTemplate序列化器
+```java
+// Redis/Spring-Data-Redis/src/main/java/config/RedisConfig.java
+@Configuration
+public class RedisConfig {
 
+    @Bean
+    public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+
+        RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
+
+        //默认的Key序列化器为：JdkSerializationRedisSerializer
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashValueSerializer(new StringRedisSerializer());
+
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+
+        return redisTemplate;
+    }
+}
+```
+
+4. 测试
+```java
+@SpringBootTest
+class SpringDataRedisApplicationTests {
+
+	@Autowired
+	private RedisTemplate<Object,Object> redisTemplate;
+
+	@Test
+	public void contextLoads(){
+		redisTemplate.opsForValue().set("name","zhangsan");
+		System.out.println(redisTemplate.opsForValue().get("name")); // zhangsan
+	}
+
+	@Test
+	public void contextLoads2(){
+		redisTemplate.opsForList().leftPushAll("nameList","zhangsan","lisi","wangwu");
+		System.out.println(redisTemplate.opsForList().range("nameList",0,-1)); // [wangwu, lisi, zhangsan]
+	}
+
+}
+```
 
 

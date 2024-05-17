@@ -28,10 +28,10 @@
   * RabbitMQ-介绍 18:00-18:15
   * RabbitMQ-安装(Linux) 18:15-18:30 21:15-21:30 23:25-23:28
   * RabbitMQ-安装(Docker) 23:28-23:48
-  * RabbitMQ-概念定义 23:48-00:02
+  * RabbitMQ-概念定义 23:48-00:03
 
 * **2023.05.17 金曜日:** 
-  * RabbitMQ-安装(Linux) 
+  * RabbitMQ-安装(Linux) 19:45-20:15 20:20-20:40
   * RabbitMQ-简单队列模式 
   * RabbitMQ-工作队列模式 
   * RabbitMQ-发布订阅模式 
@@ -660,3 +660,83 @@ services:
 [+] Running 1/1edis-docker  Created                                                                                 0.0s
  ✔ Container redis-docker  Started                                                                                 0.0s
 ```
+
+### 22.8【基本解决】RabbitMQ Debian 安装 `systemctl status rabbitmq-server` 命令报错 `System has not been booted with systemd as init system (PID 1). Can't operate. Failed to connect to bus: Host is down`
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# systemctl status rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+* 首先是还没有启动`systemctl start rabbitmq-server`
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# systemctl start rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+* 在CMD中检查WSL版本
+```bash
+C:\Windows\System32>wsl -l -v
+  NAME                   STATE           VERSION
+* docker-desktop         Running         2
+  Debian                 Running         2
+  docker-desktop-data    Running         2
+  Ubuntu                 Stopped         2
+```
+* 尝试手动启动
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# /usr/sbin/rabbitmq-server start
+2024-05-17 20:04:21.568252+08:00 [info] <0.228.0> Feature flags: list of feature flags found:
+2024-05-17 20:04:21.578855+08:00 [info] <0.228.0> Feature flags:   [ ] classic_mirrored_queue_version
+2024-05-17 20:04:21.578933+08:00 [info] <0.228.0> Feature flags:   [ ] implicit_default_bindings
+2024-05-17 20:04:21.578995+08:00 [info] <0.228.0> Feature flags:   [ ] maintenance_mode_status
+2024-05-17 20:04:21.579011+08:00 [info] <0.228.0> Feature flags:   [ ] quorum_queue
+2024-05-17 20:04:21.579042+08:00 [info] <0.228.0> Feature flags:   [ ] stream_queue
+2024-05-17 20:04:21.579060+08:00 [info] <0.228.0> Feature flags:   [ ] user_limits
+2024-05-17 20:04:21.579097+08:00 [info] <0.228.0> Feature flags:   [ ] virtual_host_metadata
+2024-05-17 20:04:21.579125+08:00 [info] <0.228.0> Feature flags: feature flag states written to disk: yes
+2024-05-17 20:04:21.818128+08:00 [notice] <0.44.0> Application syslog exited with reason: stopped
+2024-05-17 20:04:21.818220+08:00 [notice] <0.228.0> Logging: switching to configured handler(s); following messages may not be visible in this log output
+
+  ##  ##      RabbitMQ 3.10.8
+  ##  ##
+  ##########  Copyright (c) 2007-2022 VMware, Inc. or its affiliates.
+  ######  ##
+  ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+
+  Erlang:      26.2.5 [jit]
+  TLS Library: OpenSSL - OpenSSL 3.0.11 19 Sep 2023
+  Release series support status: supported
+
+  Doc guides:  https://rabbitmq.com/documentation.html
+  Support:     https://rabbitmq.com/contact.html
+  Tutorials:   https://rabbitmq.com/getstarted.html
+  Monitoring:  https://rabbitmq.com/monitoring.html
+
+  Logs: /var/log/rabbitmq/rabbit@DESKTOP-9MBCA87.log
+        /var/log/rabbitmq/rabbit@DESKTOP-9MBCA87_upgrade.log
+        <stdout>
+
+  Config file(s): (none)
+
+  Starting broker... completed with 0 plugins.
+```
+* 由于上述Debian窗口被占用无法继续输入指令，于是在另一个Debian窗口中重新尝试先前的指令
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# systemctl start rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# systemctl status rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+* 参考文心一言的解释：既然您已经能够手动启动 RabbitMQ，那么您应该能够继续使用 RabbitMQ 而无需通过 systemctl。但是，如果您希望在启动 Debian 实例时自动启动 RabbitMQ，您可能需要考虑其他方法
+* 再尝试确认系统是否使用systemd：一些老旧的Linux发行版或者特殊用途的系统（如容器）可能不使用systemd作为初始化系统。你可以通过查看`/sbin/init`的链接或者运行`ps -p 1`来确认`PID 1`是哪个进程
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# ps -p 1
+  PID TTY          TIME CMD
+    1 hvc0     00:00:00 init(Debian)
+```
+从输出结果来看，您的 Debian 系统中 PID 为 1 的进程是 init(Debian)，这表示您的系统使用的是传统的 SysV init 系统而不是 systemd。在这种情况下，systemctl 命令将不可用，因为它依赖于 systemd。
+* 由于后续`创建管理员账户`等相关操作均能正常实现，此处便不再纠结于`systemctl`

@@ -59,7 +59,8 @@ The following packages were automatically installed and are no longer required:
   initscripts insserv orphan-sysvinit-scripts startpar sysv-rc ucf
 Use 'sudo apt autoremove' to remove them.
 0 upgraded, 0 newly installed, 0 to remove and 15 not upgraded.
-
+```
+```bash
 # 自动添加存储库(Debian环境)
 root@DESKTOP-9MBCA87:/home/toubun# curl -1sLf 'https://dl.cloudsmith.io/public/rabbitmq/rabbitmq-erlang/setup.deb.sh' | sudo -E bash
 Executing the  setup script for the 'rabbitmq/rabbitmq-erlang' repository ...
@@ -83,25 +84,182 @@ Executing the  setup script for the 'rabbitmq/rabbitmq-erlang' repository ...
 ```
 ```bash
 # 执行安装Erlang与RabbitMQ
-
-
+root@DESKTOP-9MBCA87:/home/toubun# apt-get update
+...
+Fetched 298 kB in 38s (7824 B/s)
+Reading package lists... Done
+```
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# apt-get install erlang erlang-nox
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+curl is already the newest version (7.88.1-10+deb12u5).
+The following packages were automatically installed and are no longer required:
+  initscripts insserv orphan-sysvinit-scripts startpar sysv-rc ucf
+Use 'sudo apt autoremove' to remove them.
+...
+0 upgraded, 63 newly installed, 2 to remove and 15 not upgraded.
+Need to get 27.5 MB of archives.
+After this operation, 118 MB of additional disk space will be used.
+...
+Processing triggers for libc-bin (2.36-9+deb12u4) ...
+ldconfig: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
+Processing triggers for libgdk-pixbuf-2.0-0:amd64 (2.42.10+dfsg-1+b1) ...
+```
+```bash
+root@DESKTOP-9MBCA87:/home/toubun# apt-get install rabbitmq-server -y
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+...
+0 upgraded, 3 newly installed, 0 to remove and 15 not upgraded.
+Need to get 15.4 MB of archives.
+After this operation, 25.0 MB of additional disk space will be used.
+...
+Adding system user `rabbitmq' (UID 103) ...
+Adding new user `rabbitmq' (UID 103) with group `rabbitmq' ...
+Not creating home directory `/var/lib/rabbitmq'.
+Created symlink /etc/systemd/system/multi-user.target.wants/rabbitmq-server.service -> /lib/systemd/system/rabbitmq-server.service.
+invoke-rc.d: could not determine current runlevel
+Processing triggers for libc-bin (2.36-9+deb12u4) ...
+ldconfig: /usr/lib/wsl/lib/libcuda.so.1 is not a symbolic link
+```
+```bash
 # 启动RabbitMQ与验证
-
-
-# 123
-
-
-
+root@DESKTOP-9MBCA87:/home/toubun# erl -v
+Erlang/OTP 26 [erts-14.2.5] [source] [64-bit] [smp:12:12] [ds:12:12:10] [async-threads:1] [jit:ns]
+Eshell V14.2.5 (press Ctrl+G to abort, type help(). for help)
+1> # Ctrl+C Ctrl+C
+BREAK: (a)bort (A)bort with dump (c)ontinue (p)roc info (i)nfo
+       (l)oaded (v)ersion (k)ill (D)b-tables (d)istribution
 ```
+```bash
+# 启动RabbitMQ与验证【问题22.8】
+root@DESKTOP-9MBCA87:/home/toubun# systemctl start rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+```bash
+# 启动RabbitMQ与验证【问题22.8】
+root@DESKTOP-9MBCA87:/home/toubun# systemctl status rabbitmq-server
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+```
+```bash
+# 手动方式启动RabbitMQ【问题22.8】
+root@DESKTOP-9MBCA87:/home/toubun# /usr/sbin/rabbitmq-server start
+2024-05-17 20:04:21.568252+08:00 [info] <0.228.0> Feature flags: list of feature flags found:
+2024-05-17 20:04:21.578855+08:00 [info] <0.228.0> Feature flags:   [ ] classic_mirrored_queue_version
+2024-05-17 20:04:21.578933+08:00 [info] <0.228.0> Feature flags:   [ ] implicit_default_bindings
+2024-05-17 20:04:21.578995+08:00 [info] <0.228.0> Feature flags:   [ ] maintenance_mode_status
+2024-05-17 20:04:21.579011+08:00 [info] <0.228.0> Feature flags:   [ ] quorum_queue
+2024-05-17 20:04:21.579042+08:00 [info] <0.228.0> Feature flags:   [ ] stream_queue
+2024-05-17 20:04:21.579060+08:00 [info] <0.228.0> Feature flags:   [ ] user_limits
+2024-05-17 20:04:21.579097+08:00 [info] <0.228.0> Feature flags:   [ ] virtual_host_metadata
+2024-05-17 20:04:21.579125+08:00 [info] <0.228.0> Feature flags: feature flag states written to disk: yes
+2024-05-17 20:04:21.818128+08:00 [notice] <0.44.0> Application syslog exited with reason: stopped
+2024-05-17 20:04:21.818220+08:00 [notice] <0.228.0> Logging: switching to configured handler(s); following messages may not be visible in this log output
 
+  ##  ##      RabbitMQ 3.10.8
+  ##  ##
+  ##########  Copyright (c) 2007-2022 VMware, Inc. or its affiliates.
+  ######  ##
+  ##########  Licensed under the MPL 2.0. Website: https://rabbitmq.com
+
+  Erlang:      26.2.5 [jit]
+  TLS Library: OpenSSL - OpenSSL 3.0.11 19 Sep 2023
+  Release series support status: supported
+
+  Doc guides:  https://rabbitmq.com/documentation.html
+  Support:     https://rabbitmq.com/contact.html
+  Tutorials:   https://rabbitmq.com/getstarted.html
+  Monitoring:  https://rabbitmq.com/monitoring.html
+
+  Logs: /var/log/rabbitmq/rabbit@DESKTOP-9MBCA87.log
+        /var/log/rabbitmq/rabbit@DESKTOP-9MBCA87_upgrade.log
+        <stdout>
+
+  Config file(s): (none)
+
+  Starting broker... completed with 0 plugins.
+```
+```bash
+# 创建 RabbitMQ 管理员帐户
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqctl add_user admin admin
+Adding user "admin" ...
+Done. Don't forget to grant the user permissions to some virtual hosts! See 'rabbitmqctl help set_permissions' to learn more.
+```
+```bash
+# 在管理员帐户上设置管理员Tag
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqctl set_user_tags admin administrator
+Setting tags for user "admin" to [administrator] ...
+```
+```bash
+# 在管理员帐户上设置所需的权限
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+Setting permissions for user "admin" in vhost "/" ...
+```
+```bash
+# 列出所有权限
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqctl list_permissions -p /
+Listing permissions for vhost "/" ...
+user    configure       write   read
+guest   .*      .*      .*
+admin   .*      .*      .*
+```
+```bash
+# 开启 RabbitMQ 管理仪表板
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmq-plugins enable rabbitmq_management
+Enabling plugins on node rabbit@DESKTOP-9MBCA87:
+rabbitmq_management
+The following plugins have been configured:
+  rabbitmq_management
+  rabbitmq_management_agent
+  rabbitmq_web_dispatch
+Applying plugin configuration to rabbit@DESKTOP-9MBCA87...
+The following plugins have been enabled:
+  rabbitmq_management
+  rabbitmq_management_agent
+  rabbitmq_web_dispatch
+
+started 3 plugins.
+```
+```bash
+# RabbitMQ 管理仪表板默认端口15672进行检查
+root@DESKTOP-9MBCA87:/home/toubun# ss -tunelp | grep 15672
+tcp   LISTEN 0      1024         0.0.0.0:15672      0.0.0.0:*    users:(("beam.smp",pid=1091,fd=36)) uid:103 ino:28883 sk:5 cgroup:/ <->
+```
 ```bash
 
 ```
-
 ```bash
 
 ```
+```bash
 
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
+```bash
+
+```
 ```bash
 
 ```

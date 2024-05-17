@@ -229,39 +229,57 @@ started 3 plugins.
 # RabbitMQ 管理仪表板默认端口15672进行检查
 root@DESKTOP-9MBCA87:/home/toubun# ss -tunelp | grep 15672
 tcp   LISTEN 0      1024         0.0.0.0:15672      0.0.0.0:*    users:(("beam.smp",pid=1091,fd=36)) uid:103 ino:28883 sk:5 cgroup:/ <->
+# http://127.0.0.1:15672/
+# Username: admin
+# Password: admin
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240517235558.png)
+```bash
+# bash: wget: command not found
+sudo apt update
+sudo apt install wget
 ```
 ```bash
+# 下载 RabbitMQ 提供的 rabbitmqadmin
+root@DESKTOP-9MBCA87:/home/toubun# wget http://127.0.0.1:15672/cli/rabbitmqadmin
+--2024-05-18 00:04:45--  http://127.0.0.1:15672/cli/rabbitmqadmin
+Connecting to 127.0.0.1:15672... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 42416 (41K) [application/octet-stream]
+Saving to: 'rabbitmqadmin'
 
+rabbitmqadmin                100%[==============================================>]  41.42K  --.-KB/s    in 0.001s
+
+2024-05-18 00:04:45 (67.2 MB/s) - 'rabbitmqadmin' saved [42416/42416]
 ```
 ```bash
+# 复制到系统位置
+root@DESKTOP-9MBCA87:/home/toubun# ls
+dump.rdb  rabbitmqadmin
 
+root@DESKTOP-9MBCA87:/home/toubun# mv rabbitmqadmin /usr/bin/
 ```
 ```bash
-
+# 设置权限
+root@DESKTOP-9MBCA87:/home/toubun# chmod 775 /usr/bin/rabbitmqadmin
 ```
 ```bash
-
+# 验证 rabbitmqadmin
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqadmin --version
+rabbitmqadmin 3.10.8
 ```
 ```bash
+# RabbitMQ 配置备份
+root@DESKTOP-9MBCA87:/home/toubun# rabbitmqadmin export rabbitmq-backup-config.json
+Exported definitions for localhost to "rabbitmq-backup-config.json"
 
+root@DESKTOP-9MBCA87:/home/toubun# ls
+dump.rdb  rabbitmq-backup-config.json
 ```
 ```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
-```
-```bash
-
+# RabbitMQ 备份恢复
+root@DESKTOP-9MBCA87:/home/toubun# cat rabbitmq-backup-config.json
+{"rabbit_version":"3.10.8","rabbitmq_version":"3.10.8","product_name":"RabbitMQ","product_version":"3.10.8","users":[{"name":"admin","password_hash":"z6ee5hlHzOf4op2CaMpoMMy7rdAZ7xIQjUHpEz0ePXcF7MbG","hashing_algorithm":"rabbit_password_hashing_sha256","tags":["administrator"],"limits":{}},{"name":"guest","password_hash":"N5bvdJUyMqLc6ha/TpXWeBzzgOv4aR8sKnyIBj6mH8lvNqP2","hashing_algorithm":"rabbit_password_hashing_sha256","tags":["administrator"],"limits":{}}],"vhosts":[{"name":"/"}],"permissions":[{"user":"guest","vhost":"/","configure":".*","write":".*","read":".*"},{"user":"admin","vhost":"/","configure":".*","write":".*","read":".*"}],"topic_permissions":[],"parameters":[],"global_parameters":[{"name":"internal_cluster_id","value":"rabbitmq-cluster-id-OB0QC4LHcunGsaFfKQHWBw"}],"policies":[],"queues":[],"exchanges":[],"bindings":[]}
 ```
 
 #### RabbitMQ Docker安装

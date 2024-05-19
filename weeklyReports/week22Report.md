@@ -2,7 +2,7 @@
 
 ## 学习内容及时长
 
-* **2023.05.13 月曜日:** 
+* **2023.05.13 月曜日:** 2h15min
   * Redis-字符串数据类型 21:15-21:41
   * Redis-列表数据类型 21:41-22:00
   * Redis-集合Set 22:30-23:03
@@ -11,30 +11,33 @@
   * Redis-地理位置GEO 23:30-23:35 00:20-00:30
   * Redis-位图Bitmap&基数统计HyperLoglog 00:30-00:45
 
-* **2023.05.14 火曜日:** 
+* **2023.05.14 火曜日:** 3h
   * Redis-RDB持久化 15:30-16:15
   * Redis-AOF持久化 17:15-17:35
   * Redis-主从模式 18:00-19:00
   * Redis-哨兵模式介绍 20:35-20:43
   * Redis-哨兵模式搭建 20:43-21:30
 
-* **2023.05.15 水曜日:** 
+* **2023.05.15 水曜日:** 3h27min
   * Redis-集群搭建 16:10-17:25 18:45-19:00 20:10-20:47
   * Redis-集群分片机制 20:47-21:10
   * Redis-集群分片操作 22:50-23:47
 
-* **2023.05.16 木曜日:** 
+* **2023.05.16 木曜日:** 3h13min
   * Redis-集成SpringBoot 14:55-16:45
   * RabbitMQ-介绍 18:00-18:15
   * RabbitMQ-安装(Linux) 18:15-18:30 21:15-21:30 23:25-23:28
   * RabbitMQ-安装(Docker) 23:28-23:48
   * RabbitMQ-概念定义 23:48-00:03
 
-* **2023.05.17 金曜日:** 
+* **2023.05.17 金曜日:** 1h15min
   * RabbitMQ-安装(Linux) 19:45-20:15 20:20-20:40 23:50-00:15
 
 * **2023.05.18 土曜日:** 
-  * RabbitMQ-简单队列模式 
+
+* **2023.05.19 日曜日:** 35min
+  * RabbitMQ-简单队列模式 22:05-22:30 07:24
+  * 整理报告 02:13-02:23
   * RabbitMQ-工作队列模式 
   * RabbitMQ-发布订阅模式 
   * RabbitMQ-路由模式 
@@ -43,9 +46,6 @@
   * RabbitMQ-消息拒绝 
   * RabbitMQ-死信队列 
   * RabbitMQ-集成SpringBoot 
-
-* **2023.05.19 日曜日:** 
-
 
 ## 学习笔记
 
@@ -468,7 +468,7 @@ S: 8faa96c289095cdc0853a3581352f781b5350a7d 127.0.0.1:9005
    replicates 34c1ea22a04c30d7e28223d0a21716a2325ce6af
 ```
 
-### 22.6【】Redis集成SpringBoot 运行报错 `Unable to connect to Redis`
+### 22.6【已解决】Redis集成SpringBoot 运行报错 `Unable to connect to Redis`
 ```
 15:35:35.352 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.example.SpringDataRedisApplicationTests]: SpringDataRedisApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
 15:35:35.433 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.example.SpringDataRedisApplication for test class com.example.SpringDataRedisApplicationTests

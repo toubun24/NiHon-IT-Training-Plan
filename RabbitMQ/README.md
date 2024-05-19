@@ -397,13 +397,11 @@ Error response from daemon: driver failed programming external connectivity on e
 * 虚拟主机，一个Broker里可以开设多个VHost，用作不同用户的权限分离。
 * `http://localhost:15672/#/users/guest - Admin - Users / Virtual Hosts`
 
-```bash
+## RabbitMQ简单队列
 
-```
-
-```bash
-
-```
+### Hello World简单队列
+* 最简单的队列模式，一个消息生产者来发送消息、一个消息消费者来消费消息。
+* 先进先出，公平调度。
 
 ```bash
 

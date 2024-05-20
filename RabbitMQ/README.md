@@ -403,6 +403,26 @@ Error response from daemon: driver failed programming external connectivity on e
 * 最简单的队列模式，一个消息生产者来发送消息、一个消息消费者来消费消息。
 * 先进先出，公平调度。
 
+#### `Run 'HelloProducer.main()'`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521001319.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521001458.png)
+* 点击`http://localhost:15672/#/queues`中的`HelloWorldQueue`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521002224.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521002254.png)
+* 运行`HelloConsumer.main()`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521002405.png)
+* 关闭终端中正在运行的`HelloProducer.main()`和`HelloConsumer.main()`后，将
+```java
+channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> {});
+```
+修改为
+```java
+channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
+```
+随后重新分别运行一次`HelloProducer.main()`和`HelloConsumer.main()`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521002952.png)
+发现终端中可以得到消息`Hello World`，但队列中并未被签收，注意`Unacked`状态
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521003146.png)
 ```bash
 
 ```

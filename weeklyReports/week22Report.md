@@ -36,16 +36,8 @@
 * **2023.05.18 土曜日:** 
 
 * **2023.05.19 日曜日:** 35min
-  * RabbitMQ-简单队列模式 22:05-22:30 07:24
+  * RabbitMQ-简单队列模式 22:05-22:30
   * 整理报告 02:13-02:23
-  * RabbitMQ-工作队列模式 
-  * RabbitMQ-发布订阅模式 
-  * RabbitMQ-路由模式 
-  * RabbitMQ-主题模式 
-  * RabbitMQ-持久化 
-  * RabbitMQ-消息拒绝 
-  * RabbitMQ-死信队列 
-  * RabbitMQ-集成SpringBoot 
 
 ## 学习笔记
 

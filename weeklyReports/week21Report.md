@@ -32,24 +32,6 @@
   * Redis-Docker启动 01:06-01:23
   * 整理报告 01:23-01:30
 
-  * Redis-字符串数据类型 
-  * Redis-列表数据类型 
-  * Redis-集合Set 
-  * Redis-有序集合ZSet 
-  * Redis-哈希Hash 
-  * Redis-地理位置GEO 
-  * Redis-位图Bitmap 
-  * Redis-基数统计HyperLoglog
-  * Redis-RDB持久化 
-  * Redis-AOF持久化 
-  * Redis-主从模式 
-  * Redis-哨兵模式介绍 
-  * Redis-哨兵模式搭建 
-  * Redis-集群搭建 
-  * Redis-集群分片机制 
-  * Redis-集群分片操作 
-  * Redis-集成SpringBoot 
-
 ## 学习笔记
 
 ### Debian vim操作

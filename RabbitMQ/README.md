@@ -423,6 +423,16 @@ channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521002952.png)
 发现终端中可以得到消息`Hello World`，但队列中并未被签收，注意`Unacked`状态
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521003146.png)
+
+## RabbitMQ工作队列
+
+### Work Queues工作队列
+* 在前面的Hello World简单队列模式，因其公平调度机制，如有多个消费者，其中一个消费者的速度较慢，将会拖累整个队列消息处理速度。
+* 在Work Queues工作队列模式中，可以为速度快的消费者提供更多消息，从而提高任务处理速度。
+* 不需要设置交换机，需要指定唯一的消息队列来进行消息传递，可以有多个消费者。
+* 消费者必须要等消费完一条消息后才可以准备接收下一条消息。
+* 操作方式:关闭自动应答即可，进行手动应答。
+
 ```bash
 
 ```

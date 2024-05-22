@@ -4,7 +4,11 @@
 
 * **2023.05.20 月曜日:** 
   * RabbitMQ-简单队列模式 23:25-00:35
-  * RabbitMQ-工作队列模式 
+
+* **2023.05.21 火曜日:** 
+
+* **2023.05.22 水曜日:** 
+  * RabbitMQ-工作队列模式 22:45-23:45
   * RabbitMQ-发布订阅模式 
   * RabbitMQ-路由模式 
   * RabbitMQ-主题模式 
@@ -12,10 +16,6 @@
   * RabbitMQ-消息拒绝 
   * RabbitMQ-死信队列 
   * RabbitMQ-集成SpringBoot 
-
-* **2023.05.21 火曜日:** 
-
-* **2023.05.22 水曜日:** 
 
 * **2023.05.23 木曜日:** 
 
@@ -87,5 +87,50 @@ BasicConfigurator.configure();
 且`http://localhost:15672/#/queues`中显示相应队列
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240521001637.png)
 
+### 23.3【已解决】RabbitMQ 工作队列模式 直接启动上一部分已完成的IDEA内容时失败报错`NoClassDefFoundError`
+```bash
+Exception in thread "main" java.lang.NoClassDefFoundError: org/apache/log4j/BasicConfigurator
+	at HelloWorld.HelloProducer.main(HelloProducer.java:16)
+Caused by: java.lang.ClassNotFoundException: org.apache.log4j.BasicConfigurator
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:641)
+	at java.base/jdk.internal.loader.ClassLoaders$AppClassLoader.loadClass(ClassLoaders.java:188)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:520)
+	... 1 more
+```
+* 先尝试在Docker中开启rabbitmq和nexus并分别进行登录
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240522225320.png)
+*但是依然报错，且很多导入的依赖项都爆红，重启IDEA后恢复正常
 
-
+### 23.4【已解决】RabbitMQ 工作队列模式 `WorkConsumer.java`启动失败报错 `NOT_FOUND - no queue 'WorkQueue' in vhost '/'`
+```bash
+"D:\Amazon Corretto\jdk17.0.7_7\bin\java.exe" "-javaagent:D:\IntelliJ IDEA Community Edition 2023.1.2\lib\idea_rt.jar=57938:D:\IntelliJ IDEA Community Edition 2023.1.2\bin" -Dfile.encoding=UTF-8 -classpath G:\NiHon-IT-Training-Plan\RabbitMQ\SpringRabbitMQ\target\classes;C:\Users\Toubun\.m2\repository\com\rabbitmq\amqp-client\5.16.0\amqp-client-5.16.0.jar;C:\Users\Toubun\.m2\repository\org\slf4j\slf4j-api\1.7.36\slf4j-api-1.7.36.jar;C:\Users\Toubun\.m2\repository\org\slf4j\slf4j-log4j12\1.7.5\slf4j-log4j12-1.7.5.jar;C:\Users\Toubun\.m2\repository\log4j\log4j\1.2.17\log4j-1.2.17.jar WorkQueue.WorkConsumer
+0 [main] DEBUG com.rabbitmq.client.impl.ConsumerWorkService  - Creating executor service with 12 thread(s) for consumer work service
+Exception in thread "main" java.io.IOException
+	at com.rabbitmq.client.impl.AMQChannel.wrap(AMQChannel.java:129)
+	at com.rabbitmq.client.impl.AMQChannel.wrap(AMQChannel.java:125)
+	at com.rabbitmq.client.impl.ChannelN.basicConsume(ChannelN.java:1384)
+	at com.rabbitmq.client.impl.recovery.AutorecoveringChannel.basicConsume(AutorecoveringChannel.java:543)
+	at com.rabbitmq.client.impl.recovery.AutorecoveringChannel.basicConsume(AutorecoveringChannel.java:497)
+	at com.rabbitmq.client.impl.recovery.AutorecoveringChannel.basicConsume(AutorecoveringChannel.java:480)
+	at WorkQueue.WorkConsumer.main(WorkConsumer.java:38)
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=404, reply-text=NOT_FOUND - no queue 'WorkQueue' in vhost '/', class-id=60, method-id=20)
+	at com.rabbitmq.utility.ValueOrException.getValue(ValueOrException.java:66)
+	at com.rabbitmq.utility.BlockingValueOrException.uninterruptibleGetValue(BlockingValueOrException.java:36)
+	at com.rabbitmq.client.impl.AMQChannel$BlockingRpcContinuation.getReply(AMQChannel.java:502)
+	at com.rabbitmq.client.impl.ChannelN.basicConsume(ChannelN.java:1378)
+	... 4 more
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=404, reply-text=NOT_FOUND - no queue 'WorkQueue' in vhost '/', class-id=60, method-id=20)
+	at com.rabbitmq.client.impl.ChannelN.asyncShutdown(ChannelN.java:517)
+	at com.rabbitmq.client.impl.ChannelN.processAsync(ChannelN.java:341)
+	at com.rabbitmq.client.impl.AMQChannel.handleCompleteInboundCommand(AMQChannel.java:182)
+	at com.rabbitmq.client.impl.AMQChannel.handleFrame(AMQChannel.java:114)
+	at com.rabbitmq.client.impl.AMQConnection.readFrame(AMQConnection.java:739)
+	at com.rabbitmq.client.impl.AMQConnection.access$300(AMQConnection.java:47)
+	at com.rabbitmq.client.impl.AMQConnection$MainLoop.run(AMQConnection.java:666)
+	at java.base/java.lang.Thread.run(Thread.java:833)
+```
+* 参考文心一言
+  * 确认队列存在：确保在RabbitMQ服务器上有一个名为'WorkQueue'的队列。你可以使用RabbitMQ的管理界面（如果已安装并配置）来查看所有队列，或者通过命令行工具（如rabbitmqctl）来检查。
+  * 创建队列：如果队列不存在，你需要创建一个。这通常在你的生产者（Producer）代码中完成，当第一次尝试向该队列发送消息时。但是，你也可以手动在RabbitMQ管理界面上创建队列，或者使用命令行工具。
+* 上述失败时是在没有启动`WorkProducer.java`的情况下先启动了`WorkConsumer.java`，所以先运行一次`WorkProducer.java`，在RabbitMQ中创建出WorkQueue队列后再运行消费者即可正常实现
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240522232613.png)

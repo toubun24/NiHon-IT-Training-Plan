@@ -9,15 +9,15 @@
 
 * **2023.05.22 水曜日:** 
   * RabbitMQ-工作队列模式 22:45-23:45
-  * RabbitMQ-发布订阅模式 
+
+* **2023.05.23 木曜日:** 
+  * RabbitMQ-发布订阅模式 21:45-22:23
   * RabbitMQ-路由模式 
   * RabbitMQ-主题模式 
   * RabbitMQ-持久化 
   * RabbitMQ-消息拒绝 
   * RabbitMQ-死信队列 
   * RabbitMQ-集成SpringBoot 
-
-* **2023.05.23 木曜日:** 
 
 * **2023.05.24 金曜日:** 
 

@@ -1,4 +1,4 @@
-package WorkQueue;
+package _02_WorkQueue;
 
 import com.rabbitmq.client.*;
 import org.apache.log4j.BasicConfigurator;

@@ -433,6 +433,23 @@ channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
 * 消费者必须要等消费完一条消息后才可以准备接收下一条消息。
 * 操作方式:关闭自动应答即可，进行手动应答。
 
+## RabbitMQ发布订阅
+
+### Publish/Subscribe发布订阅模式
+* 消息生产者把消息发送给Broker Server,然后Broker Server中的交换机把消息转发到绑定此交换机的每个队列，每个绑定交换机的队列将接收到来自交换机消息。
+* 根据交换机的具体定义,发布订阅模式可实现一条消息同时被多个消费者消费。
+
+### 交换机类型
+* Direct:直连，routingKey与交换机绑定，相同的routingKey会获得相同的消息。
+* Fanout:扇出，与routingKey无关，将消息交给所有绑定到交换机的队列。
+* Topic:主题，队列通过消息主题与交换机绑定，把消息交给符合routing pattern(路由模式)的队列。
+* Headers:头，与routingKey无关，匹配消息头中的属性信息。
+
+### Run `_03_PubSubQueue`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240523222127.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240523222238.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240523222315.png)
+
 ```bash
 
 ```

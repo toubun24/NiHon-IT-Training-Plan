@@ -450,6 +450,34 @@ channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240523222238.png)
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240523222315.png)
 
+## RabbitMQ路由模式
+
+### Routing路由模式
+* 路由模式和发布订阅模式类似，只是在发布订阅模式的基础上改变了交换机的类型(fanout ⇒ direct)。
+* 路由模式下，交换机根据routingKey进行完全匹配。如果匹配上则消费者收到消息。
+
+### Run `_04_Routing`
+
+#### Run `_04_Routing/RoutingProducer.java`
+```java
+channel.basicPublish(EXCHANGE_NAME, "orange", null, message.getBytes(StandardCharsets.UTF_8));
+```
+
+#### Run `_04_Routing/RoutingConsumer.java`
+```java
+channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orange");
+```
+由于路由对应正确，`RoutingConsumer`将接收到`RoutingProducer`的所有消息
+* 随后尝试修改该路由名称
+```java
+channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orang");
+```
+发现依然能接收到所有消息
+* 在`http://localhost:15672/#/queues/%2F/RoutingQueue`中查看
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240524212441.png)
+发现原先的路由也还在绑定状态，`Unbind`后重试运行（甚至可能需要重启Docker中的RabbitMQ，见**【问题23.5】**），不再能收到消息
+
+
 ```bash
 
 ```

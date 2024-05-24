@@ -12,14 +12,14 @@
 
 * **2023.05.23 木曜日:** 
   * RabbitMQ-发布订阅模式 21:45-22:23
-  * RabbitMQ-路由模式 
-  * RabbitMQ-主题模式 
+
+* **2023.05.24 金曜日:** 
+  * RabbitMQ-路由模式 21:00-21:47
+  * RabbitMQ-主题模式 21:47-
   * RabbitMQ-持久化 
   * RabbitMQ-消息拒绝 
   * RabbitMQ-死信队列 
   * RabbitMQ-集成SpringBoot 
-
-* **2023.05.24 金曜日:** 
 
 * **2023.05.25 土曜日:** 
 
@@ -134,3 +134,11 @@ Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol 
   * 创建队列：如果队列不存在，你需要创建一个。这通常在你的生产者（Producer）代码中完成，当第一次尝试向该队列发送消息时。但是，你也可以手动在RabbitMQ管理界面上创建队列，或者使用命令行工具。
 * 上述失败时是在没有启动`WorkProducer.java`的情况下先启动了`WorkConsumer.java`，所以先运行一次`WorkProducer.java`，在RabbitMQ中创建出WorkQueue队列后再运行消费者即可正常实现
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240522232613.png)
+
+### 23.5【已解决】RabbitMQ 路由模式 原本正确绑定的路由修改消费者路由名称并解绑原先正确绑定的路由后依然能成功收到消息
+```java
+// channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orange");
+channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orang");
+```
+* RabbitMQ中`Unbind`解绑正确路由，终止并重启终端中正运行代码，重启IDEA，重登RabbitMQ，将路由名称换做`aaa`等依然能收到消息
+* 最后在Docker中重启RabbitMQ后恢复正常，不再能收到消息

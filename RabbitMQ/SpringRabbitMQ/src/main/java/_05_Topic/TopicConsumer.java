@@ -29,9 +29,12 @@ public class TopicConsumer {
          * 参数2.type:交换机类型
          */
 //        channel.exchangeDeclare(EXCHANGE_NAME,"direct");
-        channel.exchangeDeclare(EXCHANGE_NAME,"topic"); // new
+//        channel.exchangeDeclare(EXCHANGE_NAME,"topic"); // new
+//        channel.exchangeDeclare(EXCHANGE_NAME,"topic", false); // 持久化false
+        channel.exchangeDeclare(EXCHANGE_NAME,"topic", true); // 持久化true
         //声明队列
-        channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+//        channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+        channel.queueDeclare(QUEUE_NAME,true,false,false,null); // 持久化true
         /**
          * 队列绑定交换机
          * 参数1.queue:消费队列名称

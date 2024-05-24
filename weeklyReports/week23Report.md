@@ -15,13 +15,13 @@
 
 * **2023.05.24 金曜日:** 
   * RabbitMQ-路由模式 21:00-21:47
-  * RabbitMQ-主题模式 21:47-
-  * RabbitMQ-持久化 
-  * RabbitMQ-消息拒绝 
-  * RabbitMQ-死信队列 
-  * RabbitMQ-集成SpringBoot 
+  * RabbitMQ-主题模式 21:47-22:20
+  * RabbitMQ-持久化 23:15-23:22
+  * RabbitMQ-消息拒绝 00:46-01:23
 
 * **2023.05.25 土曜日:** 
+  * RabbitMQ-死信队列 
+  * RabbitMQ-集成SpringBoot 
 
 * **2023.05.26 日曜日:** 
 

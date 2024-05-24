@@ -506,6 +506,133 @@ channel.basicPublish(EXCHANGE_NAME, "orange.to.black", null, message.getBytes(St
 ```
 此时`TopicConsumer`不再能收到消息，而`TopicConsumer1`仍可收到全部消息（依旧需要注意**【问题23.5】**）
 
+## RabbitMQ持久化
+
+### 持久化
+* RabbitMQ的持久化主要在三个方面，交换机持久化，队列持久化，消息持久化。
+
+### 队列持久化
+* 队列持久化：声明队列有一个参数durable，代表RabbitMQ服务器重启时，是否自动创建队列。
+```java
+/**
+* 声明队列
+* 参数1.queue:队列名称
+* 参数2.durable:队列是否持久化，默认false存储在内存中
+* 参数3.exclusive:是否排他.如果一个队列声明为排他队列，该队列对首次声明它的连接可见，并在连接断开时自动删除
+* 参数4.autoDelete:是否自动删除 最后一个消费者断开连接以后 该队列是否自动删除
+* 参数5.arguments:封装描述队列的其他信息
+*/
+channel.queueDeclare(QUEUE_NAME, true, false, false, null);
+```
+
+### 交换机持久化
+* 交换机持久化：声明交换机有一个参数durable，代表RabbitMQ服务器重启时，是否自动创建交换机。
+```java
+/**
+* 声明交换机
+* 参数1.exchange:交换机名称
+* 参数2.type:交换机类型
+* 参数3.durable:交换机是否持久化
+*/
+channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
+```
+
+### 消息持久化
+* 消息持久化：前提条件需要队列持久化。
+* 消息持久化与之前的持久化操作有所不同，消息持久化在于创建消息的时候，需要添加一个持久化消息的属性。
+* 发送消息时有参数：BasicProperties，里面可以封装消息的各种属性，如持久化，优先级等属性。
+```java
+String contentType 消息的内容类型
+String contentEncoding 消息内容编码
+Map<String, Object> headers 消息的header
+Integer deliveryMode 持久化
+Integer priority 优先级
+String correlationId 关联ID
+String replyTo 指定回复的队列的名称
+String expiration 消息的失效时间
+String messageId 消息ID
+Date timestamp 消息时间戳
+String type 类型
+String userId 用户ID
+String appId 应用程序ID
+String clusterId 集群ID
+```
+* 持久化的key值为"deliveryMode"，当"deliveryMode"为1时表示消息不持久化，为2时表示消息持久化
+```java
+//BasicProperties构建器
+AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder();
+//设置消息持久化属性，还可以设置其他BasicProperties属性等等
+builder.deliveryMode(2).headers(xxx);
+AMQP.BasicProperties properties = builder.build();
+channel.basicPublish(EXCHANGE_NAME, "orange.to", properties, message.getBytes());
+```
+
+### 基于`_05_Topic`进行持久化测试
+
+#### `_05_Topic/TopicConsumer.java`
+* 首先重启Docker中的RabbitMQ，回到初始状态
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525005650.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525005739.png)
+* 修改代码并运行
+```java
+// channel.exchangeDeclare(EXCHANGE_NAME,"topic"); // 主题模式
+channel.exchangeDeclare(EXCHANGE_NAME,"topic", false); // 持久化测试false
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525005935.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525005829.png)
+* 断开`_05_Topic/TopicConsumer.java`后再次重启Docker中的RabbitMQ
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010149.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010213.png)
+* 对代码进行修改，开启持久化
+```java
+// channel.exchangeDeclare(EXCHANGE_NAME,"topic", false); // 持久化false
+channel.exchangeDeclare(EXCHANGE_NAME,"topic", true); // 持久化true
+// channel.queueDeclare(QUEUE_NAME,false,false,false,null);
+channel.queueDeclare(QUEUE_NAME,true,false,false,null); // 持久化true
+```
+* 运行`_05_Topic/TopicConsumer.java`后断开，重启Docker中的RabbitMQ，此时交换机和队列依然存在，且`durable:	true`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010603.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010743.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010803.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525010828.png)
+
+#### `_05_Topic/TopicProducer.java`
+```java
+// channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+channel.exchangeDeclare(EXCHANGE_NAME, "topic", true); // 消息持久化
+AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder(); // 消息持久化
+builder.deliveryMode(2); // 消息持久化
+AMQP.BasicProperties properties = builder.build(); // 消息持久化
+for (int i = 0; i < 50; i++) {
+    // ...
+    // channel.basicPublish(EXCHANGE_NAME, "orange.to", null, message.getBytes(StandardCharsets.UTF_8));
+    channel.basicPublish(EXCHANGE_NAME, "orange.to", properties, message.getBytes(StandardCharsets.UTF_8)); // 消息持久化
+}
+```
+* 运行`TopicProducer.java`（此时没有正在运行的`Consumer`）
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525011758.png)
+* 关闭`TopicProducer.java`后，重启Docker中的RabbitMQ，消息依然存在，同时尝试`Get messages`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525012206.png)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ```bash
 
 ```

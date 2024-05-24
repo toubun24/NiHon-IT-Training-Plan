@@ -1,5 +1,7 @@
 package _05_Topic;
 
+import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.BasicProperties;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import org.apache.log4j.BasicConfigurator;
@@ -26,7 +28,8 @@ public class TopicProducer {
          * 参数2.type:交换机类型
          */
 //        channel.exchangeDeclare(EXCHANGE_NAME, "direct");
-        channel.exchangeDeclare(EXCHANGE_NAME, "topic"); // new
+//        channel.exchangeDeclare(EXCHANGE_NAME, "topic"); // new
+        channel.exchangeDeclare(EXCHANGE_NAME, "topic", true); // 消息持久化
         /**
          * 发送消息到交换机
          * 参数1.exchange:发送到那个交换机
@@ -34,12 +37,16 @@ public class TopicProducer {
          * 参数3.props:封装描述消息的其他信息
          * 参数4.body:消息体，字节流
          */
+        AMQP.BasicProperties.Builder builder = new AMQP.BasicProperties.Builder(); // 消息持久化
+        builder.deliveryMode(2); // 消息持久化
+        AMQP.BasicProperties properties = builder.build(); // 消息持久化
         for (int i = 0; i < 50; i++) {
 //            String message = "RoutingMessage" + i;
             String message = "TopicMessage" + i; // new
 //            channel.basicPublish(EXCHANGE_NAME, "orange", null, message.getBytes(StandardCharsets.UTF_8));
 //            channel.basicPublish(EXCHANGE_NAME, "orange.to", null, message.getBytes(StandardCharsets.UTF_8)); // new
-            channel.basicPublish(EXCHANGE_NAME, "orange.to.black", null, message.getBytes(StandardCharsets.UTF_8)); // 【问题23.5】
+//            channel.basicPublish(EXCHANGE_NAME, "orange.to.black", null, message.getBytes(StandardCharsets.UTF_8)); // 【问题23.5】
+            channel.basicPublish(EXCHANGE_NAME, "orange.to", properties, message.getBytes(StandardCharsets.UTF_8)); // 消息持久化
         }
         connection.close();
     }

@@ -458,12 +458,12 @@ channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {});
 
 ### Run `_04_Routing`
 
-#### Run `_04_Routing/RoutingProducer.java`
+#### `_04_Routing/RoutingProducer.java`
 ```java
 channel.basicPublish(EXCHANGE_NAME, "orange", null, message.getBytes(StandardCharsets.UTF_8));
 ```
 
-#### Run `_04_Routing/RoutingConsumer.java`
+#### `_04_Routing/RoutingConsumer.java`
 ```java
 channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orange");
 ```
@@ -477,6 +477,34 @@ channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orang");
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240524212441.png)
 发现原先的路由也还在绑定状态，`Unbind`后重试运行（甚至可能需要重启Docker中的RabbitMQ，见**【问题23.5】**），不再能收到消息
 
+## RabbitMQ主题模式
+
+### Topics主题模式
+* 主题模式和路由模式类似，只是在路由模式的基础上改变了交换机的类型(direct ⇒ topic)。
+* 主题模式下，生产者向交换机发送消息后，消费者可以使用匹配字符进行匹配。
+* 提供两种匹配字符， `*` 和 `#` ，`*` 匹配单层级，`#` 可匹配多层级或无层级。
+
+### Run `_05_Topic`
+
+#### `_05_Topic/TopicConsumer.java`
+```java
+channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orange.*");
+```
+
+#### `_05_Topic/TopicConsumer1.java`
+```java
+channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orange.#");
+```
+
+#### `_05_Topic/TopicProducer.java`
+```java
+channel.basicPublish(EXCHANGE_NAME, "orange.to", null, message.getBytes(StandardCharsets.UTF_8));
+```
+此时`TopicConsumer`和`TopicConsumer1`均可收到全部消息
+```java
+channel.basicPublish(EXCHANGE_NAME, "orange.to.black", null, message.getBytes(StandardCharsets.UTF_8)); // 【问题23.5】
+```
+此时`TopicConsumer`不再能收到消息，而`TopicConsumer1`仍可收到全部消息（依旧需要注意**【问题23.5】**）
 
 ```bash
 

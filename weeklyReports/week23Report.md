@@ -16,10 +16,10 @@
 * **2023.05.24 金曜日:** 
   * RabbitMQ-路由模式 21:00-21:47
   * RabbitMQ-主题模式 21:47-22:20
-  * RabbitMQ-持久化 23:15-23:22
-  * RabbitMQ-消息拒绝 00:46-01:23
+  * RabbitMQ-持久化 23:15-23:22 00:46-01:23
 
 * **2023.05.25 土曜日:** 
+  * RabbitMQ-消息拒绝 20:35-21:25
   * RabbitMQ-死信队列 
   * RabbitMQ-集成SpringBoot 
 
@@ -142,3 +142,52 @@ channel.queueBind(QUEUE_NAME,EXCHANGE_NAME,"orang");
 ```
 * RabbitMQ中`Unbind`解绑正确路由，终止并重启终端中正运行代码，重启IDEA，重登RabbitMQ，将路由名称换做`aaa`等依然能收到消息
 * 最后在Docker中重启RabbitMQ后恢复正常，不再能收到消息
+
+### 23.6【已解决】RabbitMQ 消息拒绝 `RejectConsumer.java`运行报错 `com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - inequivalent arg 'durable' for exchange 'exchange_Topic' in vhost '/': received 'false' but current is 'true', class-id=40, method-id=10)`
+```bash
+Exception in thread "main" java.io.IOException
+	...
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - inequivalent arg 'durable' for exchange 'exchange_Topic' in vhost '/': received 'false' but current is 'true', class-id=40, method-id=10)
+	...
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - inequivalent arg 'durable' for exchange 'exchange_Topic' in vhost '/': received 'false' but current is 'true', class-id=40, method-id=10)
+	...
+```
+* 参考文心一言：这个错误消息意味着你尝试以durable为false来声明一个已经存在且durable为true的交换机。RabbitMQ不允许以不同的参数重新声明一个已经存在的交换机。
+* 尝试不再保留有关`topic`的代码，全部重命名为`reject`相关字段，重新运行`RejectConsumer.java`，报错改变
+```bash
+Exception in thread "main" java.io.IOException
+	...
+Caused by: com.rabbitmq.client.ShutdownSignalException: connection error; protocol method: #method<connection.close>(reply-code=503, reply-text=COMMAND_INVALID - invalid exchange type 'reject', class-id=40, method-id=10)
+	...
+5045 [AMQP Connection 127.0.0.1:5672] DEBUG com.rabbitmq.client.impl.ConsumerWorkService  - Creating executor service with 12 thread(s) for consumer work service
+5049 [AMQP Connection 127.0.0.1:5672] DEBUG com.rabbitmq.client.impl.recovery.AutorecoveringConnection  - Connection amqp://guest@127.0.0.1:5672/ has recovered
+5050 [AMQP Connection 127.0.0.1:5672] DEBUG com.rabbitmq.client.impl.recovery.AutorecoveringConnection  - Channel AMQChannel(amqp://guest@127.0.0.1:5672/,1) has recovered
+```
+* 参考文心一言：这个异常是由于在尝试声明一个RabbitMQ交换机时提供了无效的交换机类型 'reject' 导致的。RabbitMQ提供了几种预定义的交换机类型，比如 direct、topic、headers、fanout，但是并没有 'reject' 这个类型。
+```java
+// RejectConsumer.java
+// channel.exchangeDeclare(EXCHANGE_NAME,"reject"); // 【问题23.6】
+channel.exchangeDeclare(EXCHANGE_NAME,"topic");
+```
+```java
+// RejectProducer.java
+// channel.exchangeDeclare(EXCHANGE_NAME, "reject", true); // 【问题23.6】
+channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
+```
+报错继续变为
+```bash
+Exception in thread "main" java.io.IOException
+	...
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - inequivalent arg 'durable' for exchange 'exchange_Reject' in vhost '/': received 'false' but current is 'true', class-id=40, method-id=10)
+	...
+Caused by: com.rabbitmq.client.ShutdownSignalException: channel error; protocol method: #method<channel.close>(reply-code=406, reply-text=PRECONDITION_FAILED - inequivalent arg 'durable' for exchange 'exchange_Reject' in vhost '/': received 'false' but current is 'true', class-id=40, method-id=10)
+	...
+```
+* 依然是由于尝试用与现有交换机不一致的参数来声明或修改一个已存在的交换机时触发的。检查代码和RabbitMQ中的交换机参数设置后，首先`delete``http://127.0.0.1:15672/#/exchanges`中的`exchange_Reject`交换机，随后修改代码
+```java
+// RejectProducer.java
+// channel.exchangeDeclare(EXCHANGE_NAME, "reject", true); // 【问题23.6】
+// channel.exchangeDeclare(EXCHANGE_NAME, "topic", true);
+channel.exchangeDeclare(EXCHANGE_NAME, "topic");
+```
+* 最后，先运行`RejectProducer.java`，然后运行`RejectConsumer.java`，再运行`RejectProducer.java`，得到期望输出

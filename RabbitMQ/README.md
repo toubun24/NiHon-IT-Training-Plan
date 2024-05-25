@@ -614,13 +614,19 @@ for (int i = 0; i < 50; i++) {
 * 关闭`TopicProducer.java`后，重启Docker中的RabbitMQ，消息依然存在，同时尝试`Get messages`
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525012206.png)
 
+## RabbitMQ消息拒绝
 
+### 消息拒绝
+* RabbitMQ的消息拒绝：前提条件需要手动ACK。消费者可以根据信息的内容，拒绝消费这个消息。
+* 提供两种方式，分别是 Reject 和 Nack。
 
-
-
-
-
-
+### `_06_Reject/RejectConsumer1.java`
+```java
+// channel.basicReject(delivery.getEnvelope().getDeliveryTag(),true); // reject方式 // RejectMessage RejectMessage RejectMessage ...
+// channel.basicNack(delivery.getEnvelope().getDeliveryTag(),false,true); // nack方式, 重回队列false // RejectMessage RejectMessage RejectMessage ...
+channel.basicNack(delivery.getEnvelope().getDeliveryTag(),false,false); // nack方式, 重回队列true // RejectMessage
+```
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525212441.png)
 
 
 

@@ -628,84 +628,172 @@ channel.basicNack(delivery.getEnvelope().getDeliveryTag(),false,false); // nack�
 ```
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525212441.png)
 
+## RabbitMQ死信队列
 
+### 死信
+* 消息成为死信一般是以下三种情况：
+  * 消息被消费者拒绝，并且设置 requeue 参数为 false。
+  * 消息过期(默认情况下 RabbitMQ 中的消息不过期，但是可以设置消息过期时间)
+  * 消息队列达到最大长度(如消息队列设置了最大队列长度或大小并且达到最大值时)
+* 当满足上面三种情况时，消息会成为死信消息,并通过死信交换机投递到相应的死信队列中。
+* 我们只需要监听相应的死信队列,就可以对死信消息进行最后的处理。
 
+### `_07_Dead`
 
+#### 先停留在普通队列几秒后再进入死信队列
+* 注意先`delete``http://127.0.0.1:15672/#/exchanges`中先前设置的持久化交换机，防止与当前测试的非持久化参数同名交换机设置产生冲突；随后运行`DeadConsumer.java`，运行成功后**关闭**`DeadConsumer.java`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525220834.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525220904.png)
+* 确认**关闭**`DeadConsumer.java`后，启动`DeadProducer.java`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525222301.png)
+* 几秒后
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525222336.png)
 
+#### 直接进入死信队列
+* 先在`DeadConsumer.java`中添加一句`channel.basicReject(delivery.getEnvelope().getDeliveryTag(),false);`
+```java
+DeliverCallback deliverCallback = (consumerTag, delivery) -> {
+    System.out.println(new String(delivery.getBody()));
+    // channel.basicReject(delivery.getEnvelope().getDeliveryTag(),true); // 消息拒绝
+    // // 先停留在普通队列几秒后再进入死信队列
+    channel.basicReject(delivery.getEnvelope().getDeliveryTag(),false); // 直接进入死信队列
+};
+```
+* 先启动`DeadConsumer.java`（这次保持运行状态，不关闭），随后启动`DeadProducer.java`，`DeadQueue`直接从上一步的`101`变为`202`
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525223310.png)
 
+#### 队列最大长度测试
+* 相关代码
+```java
+// DeadConsumer.java
+params.put("x-max-length", 5);
+```
+* 在`DeadProducer.java`中将
+```java
+// String message = "RejectMessage"; // 消息拒绝
+String message = "DeadMessage";
+// channel.basicPublish(EXCHANGE_NAME, "orange.to", null, message.getBytes(StandardCharsets.UTF_8)); // 消息拒绝
+channel.basicPublish(EXCHANGE_NAME, "orange.to", properties, message.getBytes(StandardCharsets.UTF_8));
+```
+改为
+```java
+for (int i = 0; i < 10; i++) { // 队列最大长度测试
+    // String message = "DeadMessage"; // new
+    String message = "DeadMessage"+i; // 队列最大长度测试
+    channel.basicPublish(EXCHANGE_NAME, "orange.to", properties, message.getBytes(StandardCharsets.UTF_8));
+} // 队列最大长度测试
+```
+* 在`DeadConsumer.java`中也进行调整
+```java
+//        channel.basicConsume(QUEUE_NAME, false, deliverCallback, consumerTag -> {
+channel.basicConsume(QUEUE_NAME, true, deliverCallback, consumerTag -> { // 队列最大长度测试
+});
+```
+* 首先重启Docker中的RabbitMQ以清除队列消息数据，启动`DeadConsumer.java`后**中断**，再启动`DeadProducer.java`，
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525224908.png)
+* 几秒后
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525224943.png)
 
+#### 死信消费者
+* 运行`DeadConsumer1.java`，便将先前死信队列`DeadQueue`积攒的消息全部消费掉了
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240525225457.png)
 
+## Rabbit集成Springboot
 
+### Spring AMQP
+Spring AMQP 是对 Spring 基于 AMQP 的消息收发解决方案，不依赖于特定的 AMQP Broker 实现和客户端的抽象。
 
+提供模板化的发送和接收消息的抽象层，提供基于消息驱动的 POJO。
 
+### Spring AMQP核心组件
+ConnectionFactory：Spring AMQP 的连接工厂接口，用于创建连接。
 
+RabbitAdmin：AmqpAdmin 的实现，封装了对 RabbitMQ 的基础管理操作。
+
+Message：Spring AMQP 对消息的封装。
+
+RabbitTemplate：AmqpTemplate 的一个实现，用来简化消息的收发。
+
+Messager Listener：Spring AMQP 异步消息投递的监听器接口，用于处理消息队列推送来的消息。
+
+### Spring AMQP快速入门
+1. [Spring Initializr](https://start.spring.io/)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240526180410.png)
+2. SpringBoot配置文件添加RabbitMQ配置
+  * 删除默认生成的`RabbitMQ/_02_SpringBootRabbitMQ/src/main/resources/application.propertiesc`，创建`RabbitMQ/_02_SpringBootRabbitMQ/src/main/resources/application.yml`
+```yml
+spring:
+rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+    simple:
+        acknowledge-mode: manual # manual代表手动Ack
+```
+3. 配置RabbitMQ(这里使用RabbitAdmin 声明交换机、队列和绑定)
+4. 创建消费者
+5. 消息生产者
+
+### Run `RabbitMQ/_02_SpringBootRabbitMQ/src/test/java/com/example/ApplicationTests.java`
+
+#### `rabbitTemplate.convertAndSend()`
+```java
+@Test
+	void contextLoads() {
+		MessageProperties messageProperties = new MessageProperties();
+		messageProperties.getHeaders().put("name","zhangsan");
+		messageProperties.getHeaders().put("age","18");
+		String mess = "hello world";
+		Message message = new Message(mess.getBytes(),messageProperties);// import org.springframework.amqp.core.Message;
+    rabbitTemplate.convertAndSend(EXCHANGE_NAME, "aaa.bbb",message); // 路由#随便写
+	}
+```
 ```bash
-
+hello world
+2024-05-26T20:10:24.999+08:00  INFO 8588 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+(Body:'[B@73cbabfd(byte[11])' MessageProperties [headers={name=zhangsan, age=18}, contentType=application/octet-stream, contentLength=0, receivedDeliveryMode=PERSISTENT, priority=0, redelivered=false, receivedExchange=spring_topic_exchange, receivedRoutingKey=aaa.bbb, deliveryTag=1, consumerTag=amq.ctag-2_pol4zFd4Ky75D4GFjXtA, consumerQueue=topic_queue])
+2024-05-26T20:10:25.011+08:00  INFO 8588 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
 ```
 
+#### `rabbitTemplate.convertAndSend()`带`messagePostProcessor`参数
+```java
+@Test
+	void contextLoads() {
+		// ...
+//		rabbitTemplate.convertAndSend(EXCHANGE_NAME, "aaa.bbb",message);
+		rabbitTemplate.convertAndSend(EXCHANGE_NAME, "aaa.bbb",message, message1 -> {
+			message1.getMessageProperties().getHeaders().put("test","test1");
+			message1.getMessageProperties().setExpiration("10000");
+			return message1;
+		});
+	}
+```
 ```bash
-
+hello world
+(Body:'[B@f0026bd(byte[11])' MessageProperties [headers={test=test1, name=zhangsan, age=18}, contentType=application/octet-stream, contentLength=0, receivedDeliveryMode=PERSISTENT, expiration=10000, priority=0, redelivered=false, receivedExchange=spring_topic_exchange, receivedRoutingKey=aaa.bbb, deliveryTag=1, consumerTag=amq.ctag-zTYJ3VipjbGdlqIUEpsoLw, consumerQueue=topic_queue])
+2024-05-26T20:15:21.600+08:00  INFO 17064 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+2024-05-26T20:15:21.610+08:00  INFO 17064 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
 ```
 
-```bash
-
+#### `rabbitTemplate.send()`
+```java
+@Test
+void contextLoads() {
+    // ...
+//		rabbitTemplate.convertAndSend(EXCHANGE_NAME, "aaa.bbb",message, message1 -> {
+//			message1.getMessageProperties().getHeaders().put("test","test1");
+//			message1.getMessageProperties().setExpiration("10000");
+//			return message1;
+//		});
+  rabbitTemplate.send(EXCHANGE_NAME,"aaa.bbb",message);
+}
 ```
-
 ```bash
-
+hello world
+2024-05-26T20:18:33.702+08:00  INFO 2832 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Waiting for workers to finish.
+(Body:'[B@4dabccd(byte[11])' MessageProperties [headers={name=zhangsan, age=18}, contentType=application/octet-stream, contentLength=0, receivedDeliveryMode=PERSISTENT, priority=0, redelivered=false, receivedExchange=spring_topic_exchange, receivedRoutingKey=aaa.bbb, deliveryTag=1, consumerTag=amq.ctag-JPfcql0V0vLpo523rM8_1Q, consumerQueue=topic_queue])
+2024-05-26T20:18:33.714+08:00  INFO 2832 --- [_02_SpringBootRabbitMQ] [ntContainer#0-2] o.s.a.r.l.SimpleMessageListenerContainer : Successfully waited for workers to finish.
 ```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-```bash
-
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -20,10 +20,10 @@
 
 * **2023.05.25 土曜日:** 
   * RabbitMQ-消息拒绝 20:35-21:25
-  * RabbitMQ-死信队列 
-  * RabbitMQ-集成SpringBoot 
+  * RabbitMQ-死信队列 21:42-22:56
 
 * **2023.05.26 日曜日:** 
+  * RabbitMQ-集成SpringBoot 17:45-18:30 20:00-20:23
 
 ## 学习笔记
 

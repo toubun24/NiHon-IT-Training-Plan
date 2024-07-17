@@ -69,10 +69,10 @@
 | 快递查询功能 |  | 调用快递100API进行订单页物流详情展示 |
 | 聊天框功能 |  | 界面设计，基础数据交互 |
 | SpringBoot配置 |  | 配置SpringBoot，集成Maven、Docker配置，添加依赖 |
-| 数据库设计与MySQL配置 |  | 设计数据库模式，创建MySQL数据库和表，配置Spring Boot连接MySQL |
-| MyBatis集成与映射文件配置 |  | 集成MyBatis，配置Mapper接口和XML映射文件，实现基本的CRUD操作 |
-| Spring Security集成 |  | 配置Spring Security，实现用户认证和授权，包括JWT或Session管理 |
+| 数据库设计与MySQL配置 |  | 设计数据库模式，创建MySQL数据库和表 |
+| MyBatis集成与映射文件配置 |  | SpringMVC集成MyBatis，配置Mapper接口和XML映射文件，配置Spring Boot连接MySQL，实现基本的CRUD操作 |
 | RabbitMQ与Spring AMQP集成 |  | 集成RabbitMQ，配置消息生产者和消费者，实现异步消息处理 |
+| Spring Security集成 |  | 配置Spring Security，实现用户认证和授权，包括JWT或Session管理 |
 | WebSocket实现实时通信 |  | 使用Spring Boot的WebSocket支持，实现用户间的实时消息推送，替换掉原本基于json的json聊天框 |
 | 权限控制细化 |  | 根据业务需求细化权限控制逻辑 |
 | 全局异常处理与日志记录 |  | 实现全局异常处理机制，配置日志记录，便于问题追踪和性能分析 |
@@ -85,3 +85,4 @@
 * 完整前后端的部署
 * db.json导入mysql
 * 路径是写在后端还是后端从数据库中批量读取
+* rabbitmq如何测试（比如限制查询队列长度？），用在何处（订单、支付）

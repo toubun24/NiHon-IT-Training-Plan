@@ -8,10 +8,10 @@
 * **2023.07.16 火曜日:** 3h9min
 * SpringBoot 22:30-23:00 23:40-01:10 01:20-02:29
 
-* **2023.07.17 水曜日:** 
+* **2023.07.17 水曜日:** 7h
 * MyBatis 12:20-13:35
-* SpringMVC&MyBatis 16:20-19:05 19:20-19:35 22:10-23:50
-* RabbitMQ 
+* SpringMVC&MyBatis 16:20-19:05 19:20-19:35 22:10-23:55
+* RabbitMQ 00:45-01:45
 
 * **2023.07.18 木曜日:** 
 
@@ -358,13 +358,31 @@ spring.datasource.password=12345678
   * ~~`demo\src\test\java\com\example\DemoApplicationTests.java`~~
   * ~~`demo\src\main\java\com\example\ServletInitializer.java`~~
   * ~~`demo\src\main\java\com\example\DemoApplication.java`~~
-* 在`application.properties`中添加一句`mybatis.mapper-locations=classpath:mappers/TestMapper.xml`
+* 在`application.properties`中添加一句`mybatis.mapper-locations=classpath:mappers/TestMapper.xml`；`application.yml`中则是
+```yml
+mybatis:
+  mapper-locations: classpath:mappers/TestMapper.xml
+```
 
 #### RabbitMQ
-
-
-
-
+* 在`application.yml`中添加
+```yml
+spring:
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual # manual代表手动Ack
+```
+* 创建Class`com/example/config/RabbitConfig.java`
+* 创建Package`com/example/Consumer`和Class`com/example/Consumer/Consumer.java`
+* 创建测试Class`demo\src\test\java\com\example\ApplicationTests.java`
+* Docker启动RabbitMQ
+* 进入`http://localhost:15672/`登录
 
 
 

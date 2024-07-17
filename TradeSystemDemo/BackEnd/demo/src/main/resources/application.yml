@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: demo
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo?characterEncoding=utf-8
+    username: root
+    password: 12345678
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        acknowledge-mode: manual # manual代表手动Ack
+mybatis:
+  mapper-locations: classpath:mappers/TestMapper.xml

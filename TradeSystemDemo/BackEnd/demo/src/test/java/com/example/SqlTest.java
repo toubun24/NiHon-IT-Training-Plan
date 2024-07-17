@@ -1,3 +1,5 @@
+package com.example;
+
 import com.example.dao.TestTable;
 import com.example.mapper.TestMapper;
 import org.apache.ibatis.io.Resources;

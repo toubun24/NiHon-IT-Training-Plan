@@ -103,6 +103,13 @@
 - **MyBatis** 是一个支持普通 SQL 查询、存储过程和高级映射的持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
 - **合理性**：虽然 Spring Data JPA 是另一个流行的选择，但 MyBatis 提供了更细粒度的控制，适合需要优化 SQL 语句或处理复杂查询的场景。
 
+### Web框架：SpringWEB SpringMVC(Model-View-Controller)
+- **M（Model）**：模型层，指工程中的JavaBean，用于处理数据。JavaBean分为两类：
+实体类Bean：专门存储业务数据，如Student、User等。
+业务处理Bean：指Service或Dao对象，专门用于处理业务逻辑和数据访问。
+- **V（View）**：视图层，指工程中的HTML或JSP等页面，用于与用户进行交互，展示数据。
+- **C（Controller）**：控制层，指工程中的Servlet，用于接收请求和响应浏览器。
+
 ### 身份验证和访问控制：SpringSecurity
 * SpringSecurity 是 Spring 框架的一个子项目，它提供了全面的安全性解决方案，包括认证（谁是你？）和授权（你能做什么？）。SpringSecurity 可以与 SpringBoot 轻松集成，为在线购物平台提供强大的身份验证和访问控制功能。
 

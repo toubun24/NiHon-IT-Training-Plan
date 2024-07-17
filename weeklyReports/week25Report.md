@@ -9,7 +9,9 @@
 * SpringBoot 22:30-23:00 23:40-01:10 01:20-02:29
 
 * **2023.07.17 水曜日:** 
-* MyBatis 12:20-13:35 
+* MyBatis 12:20-13:35
+* SpringMVC&MyBatis 16:20-19:05 19:20-19:35 22:10-23:50
+* RabbitMQ 
 
 * **2023.07.18 木曜日:** 
 
@@ -27,29 +29,56 @@
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240716225456.png)
 
 * 换为MyBatis+lombok
-![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240717130406.png)
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240717175804.png)
 
 * 并继续添加依赖
-```xml
-<dependency>
-    <groupId>org.junit.jupiter</groupId>
-    <artifactId>junit-jupiter</artifactId>
-    <version>5.9.0</version>
-    <scope>test</scope>
-</dependency>
-<dependency>
-    <groupId>junit</groupId>
-    <artifactId>junit</artifactId>
-    <version>4.13.2</version>
-    <scope>test</scope>
-</dependency>
-<!--Mybatis分页插件-->
-<dependency>
-    <groupId>com.github.pagehelper</groupId>
-    <artifactId>pagehelper</artifactId>
-    <version>6.1.0</version>
-</dependency>
-```
+  * MyBatis
+    ```xml
+    <dependency>
+        <groupId>org.junit.jupiter</groupId>
+        <artifactId>junit-jupiter</artifactId>
+        <version>5.9.0</version>
+        <scope>test</scope>
+    </dependency>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.2</version>
+        <scope>test</scope>
+    </dependency>
+    <!--Mybatis分页插件-->
+    <dependency>
+        <groupId>com.github.pagehelper</groupId>
+        <artifactId>pagehelper</artifactId>
+        <version>6.1.0</version>
+    </dependency>
+    ```
+    * SpringMVC
+    ```xml
+    <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>1.2</version>
+    </dependency>
+    <!-- ServletAPI -->
+    <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <!-- <scope>provided</scope> -->
+    </dependency>
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-api</artifactId>
+        <version>10.1.23</version>
+    </dependency>
+
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>3.3.1</version>
+    </plugin>
+    ```
 
 * IDEA项目导入
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240716225859.png)
@@ -317,6 +346,43 @@ spring.datasource.password=12345678
 * 创建SQL映射文件`demo\src\main\resources\mappers\TestMapper.xml`
 * 创建单元测试Class`demo\src\test\java\SqlTest.java`
 
+#### SpringMVC
+* 创建SpringMVC配置文件：创建Directory`src/main/webapp`
+* ~~`Current File`-`Edit Configurations...`-`+`-`Smart Tomcat`~~
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240717170140.png)
+* 创建SpringMVC配置文件：创建Package`com/example/config`与Class`com/example/config/Config`
+* 初始化Servlet容器：创建Class`com/example/config/ServletConfig.java`
+* 返回中文信息乱码解决：创建Class`com/example/config/WebConfiguration.java`
+* 创建Package`com/example/controller`和Class`com/example/controller/TestController.java`
+* ~~删除以下文件以防启动失败~~
+  * ~~`demo\src\test\java\com\example\DemoApplicationTests.java`~~
+  * ~~`demo\src\main\java\com\example\ServletInitializer.java`~~
+  * ~~`demo\src\main\java\com\example\DemoApplication.java`~~
+* 在`application.properties`中添加一句`mybatis.mapper-locations=classpath:mappers/TestMapper.xml`
+
+#### RabbitMQ
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## 遇见问题
 
 ### SpringBoot刚搭建后运行main并进入`http://localhost:8080/`跳转到`http://localhost:8080/login`登录页面
@@ -342,3 +408,67 @@ This generated password is for development use only. Your security configuration
 <!--			<artifactId>spring-boot-starter-security</artifactId>-->
 <!--		</dependency>-->
 ```
+
+### 初始测试SpringMVC时启动后无法在8080/hello获得期望输出，各种报错
+* 其中部分报错如：
+  ```bash
+  NOTE: Picked up JDK_JAVA_OPTIONS: --add-opens=java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED --add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.util.concurrent=ALL-UNNAMED --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+  ```
+* 原先跟着课件做时没遇到这个情况，这次最后找到问题所在为由于使用了Spring Initializr，导致默认创建时多了一些文件，启动时这些弃用文件的优先级更高导致启动后各种失败
+* 解决方案一：删除以下文件
+  * `demo\src\test\java\com\example\DemoApplicationTests.java`
+  * `demo\src\main\java\com\example\ServletInitializer.java`
+  * `demo\src\main\java\com\example\DemoApplication.java`
+* 解决方案二：在SpringBoot框架下无需专门配置并使用TomCat方式启动
+
+### Web无法输出数据库内容：Invalid bound statement (not found)
+* 报错信息为：
+```bash
+org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.mapper.TestMapper.getAll
+
+2024-07-17T23:27:37.020+08:00 ERROR 24700 --- [demo] [nio-8080-exec-7] o.a.c.c.C.[.[.[/].[dispatcherServlet]    : Servlet.service() for servlet [dispatcherServlet] in context with path [] threw exception [Request processing failed: org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.example.mapper.TestMapper.getAll] with root cause
+```
+* 解决方案：
+在Spring Boot项目中，如果您的Mapper XML文件位于`src/main/resources`下的子目录中（如`mappers`目录），您可以通过以下几种方式来确保MyBatis能够找到这些Mapper文件：
+
+#### 使用`@MapperScan`注解
+
+`@MapperScan`注解是Spring Boot提供的，用于指定需要扫描的Mapper接口所在的包路径。虽然这个注解本身不直接指定Mapper XML文件的位置，但Spring Boot会按照惯例去`src/main/resources`下的相同包路径（相对于Mapper接口）查找Mapper XML文件，或者您可以通过MyBatis的配置属性来指定XML文件的位置。
+
+如果您的Mapper接口和XML文件不在同一个包路径下，但您仍然想使用`@MapperScan`，那么您可以通过在`application.properties`或`application.yml`中配置MyBatis的`mapper-locations`属性来指定XML文件的位置。
+
+然而，更常见的做法是保持Mapper接口和Mapper XML文件在逻辑上的一致，即它们位于相同的包路径下（尽管在文件系统上可能位于不同的目录中）。在这种情况下，您只需要在包含Mapper接口的包上使用`@MapperScan`注解即可。
+
+如果您的Mapper接口位于`com.example.mapper`包下，而Mapper XML文件位于`src/main/resources/mappers`目录下，并且您想要保持这种结构，那么您可以：
+
+1. **在`application.properties`或`application.yml`中配置**（推荐，因为不依赖于包路径的一致性）：
+
+   对于`application.properties`：
+   ```properties
+   mybatis.mapper-locations=classpath:mappers/*.xml
+   ```
+
+   对于`application.yml`（YAML格式）：
+   ```yaml
+   mybatis:
+     mapper-locations: classpath:mappers/*.xml
+   ```
+
+   这会告诉MyBatis在`classpath`下的`mappers`目录中查找所有XML文件。
+
+2. **（可选）使用`@MapperScan`注解**（如果您还想限制扫描的Mapper接口包）：
+
+   在您的Spring Boot启动类或配置类上添加`@MapperScan`注解，指定Mapper接口所在的包路径。由于您已经通过`mapper-locations`属性指定了XML文件的位置，所以这一步是可选的，但它有助于确保只有指定包下的Mapper接口被扫描。
+
+   ```java
+   @SpringBootApplication
+   @MapperScan("com.example.mapper")
+   public class YourApplication {
+       public static void main(String[] args) {
+           SpringApplication.run(YourApplication.class, args);
+       }
+   }
+   ```
+
+请注意，`@MapperScan`注解和`mapper-locations`属性并不是互斥的。`@MapperScan`用于指定Mapper接口的包路径，而`mapper-locations`用于指定Mapper XML文件的位置。在大多数情况下，当Mapper接口和XML文件遵循相同的包路径约定时，您可能只需要使用`@MapperScan`。但是，当它们位于不同的位置时，您需要同时使用这两个配置。
+* 最终解决方式：在`application.properties`中添加了一句`mybatis.mapper-locations=classpath:mappers/TestMapper.xml`

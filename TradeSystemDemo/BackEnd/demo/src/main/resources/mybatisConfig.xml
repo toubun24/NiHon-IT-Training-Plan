@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--PageHelper分页插件日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--启用二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <!--类型别名-->
+    <typeAliases>
+        <!--
+        typeAlias：
+        type：需要设置别名的类型的全类名
+        alias：设置此类型的别名，别名不区分大小写。不设置此属性即使用默认别名，为类名
+        -->
+        <!--除此之外还可以使用package标签直接给某个软件包所有类设置默认别名-->
+        <typeAlias type="com.example.dao.TestTable" alias="test"/>
+    </typeAliases>
+    <!--PageHelper分页插件-->
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+    <!--数据库配置-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/demo"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+        <!--        Mybatis多环境-->
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/user"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--SQL映射-->
+    <mappers>
+        <mapper resource="mappers/TestMapper.xml"/>
+<!--        <mapper resource="mappers/TestMapper2.xml"/>-->
+    </mappers>
+</configuration>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.TestMapper">
+
+    <select id="getAll" resultType="com.example.dao.TestTable">
+        select * from users
+    </select>
+
+<!--    &lt;!&ndash;    <select id="getAll" resultType="com.lalapodo.Dao.TestTable">&ndash;&gt;-->
+<!--    <select id="getAll" resultType="test">-->
+<!--        select * from test_table-->
+<!--    </select>-->
+
+<!--    <select id="getOne" resultType="test">-->
+<!--        select * from test_table where id = #{id}-->
+<!--    </select>-->
+
+<!--    <select id="getOne2Params" resultType="test">-->
+<!--        select * from test_table where id = #{param1} and name = #{param2}-->
+<!--    </select>-->
+
+<!--    <select id="getOne2Args" resultType="test">-->
+<!--        select * from test_table where id = #{arg0} and name = #{arg1}-->
+<!--    </select>-->
+
+<!--    <select id="getOne2Param" resultType="test">-->
+<!--        select * from test_table where id = #{id} and name = #{name}-->
+<!--    </select>-->
+
+<!--    <insert id="insertOne"> &lt;!&ndash;insert&ndash;&gt;-->
+<!--        insert into test_table (id, name, age) values (default, #{name}, #{age})-->
+<!--    </insert>-->
+
+<!--    <select id="getOneMap" resultType="test"> &lt;!&ndash;getOneMap&ndash;&gt;-->
+<!--        select * from test_table where id = #{id} and name = #{name}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;自定义结果映射&ndash;&gt;-->
+<!--    <resultMap id="customResult" type="com.lalapodo.Dao.TestTable">-->
+<!--        &lt;!&ndash;<id property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="age" column="age"/>&ndash;&gt;-->
+<!--        <id property="id" column="i"/>-->
+<!--        <result property="name" column="n"/>-->
+<!--        <result property="age" column="a"/>-->
+<!--    </resultMap>-->
+<!--    <select id="getAll2" resultMap="customResult">-->
+<!--        &lt;!&ndash;        select * from test_table&ndash;&gt;-->
+<!--        select id i, name n, age a from test_table-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;多对一映射关系association&ndash;&gt;-->
+<!--    <resultMap id="customResult2" type="com.lalapodo.Dao.TestTable">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="name" column="name"/>-->
+<!--        <result property="age" column="age"/>-->
+<!--        <association property="test2" javaType="com.lalapodo.Dao.TestTable2">-->
+<!--            <id property="id" column="t2id"/>-->
+<!--            <result property="uGroup" column="u_group"/>-->
+<!--            <result property="uid" column="uid"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+<!--    <select id="getAll3" resultMap="customResult2"> &lt;!&ndash;where t.id = #{id} 带参数&ndash;&gt;-->
+<!--        select *, t2.id t2id from test_table t left join test_table2 t2 on t2.uid = t.id where t.id = 1-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;一对多映射关系&ndash;&gt;-->
+<!--    <resultMap id="customResult3" type="com.lalapodo.Dao.TestTable4">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="uGroup" column="u_group"/>-->
+<!--        &lt;!&ndash;<collection property="test1" javaType="com.lalapodo.Dao.TestTable3">&ndash;&gt;-->
+<!--        <collection property="test1" ofType="com.lalapodo.Dao.TestTable3">-->
+<!--            <id property="id" column="t3id"/> &lt;!&ndash;t3id&ndash;&gt;-->
+<!--            <result property="name" column="name"/>-->
+<!--            <result property="age" column="age"/>-->
+<!--            <result property="gid" column="gid"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+<!--    <select id="getAll4" resultMap="customResult3">-->
+<!--        select *, t3.id t3id from test_table4 t4 left join test_table3 t3 on t3.gid = t4.id where t4.id = 1-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;SQL 特殊字段&ndash;&gt;-->
+<!--    <select id="getOne2" resultType="test"> &lt;!&ndash; > &gt; &ndash;&gt;-->
+<!--        select * from test_table where id &gt; #{id}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;SQL 批量删除&ndash;&gt;-->
+<!--    <delete id="deleteMany">-->
+<!--        delete from test_table where id in (${id})-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash;SQL insert标签获取自增id&ndash;&gt;-->
+<!--    <insert id="insertOne2" useGeneratedKeys="true" keyProperty="id"> &lt;!&ndash;useGeneratedKeys&keyProperty&ndash;&gt;-->
+<!--        insert into test_table3 (id, name, age, gid) values (default, #{name}, #{age}, #{gid})-->
+<!--    </insert>-->
+</mapper>

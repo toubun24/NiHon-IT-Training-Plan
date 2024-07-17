@@ -6,9 +6,10 @@
 * Documents 14:40-14:50
 
 * **2023.07.16 火曜日:** 3h9min
-* Project 22:30-23:00 23:40-01:10 01:20-02:29
+* SpringBoot 22:30-23:00 23:40-01:10 01:20-02:29
 
 * **2023.07.17 水曜日:** 
+* MyBatis 12:20-13:35 
 
 * **2023.07.18 木曜日:** 
 
@@ -21,10 +22,38 @@
 ## 开发笔记
 
 ### 后端搭建
-* 搭建SpringBoot
+
+#### 搭建SpringBoot
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240716225456.png)
+
+* 换为MyBatis+lombok
+![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240717130406.png)
+
+* 并继续添加依赖
+```xml
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>5.9.0</version>
+    <scope>test</scope>
+</dependency>
+<dependency>
+    <groupId>junit</groupId>
+    <artifactId>junit</artifactId>
+    <version>4.13.2</version>
+    <scope>test</scope>
+</dependency>
+<!--Mybatis分页插件-->
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper</artifactId>
+    <version>6.1.0</version>
+</dependency>
+```
+
 * IDEA项目导入
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240716225859.png)
+
 * Run 'DemoApplication.main()'
 ```bash
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
@@ -53,10 +82,12 @@ Consider the following:
 <!--			<artifactId>spring-boot-starter-data-jpa</artifactId>-->
 <!--		</dependency>-->
 ```
+
 * `http://localhost:8080/`跳转到`http://localhost:8080/login`
 ```bash
 Using generated security password: f8b36679-7835-4b4e-9d60-4bd1ffda1f4c
 ```
+
 * 输入账号`user`，密码`f8b36679-7835-4b4e-9d60-4bd1ffda1f4c`
 ```bash
 Whitelabel Error Page
@@ -65,6 +96,7 @@ This application has no explicit mapping for /error, so you are seeing this as a
 Wed Jul 17 00:04:18 HKT 2024
 There was an unexpected error (type=Not Found, status=404).
 ```
+
 * 新建`com/example/TestController.java`
 ```java
 package com.example;
@@ -80,7 +112,8 @@ public class TestController {
     }
 }
 ```
-* Docker方式启动MySQL
+
+#### Docker方式启动MySQL
 ```bash
 G:
 cd G:\NiHon-IT-Training-Plan\MySQL
@@ -169,8 +202,12 @@ mysql> INSERT INTO users (username, stateId, password, id, starList, location, f
 Query OK, 4 rows affected (0.00 sec)
 Records: 4  Duplicates: 0  Warnings: 0
 ```
+
+#### JPA方式
 * 创建数据访问层(Data Access O..)的Package`com/example/dao`以及Class`com/example/dao/Users.java`和Interface`com/example/dao/UsersRepository.java`
+
 * 创建SERVICE层Package`com/example/service`以及Class`com/example/dao/Users.java`和Interface`com/example/dao/UsersRepository.java`
+
 * 创建Controller层Package`com/example/controller`以及Class`com/example/controller/UsersController.java`
 ```bash
 Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
@@ -196,6 +233,7 @@ Consider the following:
 
 Process finished with exit code 1
 ```
+
 * `demo\src\main\resources\application.properties`中添加语句以配置`url`
 ```bash
 spring.application.name=demo # 原本就有
@@ -204,12 +242,80 @@ spring.datasource.url=jdbc:mysql://localhost:3306/test?characterEncoding=utf-8
 spring.datasource.username=root
 spring.datasource.password=12345678
 ```
+
 * `http://localhost:8080/users/1`
 ![](https://github.com/toubun24/NiHon-IT-Training-Plan/blob/main/imgStorage/QQ20240717022448.png)
   * 这应该是JDBC方式搭建的数据库连接
   * 删减了部分表的项，避免了由于搭建相关功能不完全导致的一些bug，后续继续完善就行
   * 注意`application.properties`中的url需要是自己的数据库名称
   * 注意补全`com/example/dao/Users.java`中的`getters and setters`
+
+#### MyBatis方式
+* 创建Package`com/example/dao`和Package`com/example/mapper`
+* 创建xml配置文件`demo\src\main\resources\mybatisConfig.xml`
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <!--开启驼峰命名-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--PageHelper分页插件日志-->
+        <setting name="logImpl" value="STDOUT_LOGGING"/>
+        <!--启用二级缓存-->
+        <setting name="cacheEnabled" value="true"/>
+    </settings>
+    <!--类型别名-->
+    <typeAliases>
+        <!--
+        typeAlias：
+        type：需要设置别名的类型的全类名
+        alias：设置此类型的别名，别名不区分大小写。不设置此属性即使用默认别名，为类名
+        -->
+        <!--除此之外还可以使用package标签直接给某个软件包所有类设置默认别名-->
+        <typeAlias type="com.lalapodo.Dao.TestTable" alias="test"/>
+    </typeAliases>
+    <!--PageHelper分页插件-->
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            <property name="helperDialect" value="mysql"/>
+        </plugin>
+    </plugins>
+    <!--数据库配置-->
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/mydatabase"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+        <!--        Mybatis多环境-->
+        <environment id="test">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="com.mysql.cj.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost:3306/user"/>
+                <property name="username" value="root"/>
+                <property name="password" value="12345678"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <!--SQL映射-->
+    <mappers>
+        <mapper resource="mappers/TestMapper.xml"/>
+        <mapper resource="mappers/TestMapper2.xml"/>
+    </mappers>
+</configuration>
+```
+* 创建Interface`com/example/mapper/TestMapper.java`和Class`com/example/dao/TestTable.java`
+* 创建SQL映射文件`demo\src\main\resources\mappers\TestMapper.xml`
+* 创建单元测试Class`demo\src\test\java\SqlTest.java`
 
 ## 遇见问题
 

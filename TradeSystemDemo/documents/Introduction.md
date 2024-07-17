@@ -99,7 +99,7 @@
 - **Maven** 是一个项目管理和理解工具，它基于项目对象模型（POM）的概念。Maven 可以从中央仓库自动下载项目依赖，并管理项目的构建、报告和文档。
 - **合理性**：Maven 是 Java 生态系统中广泛使用的依赖管理工具，非常适合用于 Spring Boot 项目。
 
-### 数据持久化：MyBatis（而非JDBC）
+### 数据持久化：MyBatis(JPA(Java Persistence API)方式也测试完成)
 - **MyBatis** 是一个支持普通 SQL 查询、存储过程和高级映射的持久层框架。MyBatis 避免了几乎所有的 JDBC 代码和手动设置参数以及获取结果集。
 - **合理性**：虽然 Spring Data JPA 是另一个流行的选择，但 MyBatis 提供了更细粒度的控制，适合需要优化 SQL 语句或处理复杂查询的场景。
 
